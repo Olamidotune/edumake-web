@@ -28,6 +28,7 @@ class Button extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
+          enableFeedback: true,
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
             (states) {
               if (states.contains(WidgetState.pressed)) {
@@ -35,11 +36,16 @@ class Button extends StatelessWidget {
               } else if (states.contains(WidgetState.disabled)) {
                 return buttonColor.withOpacity(0.5);
               }
-              return AppColors.secondaryColor;
+              return buttonColor;
             },
           ),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
+              side: BorderSide(
+                color: buttonColor == Colors.white
+                    ? AppColors.primaryColor
+                    : Colors.transparent,
+              ),
               borderRadius: BorderRadius.circular(pill ? 50.radius : 10.radius),
             ),
           ),
@@ -56,7 +62,9 @@ class Button extends StatelessWidget {
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 16.fontSize,
-                      color: Colors.white,
+                      color: buttonColor == Colors.white
+                          ? AppColors.primaryColor
+                          : Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
               ),
