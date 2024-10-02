@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         home: const SplashScreen(),
         routes: {
           SplashScreen.routeName: (context) => const SplashScreen(),
+          OnboardingScreen.routeName: (context) => const OnboardingScreen(),
         },
       ),
     );
