@@ -25,6 +25,10 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'HelveticaNeueRounded',
           scaffoldBackgroundColor: AppColors.whiteColor,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: AppColors.whiteColor,
+            elevation: 0,
+          ),
           textTheme: const TextTheme(
             displayLarge: TextStyle(
               fontSize: 32,
@@ -52,6 +56,10 @@ class MyApp extends StatelessWidget {
         routes: {
           SplashScreen.routeName: (context) => const SplashScreen(),
           OnboardingScreen.routeName: (context) => const OnboardingScreen(),
+          OnboardingScreenTwo.routeName: (context) =>
+              const OnboardingScreenTwo(),
+          OnboardingScreenThree.routeName: (context) =>
+              const OnboardingScreenThree(),
         },
       ),
     );
