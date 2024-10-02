@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       'assets/png/onboarding_background.png',
                       height: MediaQuery.of(context).size.height <
                               kMinSupportedHeight
-                          ? 300.height
+                          ? 320.height
                           : 500.height,
                       fit: BoxFit.contain,
                     ),
