@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,33 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
+          primaryColor: AppColors.primaryColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'HelveticaNeueRounded',
+          scaffoldBackgroundColor: AppColors.whiteColor,
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              fontSize: 32,
+              color: AppColors.primaryColor,
+            ),
+            displayMedium: TextStyle(
+              fontSize: 24,
+              color: AppColors.primaryColor,
+            ),
+            bodyLarge: TextStyle(
+              fontSize: 16,
+              color: AppColors.secondaryColor,
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 14,
+              color: AppColors.primaryTextColor,
+            ),
+            bodySmall: TextStyle(
+              fontSize: 12,
+              color: AppColors.primaryTextColor,
+            ),
+          ),
         ),
         home: const SplashScreen(),
         routes: {
