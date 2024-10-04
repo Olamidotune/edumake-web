@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
               const OnboardingScreenTwo(),
           OnboardingScreenThree.routeName: (context) =>
               const OnboardingScreenThree(),
+          SignUpScreen.routeName: (context) => const SignUpScreen(),
         },
       ),
     );
