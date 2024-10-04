@@ -3,10 +3,10 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUpScreen extends HookWidget {
   const SignUpScreen({super.key});
@@ -179,97 +179,6 @@ class SignUpScreen extends HookWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    required this.controller,
-    required this.focusNode,
-    required this.title,
-    required this.hintText,
-    required this.keyboardType,
-    this.prefixIcon,
-    super.key,
-    this.obscureText = false,
-    this.isPassword = false,
-    this.isFilled = true,
-    this.validator,
-    this.textInputAction,
-    this.onSuffixIconPressed,
-  });
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final String title;
-  final String hintText;
-  final TextInputType keyboardType;
-  final bool obscureText;
-  final String? prefixIcon;
-  final bool isPassword;
-  final bool isFilled;
-  final String? Function(String?)? validator;
-  final TextInputAction? textInputAction;
-  final void Function()? onSuffixIconPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: AppColors.primaryTextColor,
-                  fontWeight: FontWeight.w300,
-                ),
-          ),
-        ),
-        AppSpacing.verticalSpaceSmall,
-        TextFormField(
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 14.fontSize,
-                color: AppColors.primaryTextColor,
-              ),
-          focusNode: focusNode,
-          textInputAction: textInputAction,
-          controller: controller,
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            fillColor: AppColors.greyColor.withOpacity(0.1),
-            filled: isFilled,
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 14.fontSize,
-                  color: AppColors.greyColor,
-                ),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(15),
-              child: SvgPicture.asset(
-                'assets/svg/$prefixIcon.svg',
-                color: AppColors.greyColor.withOpacity(1),
-              ),
-            ),
-            suffixIcon: isPassword
-                ? IconButton(
-                    icon: Icon(
-                      obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.greyColor,
-                    ),
-                    onPressed: onSuffixIconPressed,
-                  )
-                : null,
-          ),
-          obscureText: obscureText,
-          validator: validator,
-        ),
-      ],
     );
   }
 }
