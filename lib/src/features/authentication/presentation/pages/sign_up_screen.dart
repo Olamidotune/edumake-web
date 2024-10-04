@@ -81,62 +81,74 @@ class SignUpScreen extends HookWidget {
                         return 'Please enter a valid email address';
                       },
                     ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomTextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: passwordController,
+                      focusNode: passwordNode,
+                      title: 'Password',
+                      hintText: 'Input your preferred password',
+                      keyboardType: TextInputType.text,
+                      prefixIcon: 'password',
+                      obscureText: obscurePassword.value,
+                      isPassword: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a valid password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        if (value != confirmPasswordController.value.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                      onSuffixIconPressed: () =>
+                          obscurePassword.value = !obscurePassword.value,
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomTextFormField(
+                      textInputAction: TextInputAction.go,
+                      controller: confirmPasswordController,
+                      focusNode: confirmPasswordNode,
+                      title: 'Confirm Password',
+                      hintText: 'Input your preferred password',
+                      keyboardType: TextInputType.text,
+                      prefixIcon: 'password',
+                      obscureText: obscureConfirmPassword.value,
+                      isPassword: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a valid password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        if (value != passwordController.value.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                      onSuffixIconPressed: () => obscureConfirmPassword.value =
+                          !obscureConfirmPassword.value,
+                    ),
+                    AppSpacing.verticalSpaceLarge,
+                    Button(
+                      text: 'Sign Up',
+                      busy: isBusy.value,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          debugPrint(passwordController.value.text);
+                          isBusy.value = true;
+                          Future.delayed(const Duration(seconds: 10), () {
+                            isBusy.value = false;
+                          });
+                        }
+                      },
+                    ),
                   ],
                 ),
-              ),
-              AppSpacing.verticalSpaceMedium,
-              CustomTextFormField(
-                textInputAction: TextInputAction.next,
-                controller: passwordController,
-                focusNode: passwordNode,
-                title: 'Password',
-                hintText: 'Input your preferred password',
-                keyboardType: TextInputType.text,
-                prefixIcon: 'password',
-                obscureText: obscurePassword.value,
-                isPassword: true,
-                validator: (password) {
-                  if (password!.isEmpty || password.length < 6) {
-                    return 'Please enter a valid password';
-                  }
-                  return null;
-                },
-                onSuffixIconPressed: () =>
-                    obscurePassword.value = !obscurePassword.value,
-              ),
-              AppSpacing.verticalSpaceMedium,
-              CustomTextFormField(
-                textInputAction: TextInputAction.go,
-                controller: confirmPasswordController,
-                focusNode: confirmPasswordNode,
-                title: 'Confirm Password',
-                hintText: 'Input your preferred password',
-                keyboardType: TextInputType.text,
-                prefixIcon: 'password',
-                obscureText: obscureConfirmPassword.value,
-                isPassword: true,
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 6) {
-                    return 'Please enter a valid password';
-                  }
-                  return null;
-                },
-                onSuffixIconPressed: () => obscureConfirmPassword.value =
-                    !obscureConfirmPassword.value,
-              ),
-              AppSpacing.verticalSpaceLarge,
-              Button(
-                text: 'Sign Up',
-                busy: isBusy.value,
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    isBusy.value = true;
-                    Future.delayed(const Duration(seconds: 10), () {
-                      print("object");
-                      isBusy.value = false;
-                    });
-                  }
-                },
               ),
               AppSpacing.verticalSpaceMedium,
               Center(
