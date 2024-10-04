@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/widgets/sign_up_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -112,7 +113,6 @@ class OnboardingScreenTwo extends StatelessWidget {
                       fontSize: 32.fontSize,
                       fontWeight: FontWeight.w300,
                     ),
-                
               ),
               AppSpacing.verticalSpaceSmall,
               Text(
@@ -167,7 +167,7 @@ class OnboardingScreenThree extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                 AppSpacing.verticalSpaceMassive,
+              AppSpacing.verticalSpaceMassive,
               Text(
                 'Sign Up to \nEdu-Make',
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
@@ -222,7 +222,9 @@ class OnboardingScreenThree extends StatelessWidget {
               SignUpButton(
                 text: '     Continue with Email',
                 svgPath: 'assets/svg/email.svg',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(SignUpScreen.routeName);
+                },
               ),
             ],
           ),
