@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -203,12 +204,10 @@ class SignUpScreen extends HookWidget {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           if (!checkedPrivacyPolicy.value) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Please accept the privacy policy and terms of service',
-                                ),
-                              ),
+                            CustomSnackbar.show(
+                              context,
+                              'Please accept the privacy policy and terms of service',
+                              isError: true,
                             );
                             return;
                           }
