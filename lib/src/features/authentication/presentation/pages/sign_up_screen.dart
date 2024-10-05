@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -213,6 +214,8 @@ class SignUpScreen extends HookWidget {
                           }
                           isBusy.value = true;
                           Future.delayed(const Duration(seconds: 10), () {
+                            Navigator.of(context)
+                                .pushNamed(VerifyAccount.routeName);
                             isBusy.value = false;
                           });
                         }
