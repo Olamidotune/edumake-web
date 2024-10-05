@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
+import 'package:edumake_frontend/src/shared/widgets/dialogs/otp_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,8 +91,8 @@ class _VerifyAccountState extends State<VerifyAccount> {
                   if (otpValue.length == 6) {
                     _busy = true;
                     debugPrint(otpValue);
+                    _showOtpSuccessDialog(context);
                     // Verify the code
-                    
                   }
                 },
                 pinTheme: PinTheme(
@@ -174,7 +175,10 @@ class _VerifyAccountState extends State<VerifyAccount> {
                     debugPrint(_otpController.text);
                     // Verify the code
                     _busy = true;
-
+                    _showOtpSuccessDialog(context);
+                    setState(() {
+                      _busy = false;
+                    });
                   } else {
                     CustomSnackbar.show(
                       context,
@@ -208,9 +212,21 @@ class _VerifyAccountState extends State<VerifyAccount> {
     });
   }
 
+
+  void _showOtpSuccessDialog(BuildContext context) async {
+   await showDialog<void>(
+    barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const OtpDialog();
+      },
+    );
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
+
 }

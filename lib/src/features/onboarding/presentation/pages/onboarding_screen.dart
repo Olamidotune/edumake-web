@@ -2,7 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up_screen.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/widgets/sign_up_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';

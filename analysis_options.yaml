@@ -6,5 +6,6 @@ linter:
 analyzer:
   errors:
     avoid_dynamic_calls: ignore
+    avoid_void_async: ignore
     lines_longer_than_80_chars: ignore
     use_build_context_synchronously: ignore
