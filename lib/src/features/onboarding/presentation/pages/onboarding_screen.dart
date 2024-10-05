@@ -38,7 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       height: MediaQuery.of(context).size.height <
                               kMinSupportedHeight
                           ? 320.height
-                          : 500.height,
+                          : 400.height,
                       fit: BoxFit.contain,
                     ),
                   ),

@@ -1,11 +1,175 @@
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
+import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class KycScreen extends StatelessWidget {
+class KycScreen extends HookWidget {
   const KycScreen({super.key});
   static const routeName = 'kyc-screen';
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final firstNameNode = useFocusNode();
+    final lastNameNode = useFocusNode();
+    final phoneNumberNode = useFocusNode();
+    final ninNode = useFocusNode();
+
+    //Controllers
+    final firstNameController = useTextEditingController();
+    final lastNameController = useTextEditingController();
+    final phoneNumberController = useTextEditingController();
+    final ninController = useTextEditingController();
+
+    // Form key
+    final formKey = useMemoized(GlobalKey<FormState>.new);
+
+    final isBusy = useState(false);
+
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: Padding(
+        padding: EdgeInsets.all(
+          AppSpacing.horizontalSpacing,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'One More\nStep',
+                style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      fontSize: 32.fontSize,
+                      fontWeight: FontWeight.w300,
+                    ),
+              ),
+              AppSpacing.verticalSpaceSmall,
+              Text(
+                'We need to know some basic information about you, we use this data to ensure your wards’ academic data are kept save. Please, use same data that your wards’ school are familiar with to avoid any misunderstanding.',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.fontSize,
+                      fontWeight: FontWeight.w300,
+                    ),
+                textAlign: TextAlign.justify,
+              ),
+              AppSpacing.verticalSpaceLarge,
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    CustomTextFormField(
+                      prefixIcon: 'profile',
+                      controller: firstNameController,
+                      focusNode: firstNameNode,
+                      title: 'First Name',
+                      hintText: 'Enter your first name',
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'First name is required';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: () {
+                        firstNameNode.unfocus();
+                        lastNameNode.requestFocus();
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomTextFormField(
+                      prefixIcon: 'profile',
+                      controller: lastNameController,
+                      focusNode: lastNameNode,
+                      title: 'Last Name',
+                      hintText: 'Enter your last name',
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Last name is required';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: () {
+                        lastNameNode.unfocus();
+                        phoneNumberNode.requestFocus();
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomTextFormField(
+                      prefixIcon: 'phone',
+                      controller: phoneNumberController,
+                      focusNode: phoneNumberNode,
+                      title: 'Phone Number',
+                      hintText: 'Enter your phone number',
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Phone number is required';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: () {
+                        phoneNumberNode.unfocus();
+                        ninNode.requestFocus();
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomTextFormField(
+                      prefixIcon: 'scan',
+                      controller: ninController,
+                      focusNode: ninNode,
+                      title: 'National Identification Number (NIN)',
+                      hintText: 'Enter your NIN',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'NIN is required';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: () {
+                        ninNode.unfocus();
+                      },
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height < kMinSupportedHeight ? 50: 150),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 5,
+                          child: Button(
+                            textColor: AppColors.secondaryTexColor,
+                            buttonColor:
+                                AppColors.primaryColor.withOpacity(0.3),
+                            text: 'Skip',
+                            onPressed: () {},
+                          ),
+                        ),
+                        AppSpacing.horizontalSpaceMedium,
+                        Expanded(
+                          flex: 7,
+                          child: Button(
+                            busy: isBusy.value,
+                            text: 'Submit',
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
