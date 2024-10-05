@@ -55,6 +55,7 @@ class Button extends StatelessWidget {
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
+                 
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
