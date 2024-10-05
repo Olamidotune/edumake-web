@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/widgets/otp_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -88,10 +89,17 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 animationType: AnimationType.fade,
                 onCompleted: (otpValue) {
                   if (otpValue.length == 6) {
-                    _busy = true;
-                    debugPrint(otpValue);
-                    // Verify the code
-                    
+                    if (!_busy) {
+                      setState(() {
+                        _busy = true;
+                      });
+                      Timer(const Duration(seconds: 2), () {
+                        _showOtpSuccessDialog(context);
+                        setState(() {
+                          _busy = false;
+                        });
+                      });
+                    }
                   }
                 },
                 pinTheme: PinTheme(
@@ -146,8 +154,8 @@ class _VerifyAccountState extends State<VerifyAccount> {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             //Add logic to resend the code
-                            _remainingTime = 120;
                             _startCountdown();
+                            _remainingTime = 120;
                           },
                         text: 'Resend',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -171,10 +179,18 @@ class _VerifyAccountState extends State<VerifyAccount> {
                 busy: _busy,
                 onPressed: () {
                   if (_otpController.text.length == 6) {
+                    if (!_busy) {
+                      setState(() {
+                        _busy = true;
+                      });
+                      Timer(const Duration(seconds: 2), () {
+                        _showOtpSuccessDialog(context);
+                        setState(() {
+                          _busy = false;
+                        });
+                      });
+                    }
                     debugPrint(_otpController.text);
-                    // Verify the code
-                    _busy = true;
-
                   } else {
                     CustomSnackbar.show(
                       context,
@@ -206,6 +222,16 @@ class _VerifyAccountState extends State<VerifyAccount> {
         }
       });
     });
+  }
+
+  void _showOtpSuccessDialog(BuildContext context) async {
+    await showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const OtpDialog();
+      },
+    );
   }
 
   @override

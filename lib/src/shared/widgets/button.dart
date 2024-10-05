@@ -55,7 +55,6 @@ class Button extends StatelessWidget {
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
-                 
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
@@ -65,8 +64,8 @@ class Button extends StatelessWidget {
                       fontSize: 16.fontSize,
                       color: buttonColor == Colors.white
                           ? AppColors.primaryColor
-                          : Colors.white,
-                      fontWeight: FontWeight.w700,
+                          : textColor,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
       ),
