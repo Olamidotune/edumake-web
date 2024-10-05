@@ -54,8 +54,8 @@ class Button extends StatelessWidget {
             ? const SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: AppColors.whiteColor,
+                child: CircularProgressIndicator(
+                 
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
