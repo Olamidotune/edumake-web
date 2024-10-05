@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/widgets/skip_kyc_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
@@ -105,6 +106,7 @@ class KycScreen extends HookWidget {
                       prefixIcon: 'phone',
                       controller: phoneNumberController,
                       focusNode: phoneNumberNode,
+                      maxLength: 11,
                       title: 'Phone Number',
                       hintText: 'Enter your phone number',
                       keyboardType: TextInputType.phone,
@@ -124,6 +126,7 @@ class KycScreen extends HookWidget {
                     CustomTextFormField(
                       prefixIcon: 'scan',
                       controller: ninController,
+                      maxLength:  11,
                       focusNode: ninNode,
                       title: 'National Identification Number (NIN)',
                       hintText: 'Enter your NIN',
@@ -135,11 +138,14 @@ class KycScreen extends HookWidget {
                         }
                         return null;
                       },
-                      onFieldSubmitted: () {
-                        ninNode.unfocus();
-                      },
+                      onFieldSubmitted: ninNode.unfocus,
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height < kMinSupportedHeight ? 50: 150),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height <
+                              kMinSupportedHeight
+                          ? 50
+                          : 150,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -149,7 +155,9 @@ class KycScreen extends HookWidget {
                             buttonColor:
                                 AppColors.primaryColor.withOpacity(0.3),
                             text: 'Skip',
-                            onPressed: () {},
+                            onPressed: () {
+                              _showSkipKycDialog(context);
+                            },
                           ),
                         ),
                         AppSpacing.horizontalSpaceMedium,
@@ -158,7 +166,17 @@ class KycScreen extends HookWidget {
                           child: Button(
                             busy: isBusy.value,
                             text: 'Submit',
-                            onPressed: () {},
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                isBusy.value = true;
+                                Future.delayed(
+                                  const Duration(seconds: 2),
+                                  () {
+                                    isBusy.value = false;
+                                  },
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],
@@ -170,6 +188,15 @@ class KycScreen extends HookWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showSkipKycDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return const SkipKycDialog();
+      },
     );
   }
 }

@@ -5,21 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {required this.controller,
-      required this.focusNode,
-      required this.title,
-      required this.hintText,
-      required this.keyboardType,
-      super.key,
-      this.obscureText = false,
-      this.isPassword = false,
-      this.isFilled = true,
-      this.validator,
-      this.textInputAction,
-      this.onSuffixIconPressed,
-      this.prefixIcon,
-      this.onFieldSubmitted});
+  const CustomTextFormField({
+    required this.controller,
+    required this.focusNode,
+    required this.title,
+    required this.hintText,
+    required this.keyboardType,
+    super.key,
+    this.obscureText = false,
+    this.isPassword = false,
+    this.isFilled = true,
+    this.validator,
+    this.textInputAction,
+    this.onSuffixIconPressed,
+    this.prefixIcon,
+    this.onFieldSubmitted,
+    this.maxLength,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -30,6 +32,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? prefixIcon;
   final bool isPassword;
   final bool isFilled;
+  final int? maxLength;
   final String? Function(String?)? validator;
   final TextInputAction? textInputAction;
   final void Function()? onSuffixIconPressed;
@@ -51,6 +54,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceSmall,
         TextFormField(
+          maxLength: maxLength,
           onEditingComplete: onFieldSubmitted,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 14.fontSize,

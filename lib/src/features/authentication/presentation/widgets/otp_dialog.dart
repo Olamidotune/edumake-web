@@ -35,9 +35,12 @@ class OtpDialog extends StatelessWidget {
       actions: [
         Button(
           text: 'Continue',
-          onPressed: () => Navigator.of(context).popAndPushNamed(
-            KycScreen.routeName,
-          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).popAndPushNamed(
+              KycScreen.routeName,
+            );
+          },
         ),
       ],
     );
