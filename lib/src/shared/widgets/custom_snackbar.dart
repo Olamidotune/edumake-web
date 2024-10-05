@@ -18,7 +18,7 @@ class CustomSnackbar {
       ),
       behavior: SnackBarBehavior.floating,
       backgroundColor: isError ? AppColors.errorColor : AppColors.greenColor,
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
