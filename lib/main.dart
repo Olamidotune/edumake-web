@@ -1,5 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -64,8 +65,10 @@ class MyApp extends StatelessWidget {
           OnboardingScreenThree.routeName: (context) =>
               const OnboardingScreenThree(),
           SignUpScreen.routeName: (context) => const SignUpScreen(),
+          SignIn.routeName: (context) => const SignIn(),
           VerifyAccount.routeName: (context) => const VerifyAccount(),
           KycScreen.routeName: (context) => const KycScreen(),
+
         },
       ),
     );
