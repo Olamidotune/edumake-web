@@ -197,8 +197,7 @@ class SignUpScreen extends HookWidget {
                         ),
                       ],
                     ),
-                    AppSpacing.verticalSpaceLarge,
-                    AppSpacing.verticalSpaceMedium,
+                   AppSpacing.verticalSpaceHuge,
                     Button(
                       text: 'Sign Up',
                       busy: isBusy.value,
