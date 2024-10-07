@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -196,30 +197,27 @@ class SignUpScreen extends HookWidget {
                         ),
                       ],
                     ),
-                    AppSpacing.verticalSpaceLarge,
-                    AppSpacing.verticalSpaceMedium,
+                   AppSpacing.verticalSpaceHuge,
                     Button(
                       text: 'Sign Up',
                       busy: isBusy.value,
                       onPressed: () {
-                        // if (formKey.currentState!.validate()) {
-                        //   if (!checkedPrivacyPolicy.value) {
-                        //     CustomSnackbar.show(
-                        //       context,
-                        //       'Please accept the privacy policy and terms of service',
-                        //       isError: true,
-                        //     );
-                        //     return;
-                        //   }
-                        //   isBusy.value = true;
-                        //   Future.delayed(const Duration(seconds: 10), () {
-                        //     Navigator.of(context)
-                        //         .pushNamed(VerifyAccount.routeName);
-                        //     isBusy.value = false;
-                        //   });
-                        // }
-                             Navigator.of(context)
+                        if (formKey.currentState!.validate()) {
+                          if (!checkedPrivacyPolicy.value) {
+                            CustomSnackbar.show(
+                              context,
+                              'Please accept the privacy policy and terms of service',
+                              isError: true,
+                            );
+                            return;
+                          }
+                          isBusy.value = true;
+                          Future.delayed(const Duration(seconds: 3), () {
+                            Navigator.of(context)
                                 .pushNamed(VerifyAccount.routeName);
+                            isBusy.value = false;
+                          });
+                        }
                       },
                     ),
                   ],
