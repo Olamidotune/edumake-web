@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -117,7 +118,11 @@ class SignIn extends HookWidget {
                                   ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              ForgotPasswordScreen.routeName,
+                            );
+                          },
                           child: Text(
                             'Recover Password',
                             style: Theme.of(context)
