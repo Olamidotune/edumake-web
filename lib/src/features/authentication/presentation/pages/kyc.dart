@@ -1,4 +1,3 @@
-import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
@@ -147,40 +146,21 @@ class KycScreen extends HookWidget {
                           ? 20.height
                           : .1.sh,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 5,
-                          child: Button(
-                            textColor: AppColors.secondaryTexColor,
-                            buttonColor:
-                                AppColors.primaryColor.withOpacity(0.3),
-                            text: 'Skip',
-                            onPressed: () {
-                              _showSkipKycDialog(context);
+                    AppSpacing.horizontalSpaceMedium,
+                    Button(
+                      busy: isBusy.value,
+                      text: 'Submit',
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          isBusy.value = true;
+                          Future.delayed(
+                            const Duration(seconds: 2),
+                            () {
+                              isBusy.value = false;
                             },
-                          ),
-                        ),
-                        AppSpacing.horizontalSpaceMedium,
-                        Expanded(
-                          flex: 7,
-                          child: Button(
-                            busy: isBusy.value,
-                            text: 'Submit',
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                isBusy.value = true;
-                                Future.delayed(
-                                  const Duration(seconds: 2),
-                                  () {
-                                    isBusy.value = false;
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ],
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),

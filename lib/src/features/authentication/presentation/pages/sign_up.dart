@@ -123,6 +123,24 @@ class SignUpScreen extends HookWidget {
                       prefixIcon: 'password',
                       obscureText: obscureConfirmPassword.value,
                       isPassword: true,
+                      onFieldSubmitted: () {
+                        if (formKey.currentState!.validate()) {
+                          if (!checkedPrivacyPolicy.value) {
+                            CustomSnackbar.show(
+                              context,
+                              'Please accept the privacy policy and terms of service',
+                              isError: true,
+                            );
+                            return;
+                          }
+                          isBusy.value = true;
+                          Future.delayed(const Duration(seconds: 3), () {
+                            Navigator.of(context)
+                                .pushNamed(VerifyAccount.routeName);
+                            isBusy.value = false;
+                          });
+                        }
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter a valid password';
