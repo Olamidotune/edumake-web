@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_int_literals
+
 import 'dart:async';
 
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -32,7 +34,16 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate to another screen after the splash screen
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(builder: (_) => const OnboardingScreen()),
+        PageRouteBuilder<void>(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const OnboardingScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: animation,
+              child: child,
+            );
+          },
+        ),
       );
     });
   }
@@ -43,7 +54,10 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: ScaleTransition(
           scale: _animation,
-          child: Image.asset('assets/png/app_logo.png'),
+          child: Image.asset(
+            'assets/png/app_logo.png',
+            height: 250,
+          ),
         ),
       ),
     );
