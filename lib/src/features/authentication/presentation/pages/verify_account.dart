@@ -24,7 +24,7 @@ class VerifyAccount extends StatefulWidget {
 class _VerifyAccountState extends State<VerifyAccount> {
   Timer? _timer;
 
-  int _remainingTime = 120; // 2 minutes (120 seconds)
+  int _remainingTime = 300; // 5 minutes (300 seconds)
 
   bool _busy = false;
 
