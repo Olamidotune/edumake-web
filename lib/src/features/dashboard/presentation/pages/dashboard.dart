@@ -1,5 +1,5 @@
-
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/home_screem.dart';
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/ward_screen.dart';
@@ -20,30 +20,27 @@ class Dashboard extends StatelessWidget {
       screens: _buidScreens(),
       controller: controller,
       items: _navBarsItems(),
-      resizeToAvoidBottomInset:
-          true, // This needs to be true if you want to move up the screen on a non-scrollable screen when keyboard appears. Default is true.// Default is true.
+      resizeToAvoidBottomInset: true,
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10),
-        colorBehindNavBar: Colors.transparent,
+        borderRadius: BorderRadius.circular(60),
+        colorBehindNavBar: Colors.white,
       ),
       padding: const EdgeInsets.only(top: 8),
-      backgroundColor: Colors.grey.shade900,
-
+      backgroundColor: AppColors.primaryColor,
       animationSettings: const NavBarAnimationSettings(
         navBarItemAnimation: ItemAnimationSettings(
-          duration: Duration(milliseconds: 003),
+          duration: Duration(
+            milliseconds: 003,
+          ),
           curve: Curves.decelerate,
         ),
         screenTransitionAnimation: ScreenTransitionAnimationSettings(
-          // Screen transition animation on change of selected tab.
           animateTabTransition: true,
           duration: Duration(milliseconds: 200),
           screenTransitionAnimationType: ScreenTransitionAnimationType.slide,
         ),
       ),
-
       navBarStyle: NavBarStyle.style12,
-      // Choose the nav bar style with this property
     );
   }
 }
@@ -58,30 +55,32 @@ List<Widget> _buidScreens() {
 }
 
 List<PersistentBottomNavBarItem> _navBarsItems() {
+  const activeColorPrimary = AppColors.whiteColor;
+  const inactiveColorPrimary = Colors.grey;
   return [
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.home),
       title: 'Home',
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
+      activeColorPrimary: activeColorPrimary,
+      inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.people),
       title: 'Ward',
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
+      activeColorPrimary: activeColorPrimary,
+      inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.payment),
       title: 'Payment',
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
+      activeColorPrimary: activeColorPrimary,
+      inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.settings),
       title: 'Settings',
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
+      activeColorPrimary: activeColorPrimary,
+      inactiveColorPrimary: inactiveColorPrimary,
     ),
   ];
 }

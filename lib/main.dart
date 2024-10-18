@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/home_screem.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
