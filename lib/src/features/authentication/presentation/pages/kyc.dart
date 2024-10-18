@@ -1,7 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/widgets/skip_kyc_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
@@ -169,15 +168,6 @@ class KycScreen extends HookWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showSkipKycDialog(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) {
-        return const SkipKycDialog();
-      },
     );
   }
 }
