@@ -1,4 +1,3 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
@@ -11,7 +10,7 @@ class YourWardCard extends StatelessWidget {
     required this.wardName,
     required this.schoolName,
     required this.wardClass,
-    required this.assignmentNum,
+    this.assignmentNum,
     this.feesPaid = false,
     this.scores,
     super.key,
@@ -20,7 +19,7 @@ class YourWardCard extends StatelessWidget {
   final String wardName;
   final String schoolName;
   final String wardClass;
-  final String assignmentNum;
+  final String? assignmentNum;
 
   final String? scores;
   final bool feesPaid;
@@ -49,7 +48,7 @@ class YourWardCard extends StatelessWidget {
                 radius: 20,
                 backgroundColor: AppColors.greyColor,
                 child: Text(
-                  'DE',
+                  wardName[0],
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'HelveticaNeueRounded',
                         fontSize: 12,
@@ -72,13 +71,14 @@ class YourWardCard extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    '$schoolName ($wardClass)',
+                    '${schoolName.trim()} ($wardClass)',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
                           color: AppColors.greyColor,
                         ),
+                        maxLines: 2,
                   ),
                 ],
               ),
@@ -87,7 +87,7 @@ class YourWardCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$assignmentNum New Assignments',
+                      '${assignmentNum!.contains('null') ? "No new" : '$assignmentNum'} New Assignments',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontWeight: FontWeight.w400,
                             color: AppColors.primaryColor,
@@ -135,6 +135,7 @@ class YourWardCard extends StatelessWidget {
               ),
             ],
           ),
+
         ],
       ),
     );

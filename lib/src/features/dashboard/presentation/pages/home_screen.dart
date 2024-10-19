@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/student_list.dart';
+import 'package:edumake_frontend/src/features/dashboard/data/model/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/announcement_card.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/your_ward_widget.dart';
@@ -16,8 +17,18 @@ class HomeScreen extends StatelessWidget {
   static const String routeName = 'home_Screen';
 
   final ScrollController _scrollController = ScrollController();
+
+  List<StudentModel> parseStudents(Map<String, dynamic> data) {
+    final studentsData = data['students'] as List<dynamic>;
+    return studentsData
+        .map((studentMap) =>
+            StudentModel.fromMap(studentMap as Map<String, dynamic>))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final students = parseStudents(studentList);
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -28,14 +39,17 @@ class HomeScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 20.width,
                 backgroundColor: AppColors.greyColor,
-                child: Text(
-                  'DE',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'HelveticaNeueRounded',
-                        fontSize: 12.fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.primaryTextColor,
-                      ),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'DE',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
                 ),
               ),
             ),
@@ -144,43 +158,41 @@ class HomeScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Your Ward',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w500,
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.bold,
                         color: AppColors.blackColor,
                       ),
                 ),
                 AppSpacing.verticalSpaceMedium,
-                const YourWardCard(
-                  profilePic: '',
-                  wardName: 'David Egundeyi',
-                  schoolName: 'Edumake',
-                  wardClass: 'JSS 1',
-                  assignmentNum: '3',
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: students.length > 3 ? 3 : students.length,
+                  itemBuilder: (context, index) {
+                    final student = students[index];
+                    return YourWardCard(
+                      wardName: student.name,
+                      schoolName: student.school,
+                      wardClass: student.classLevel,
+                      profilePic: student.name.substring(1),
+                      assignmentNum: student.assignment,
+                      scores: student.deviceToken,
+                      feesPaid: student.feesPaid,
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return AppSpacing.verticalSpaceMedium;
+                  },
                 ),
-                AppSpacing.verticalSpaceMedium,
-                YourWardCard(
-                  profilePic: '',
-                  wardName: 'David Egundeyi',
-                  schoolName: studentList.length.toString(),
-                  wardClass: 'JSS 1',
-                  assignmentNum: '8',
-                ),
-                AppSpacing.verticalSpaceMedium,
-                const YourWardCard(
-                  profilePic: '',
-                  wardName: '',
-                  schoolName: '',
-                  wardClass: '',
-                  assignmentNum: '',
-                ),
-                AppSpacing.verticalSpaceMedium,
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    '3 More',
+                    '${students.length - 3} More',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.w700,
@@ -192,13 +204,14 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Upcoming Events',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.blackColor,
-                        ),
+                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blackColor,
+                      ),
                   ),
                 ),
-                AppSpacing.verticalSpaceSmall,
+                AppSpacing.verticalSpaceMedium,
                 SizedBox(
                   width: double.infinity,
                   child: Row(
@@ -280,9 +293,9 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: Text(
                     'View all events',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w700,
                         ),
                   ),
                 ),
@@ -291,13 +304,14 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     "Teacher's Note (Recent)",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.blackColor,
-                        ),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blackColor,
+                      ),
                   ),
                 ),
-                AppSpacing.verticalSpaceSmall,
+                AppSpacing.verticalSpaceMedium,
                 const TeachersNote(
                   description:
                       'I wanted to bring to your attention that Maryann has been consistently falling asleep during class. This is affecting their participation and ability to keep up with the class. Please ensure they get enough rest at home.',
