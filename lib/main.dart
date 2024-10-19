@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const Dashboard(),
+        home: const SplashScreen(),
         routes: {
           SplashScreen.routeName: (context) => const SplashScreen(),
           OnboardingScreen.routeName: (context) => const OnboardingScreen(),
