@@ -8,9 +8,9 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     required this.controller,
     required this.focusNode,
-    required this.title,
     required this.hintText,
     required this.keyboardType,
+    this.title,
     super.key,
     this.obscureText = false,
     this.isPassword = false,
@@ -25,7 +25,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final TextEditingController controller;
   final FocusNode focusNode;
-  final String title;
+  final String? title;
   final String hintText;
   final TextInputType keyboardType;
   final bool obscureText;
@@ -45,7 +45,7 @@ class CustomTextFormField extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            title,
+            title ?? '',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: AppColors.primaryTextColor,
                   fontWeight: FontWeight.w300,

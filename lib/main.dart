@@ -4,6 +4,10 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/home_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/settings_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +74,11 @@ class MyApp extends StatelessWidget {
           ForgotPasswordScreen.routeName: (context) =>
               const ForgotPasswordScreen(),
           VerifyAccount.routeName: (context) => const VerifyAccount(),
+          Dashboard.routeName: (context) => const Dashboard(),
           KycScreen.routeName: (context) => const KycScreen(),
+          HomeScreen.routeName: (context) =>  HomeScreen(),
+          WardScreen.routeName: (context) => const WardScreen(),
+          SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
       ),
     );
