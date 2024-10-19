@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           VerifyAccount.routeName: (context) => const VerifyAccount(),
           Dashboard.routeName: (context) => const Dashboard(),
           KycScreen.routeName: (context) => const KycScreen(),
-          HomeScreen.routeName: (context) => const HomeScreen(),
+          HomeScreen.routeName: (context) =>  HomeScreen(),
           WardScreen.routeName: (context) => const WardScreen(),
           SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
