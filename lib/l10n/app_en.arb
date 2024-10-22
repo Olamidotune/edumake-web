@@ -4,7 +4,8 @@
     "@language": {
         "description": "Selected your language"
     },
-    "helloWorld": "Hello World",
+    "welcomeToEDUMAKE": "Welcome to Edu-Make, your one-stop portal for staying informed about your child's academic journey. Access real-time updates on grades, attendance, assignments, and more. Easily connect with teachers and parents to support student progress as a school.",
     "twoLanguages": "Two Languages",
-    "changeLanguage": "Change Language"
+    "changeLanguage": "Change Language",
+    "next": "Next"
 }

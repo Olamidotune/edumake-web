@@ -4,7 +4,8 @@
     "@language": {
         "description": "Langue sélectionnée"
     },
-    "helloWorld": "Bonjour le monde",
+    "welcomeToEDUMAKE": "Bienvenue à Edu-Make, votre portail unique pour rester informé du parcours scolaire de votre enfant. Accédez à des mises à jour en temps réel sur les notes, la présence, les devoirs, et plus encore. Connectez-vous facilement avec les enseignants et les parents pour soutenir les progrès des élèves en tant qu'école.",
     "twoLanguages": "Deux langues",
-    "changeLanguage": "Changer de langue"
+    "changeLanguage": "Changer de langue",
+    "next": "Suivant"
 }

@@ -2,7 +2,10 @@
 
 import 'dart:async';
 
+import 'package:edumake_frontend/l10n/l10n.dart';
+import 'package:edumake_frontend/src/core/extentions/context_extention.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:edumake_frontend/streams/general_stream.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -67,5 +70,34 @@ class _SplashScreenState extends State<SplashScreen>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class ButtonScreen extends StatelessWidget {
+  const ButtonScreen({required this.locale, super.key});
+  final Locale locale;
+
+  static const routeName = 'button-screen';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Button Screen'),
+        ),
+        body: Column(
+          children: [
+            Text('Current Locale: ${locale.languageCode}'),
+            Text(context.localizations.language),
+            ElevatedButton(
+              onPressed: () {
+                GeneralStream.generalStream.add(L10n.locals.firstWhere(
+                    (element) => element.languageCode != locale.languageCode));
+              },
+              child: Text(context.localizations.changeLanguage),
+            ),
+            Text(context.localizations.welcomeToEDUMAKE),
+          ],
+        ));
   }
 }
