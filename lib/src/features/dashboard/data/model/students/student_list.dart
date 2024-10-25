@@ -10,12 +10,15 @@ final Map<String, dynamic> studentList = {
       'school': 'Queens College Lagos',
       'createdAt': '2022-05-15T09:34:21.000000Z',
       'updatedAt': '2024-10-18T16:50:12.000000Z',
-      'deviceToken':
-          '67',
+      'deviceToken': '67',
+      'attendance': '90',
+      'feesAmount': '110,000',
+      'upComingEvent': 'PTA Meeting',
+      'gender': 'Female',
     },
     {
       'id': 183,
-            'assignment': '2',
+      'assignment': '2',
       'name': 'Michael Obi',
       'class': 'SSS 1',
       'feesPaid': false,
@@ -23,12 +26,15 @@ final Map<String, dynamic> studentList = {
       'school': "King's College Lagos",
       'createdAt': '2021-08-20T12:50:45.000000Z',
       'updatedAt': '2024-10-18T16:51:23.000000Z',
-      'deviceToken':
-          '90',
+      'deviceToken': '90',
+      'attendance': '85',
+      'feesAmount': '120,000',
+      'upComingEvent': 'Inter-House Sports',
+      'gender': 'Male'
     },
     {
       'id': 184,
-            'assignment': '10',
+      'assignment': '10',
       'name': 'Grace Olamide',
       'class': 'SSS 2',
       'feesPaid': true,
@@ -36,12 +42,15 @@ final Map<String, dynamic> studentList = {
       'school': 'Corona Secondary School',
       'createdAt': '2023-03-10T15:12:34.000000Z',
       'updatedAt': '2024-10-18T16:52:02.000000Z',
-      'deviceToken':
-          '78',
+      'deviceToken': '78',
+      'attendance': '95',
+      'feesAmount': '150,000',
+      'upComingEvent': 'Mid-Term Break',
+      'gender': 'Female',
     },
     {
       'id': 185,
-            'assignment': '7',
+      'assignment': '7',
       'name': 'Daniel Ekene',
       'class': 'JSS 3',
       'feesPaid': false,
@@ -49,8 +58,11 @@ final Map<String, dynamic> studentList = {
       'school': 'British International School Lagos',
       'createdAt': '2021-12-05T11:45:13.000000Z',
       'updatedAt': '2024-10-18T16:52:55.000000Z',
-      'deviceToken':
-          '34',
+      'deviceToken': '34',
+      'attendance': '80',
+      'feesAmount': '100,000',
+      'upComingEvent': 'Open Day',
+      'gender': 'Male',
     }
   ],
 };

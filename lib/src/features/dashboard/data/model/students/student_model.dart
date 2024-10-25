@@ -9,6 +9,10 @@ class StudentModel {
     required this.updatedAt,
     required this.deviceToken,
     required this.assignment,
+    required this.attendance,
+    required this.feesAmount,
+    required this.upComingEvent,
+    required this.gender,
   });
 
   factory StudentModel.fromMap(Map<String, dynamic> map) {
@@ -22,6 +26,10 @@ class StudentModel {
       updatedAt: map['updatedAt'] as String,
       deviceToken: map['deviceToken'] as String,
       assignment: map['assignment'] as String,
+      attendance: map['attendance'] as String,
+      feesAmount: map['feesAmount'] as String,
+      upComingEvent: map['upComingEvent'] as String,
+      gender: map['gender'] as String,
     );
   }
 
@@ -34,4 +42,18 @@ class StudentModel {
   final String updatedAt;
   final String deviceToken;
   final String assignment;
+  final String attendance;
+  final String feesAmount;
+  final String upComingEvent;
+  final String gender;
+}
+
+List<StudentModel> parseStudents(Map<String, dynamic> data) {
+  final studentsData = data['students'] as List<dynamic>;
+  return studentsData
+      .map(
+        (studentMap) =>
+            StudentModel.fromMap(studentMap as Map<String, dynamic>),
+      )
+      .toList();
 }

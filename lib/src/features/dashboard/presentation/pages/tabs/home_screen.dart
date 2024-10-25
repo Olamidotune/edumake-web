@@ -2,8 +2,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/student_list.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/student_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
+import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/announcement_card.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/your_ward_widget.dart';
@@ -21,8 +21,10 @@ class HomeScreen extends StatelessWidget {
   List<StudentModel> parseStudents(Map<String, dynamic> data) {
     final studentsData = data['students'] as List<dynamic>;
     return studentsData
-        .map((studentMap) =>
-            StudentModel.fromMap(studentMap as Map<String, dynamic>))
+        .map(
+          (studentMap) =>
+              StudentModel.fromMap(studentMap as Map<String, dynamic>),
+        )
         .toList();
   }
 
