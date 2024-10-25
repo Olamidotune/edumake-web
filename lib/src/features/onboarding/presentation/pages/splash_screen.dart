@@ -1,8 +1,5 @@
-// ignore_for_file: prefer_int_literals
-
 import 'dart:async';
-
-import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/select_language_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
       Navigator.of(context).pushReplacement(
         PageRouteBuilder<void>(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              const OnboardingScreen(),
+              const SelectLanguageScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
