@@ -9,6 +9,7 @@ import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -20,8 +21,10 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   bool _isBusy = false;
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -54,7 +57,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               AppSpacing.verticalSpaceHuge,
               Text(
-                "Welcome to Edu-Make, your one-stop portal for staying informed about your child's academic journey. Access real-time updates on grades, attendance, assignments, and more. Easily connect with teachers and parents to support student progress as a school.",
+                l10n.welcomeToEDUMAKE,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 14.fontSize,
                       fontWeight: FontWeight.w300,
@@ -66,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               Button(
                 busy: _isBusy,
-                text: 'Next',
+                text: AppLocalizations.of(context)!.next,
                 onPressed: () {
                   setState(() {
                     _isBusy = !_isBusy;
@@ -98,6 +101,7 @@ class OnboardingScreenTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -110,7 +114,7 @@ class OnboardingScreenTwo extends StatelessWidget {
             children: [
               AppSpacing.verticalSpaceMassive,
               Text(
-                "Track your wards' progress and enjoy ease in school management.",
+                l10n.trackYourWardsProgressAndEnjoy,
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: 32.fontSize,
                       fontWeight: FontWeight.w300,
@@ -118,7 +122,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceSmall,
               Text(
-                'We categorize our users into two, this is to ensure that you have an amazing and stress-free user experience. However, our app is flexible so can switch anytime you want.',
+                l10n.weCategorizeOurUsersIntoTwo,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 14.fontSize,
                       fontWeight: FontWeight.w300,
@@ -127,7 +131,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceLarge,
               Button(
-                text: 'Continue as Parent / Student',
+                text: l10n.continueAsParentStudent,
                 onPressed: () {
                   Navigator.of(context)
                       .pushNamed(OnboardingScreenThree.routeName);
@@ -135,13 +139,13 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceMedium,
               Button(
-                text: 'Continue as School Management',
+                text: l10n.contineAsSchoolManagement,
                 onPressed: () {},
                 buttonColor: Colors.white,
               ),
               AppSpacing.verticalSpaceMedium,
               Button(
-                text: 'Continue as Teacher',
+                text: l10n.continueAsTeacher,
                 onPressed: () {},
                 buttonColor: Colors.white,
               ),
@@ -160,6 +164,7 @@ class OnboardingScreenThree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -171,7 +176,7 @@ class OnboardingScreenThree extends StatelessWidget {
             children: [
               AppSpacing.verticalSpaceMassive,
               Text(
-                'Sign Up to \nEdu-Make',
+                l10n.signUpToEDUMAKE,
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: 32.fontSize,
                       fontWeight: FontWeight.w300,
@@ -179,7 +184,7 @@ class OnboardingScreenThree extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceSmall,
               Text(
-                'Welcome, we are delighted to have you here.',
+                l10n.welcomeWeAreDelighted,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 14.fontSize,
                       fontWeight: FontWeight.w300,
@@ -188,7 +193,7 @@ class OnboardingScreenThree extends StatelessWidget {
               AppSpacing.verticalSpaceMedium,
               RichText(
                 text: TextSpan(
-                  text: 'Already have an account with us? ',
+                  text: l10n.alreadyHaveAnAccountWithUs,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontFamily: 'HelveticaNeueRounded',
                         fontSize: 16.fontSize,
@@ -201,7 +206,7 @@ class OnboardingScreenThree extends StatelessWidget {
                         ..onTap = () {
                           Navigator.of(context).pushNamed(SignIn.routeName);
                         },
-                      text: 'Sign in',
+                      text: l10n.signIn,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontFamily: '',
                             fontSize: 16.fontSize,
@@ -214,19 +219,19 @@ class OnboardingScreenThree extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceHuge,
               SignUpButton(
-                text: 'Continue with Google',
+                text: l10n.continueWithGoogle,
                 svgPath: 'assets/svg/google.svg',
                 onPressed: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               SignUpButton(
-                text: 'Continue with Facebook',
+                text: l10n.continueWithFacebook,
                 svgPath: 'assets/svg/facebook.svg',
                 onPressed: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               SignUpButton(
-                text: '     Continue with Email',
+                text: '     ${l10n.continueWithEmail}',
                 svgPath: 'assets/svg/email.svg',
                 onPressed: () {
                   Navigator.of(context).pushNamed(SignUpScreen.routeName);

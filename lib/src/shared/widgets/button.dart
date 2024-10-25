@@ -67,6 +67,7 @@ class Button extends StatelessWidget {
                           : textColor,
                       fontWeight: FontWeight.w500,
                     ),
+                    textAlign: TextAlign.center,
               ),
       ),
     );

@@ -46,6 +46,8 @@ dependencies:
   persistent_bottom_nav_bar: ^6.2.1
   flutter_localizations:
     sdk: flutter
+  shared_preferences: ^2.3.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
