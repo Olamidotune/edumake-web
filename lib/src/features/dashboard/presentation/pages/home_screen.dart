@@ -204,11 +204,11 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Upcoming Events',
-                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 16.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.blackColor,
-                      ),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16.fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.blackColor,
+                        ),
                   ),
                 ),
                 AppSpacing.verticalSpaceMedium,
@@ -304,11 +304,11 @@ class HomeScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     "Teacher's Note (Recent)",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 16.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.blackColor,
-                      ),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 16.fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.blackColor,
+                        ),
                   ),
                 ),
                 AppSpacing.verticalSpaceMedium,

@@ -16,7 +16,7 @@
     "continueAsParentStudent": "Continuer en tant que Parent / Élève",
     "continueAsTeacher": "Continuer en tant qu'Enseignant",
     "contineAsSchoolManagement": "Continuer en tant que Direction d'École",
-    "signUpToEDUMAKE": "Inscrivez-vous à\nEdu-Make", 
+    "signUpToEDUMAKE": "Inscrivez-vous à\nEdu-Make",
     "welcomeWeAreDelighted": "Bienvenue, nous sommes ravis de vous accueillir.",
     "alreadyHaveAnAccountWithUs": "Vous avez déjà un compte chez nous ?",
     "signIn": "Se Connecter",
@@ -60,5 +60,16 @@
     "phoneNumberIsRequired": "Le numéro de téléphone est requis",
     "ninIsRequired": "Le NIN est requis",
     "pleaseEnterAValidPhoneNumber": "Veuillez saisir un numéro de téléphone valide",
-    "continueee": "Continuer"
+    "continueee": "Continuer",
+    "ward": "Protégé(e)",
+    "yourWards": "Vos Protégés",
+    "addWard": "Ajouter un Protégé",
+    "female": "Femme",
+    "attendance": "Présence",
+    "classLevel": "Classe / Niveau",
+    "school": "École",
+    "nextEvent": "Prochain Événement",
+    "feesPaid": "Frais Payés",
+    "feesNotPaid": "Frais non Payés",
+    "male": "Homme"
 }

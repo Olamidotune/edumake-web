@@ -60,5 +60,16 @@
     "lastNameIsRequired": "Last name is required",
     "phoneNumberIsRequired": "Phone number is required",
     "ninIsRequired": "NIN is required",
-    "pleaseEnterAValidPhoneNumber": "Please enter a valid phone number"
+    "pleaseEnterAValidPhoneNumber": "Please enter a valid phone number",
+    "ward": "Ward",
+    "yourWards": "Your Wards",
+    "addWard": "Add Ward",
+    "female": "Female",
+    "attendance": "Attendance",
+    "classLevel": "Class / Level",
+    "school": "School",
+    "nextEvent": "Next Event",
+    "feesPaid": "Fees Paid",
+    "feesNotPaid": "Fees not Paid",
+    "male": "Male"
 }
