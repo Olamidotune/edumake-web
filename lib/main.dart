@@ -2,6 +2,7 @@ import 'package:edumake_frontend/l10n/l10n.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
@@ -10,8 +11,11 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/school/school_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/select_language_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
 import 'package:edumake_frontend/src/shared/services/locale_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -86,9 +90,12 @@ class MyApp extends StatelessWidget {
             OnboardingScreen.routeName: (context) => const OnboardingScreen(),
             OnboardingScreenTwo.routeName: (context) =>
                 const OnboardingScreenTwo(),
-            OnboardingScreenThree.routeName: (context) =>
-                const OnboardingScreenThree(),
+            ParentsOnboarding.routeName: (context) => const ParentsOnboarding(),
+            TeachersOnboarding.routeName: (context) =>
+                const TeachersOnboarding(),
+            SchoolOnboarding.routeName: (context) => const SchoolOnboarding(),
             SignUpScreen.routeName: (context) => const SignUpScreen(),
+            SchoolSignUpScreen  .routeName: (context) => const SchoolSignUpScreen(),
             SignIn.routeName: (context) => const SignIn(),
             ForgotPasswordScreen.routeName: (context) =>
                 const ForgotPasswordScreen(),
