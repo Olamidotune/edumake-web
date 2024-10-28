@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/school/school_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
+import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -131,14 +132,22 @@ class OnboardingScreenTwo extends StatelessWidget {
               AppSpacing.verticalSpaceLarge,
               Button(
                 text: l10n.continueAsParentStudent,
-                onPressed: () {
-                  navigateBasedOnRole(context, UserRole.parenStudent);
+                onPressed: () async {
+                  // Save role to shared preferences
+                  await UserRoleHelper.saveUserRole(UserRole.parentStudent);
+
+                  // Navigate to the appropriate screen
+                  navigateBasedOnRole(context, UserRole.parentStudent);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               Button(
                 text: l10n.contineAsSchoolManagement,
-                onPressed: () {
+                onPressed: () async {
+                  // Save role to shared preferences
+                  await UserRoleHelper.saveUserRole(UserRole.schoolManagement);
+
+                  // Navigate to the appropriate screen
                   navigateBasedOnRole(context, UserRole.schoolManagement);
                 },
                 buttonColor: Colors.white,
@@ -146,8 +155,11 @@ class OnboardingScreenTwo extends StatelessWidget {
               AppSpacing.verticalSpaceMedium,
               Button(
                 text: l10n.continueAsTeacher,
-                onPressed: () {
-                  print('object');
+                onPressed: () async {
+                  // Save role to shared preferences
+                  await UserRoleHelper.saveUserRole(UserRole.teacher);
+
+                  // Navigate to the appropriate screen
                   navigateBasedOnRole(context, UserRole.teacher);
                 },
                 buttonColor: Colors.white,
@@ -162,12 +174,11 @@ class OnboardingScreenTwo extends StatelessWidget {
 
 void navigateBasedOnRole(BuildContext context, UserRole role) {
   switch (role) {
-    case UserRole.parenStudent:
+    case UserRole.parentStudent:
       Navigator.of(context).pushNamed(ParentsOnboarding.routeName);
     case UserRole.schoolManagement:
       Navigator.of(context).pushNamed(SchoolOnboarding.routeName);
     case UserRole.teacher:
       Navigator.of(context).pushNamed(TeachersOnboarding.routeName);
-    
   }
 }

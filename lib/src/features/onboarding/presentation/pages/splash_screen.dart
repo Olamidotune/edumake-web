@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/select_language_screen.dart';
+import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,6 +44,10 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       );
     });
+
+
+    UserRoleHelper.getUserRole();
+    debugPrint(UserRoleHelper.getUserRole().toString());
   }
 
   @override

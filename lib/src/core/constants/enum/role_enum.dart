@@ -1,5 +1,5 @@
 enum UserRole {
-  parenStudent,
+  parentStudent,
   teacher,
   schoolManagement,
 }
