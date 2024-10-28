@@ -16,9 +16,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment Screen'),
+        title: const Text('Payment Screen'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Payment Screen',
           style: TextStyle(fontSize: 24),

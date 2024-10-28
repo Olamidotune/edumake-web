@@ -49,83 +49,86 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocaleService>(builder: (context, value, child) {
-      return ScreenUtilInit(
-        minTextAdapt: true,
-        splitScreenMode: true,
-        child: MaterialApp(
-          locale: value.locale,
-          supportedLocales: L10n.locals,
-          title: 'Edumake',
-          theme: ThemeData(
-            useMaterial3: true,
-            primaryColor: AppColors.primaryColor,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            fontFamily: 'HelveticaNeueRounded',
-            scaffoldBackgroundColor: AppColors.whiteColor,
-            appBarTheme: const AppBarTheme(
-              backgroundColor: AppColors.whiteColor,
-              elevation: 0,
+    return Consumer<LocaleService>(
+      builder: (context, value, child) {
+        return ScreenUtilInit(
+          minTextAdapt: true,
+          splitScreenMode: true,
+          child: MaterialApp(
+            locale: value.locale,
+            supportedLocales: L10n.locals,
+            title: 'Edumake',
+            theme: ThemeData(
+              useMaterial3: true,
+              primaryColor: AppColors.primaryColor,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              fontFamily: 'HelveticaNeueRounded',
+              scaffoldBackgroundColor: AppColors.whiteColor,
+              appBarTheme: const AppBarTheme(
+                backgroundColor: AppColors.whiteColor,
+                elevation: 0,
+              ),
+              textTheme: const TextTheme(
+                displayLarge: TextStyle(
+                  fontSize: 32,
+                  color: AppColors.primaryColor,
+                ),
+                displayMedium: TextStyle(
+                  fontSize: 24,
+                  color: AppColors.primaryColor,
+                ),
+                bodyLarge: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.secondaryColor,
+                ),
+                bodyMedium: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.primaryTextColor,
+                ),
+                bodySmall: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.primaryTextColor,
+                ),
+              ),
             ),
-            textTheme: const TextTheme(
-              displayLarge: TextStyle(
-                fontSize: 32,
-                color: AppColors.primaryColor,
-              ),
-              displayMedium: TextStyle(
-                fontSize: 24,
-                color: AppColors.primaryColor,
-              ),
-              bodyLarge: TextStyle(
-                fontSize: 16,
-                color: AppColors.secondaryColor,
-              ),
-              bodyMedium: TextStyle(
-                fontSize: 14,
-                color: AppColors.primaryTextColor,
-              ),
-              bodySmall: TextStyle(
-                fontSize: 12,
-                color: AppColors.primaryTextColor,
-              ),
-            ),
+            home: const SplashScreen(),
+            routes: {
+              SplashScreen.routeName: (context) => const SplashScreen(),
+              SelectLanguageScreen.routeName: (context) =>
+                  const SelectLanguageScreen(),
+              OnboardingScreen.routeName: (context) => const OnboardingScreen(),
+              OnboardingScreenTwo.routeName: (context) =>
+                  const OnboardingScreenTwo(),
+              ParentsOnboarding.routeName: (context) =>
+                  const ParentsOnboarding(),
+              TeachersOnboarding.routeName: (context) =>
+                  const TeachersOnboarding(),
+              SchoolOnboarding.routeName: (context) => const SchoolOnboarding(),
+              SignUpScreen.routeName: (context) => const SignUpScreen(),
+              SchoolSignUpScreen.routeName: (context) =>
+                  const SchoolSignUpScreen(),
+              SchoolBasicInfoScreen.routeName: (context) =>
+                  const SchoolBasicInfoScreen(),
+              SignIn.routeName: (context) => const SignIn(),
+              ForgotPasswordScreen.routeName: (context) =>
+                  const ForgotPasswordScreen(),
+              VerifyAccount.routeName: (context) => const VerifyAccount(),
+              Dashboard.routeName: (context) => const Dashboard(),
+              KycScreen.routeName: (context) => const KycScreen(),
+              HomeScreen.routeName: (context) => HomeScreen(),
+              WardScreen.routeName: (context) => const WardScreen(),
+              SettingsScreen.routeName: (context) => const SettingsScreen(),
+            },
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              AppLocalizations.delegate,
+            ],
           ),
-          home: const SplashScreen(),
-          routes: {
-            SplashScreen.routeName: (context) => const SplashScreen(),
-            SelectLanguageScreen.routeName: (context) =>
-                const SelectLanguageScreen(),
-            OnboardingScreen.routeName: (context) => const OnboardingScreen(),
-            OnboardingScreenTwo.routeName: (context) =>
-                const OnboardingScreenTwo(),
-            ParentsOnboarding.routeName: (context) => const ParentsOnboarding(),
-            TeachersOnboarding.routeName: (context) =>
-                const TeachersOnboarding(),
-            SchoolOnboarding.routeName: (context) => const SchoolOnboarding(),
-            SignUpScreen.routeName: (context) => const SignUpScreen(),
-            SchoolSignUpScreen.routeName: (context) =>
-                const SchoolSignUpScreen(),
-            SchoolBasicInfoScreen.routeName: (context) =>
-                const SchoolBasicInfoScreen(),
-            SignIn.routeName: (context) => const SignIn(),
-            ForgotPasswordScreen.routeName: (context) =>
-                const ForgotPasswordScreen(),
-            VerifyAccount.routeName: (context) => const VerifyAccount(),
-            Dashboard.routeName: (context) => const Dashboard(),
-            KycScreen.routeName: (context) => const KycScreen(),
-            HomeScreen.routeName: (context) => HomeScreen(),
-            WardScreen.routeName: (context) => const WardScreen(),
-            SettingsScreen.routeName: (context) => const SettingsScreen(),
-          },
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            AppLocalizations.delegate,
-          ],
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 

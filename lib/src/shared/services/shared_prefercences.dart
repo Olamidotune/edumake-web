@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
@@ -50,7 +51,7 @@ class UserRoleHelper {
 
   // Convert string back to UserRole enum when retrieving
   static UserRole _stringToRole(String roleString) {
-     print("Retrieved role string: $roleString"); // Log retrieved value
+     debugPrint('Retrieved role string: $roleString'); // Log retrieved value
     switch (roleString) {
       case 'parentStudent':
         return UserRole.parentStudent;

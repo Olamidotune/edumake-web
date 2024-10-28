@@ -30,7 +30,7 @@ final Map<String, dynamic> studentList = {
       'attendance': '85',
       'feesAmount': '120,000',
       'upComingEvent': 'Inter-House Sports',
-      'gender': 'Male'
+      'gender': 'Male',
     },
     {
       'id': 184,

@@ -149,11 +149,16 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: RawScrollbar(
-        thumbColor: AppColors.primaryColor.withOpacity(0.6),
+          controller: _scrollController,
+        thumbColor: AppColors.primaryColor.withOpacity(0.4),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
         ),
-        controller: _scrollController,
+        padding: const EdgeInsets.only(
+          right: 10,
+        ),
         child: SingleChildScrollView(
           controller: _scrollController,
           physics: const BouncingScrollPhysics(),

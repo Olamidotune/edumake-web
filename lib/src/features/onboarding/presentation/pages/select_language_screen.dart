@@ -22,7 +22,7 @@ class SelectLanguageScreen extends StatelessWidget {
         title: Text(l10n.selectLanguageScreen),
       ),
       body: Padding(
-        padding:  EdgeInsets.all(AppSpacing.horizontalSpacing),
+        padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
         child: Column(
           children: [
             Text(context.localizations.changeLanguage),
@@ -33,12 +33,12 @@ class SelectLanguageScreen extends StatelessWidget {
                 value: localeService.locale.languageCode,
                 items: const [
                   DropdownMenuItem(
-                    child: Text('English'),
                     value: 'en',
+                    child: Text('English'),
                   ),
                   DropdownMenuItem(
-                    child: Text('Français'),
                     value: 'fr',
+                    child: Text('Français'),
                   ),
                 ],
                 onChanged: (String? value) {
@@ -49,10 +49,11 @@ class SelectLanguageScreen extends StatelessWidget {
               ),
             ),
             Button(
-                text: (l10n.move),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(OnboardingScreen.routeName);
-                }),
+              text: l10n.move,
+              onPressed: () {
+                Navigator.of(context).pushNamed(OnboardingScreen.routeName);
+              },
+            ),
           ],
         ),
       ),

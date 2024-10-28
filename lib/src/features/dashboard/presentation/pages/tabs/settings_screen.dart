@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
-   static const String routeName = 'settings';
+  static const String routeName = 'settings';
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -14,9 +14,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Settings Screen',
           style: TextStyle(fontSize: 24),

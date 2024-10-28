@@ -86,5 +86,10 @@
     "enterSchoolName": "Enter School's name",
     "enterSchoolAddress": "Enter School's physical address",
     "enterSchoolEmailAddress": "Enter School's email address",
-    "fieldIsRequired": "Field is required"
+    "fieldIsRequired": "Field is required",
+    "selectSchoolType": "Select School Type",
+    "selectNumberOfClasses": "Select Number of Classes",
+    "selectNumberOfStudents": "Select Number of Students",
+    "selectNumberOfTeachers": "Select Number of Teachers",
+    "selectRange": "Select Range"
 }

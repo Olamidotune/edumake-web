@@ -86,5 +86,10 @@
     "enterSchoolName": "Saisissez le nom de l'établissement",
     "enterSchoolAddress": "Saisissez l'adresse de l'établissement",
     "enterSchoolEmailAddress": "Saisissez l'adresse électronique de l'établissement",
-    "fieldIsRequired": "Ce champ est requis"
+    "fieldIsRequired": "Ce champ est requis",
+    "selectSchoolType": "Sélectionnez le type d'établissement",
+    "selectNumberOfClasses": "Sélectionnez le nombre de classes",
+    "selectNumberOfStudents": "Sélectionnez le nombre d'élèves",
+    "selectNumberOfTeachers": "Sélectionnez le nombre d'enseignants",
+    "selectRange": "Sélectionnez l'intervalle"
 }
