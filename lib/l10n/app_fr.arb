@@ -71,5 +71,20 @@
     "nextEvent": "Prochain Événement",
     "feesPaid": "Frais Payés",
     "feesNotPaid": "Frais non Payés",
-    "male": "Homme"
+    "male": "Homme",
+    "weNeedToKnowSomeBasicInfoAboutYou": "Nous devons recueillir des informations essentielles sur vous et votre établissement scolaire afin de garantir une gestion appropriée des données scolaires et parentales",
+    "nameOfSchool": "Nom de l'établissement",
+    "schoolAddress": "Adresse de l'établissement",
+    "schoolEmailAddress": "Adresse électronique de l'établissement",
+    "schoolDetails": "Détails de l'établissement",
+    "schoolHandlerAdmin": "Coordonnées du gestionnaire/administrateur de l'établissement",
+    "schoolType": "Type d'établissement",
+    "numberOfClasses": "Nombre de classes",
+    "range": "Intervalle",
+    "numberOfStudents": "Nombre d'élèves",
+    "numberOfTeachers": "Nombre d'enseignants",
+    "enterSchoolName": "Saisissez le nom de l'établissement",
+    "enterSchoolAddress": "Saisissez l'adresse de l'établissement",
+    "enterSchoolEmailAddress": "Saisissez l'adresse électronique de l'établissement",
+    "fieldIsRequired": "Ce champ est requis"
 }

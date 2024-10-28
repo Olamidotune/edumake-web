@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
@@ -13,8 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SchoolSignUpScreen extends HookWidget {
-  const SchoolSignUpScreen({super.key,});
-
+  const SchoolSignUpScreen({
+    super.key,
+  });
 
   static const routeName = 'school-sign-up-screen';
 
@@ -169,49 +171,56 @@ class SchoolSignUpScreen extends HookWidget {
                           },
                         ),
                         Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'I have read, and I accept',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.primaryTextColor,
+                          child: GestureDetector(
+                            onTap: () {
+                              debugPrint('This is the School account');
+                              Navigator.of(context)
+                                  .pushNamed(SchoolBasicInfoScreen.routeName);
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'I have read, and I accept',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.primaryTextColor,
+                                    ),
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        // navigate to privacy policy
+                                      },
+                                    text:
+                                        ' the privacy policy and terms of service ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontFamily: 'HelveticaNeueRounded',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.primaryColor,
+                                        ),
                                   ),
-                              children: [
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      // navigate to privacy policy
-                                    },
-                                  text:
-                                      ' the privacy policy and terms of service ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                ),
-                                TextSpan(
-                                  text: 'of Edu-Make',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppColors.primaryTextColor,
-                                      ),
-                                ),
-                              ],
+                                  TextSpan(
+                                    text: 'of Edu-Make',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontFamily: 'HelveticaNeueRounded',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                          color: AppColors.primaryTextColor,
+                                        ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

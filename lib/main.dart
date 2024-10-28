@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
@@ -104,6 +105,8 @@ class MyApp extends StatelessWidget {
             SignUpScreen.routeName: (context) => const SignUpScreen(),
             SchoolSignUpScreen.routeName: (context) =>
                 const SchoolSignUpScreen(),
+            SchoolBasicInfoScreen.routeName: (context) =>
+                const SchoolBasicInfoScreen(),
             SignIn.routeName: (context) => const SignIn(),
             ForgotPasswordScreen.routeName: (context) =>
                 const ForgotPasswordScreen(),

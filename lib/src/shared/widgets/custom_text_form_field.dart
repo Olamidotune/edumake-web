@@ -78,10 +78,12 @@ class CustomTextFormField extends StatelessWidget {
                 ),
             prefixIcon: Padding(
               padding: const EdgeInsets.all(15),
-              child: SvgPicture.asset(
-                'assets/svg/$prefixIcon.svg',
-                color: AppColors.greyColor.withOpacity(1),
-              ),
+              child: prefixIcon == null
+                  ? null
+                  : SvgPicture.asset(
+                      'assets/svg/$prefixIcon.svg',
+                      color: AppColors.greyColor.withOpacity(1),
+                    ),
             ),
             suffixIcon: isPassword
                 ? IconButton(
