@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     required this.keyboardType,
+    this.customFilled,
     this.title,
     super.key,
     this.obscureText = false,
@@ -21,17 +22,21 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.onFieldSubmitted,
     this.maxLength,
+    this.fillColor, this.editIcon,
   });
 
   final TextEditingController controller;
   final FocusNode focusNode;
   final String? title;
   final String hintText;
+  final Color? fillColor;
   final TextInputType keyboardType;
   final bool obscureText;
   final String? prefixIcon;
+  final Widget? editIcon;
   final bool isPassword;
   final bool isFilled;
+  final bool? customFilled;
   final int? maxLength;
   final String? Function(String?)? validator;
   final TextInputAction? textInputAction;
@@ -55,6 +60,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceSmall,
         TextFormField(
+          cursorColor: AppColors.primaryColor,
           maxLength: maxLength,
           onEditingComplete: onFieldSubmitted,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -70,7 +76,7 @@ class CustomTextFormField extends StatelessWidget {
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(8),
             ),
-            fillColor: AppColors.greyColor.withOpacity(0.1),
+            fillColor: fillColor ?? (customFilled ?? false ? fillColor : null),
             filled: isFilled,
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -86,15 +92,22 @@ class CustomTextFormField extends StatelessWidget {
                       color: AppColors.greyColor.withOpacity(1),
                     ),
             ),
-            suffixIcon: isPassword
-                ? IconButton(
-                    icon: Icon(
-                      obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.greyColor,
-                    ),
-                    onPressed: onSuffixIconPressed,
-                  )
-                : null,
+            suffixIcon: customFilled ?? false
+                ? Padding(
+                  padding: const EdgeInsets.all(13),
+                  child: editIcon,
+                )
+                : isPassword
+                    ? IconButton(
+                        onPressed: onSuffixIconPressed,
+                        icon: Icon(
+                          obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: AppColors.greyColor,
+                        ),
+                      )
+                    : null,
           ),
           obscureText: obscureText,
           validator: validator,

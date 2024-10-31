@@ -2,9 +2,9 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/add_classes_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +21,8 @@ class AddClassesScreen extends StatefulWidget {
 class _AddClassesScreenState extends State<AddClassesScreen> {
   PlatformFile? _csvFile;
   final List<int> classes = [1];
+  final List<TextEditingController> controllers = [TextEditingController()];
+  final List<FocusNode> focusNodes = [FocusNode()];
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +80,11 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       children: [
                         Text(
                           'Import school data (CSV)',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.primaryTextColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -128,8 +131,19 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                 AppSpacing.verticalSpaceSmall,
                 ...classes.map(
                   (count) => Padding(
-                    padding: EdgeInsets.only(bottom: 16.height),
-                    child: AddClassesContainer(count: count),
+                    padding: EdgeInsets.only(bottom: 1.height),
+                    child: CustomTextFormField(
+                      customFilled: true,
+                      fillColor: AppColors.primaryColor.withOpacity(0.1),
+                      controller: controllers.first,
+                      focusNode: focusNodes.first,
+                      hintText: 'Class $count',
+                      keyboardType: TextInputType.text,
+                      editIcon: SvgPicture.asset('assets/svg/edit.svg',height: 10,),
+                      onSuffixIconPressed: () {
+                        controllers.first.clear();
+                      },
+                    ),
                   ),
                 ),
                 AppSpacing.verticalSpaceSmall,
@@ -143,12 +157,13 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         SvgPicture.asset('assets/svg/plus.svg'),
                         Text(
                           ' Add more classes',
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                fontFamily: 'HelveticaNeueRounded',
-                                fontSize: 13.fontSize,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.primaryColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.primaryColor,
+                                  ),
                         ),
                       ],
                     ),
