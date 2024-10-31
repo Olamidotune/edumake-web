@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_csv.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -258,7 +258,7 @@ class SchoolBasicInfoScreen extends HookWidget {
                           //   Navigator.of(context)
                           //       .popAndPushNamed(Dashboard.routeName);
                           // }
-                          Navigator.of(context).popAndPushNamed(AddClassesScreen.routeName);
+                          Navigator.of(context).popAndPushNamed(AddCsvFileScreen.routeName);
                         },
                       ),
                     ],
