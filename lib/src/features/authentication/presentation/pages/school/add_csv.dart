@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,6 +65,7 @@ class _AddCsvFileScreenState extends State<AddCsvFileScreen> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
           child: Column(
@@ -80,22 +82,22 @@ class _AddCsvFileScreenState extends State<AddCsvFileScreen> {
               AddCsvContainer(
                 name: 'Classes',
                 onTap: () {
-
+                  Navigator.of(context).pushNamed(AddClassesScreen.routeName);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Classes',
+                name: 'Subjects',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Classes',
+                name: 'Students',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Classes',
+                name: 'Techers',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMassive,
