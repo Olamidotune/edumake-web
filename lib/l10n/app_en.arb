@@ -91,5 +91,9 @@
     "selectNumberOfClasses": "Select Number of Classes",
     "selectNumberOfStudents": "Select Number of Students",
     "selectNumberOfTeachers": "Select Number of Teachers",
-    "selectRange": "Select Range"
+    "selectRange": "Select Range",
+    "hello": "Hello",
+    "nb": "N.B",
+    "beAdvisedToAddTheseSegments": "N.B: Be advised to add these segments in this other for ease in management. Tap on set up done when you are done. You can export save data (csv file), for ease in documention."
+
 }
