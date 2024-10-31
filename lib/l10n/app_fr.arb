@@ -91,5 +91,8 @@
     "selectNumberOfClasses": "Sélectionnez le nombre de classes",
     "selectNumberOfStudents": "Sélectionnez le nombre d'élèves",
     "selectNumberOfTeachers": "Sélectionnez le nombre d'enseignants",
-    "selectRange": "Sélectionnez l'intervalle"
+    "selectRange": "Sélectionnez l'intervalle",
+    "hello": "Bonjour",
+    "nb": "N.B",
+    "beAdvisedToAddTheseSegments": "N.B : Il est conseillé d'ajouter ces segments dans cet autre pour faciliter la gestion. Appuyez sur configuration terminée lorsque vous avez terminé. Vous pouvez exporter les données de sauvegarde (fichier csv), pour faciliter la documentation."
 }

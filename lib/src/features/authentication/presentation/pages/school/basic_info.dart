@@ -1,8 +1,8 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
@@ -254,10 +254,11 @@ class SchoolBasicInfoScreen extends HookWidget {
                       Button(
                         text: l10n.submit,
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            Navigator.of(context)
-                                .popAndPushNamed(Dashboard.routeName);
-                          }
+                          // if (formKey.currentState!.validate()) {
+                          //   Navigator.of(context)
+                          //       .popAndPushNamed(Dashboard.routeName);
+                          // }
+                          Navigator.of(context).popAndPushNamed(AddClassesScreen.routeName);
                         },
                       ),
                     ],
