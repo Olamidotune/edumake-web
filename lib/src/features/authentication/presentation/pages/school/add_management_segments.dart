@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,12 @@ class AddManagementSegmentsScreen extends StatefulWidget {
   static const String routeName = 'add-management-segments/screen';
 
   @override
-  State<AddManagementSegmentsScreen> createState() => _AddManagementSegmentsScreenState();
+  State<AddManagementSegmentsScreen> createState() =>
+      _AddManagementSegmentsScreenState();
 }
 
-class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScreen> {
+class _AddManagementSegmentsScreenState
+    extends State<AddManagementSegmentsScreen> {
   bool busy = false;
   bool savedClasses = false;
   bool savedSubjects = false;
@@ -94,14 +97,15 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
               AddCsvContainer(
                 name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
                 onTap: () {
-                  // _navigate(AddSubjectsScreen.routeName);
                   _navigateToSchoolScreen(AddSubjectsScreen.routeName);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
                 name: savedStudents ? 'Students Added' : 'Add Students',
-                onTap: () {},
+                onTap: () {
+                  _navigateToStudentsScreen(AddStudentsScreen.routeName);
+                },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
@@ -138,8 +142,16 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
       });
     }
   }
-}
 
+  void _navigateToStudentsScreen(String routeName) async {
+    final result = await Navigator.of(context).pushNamed(routeName);
+    if (result != null) {
+      setState(() {
+        savedStudents = result as bool;
+      });
+    }
+  }
+}
 
 class AddCsvContainer extends StatelessWidget {
   const AddCsvContainer({
