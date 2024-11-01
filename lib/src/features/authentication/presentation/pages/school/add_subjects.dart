@@ -5,35 +5,36 @@ import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
+import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AddClassesScreen extends StatefulWidget {
-  const AddClassesScreen({super.key});
+class AddSubjectsScreen extends StatefulWidget {
+  const AddSubjectsScreen({super.key});
 
-  static const String routeName = 'add-classes/screen';
+  static const String routeName = 'add-subjects/screen';
 
   @override
-  State<AddClassesScreen> createState() => _AddClassesScreenState();
+  State<AddSubjectsScreen> createState() => _AddSubjectsScreenState();
 }
 
-class _AddClassesScreenState extends State<AddClassesScreen> {
+class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   PlatformFile? _csvFile;
-  final List<int> classes = [1];
+  final List<int> subjects = [1];
   final List<TextEditingController> controllers = [TextEditingController()];
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
   bool busy = false;
-  bool savedClasses = false;
+  bool savedsubjects = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: RawScrollbar(
+        thumbVisibility: true,
         controller: _scrollController,
         thumbColor: AppColors.primaryColor.withOpacity(0.4),
         shape: const RoundedRectangleBorder(
@@ -56,7 +57,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Add Classes',
+                    'Add subjects',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 24.fontSize,
@@ -66,7 +67,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Text(
-                    'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputing your school data.',
+                    'Add subjects and the classes they are associated with.',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12.fontSize,
@@ -143,7 +144,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   ),
                   AppSpacing.verticalSpaceLarge,
                   Text(
-                    'or add classes manually',
+                    'or add subjects manually',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12.fontSize,
@@ -151,49 +152,86 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           color: AppColors.primaryTextColor,
                         ),
                   ),
+                  AppSpacing.verticalSpaceTiny,
                   Form(
                     key: formKey,
                     child: Column(
                       children: [
                         ...List.generate(
-                          classes.length,
+                          subjects.length,
                           (index) => Column(
                             children: [
-                              CustomTextFormField(
-                                customFilled: true,
-                                fillColor:
-                                    AppColors.primaryColor.withOpacity(0.1),
-                                controller: controllers[index],
-                                focusNode: focusNodes[index],
-                                hintText: 'Class ${index + 1}',
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                editIcon: SvgPicture.asset(
-                                  'assets/svg/edit.svg',
-                                  height: 10,
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.horizontalSpacing,
+                                  vertical: 16.height,
                                 ),
-                                onFieldSubmitted: () {
-                                  if (index < classes.length - 1) {
-                                    FocusScope.of(context)
-                                        .requestFocus(focusNodes[index + 1]);
-                                  }
-                                },
-                                validator: (p0) {
-                                  if (p0!.isEmpty && _csvFile == null) {
-                                    return 'Class name is required';
-                                  }
-                                  return null;
-                                },
+                                decoration: BoxDecoration(
+                                  color: AppColors.greyColor.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  children: [
+                                    AddSubjectTextFormField(
+                                      label: 'Enter Subject/Course',
+                                      controller: controllers[index],
+                                      focusNode: focusNodes[index],
+                                      validator: (p0) {
+                                        if (p0!.isEmpty && _csvFile == null) {
+                                          return 'Field cannot be empty';
+                                        }
+                                        return null;
+                                      },
+                                      suffixIcon: SvgPicture.asset(
+                                          'assets/svg/edit.svg'),
+                                      hintText:
+                                          'what is the name of the subject?',
+                                    ),
+                                    AppSpacing.verticalSpaceHuge,
+                                    AddSubjectTextFormField(
+                                      label: 'Short Note about the subject',
+                                      controller: controllers[index],
+                                      focusNode: focusNodes[index],
+                                      validator: (p0) {
+                                        if (p0!.isEmpty && _csvFile == null) {
+                                          return 'Class name is required';
+                                        }
+                                        return null;
+                                      },
+                                      suffixIcon: SvgPicture.asset(
+                                          'assets/svg/edit.svg'),
+                                      hintText:
+                                          'Introduce the subject few words',
+                                    ),
+                                    AppSpacing.verticalSpaceHuge,
+                                    AddSubjectTextFormField(
+                                      label:
+                                          'What classes is this subject associated with? ',
+                                      controller: controllers[index],
+                                      focusNode: focusNodes[index],
+                                      validator: (p0) {
+                                        if (p0!.isEmpty && _csvFile == null) {
+                                          return 'Class name is required';
+                                        }
+                                        return null;
+                                      },
+                                      suffixIcon: SvgPicture.asset(
+                                          'assets/svg/edit.svg'),
+                                      hintText: 'e.g. JSS1, JSS2, JSS3',
+                                    ),
+                                    AppSpacing.verticalSpaceTiny,
+                                  ],
+                                ),
                               ),
+                              AppSpacing.verticalSpaceHuge,
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  AppSpacing.verticalSpaceSmall,
                   GestureDetector(
-                    onTap: addClass,
+                    onTap: addSubject,
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Row(
@@ -201,7 +239,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         children: [
                           SvgPicture.asset('assets/svg/plus.svg'),
                           Text(
-                            ' Add more classes',
+                            ' Add more subjects',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
@@ -217,13 +255,13 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   AppSpacing.verticalSpaceMassive,
                   Button(
                     busy: busy,
-                    text: 'Save Classes',
+                    text: 'Save subjects',
                     onPressed: () {
                       if (formKey.currentState!.validate() ||
                           _csvFile != null) {
                         CustomSnackbar.show(
                           context,
-                          'Classes saved successfully',
+                          'subjects saved successfully',
                         );
                         setState(() {
                           busy = !busy;
@@ -235,7 +273,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       } else {
                         CustomSnackbar.show(
                           context,
-                          'Please upload a CSV file or add classes manually',
+                          'Please upload a CSV file or add SUBJECTS manually',
                           isError: true,
                         );
                       }
@@ -263,9 +301,9 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     });
   }
 
-  void addClass() {
+  void addSubject() {
     setState(() {
-      classes.add(classes.length + 1);
+      subjects.add(subjects.length + 1);
       controllers.add(TextEditingController());
       focusNodes.add(FocusNode());
     });
