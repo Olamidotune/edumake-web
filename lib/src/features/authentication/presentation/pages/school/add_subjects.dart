@@ -21,9 +21,18 @@ class AddSubjectsScreen extends StatefulWidget {
 
 class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   PlatformFile? _csvFile;
-  final List<int> subjects = [1];
-  final List<TextEditingController> controllers = [TextEditingController()];
-  final List<FocusNode> focusNodes = [FocusNode()];
+  final List<int> subjects = [];
+  final List<TextEditingController> _subjectController = [
+    TextEditingController()
+  ];
+  final List<TextEditingController> _noteController = [TextEditingController()];
+  final List<TextEditingController> _classesController = [
+    TextEditingController()
+  ];
+  final List<FocusNode> _subjectNode = [FocusNode()];
+  final List<FocusNode> _noteNode = [FocusNode()];
+  final List<FocusNode> _classesNode = [FocusNode()];
+
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
   bool busy = false;
@@ -158,7 +167,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                     child: Column(
                       children: [
                         ...List.generate(
-                          subjects.length,
+                          subjects.length + 1,
                           (index) => Column(
                             children: [
                               Container(
@@ -174,8 +183,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                   children: [
                                     AddSubjectTextFormField(
                                       label: 'Enter Subject/Course',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
+                                      controller: _subjectController[index],
+                                      focusNode: _subjectNode[index],
                                       validator: (p0) {
                                         if (p0!.isEmpty && _csvFile == null) {
                                           return 'Field cannot be empty';
@@ -190,8 +199,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                     AppSpacing.verticalSpaceHuge,
                                     AddSubjectTextFormField(
                                       label: 'Short Note about the subject',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
+                                      controller: _noteController[index],
+                                      focusNode: _noteNode[index],
                                       validator: (p0) {
                                         if (p0!.isEmpty && _csvFile == null) {
                                           return 'Class name is required';
@@ -207,8 +216,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                     AddSubjectTextFormField(
                                       label:
                                           'What classes is this subject associated with? ',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
+                                      controller: _classesController[index],
+                                      focusNode: _classesNode[index],
                                       validator: (p0) {
                                         if (p0!.isEmpty && _csvFile == null) {
                                           return 'Class name is required';
@@ -304,17 +313,33 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   void addSubject() {
     setState(() {
       subjects.add(subjects.length + 1);
-      controllers.add(TextEditingController());
-      focusNodes.add(FocusNode());
+      _classesController.add(TextEditingController());
+      _noteController.add(TextEditingController());
+      _subjectController.add(TextEditingController());
+      _classesNode.add(FocusNode());
+      _noteNode.add(FocusNode());
+      _subjectNode.add(FocusNode());
     });
   }
 
   @override
   void dispose() {
-    for (final controller in controllers) {
+    for (final controller in _subjectController) {
       controller.dispose();
     }
-    for (final node in focusNodes) {
+    for (final controller in _noteController) {
+      controller.dispose();
+    }
+    for (final controller in _classesController) {
+      controller.dispose();
+    }
+    for (final node in _classesNode) {
+      node.dispose();
+    }
+    for (final node in _noteNode) {
+      node.dispose();
+    }
+    for (final node in _subjectNode) {
       node.dispose();
     }
     super.dispose();
