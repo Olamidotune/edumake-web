@@ -86,13 +86,15 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
               AddCsvContainer(
                 name: savedClasses ? 'Classes Added' : 'Add Classes',
                 onTap: () {
-                  _navigate(AddClassesScreen.routeName);
+                  _navigateToClassScreen(AddClassesScreen.routeName);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
                 name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
-                onTap: () {},
+                onTap: () {
+                  // _navigate(AddSubjectsScreen.routeName);
+                },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
@@ -117,7 +119,7 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
     );
   }
 
-  void _navigate(String routeName) async {
+  void _navigateToClassScreen(String routeName) async {
     final result = await Navigator.of(context).pushNamed(routeName);
     if (result != null) {
       setState(() {
@@ -125,7 +127,17 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
       });
     }
   }
+
+  void _navigateToSchoolScreen(String routeName) async {
+    final result = await Navigator.of(context).pushNamed(routeName);
+    if (result != null) {
+      setState(() {
+        savedSubjects = result as bool;
+      });
+    }
+  }
 }
+
 
 class AddCsvContainer extends StatelessWidget {
   const AddCsvContainer({
