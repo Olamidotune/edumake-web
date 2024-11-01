@@ -258,7 +258,7 @@ class SchoolBasicInfoScreen extends HookWidget {
                           //   Navigator.of(context)
                           //       .popAndPushNamed(Dashboard.routeName);
                           // }
-                          Navigator.of(context).popAndPushNamed(AddCsvFileScreen.routeName);
+                          Navigator.of(context).popAndPushNamed(AddManagementSegmentsScreen.routeName);
                         },
                       ),
                     ],
