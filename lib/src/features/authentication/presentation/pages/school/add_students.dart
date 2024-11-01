@@ -10,24 +10,24 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AddSubjectsScreen extends StatefulWidget {
-  const AddSubjectsScreen({super.key});
+class AddStudentsScreen extends StatefulWidget {
+  const AddStudentsScreen({super.key});
 
-  static const String routeName = 'add-subjects/screen';
+  static const String routeName = 'add-students/screen';
 
   @override
-  State<AddSubjectsScreen> createState() => _AddSubjectsScreenState();
+  State<AddStudentsScreen> createState() => _AddStudentsScreenState();
 }
 
-class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
+class _AddStudentsScreenState extends State<AddStudentsScreen> {
   PlatformFile? _csvFile;
-  final List<int> subjects = [1];
+  final List<int> students = [1];
   final List<TextEditingController> controllers = [TextEditingController()];
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
   bool busy = false;
-  bool savedsubjects = false;
+  bool savedstudents = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Add subjects',
+                    'Add students',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 24.fontSize,
@@ -67,7 +67,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Text(
-                    'Add subjects and the classes they are associated with.',
+                    'Add students and the classes they are associated with.',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12.fontSize,
@@ -144,7 +144,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   ),
                   AppSpacing.verticalSpaceLarge,
                   Text(
-                    'or add subjects manually',
+                    'or add students manually',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12.fontSize,
@@ -158,7 +158,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                     child: Column(
                       children: [
                         ...List.generate(
-                          subjects.length,
+                          students.length,
                           (index) => Column(
                             children: [
                               Container(
@@ -239,7 +239,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                         children: [
                           SvgPicture.asset('assets/svg/plus.svg'),
                           Text(
-                            ' Add more subjects',
+                            ' Add more students',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
@@ -255,13 +255,13 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   AppSpacing.verticalSpaceMassive,
                   Button(
                     busy: busy,
-                    text: 'Save subjects',
+                    text: 'Save students',
                     onPressed: () {
                       if (formKey.currentState!.validate() ||
                           _csvFile != null) {
                         CustomSnackbar.show(
                           context,
-                          'subjects saved successfully',
+                          'students saved successfully',
                         );
                         setState(() {
                           busy = !busy;
@@ -273,7 +273,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                       } else {
                         CustomSnackbar.show(
                           context,
-                          'Please upload a CSV file or add SUBJECTS manually',
+                          'Please upload a CSV file or add students manually',
                           isError: true,
                         );
                       }
@@ -303,7 +303,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
 
   void addSubject() {
     setState(() {
-      subjects.add(subjects.length + 1);
+      students.add(students.length + 1);
       controllers.add(TextEditingController());
       focusNodes.add(FocusNode());
     });

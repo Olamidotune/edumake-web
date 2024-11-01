@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_csv.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
@@ -115,7 +116,10 @@ class MyApp extends StatelessWidget {
               AddManagementSegmentsScreen.routeName: (context) =>
                   const AddManagementSegmentsScreen(),
               AddClassesScreen.routeName: (context) => const AddClassesScreen(),
-              AddSubjectsScreen.routeName: (context) => const AddSubjectsScreen(),
+              AddSubjectsScreen.routeName: (context) =>
+                  const AddSubjectsScreen(),
+              AddStudentsScreen.routeName: (context) =>
+                  const AddStudentsScreen(),
               SignIn.routeName: (context) => const SignIn(),
               ForgotPasswordScreen.routeName: (context) =>
                   const ForgotPasswordScreen(),
