@@ -7,17 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AddCsvFileScreen extends StatefulWidget {
-  const AddCsvFileScreen({super.key});
+class AddManagementSegmentsScreen extends StatefulWidget {
+  const AddManagementSegmentsScreen({super.key});
 
-  static const String routeName = 'add-csv/screen';
+  static const String routeName = 'add-management-segments/screen';
 
   @override
-  State<AddCsvFileScreen> createState() => _AddCsvFileScreenState();
+  State<AddManagementSegmentsScreen> createState() => _AddManagementSegmentsScreenState();
 }
 
-class _AddCsvFileScreenState extends State<AddCsvFileScreen> {
+class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScreen> {
   bool busy = false;
+  bool savedClasses = false;
+  bool savedSubjects = false;
+  bool savedStudents = false;
+  bool savedTeachers = false;
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -80,24 +84,24 @@ class _AddCsvFileScreenState extends State<AddCsvFileScreen> {
               ),
               AppSpacing.verticalSpaceMassive,
               AddCsvContainer(
-                name: 'Classes',
+                name: savedClasses ? 'Classes Added' : 'Add Classes',
                 onTap: () {
-                  Navigator.of(context).pushNamed(AddClassesScreen.routeName);
+                  _navigate(AddClassesScreen.routeName);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Subjects',
+                name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Students',
+                name: savedStudents ? 'Students Added' : 'Add Students',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
-                name: 'Techers',
+                name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
                 onTap: () {},
               ),
               AppSpacing.verticalSpaceMassive,
@@ -111,6 +115,15 @@ class _AddCsvFileScreenState extends State<AddCsvFileScreen> {
         ),
       ),
     );
+  }
+
+  void _navigate(String routeName) async {
+    final result = await Navigator.of(context).pushNamed(routeName);
+    if (result != null) {
+      setState(() {
+        savedClasses = result as bool;
+      });
+    }
   }
 }
 
@@ -140,7 +153,7 @@ class AddCsvContainer extends StatelessWidget {
             SvgPicture.asset('assets/svg/plus.svg'),
             AppSpacing.horizontalSpaceSmall,
             Text(
-              'Add $name',
+              name,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],

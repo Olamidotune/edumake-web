@@ -111,7 +111,8 @@ class MyApp extends StatelessWidget {
                   const SchoolSignUpScreen(),
               SchoolBasicInfoScreen.routeName: (context) =>
                   const SchoolBasicInfoScreen(),
-              AddCsvFileScreen.routeName: (context) => const AddCsvFileScreen(),
+              AddManagementSegmentsScreen.routeName: (context) =>
+                  const AddManagementSegmentsScreen(),
               AddClassesScreen.routeName: (context) => const AddClassesScreen(),
               SignIn.routeName: (context) => const SignIn(),
               ForgotPasswordScreen.routeName: (context) =>
