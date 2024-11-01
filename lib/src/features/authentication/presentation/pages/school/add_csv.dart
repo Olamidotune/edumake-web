@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -86,13 +87,16 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
               AddCsvContainer(
                 name: savedClasses ? 'Classes Added' : 'Add Classes',
                 onTap: () {
-                  _navigate(AddClassesScreen.routeName);
+                  _navigateToClassScreen(AddClassesScreen.routeName);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
                 name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
-                onTap: () {},
+                onTap: () {
+                  // _navigate(AddSubjectsScreen.routeName);
+                  _navigateToSchoolScreen(AddSubjectsScreen.routeName);
+                },
               ),
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
@@ -108,7 +112,7 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
               Button(
                 busy: busy,
                 text: 'Setup Done',
-                // onPressed: () {},
+                // onPressed: ,
               ),
             ],
           ),
@@ -117,7 +121,7 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
     );
   }
 
-  void _navigate(String routeName) async {
+  void _navigateToClassScreen(String routeName) async {
     final result = await Navigator.of(context).pushNamed(routeName);
     if (result != null) {
       setState(() {
@@ -125,7 +129,17 @@ class _AddManagementSegmentsScreenState extends State<AddManagementSegmentsScree
       });
     }
   }
+
+  void _navigateToSchoolScreen(String routeName) async {
+    final result = await Navigator.of(context).pushNamed(routeName);
+    if (result != null) {
+      setState(() {
+        savedSubjects = result as bool;
+      });
+    }
+  }
 }
+
 
 class AddCsvContainer extends StatelessWidget {
   const AddCsvContainer({

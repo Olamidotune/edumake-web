@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_csv.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
@@ -114,6 +115,7 @@ class MyApp extends StatelessWidget {
               AddManagementSegmentsScreen.routeName: (context) =>
                   const AddManagementSegmentsScreen(),
               AddClassesScreen.routeName: (context) => const AddClassesScreen(),
+              AddSubjectsScreen.routeName: (context) => const AddSubjectsScreen(),
               SignIn.routeName: (context) => const SignIn(),
               ForgotPasswordScreen.routeName: (context) =>
                   const ForgotPasswordScreen(),
@@ -136,97 +138,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class _MyAppState extends State<MyApp> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     GeneralStream.generalStream.add(const Locale('en'));
-//   }
-
-//   @override
-//   void dispose() {
-//     GeneralStream.generalStream.close();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<Locale>(
-//       stream: GeneralStream.generalStream.stream,
-//       builder: (context, snapshot) {
-//         return ScreenUtilInit(
-//           // designSize: const Size(360, 690),
-//           minTextAdapt: true,
-//           splitScreenMode: true,
-//           child: MaterialApp(
-//             title: 'Flutter Demo',
-//             theme: ThemeData(
-//               useMaterial3: true,
-//               primaryColor: AppColors.primaryColor,
-//               visualDensity: VisualDensity.adaptivePlatformDensity,
-//               fontFamily: 'HelveticaNeueRounded',
-//               scaffoldBackgroundColor: AppColors.whiteColor,
-//               appBarTheme: const AppBarTheme(
-//                 backgroundColor: AppColors.whiteColor,
-//                 elevation: 0,
-//               ),
-//               textTheme: const TextTheme(
-//                 displayLarge: TextStyle(
-//                   fontSize: 32,
-//                   color: AppColors.primaryColor,
-//                 ),
-//                 displayMedium: TextStyle(
-//                   fontSize: 24,
-//                   color: AppColors.primaryColor,
-//                 ),
-//                 bodyLarge: TextStyle(
-//                   fontSize: 16,
-//                   color: AppColors.secondaryColor,
-//                 ),
-//                 bodyMedium: TextStyle(
-//                   fontSize: 14,
-//                   color: AppColors.primaryTextColor,
-//                 ),
-//                 bodySmall: TextStyle(
-//                   fontSize: 12,
-//                   color: AppColors.primaryTextColor,
-//                 ),
-//               ),
-//             ),
-//             home: const SplashScreen(),
-//             routes: {
-//               SplashScreen.routeName: (context) => const SplashScreen(),
-//               SelectLanguageScreen.routeName: (context) => SelectLanguageScreen(
-//                     locale: snapshot.data ?? const Locale('en'),
-//                   ),
-//               OnboardingScreen.routeName: (context) => const OnboardingScreen(),
-//               OnboardingScreenTwo.routeName: (context) =>
-//                   const OnboardingScreenTwo(),
-//               OnboardingScreenThree.routeName: (context) =>
-//                   const OnboardingScreenThree(),
-//               SignUpScreen.routeName: (context) => const SignUpScreen(),
-//               SignIn.routeName: (context) => const SignIn(),
-//               ForgotPasswordScreen.routeName: (context) =>
-//                   const ForgotPasswordScreen(),
-//               VerifyAccount.routeName: (context) => const VerifyAccount(),
-//               Dashboard.routeName: (context) => const Dashboard(),
-//               KycScreen.routeName: (context) => const KycScreen(),
-//               HomeScreen.routeName: (context) => HomeScreen(),
-//               WardScreen.routeName: (context) => const WardScreen(),
-//               SettingsScreen.routeName: (context) => const SettingsScreen(),
-//             },
-//             supportedLocales: L10n.locals,
-//             locale: snapshot.data ?? const Locale('en'),
-//             localizationsDelegates: const [
-//               GlobalMaterialLocalizations.delegate,
-//               GlobalWidgetsLocalizations.delegate,
-//               GlobalCupertinoLocalizations.delegate,
-//               AppLocalizations.delegate,
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
