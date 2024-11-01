@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
@@ -22,7 +24,8 @@ class AddStudentsScreen extends StatefulWidget {
 class _AddStudentsScreenState extends State<AddStudentsScreen> {
   final List<String> classes = ['Class 1', 'Class 2', 'Class 3'];
   PlatformFile? _csvFile;
-  final List<int> students = [1];
+  final List<File?> _imageFiles = [];
+  final List<int> students = [];
   final List<TextEditingController> controllers = [TextEditingController()];
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
@@ -160,179 +163,221 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                     key: formKey,
                     child: Column(
                       children: [
-                        ...List.generate(
-                          students.length,
-                          (index) => Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: AppSpacing.horizontalSpacing,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.greyColor.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 50,
-                                      backgroundColor: AppColors.primaryColor
-                                          .withOpacity(0.2),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/svg/camera.svg',
-                                            color: AppColors.blackColor
-                                                .withOpacity(0.6),
-                                          ),
-                                          Text(
-                                            'Insert image',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  fontFamily:
-                                                      'HelveticaNeueRounded',
-                                                  fontSize: 8.fontSize,
-                                                  fontWeight: FontWeight.w300,
-                                                  color: AppColors
-                                                      .primaryTextColor,
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: students.length + 1,
+                          itemBuilder: (context, index) {
+                            if (_imageFiles.length <= index) {
+                              _imageFiles.add(null);
+                            }
+                            return Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.horizontalSpacing,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.greyColor.withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () => insertImage(index),
+                                        child: CircleAvatar(
+                                          
+                                          radius: 40,
+                                          backgroundColor:
+                                              _imageFiles[students.length] ==
+                                                      null
+                                                  ? Colors.grey.withOpacity(0.2)
+                                                  : Colors.transparent,
+                                          child: _imageFiles[index] != null
+                                              ? ClipOval(
+                                                  child: Image.file(
+                                                    File(
+                                                      _imageFiles[index]!.path,
+                                                    ),
+                                                    width: 80,
+                                                    height: 80,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                )
+                                              : Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/svg/camera.svg',
+                                                      color: AppColors
+                                                          .blackColor
+                                                          .withOpacity(0.6),
+                                                    ),
+                                                    Text(
+                                                      'Insert image',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                            fontFamily:
+                                                                'HelveticaNeueRounded',
+                                                            fontSize:
+                                                                8.fontSize,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color: AppColors
+                                                                .primaryTextColor,
+                                                          ),
+                                                    ),
+                                                  ],
                                                 ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    AppSpacing.horizontalSpaceMedium,
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          AddSubjectTextFormField(
-                                            label: '',
-                                            controller: controllers.first,
-                                            focusNode: focusNodes.first,
-                                            validator: (p0) {
-                                              if (p0!.isEmpty &&
-                                                  _csvFile == null) {
-                                                return 'Field cannot be empty';
-                                              }
-                                              return null;
-                                            },
-                                            suffixIcon: SvgPicture.asset(
-                                              'assets/svg/edit.svg',
+                                      AppSpacing.horizontalSpaceMedium,
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            AddSubjectTextFormField(
+                                              label: '',
+                                              controller: controllers[index],
+                                              focusNode: focusNodes[index],
+                                              validator: (p0) {
+                                                if (p0!.isEmpty &&
+                                                    _csvFile == null) {
+                                                  return 'Field cannot be empty';
+                                                }
+                                                return null;
+                                              },
+                                              suffixIcon: SvgPicture.asset(
+                                                'assets/svg/edit.svg',
+                                              ),
+                                              hintText: 'Name of student',
                                             ),
-                                            hintText:
-                                                'what is the name of the subject?',
-                                          ),
-                                          AppSpacing.verticalSpaceMedium,
-                                          DropdownButtonFormField(
-                                            isExpanded: true,
-                                            focusColor: AppColors.primaryColor,
-                                            itemHeight: 64,
-                                            menuMaxHeight: 200,
-                                            hint: Text(
-                                              selectedClass ??
-                                                  "Select student's class",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                    fontFamily:
-                                                        'HelveticaNeueRounded',
-                                                    fontSize: 10.fontSize,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: AppColors
-                                                        .primaryTextColor
-                                                        .withOpacity(0.5),
+                                            AppSpacing.verticalSpaceMedium,
+                                            DropdownButtonFormField(
+                                              isExpanded: true,
+                                              focusColor:
+                                                  AppColors.primaryColor,
+                                              itemHeight: 64,
+                                              menuMaxHeight: 200,
+                                              hint: Text(
+                                                selectedClass ??
+                                                    "Select student's class",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                      fontFamily:
+                                                          'HelveticaNeueRounded',
+                                                      fontSize: 10.fontSize,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: AppColors
+                                                          .primaryTextColor
+                                                          .withOpacity(0.5),
+                                                    ),
+                                              ),
+                                              validator: (value) {
+                                                if (value == null) {
+                                                  return 'Field is required';
+                                                }
+                                                return null;
+                                              },
+                                              items:
+                                                  classes.map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(
+                                                    value,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                          fontFamily:
+                                                              'HelveticaNeueRounded',
+                                                          fontSize: 12.fontSize,
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          color: AppColors
+                                                              .primaryTextColor,
+                                                        ),
                                                   ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? value) {
+                                                setState(
+                                                  () {
+                                                    selectedClass = value;
+                                                  },
+                                                );
+                                              },
                                             ),
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Field is required';
-                                              }
-                                              return null;
-                                            },
-                                            items: classes.map((String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(
-                                                  value,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        fontFamily:
-                                                            'HelveticaNeueRounded',
-                                                        fontSize: 12.fontSize,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        color: AppColors
-                                                            .primaryTextColor,
-                                                      ),
-                                                ),
-                                              );
-                                            }).toList(),
-                                            onChanged: (String? value) {
-                                              setState(
-                                                () {
-                                                  selectedClass = value;
+                                            AppSpacing.verticalSpaceMedium,
+                                            Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  if (formKey.currentState!
+                                                          .validate() &&
+                                                      _imageFiles[index] !=
+                                                          null) {
+                                                    CustomSnackbar.show(
+                                                      context,
+                                                      'student saved successfully',
+                                                    );
+                                                  }
                                                 },
-                                              );
-                                            },
-                                          ),
-                                          AppSpacing.verticalSpaceMedium,
-                                          Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: InkWell(
-                                              onTap: () {},
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 30.width,
-                                                  vertical: 10.height,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color:
-                                                        AppColors.primaryColor,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 30.width,
+                                                    vertical: 10.height,
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: Text(
-                                                  'Save',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        fontFamily:
-                                                            'HelveticaNeueRounded',
-                                                        fontSize: 13.fontSize,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: AppColors
-                                                            .primaryColor,
-                                                      ),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      15,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    'Save',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .copyWith(
+                                                          fontFamily:
+                                                              'HelveticaNeueRounded',
+                                                          fontSize: 13.fontSize,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                        ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          AppSpacing.verticalSpaceMedium,
-                                        ],
+                                            AppSpacing.verticalSpaceMedium,
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              AppSpacing.verticalSpaceHuge,
-                            ],
-                          ),
+                                AppSpacing.verticalSpaceHuge,
+                              ],
+                            );
+                          },
                         ),
                       ],
                     ),
                   ),
                   GestureDetector(
-                    onTap: addSubject,
+                    onTap: addMoreStudents,
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Row(
@@ -402,11 +447,27 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
     });
   }
 
-  void addSubject() {
+  Future<void> insertImage(int index) async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image, // Allow only images
+    );
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        // Ensure that the list has enough length before assigning the image
+        if (index < _imageFiles.length) {
+          _imageFiles[index] = File(result.files.single.path!);
+        }
+      });
+    }
+  }
+
+  void addMoreStudents() {
     setState(() {
       students.add(students.length + 1);
       controllers.add(TextEditingController());
       focusNodes.add(FocusNode());
+      _imageFiles.add(null);
     });
   }
 
