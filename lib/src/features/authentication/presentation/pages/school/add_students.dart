@@ -20,6 +20,7 @@ class AddStudentsScreen extends StatefulWidget {
 }
 
 class _AddStudentsScreenState extends State<AddStudentsScreen> {
+  final List<String> classes = ['Class 1', 'Class 2', 'Class 3'];
   PlatformFile? _csvFile;
   final List<int> students = [1];
   final List<TextEditingController> controllers = [TextEditingController()];
@@ -28,6 +29,8 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
   final ScrollController _scrollController = ScrollController();
   bool busy = false;
   bool savedstudents = false;
+  String? selectedClass;
+  TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +70,7 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Text(
-                    'Add students and the classes they are associated with.',
+                    'Add students and select their classes.',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 12.fontSize,
@@ -164,62 +167,160 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                               Container(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: AppSpacing.horizontalSpacing,
-                                  vertical: 16.height,
                                 ),
                                 decoration: BoxDecoration(
                                   color: AppColors.greyColor.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Column(
+                                child: Row(
                                   children: [
-                                    AddSubjectTextFormField(
-                                      label: 'Enter Subject/Course',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
-                                      validator: (p0) {
-                                        if (p0!.isEmpty && _csvFile == null) {
-                                          return 'Field cannot be empty';
-                                        }
-                                        return null;
-                                      },
-                                      suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg'),
-                                      hintText:
-                                          'what is the name of the subject?',
+                                    CircleAvatar(
+                                      radius: 50,
+                                      backgroundColor: AppColors.primaryColor
+                                          .withOpacity(0.2),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/svg/camera.svg',
+                                            color: AppColors.blackColor
+                                                .withOpacity(0.6),
+                                          ),
+                                          Text(
+                                            'Insert image',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  fontFamily:
+                                                      'HelveticaNeueRounded',
+                                                  fontSize: 8.fontSize,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: AppColors
+                                                      .primaryTextColor,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    AppSpacing.verticalSpaceHuge,
-                                    AddSubjectTextFormField(
-                                      label: 'Short Note about the subject',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
-                                      validator: (p0) {
-                                        if (p0!.isEmpty && _csvFile == null) {
-                                          return 'Class name is required';
-                                        }
-                                        return null;
-                                      },
-                                      suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg'),
-                                      hintText:
-                                          'Introduce the subject few words',
+                                    AppSpacing.horizontalSpaceMedium,
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          AddSubjectTextFormField(
+                                            label: '',
+                                            controller: controllers.first,
+                                            focusNode: focusNodes.first,
+                                            validator: (p0) {
+                                              if (p0!.isEmpty &&
+                                                  _csvFile == null) {
+                                                return 'Field cannot be empty';
+                                              }
+                                              return null;
+                                            },
+                                            suffixIcon: SvgPicture.asset(
+                                              'assets/svg/edit.svg',
+                                            ),
+                                            hintText:
+                                                'what is the name of the subject?',
+                                          ),
+                                          AppSpacing.verticalSpaceMedium,
+                                          DropdownButtonFormField(
+                                            isExpanded: true,
+                                            focusColor: AppColors.primaryColor,
+                                            itemHeight: 64,
+                                            menuMaxHeight: 200,
+                                            hint: Text(
+                                              selectedClass ??
+                                                  "Select student's class",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                    fontFamily:
+                                                        'HelveticaNeueRounded',
+                                                    fontSize: 10.fontSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppColors
+                                                        .primaryTextColor
+                                                        .withOpacity(0.5),
+                                                  ),
+                                            ),
+                                            validator: (value) {
+                                              if (value == null) {
+                                                return 'Field is required';
+                                              }
+                                              return null;
+                                            },
+                                            items: classes.map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        fontFamily:
+                                                            'HelveticaNeueRounded',
+                                                        fontSize: 12.fontSize,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: AppColors
+                                                            .primaryTextColor,
+                                                      ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String? value) {
+                                              setState(
+                                                () {
+                                                  selectedClass = value;
+                                                },
+                                              );
+                                            },
+                                          ),
+                                          AppSpacing.verticalSpaceMedium,
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 30.width,
+                                                  vertical: 10.height,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: Text(
+                                                  'Save',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        fontFamily:
+                                                            'HelveticaNeueRounded',
+                                                        fontSize: 13.fontSize,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          AppSpacing.verticalSpaceMedium,
+                                        ],
+                                      ),
                                     ),
-                                    AppSpacing.verticalSpaceHuge,
-                                    AddSubjectTextFormField(
-                                      label:
-                                          'What classes is this subject associated with? ',
-                                      controller: controllers[index],
-                                      focusNode: focusNodes[index],
-                                      validator: (p0) {
-                                        if (p0!.isEmpty && _csvFile == null) {
-                                          return 'Class name is required';
-                                        }
-                                        return null;
-                                      },
-                                      suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg'),
-                                      hintText: 'e.g. JSS1, JSS2, JSS3',
-                                    ),
-                                    AppSpacing.verticalSpaceTiny,
                                   ],
                                 ),
                               ),

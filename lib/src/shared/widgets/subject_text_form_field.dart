@@ -52,7 +52,7 @@ class AddSubjectTextFormField extends StatelessWidget {
             hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w300,
                   fontSize: 10.fontSize,
-                  color: AppColors.primaryTextColor,
+        color: AppColors.primaryTextColor.withOpacity(0.5),
                 ),
           ),
         ),

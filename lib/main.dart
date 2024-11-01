@@ -4,7 +4,7 @@ import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_csv.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
