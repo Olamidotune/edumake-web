@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,9 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   final List<int> classes = [1];
   final List<TextEditingController> controllers = [TextEditingController()];
   final List<FocusNode> focusNodes = [FocusNode()];
+  final formKey = GlobalKey<FormState>();
+  bool busy = false;
+  bool savedClasses = false;
 
   @override
   Widget build(BuildContext context) {
@@ -128,22 +132,46 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         color: AppColors.primaryTextColor,
                       ),
                 ),
-                AppSpacing.verticalSpaceSmall,
-                ...classes.map(
-                  (count) => Padding(
-                    padding: EdgeInsets.only(bottom: 1.height),
-                    child: CustomTextFormField(
-                      customFilled: true,
-                      fillColor: AppColors.primaryColor.withOpacity(0.1),
-                      controller: controllers.first,
-                      focusNode: focusNodes.first,
-                      hintText: 'Class $count',
-                      keyboardType: TextInputType.text,
-                      editIcon: SvgPicture.asset('assets/svg/edit.svg',height: 10,),
-                      onSuffixIconPressed: () {
-                        controllers.first.clear();
-                      },
-                    ),
+
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      ...List.generate(
+                        classes.length,
+                        (index) => Column(
+                          children: [
+                            CustomTextFormField(
+                              customFilled: true,
+                              fillColor:
+                                  AppColors.primaryColor.withOpacity(0.1),
+                              controller: controllers[index],
+                              focusNode: focusNodes[index],
+                              hintText: 'Class ${index + 1}',
+                              textInputAction: TextInputAction.next,
+                              keyboardType: TextInputType.text,
+                              editIcon: SvgPicture.asset(
+                                'assets/svg/edit.svg',
+                                height: 10,
+                              ),
+                              onFieldSubmitted: () {
+                                if (index < classes.length - 1) {
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNodes[index + 1]);
+                                }
+                              },
+                              validator: (p0) {
+                                if (p0!.isEmpty && _csvFile == null) {
+                                  return 'Class name is required';
+                                }
+                                return null;
+                              },
+                            ),
+                            AppSpacing.verticalSpaceSmall,
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 AppSpacing.verticalSpaceSmall,
@@ -170,7 +198,31 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   ),
                 ),
                 AppSpacing.verticalSpaceMassive,
-                Button(text: 'Save Classes', onPressed: () {}),
+                Button(
+                  busy: busy,
+                  text: 'Save Classes',
+                  onPressed: () {
+                    if (formKey.currentState!.validate() || _csvFile != null) {
+                      CustomSnackbar.show(
+                        context,
+                        'Classes saved successfully',
+                      );
+                      setState(() {
+                        busy = !busy;
+                      });
+                      Future.delayed(const Duration(seconds: 2), () {
+                        Navigator.pop(context, true);
+                      });
+                      setState(() => busy);
+                    } else {
+                      CustomSnackbar.show(
+                        context,
+                        'Please upload a CSV file or add classes manually',
+                        isError: true,
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -195,6 +247,19 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   void addClass() {
     setState(() {
       classes.add(classes.length + 1);
+      controllers.add(TextEditingController());
+      focusNodes.add(FocusNode());
     });
+  }
+
+  @override
+  void dispose() {
+    for (final controller in controllers) {
+      controller.dispose();
+    }
+    for (final node in focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
   }
 }

@@ -22,7 +22,8 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.onFieldSubmitted,
     this.maxLength,
-    this.fillColor, this.editIcon,
+    this.fillColor,
+    this.editIcon,
   });
 
   final TextEditingController controller;
@@ -94,16 +95,14 @@ class CustomTextFormField extends StatelessWidget {
             ),
             suffixIcon: customFilled ?? false
                 ? Padding(
-                  padding: const EdgeInsets.all(13),
-                  child: editIcon,
-                )
+                    padding: const EdgeInsets.all(13),
+                    child: editIcon,
+                  )
                 : isPassword
                     ? IconButton(
                         onPressed: onSuffixIconPressed,
                         icon: Icon(
-                          obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                          obscureText ? Icons.visibility_off : Icons.visibility,
                           color: AppColors.greyColor,
                         ),
                       )
