@@ -76,7 +76,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  InkWell(
+                  GestureDetector(
                     onTap: pickAndProcessCsv,
                     child: Container(
                       padding: EdgeInsets.all(AppSpacing.horizontalSpacing),

@@ -186,7 +186,6 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                                       GestureDetector(
                                         onTap: () => insertImage(index),
                                         child: CircleAvatar(
-                                          
                                           radius: 40,
                                           backgroundColor:
                                               _imageFiles[students.length] ==
