@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add-teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
@@ -120,6 +121,8 @@ class MyApp extends StatelessWidget {
                   const AddSubjectsScreen(),
               AddStudentsScreen.routeName: (context) =>
                   const AddStudentsScreen(),
+              AddTeachersScreen.routeName: (context) =>
+                  const AddTeachersScreen(),
               SignIn.routeName: (context) => const SignIn(),
               ForgotPasswordScreen.routeName: (context) =>
                   const ForgotPasswordScreen(),
@@ -129,6 +132,7 @@ class MyApp extends StatelessWidget {
               HomeScreen.routeName: (context) => HomeScreen(),
               WardScreen.routeName: (context) => const WardScreen(),
               SettingsScreen.routeName: (context) => const SettingsScreen(),
+
             },
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,

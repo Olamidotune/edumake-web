@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add-teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
@@ -110,7 +111,9 @@ class _AddManagementSegmentsScreenState
               AppSpacing.verticalSpaceMedium,
               AddCsvContainer(
                 name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
-                onTap: () {},
+                onTap: () {
+                  _navigateToTeachersScreen(AddTeachersScreen.routeName);
+                },
               ),
               AppSpacing.verticalSpaceMassive,
               Button(
@@ -148,6 +151,15 @@ class _AddManagementSegmentsScreenState
     if (result != null) {
       setState(() {
         savedStudents = result as bool;
+      });
+    }
+  }
+
+  void _navigateToTeachersScreen(String routeName) async {
+    final result = await Navigator.of(context).pushNamed(routeName);
+    if (result != null) {
+      setState(() {
+        savedTeachers = result as bool;
       });
     }
   }
