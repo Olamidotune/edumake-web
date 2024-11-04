@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -25,7 +29,7 @@ final TextEditingController nameController = TextEditingController();
 final TextEditingController emailController = TextEditingController();
 final formKey = GlobalKey<FormState>();
 bool isBusy = false;
-
+File? imageFile;
 
 class _AddTeachersScreenState extends State<AddTeachersScreen> {
   @override
@@ -76,30 +80,45 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                   ),
                   AppSpacing.verticalSpaceMassive,
                   Center(
-                    child: CircleAvatar(
-                      radius: 80,
-                      backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/camera.svg',
-                            height: 50.fontSize,
-                            color: AppColors.blackColor.withOpacity(0.6),
-                          ),
-                          Text(
-                            'Insert Image',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.primaryTextColor,
+                    child: GestureDetector(
+                      onTap: _insertImage,
+                      child: CircleAvatar(
+                        radius: 80,
+                        backgroundColor:
+                            AppColors.primaryColor.withOpacity(0.1),
+                        child: imageFile != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(80),
+                                child: Image.file(
+                                  File(imageFile!.path),
+                                  width: 160,
+                                  height: 160,
+                                  fit: BoxFit.cover,
                                 ),
-                          ),
-                        ],
+                              )
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/svg/camera.svg',
+                                    height: 50.fontSize,
+                                    color:
+                                        AppColors.blackColor.withOpacity(0.6),
+                                  ),
+                                  Text(
+                                    'Insert Image',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontFamily: 'HelveticaNeueRounded',
+                                          fontSize: 13.fontSize,
+                                          fontWeight: FontWeight.w300,
+                                          color: AppColors.primaryTextColor,
+                                        ),
+                                  ),
+                                ],
+                              ),
                       ),
                     ),
                   ),
@@ -131,27 +150,31 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                         AppSpacing.verticalSpaceLarge,
                         Text(
                           'Subject(s) in charge',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontFamily: 'HelveticaNeueRounded',
-                                fontSize: 14.fontSize,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.primaryTextColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 14.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
                         ),
                         AppSpacing.verticalSpaceSmall,
-                        const SchoolDropDownFormWidget(hintText: 'Select Subject'),
+                        const SchoolDropDownFormWidget(
+                            hintText: 'Select Subject'),
                         AppSpacing.verticalSpaceLarge,
                         Text(
                           'Classes taught by teacher',
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontFamily: 'HelveticaNeueRounded',
-                                fontSize: 14.fontSize,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.primaryTextColor,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 14.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
                         ),
                         AppSpacing.verticalSpaceSmall,
-                        const SchoolDropDownFormWidget(hintText: 'Select Classes'),
+                        const SchoolDropDownFormWidget(
+                            hintText: 'Select Classes'),
                         AppSpacing.verticalSpaceLarge,
                         CustomTextFormField(
                           controller: emailController,
@@ -180,7 +203,13 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                     busy: isBusy,
                     text: 'Send Invite',
                     onPressed: () {
-                    if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate() &&
+                          imageFile != null) {
+                        _sendInvite();
+                      }
+                      else {
+                        CustomSnackbar.show(context, 'Please fill in all fields', isError: true);
+                      }
                     },
                   ),
                 ],
@@ -190,5 +219,34 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _insertImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+
+    if (result != null) {
+      setState(() {
+        imageFile = File(result.files.single.path!);
+      });
+      CustomSnackbar.show(context, 'Image selected successfully');
+      debugPrint(imageFile?.path);
+    } else {
+      CustomSnackbar.show(context, 'No file selected', isError: true);
+      // User canceled the picker
+    }
+  }
+
+  Future<void> _sendInvite() async {
+    setState(() {
+      isBusy = true;
+    });
+    await Future<void>.delayed(const Duration(seconds: 2));
+    CustomSnackbar.show(context, 'Invite sent successfully');
+    Navigator.pop(context, true);
+    setState(() {
+      isBusy = false;
+    });
   }
 }

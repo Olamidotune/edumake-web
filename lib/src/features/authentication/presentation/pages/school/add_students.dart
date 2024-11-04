@@ -245,7 +245,8 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                                                     ),
                                               ),
                                               validator: (value) {
-                                                if (value == null) {
+                                                if (value == null &&
+                                                    _csvFile == null) {
                                                   return 'Field is required';
                                                 }
                                                 return null;
