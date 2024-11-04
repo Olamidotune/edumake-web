@@ -160,7 +160,8 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                         ),
                         AppSpacing.verticalSpaceSmall,
                         const SchoolDropDownFormWidget(
-                            hintText: 'Select Subject'),
+                          hintText: 'Select Subject',
+                        ),
                         AppSpacing.verticalSpaceLarge,
                         Text(
                           'Classes taught by teacher',
@@ -174,7 +175,8 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                         ),
                         AppSpacing.verticalSpaceSmall,
                         const SchoolDropDownFormWidget(
-                            hintText: 'Select Classes'),
+                          hintText: 'Select Classes',
+                        ),
                         AppSpacing.verticalSpaceLarge,
                         CustomTextFormField(
                           controller: emailController,
@@ -206,9 +208,6 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                       if (formKey.currentState!.validate() &&
                           imageFile != null) {
                         _sendInvite();
-                      }
-                      else {
-                        CustomSnackbar.show(context, 'Please fill in all fields', isError: true);
                       }
                     },
                   ),
