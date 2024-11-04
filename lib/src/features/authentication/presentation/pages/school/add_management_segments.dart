@@ -126,13 +126,12 @@ class _AddManagementSegmentsScreenState
                 busy: busy,
                 text: 'Setup Done',
                 onPressed: () {
-                  savedClasses &&
-                          savedSubjects &&
-                          savedStudents &&
-                          savedTeachers
-                      ? Navigator.of(context).pop()
-                      // ignore: unnecessary_statements
-                      : null;
+                  if (savedClasses &&
+                      savedSubjects &&
+                      savedStudents &&
+                      savedTeachers) {
+                    Navigator.of(context).pop();
+                  }
                 },
               ),
             ],

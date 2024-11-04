@@ -1,7 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
@@ -224,26 +223,29 @@ class SchoolSignUpScreen extends HookWidget {
                       text: 'Sign Up',
                       busy: isBusy.value,
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          if (!checkedPrivacyPolicy.value) {
-                            CustomSnackbar.show(
-                              context,
-                              'Please accept the privacy policy and terms of service',
-                              isError: true,
-                            );
-                            return;
-                          }
-                          isBusy.value = true;
-                          Future.delayed(const Duration(seconds: 3), () {
-                            CustomSnackbar.show(
-                              context,
-                              'Account created successfully',
-                            );
-                            Navigator.of(context)
-                                .pushNamed(SchoolBasicInfoScreen.routeName);
-                            isBusy.value = false;
-                          });
-                        }
+                        // if (formKey.currentState!.validate()) {
+                        //   if (!checkedPrivacyPolicy.value) {
+                        //     CustomSnackbar.show(
+                        //       context,
+                        //       'Please accept the privacy policy and terms of service',
+                        //       isError: true,
+                        //     );
+                        //     return;
+                        //   }
+                        //   isBusy.value = true;
+                        //   Future.delayed(const Duration(seconds: 3), () {
+                        //     CustomSnackbar.show(
+                        //       context,
+                        //       'Account created successfully',
+                        //     );
+                        //     Navigator.of(context)
+                        //         .pushNamed(SchoolBasicInfoScreen.routeName);
+                        //     isBusy.value = false;
+                        //   });
+                        // }
+
+                        Navigator.of(context)
+                            .pushNamed(VerifyAccount.routeName);
                       },
                     ),
                   ],
