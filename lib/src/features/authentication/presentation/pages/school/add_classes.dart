@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
+import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,44 +77,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  GestureDetector(
-                    onTap: pickAndProcessCsv,
-                    child: Container(
-                      padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: AppColors.primaryColor),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.shadowColor,
-                            offset: const Offset(0, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Import school data (CSV)',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor.withOpacity(0.7),
-                            size: 16.fontSize,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  ImportCSVButton(onTap: pickAndProcessCsv, name: 'class',),
                   AppSpacing.verticalSpaceSmall,
                   RichText(
                     text: TextSpan(

@@ -171,56 +171,49 @@ class SchoolSignUpScreen extends HookWidget {
                           },
                         ),
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              debugPrint('This is the School account');
-                              Navigator.of(context)
-                                  .pushNamed(SchoolBasicInfoScreen.routeName);
-                            },
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'I have read, and I accept',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.primaryTextColor,
-                                    ),
-                                children: [
-                                  TextSpan(
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        // navigate to privacy policy
-                                      },
-                                    text:
-                                        ' the privacy policy and terms of service ',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontFamily: 'HelveticaNeueRounded',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'I have read, and I accept',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.primaryTextColor,
                                   ),
-                                  TextSpan(
-                                    text: 'of Edu-Make',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontFamily: 'HelveticaNeueRounded',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: AppColors.primaryTextColor,
-                                        ),
-                                  ),
-                                ],
-                              ),
+                              children: [
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      // navigate to privacy policy
+                                    },
+                                  text:
+                                      ' the privacy policy and terms of service ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                ),
+                                TextSpan(
+                                  text: 'of Edu-Make',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppColors.primaryTextColor,
+                                      ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -242,8 +235,12 @@ class SchoolSignUpScreen extends HookWidget {
                           }
                           isBusy.value = true;
                           Future.delayed(const Duration(seconds: 3), () {
+                            CustomSnackbar.show(
+                              context,
+                              'Account created successfully',
+                            );
                             Navigator.of(context)
-                                .pushNamed(VerifyAccount.routeName);
+                                .pushNamed(SchoolBasicInfoScreen.routeName);
                             isBusy.value = false;
                           });
                         }

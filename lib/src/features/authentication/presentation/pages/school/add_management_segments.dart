@@ -117,9 +117,23 @@ class _AddManagementSegmentsScreenState
               ),
               AppSpacing.verticalSpaceMassive,
               Button(
+                buttonColor: savedClasses &&
+                        savedSubjects &&
+                        savedStudents &&
+                        savedTeachers
+                    ? AppColors.primaryColor
+                    : AppColors.secondaryColor.withOpacity(0.1),
                 busy: busy,
                 text: 'Setup Done',
-                // onPressed: ,
+                onPressed: () {
+                  savedClasses &&
+                          savedSubjects &&
+                          savedStudents &&
+                          savedTeachers
+                      ? Navigator.of(context).pop()
+                      // ignore: unnecessary_statements
+                      : null;
+                },
               ),
             ],
           ),

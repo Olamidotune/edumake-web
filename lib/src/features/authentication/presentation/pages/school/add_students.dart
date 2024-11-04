@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
+import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -83,43 +84,9 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  InkWell(
+                  ImportCSVButton(
                     onTap: pickAndProcessCsv,
-                    child: Container(
-                      padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: AppColors.primaryColor),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.shadowColor,
-                            offset: const Offset(0, 2),
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Import school data (CSV)',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor.withOpacity(0.7),
-                            size: 16.fontSize,
-                          ),
-                        ],
-                      ),
-                    ),
+                    name: 'student',
                   ),
                   AppSpacing.verticalSpaceSmall,
                   RichText(
@@ -278,7 +245,8 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                                                     ),
                                               ),
                                               validator: (value) {
-                                                if (value == null) {
+                                                if (value == null &&
+                                                    _csvFile == null) {
                                                   return 'Field is required';
                                                 }
                                                 return null;
