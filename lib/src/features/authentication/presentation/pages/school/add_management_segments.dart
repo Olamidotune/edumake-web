@@ -31,110 +31,115 @@ class _AddManagementSegmentsScreenState
   Widget build(BuildContext context) {
 
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.only(left: AppSpacing.horizontalSpacing),
-          child: CircleAvatar(
-            radius: 40.width,
-            backgroundColor: AppColors.greyColor,
-            child: Text(
-              'DD',
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding: EdgeInsets.only(left: AppSpacing.horizontalSpacing),
+            child: CircleAvatar(
+              radius: 40.width,
+              backgroundColor: AppColors.greyColor,
+              child: Text(
+                'DD',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontFamily: 'HelveticaNeueRounded',
+                      fontSize: 12.fontSize,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.primaryTextColor,
+                    ),
+              ),
+            ),
+          ),
+          centerTitle: false,
+          title: RichText(
+            text: TextSpan(
+              text: AppStrings.hello,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontFamily: 'HelveticaNeueRounded',
-                    fontSize: 12.fontSize,
+                    fontSize: 16.fontSize,
                     fontWeight: FontWeight.w400,
                     color: AppColors.primaryTextColor,
                   ),
+              children: [
+                TextSpan(
+                  text: ' David Doe,',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'HelveticaNeueRounded',
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primaryColor,
+                      ),
+                ),
+              ],
             ),
           ),
         ),
-        centerTitle: false,
-        title: RichText(
-          text: TextSpan(
-            text: AppStrings.hello,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontFamily: 'HelveticaNeueRounded',
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.primaryTextColor,
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Column(
+              children: [
+                Text(
+                  AppStrings.beAdvisedToAddTheseSegments,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w300,
+                      ),
+                  textAlign: TextAlign.justify,
                 ),
-            children: [
-              TextSpan(
-                text: ' David Doe,',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontFamily: 'HelveticaNeueRounded',
-                      fontSize: 16.fontSize,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryColor,
-                    ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-          child: Column(
-            children: [
-              Text(
-                AppStrings.beAdvisedToAddTheseSegments,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.fontSize,
-                      fontWeight: FontWeight.w300,
-                    ),
-                textAlign: TextAlign.justify,
-              ),
-              AppSpacing.verticalSpaceMassive,
-              AddCsvContainer(
-                name: savedClasses ? 'Classes Added' : 'Add Classes',
-                onTap: () {
-                  _navigateToClassScreen(AddClassesScreen.routeName);
-                },
-              ),
-              AppSpacing.verticalSpaceMedium,
-              AddCsvContainer(
-                name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
-                onTap: () {
-                  _navigateToSchoolScreen(AddSubjectsScreen.routeName);
-                },
-              ),
-              AppSpacing.verticalSpaceMedium,
-              AddCsvContainer(
-                name: savedStudents ? 'Students Added' : 'Add Students',
-                onTap: () {
-                  _navigateToStudentsScreen(AddStudentsScreen.routeName);
-                },
-              ),
-              AppSpacing.verticalSpaceMedium,
-              AddCsvContainer(
-                name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
-                onTap: () {
-                  _navigateToTeachersScreen(AddTeachersScreen.routeName);
-                },
-              ),
-              AppSpacing.verticalSpaceMassive,
-              Button(
-                buttonColor: savedClasses &&
+                AppSpacing.verticalSpaceMassive,
+                AddCsvContainer(
+                  name: savedClasses ? 'Classes Added' : 'Add Classes',
+                  onTap: () {
+                    _navigateToClassScreen(AddClassesScreen.routeName);
+                  },
+                ),
+                AppSpacing.verticalSpaceMedium,
+                AddCsvContainer(
+                  name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
+                  onTap: () {
+                    _navigateToSchoolScreen(AddSubjectsScreen.routeName);
+                  },
+                ),
+                AppSpacing.verticalSpaceMedium,
+                AddCsvContainer(
+                  name: savedStudents ? 'Students Added' : 'Add Students',
+                  onTap: () {
+                    _navigateToStudentsScreen(AddStudentsScreen.routeName);
+                  },
+                ),
+                AppSpacing.verticalSpaceMedium,
+                AddCsvContainer(
+                  name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
+                  onTap: () {
+                    _navigateToTeachersScreen(AddTeachersScreen.routeName);
+                  },
+                ),
+                AppSpacing.verticalSpaceMassive,
+                Button(
+                  buttonColor: savedClasses &&
+                          savedSubjects &&
+                          savedStudents &&
+                          savedTeachers
+                      ? AppColors.primaryColor
+                      : AppColors.secondaryColor.withOpacity(0.1),
+                  busy: busy,
+                  text: 'Setup Done',
+                  onPressed: () {
+                    if (savedClasses &&
                         savedSubjects &&
                         savedStudents &&
-                        savedTeachers
-                    ? AppColors.primaryColor
-                    : AppColors.secondaryColor.withOpacity(0.1),
-                busy: busy,
-                text: 'Setup Done',
-                onPressed: () {
-                  if (savedClasses &&
-                      savedSubjects &&
-                      savedStudents &&
-                      savedTeachers) {
-                    Navigator.of(context).pop();
-                  }
-                },
-              ),
-            ],
+                        savedTeachers) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -97,8 +97,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: const SchoolSubscriptionScreen(),
-            
+            home: const SplashScreen(),
             routes: {
               SplashScreen.routeName: (context) => const SplashScreen(),
               SelectLanguageScreen.routeName: (context) =>
@@ -136,7 +135,6 @@ class MyApp extends StatelessWidget {
               HomeScreen.routeName: (context) => HomeScreen(),
               WardScreen.routeName: (context) => const WardScreen(),
               SettingsScreen.routeName: (context) => const SettingsScreen(),
-
             },
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
