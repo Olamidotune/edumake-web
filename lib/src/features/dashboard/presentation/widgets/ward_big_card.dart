@@ -1,13 +1,12 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class WardBigCard extends StatelessWidget {
   const WardBigCard({
-    required this.l10n,
     required this.wardName,
     required this.wardClass,
     required this.wardSchool,
@@ -19,7 +18,6 @@ class WardBigCard extends StatelessWidget {
     super.key,
   });
 
-  final AppLocalizations l10n;
   final String wardName;
   final String wardClass;
   final String wardSchool;
@@ -97,7 +95,7 @@ class WardBigCard extends StatelessWidget {
                           ),
                           AppSpacing.horizontalSpaceSmall,
                           Text(
-                            l10n.school,
+                            AppStrings.school,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -129,10 +127,8 @@ class WardBigCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
-                    
                       children: [
                         const Expanded(
-                       
                           child: Icon(
                             Icons.star_border,
                             color: AppColors.primaryColor,
@@ -142,7 +138,7 @@ class WardBigCard extends StatelessWidget {
                         Expanded(
                           flex: 3,
                           child: Text(
-                            l10n.classLevel,
+                            AppStrings.classLevel,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -150,9 +146,8 @@ class WardBigCard extends StatelessWidget {
                                   fontSize: 13.fontSize,
                                   color: AppColors.primaryTextColor,
                                   fontWeight: FontWeight.w300,
-                                  
                                 ),
-                                maxLines: 2,
+                            maxLines: 2,
                           ),
                         ),
                       ],
@@ -189,7 +184,7 @@ class WardBigCard extends StatelessWidget {
                           ),
                           AppSpacing.horizontalSpaceSmall,
                           Text(
-                            l10n.nextEvent,
+                            AppStrings.nextEvent,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -227,7 +222,7 @@ class WardBigCard extends StatelessWidget {
                           color: AppColors.primaryColor,
                         ),
                         Text(
-                          l10n.attendance,
+                          AppStrings.attendance,
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 13.fontSize,
@@ -273,7 +268,7 @@ class WardBigCard extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    l10n.feesPaid,
+                    AppStrings.feesPaid,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 12.fontSize,
                           color: AppColors.primaryTextColor,

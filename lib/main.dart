@@ -3,15 +3,16 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add-teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
@@ -114,6 +115,8 @@ class MyApp extends StatelessWidget {
                   const SchoolSignUpScreen(),
               SchoolBasicInfoScreen.routeName: (context) =>
                   const SchoolBasicInfoScreen(),
+              SchoolSubscriptionScreen.routeName: (context) =>
+                  const SchoolSubscriptionScreen(),
               AddManagementSegmentsScreen.routeName: (context) =>
                   const AddManagementSegmentsScreen(),
               AddClassesScreen.routeName: (context) => const AddClassesScreen(),
@@ -132,7 +135,6 @@ class MyApp extends StatelessWidget {
               HomeScreen.routeName: (context) => HomeScreen(),
               WardScreen.routeName: (context) => const WardScreen(),
               SettingsScreen.routeName: (context) => const SettingsScreen(),
-
             },
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,

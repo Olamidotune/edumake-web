@@ -1,11 +1,11 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WardScreen extends StatelessWidget {
   const WardScreen({super.key});
@@ -14,7 +14,6 @@ class WardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final students = parseStudents(studentList);
     return Scaffold(
       appBar: const CustomAppBar(
@@ -27,12 +26,11 @@ class WardScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${l10n.yourWards} (3)',
+                '${AppStrings.yourWards} (3)',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               AppSpacing.verticalSpaceMedium,
-              WardBigCard(
-                l10n: l10n,
+              const WardBigCard(
                 wardName: 'John Doe',
                 wardClass: 'Grade 5',
                 wardSchool: 'Springfield Elementary',
@@ -49,7 +47,6 @@ class WardScreen extends StatelessWidget {
                 itemCount: students.length,
                 itemBuilder: (context, index) {
                   return WardBigCard(
-                    l10n: l10n,
                     wardName: students[index].name,
                     wardClass: students[index].classLevel,
                     wardSchool: students[index].school,
