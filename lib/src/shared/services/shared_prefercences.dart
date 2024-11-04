@@ -40,8 +40,6 @@ class HelperFunctions {
   }
 }
 
-
-
 class UserRoleHelper {
   static const String _roleKey = 'user_role';
 
@@ -51,7 +49,7 @@ class UserRoleHelper {
 
   // Convert string back to UserRole enum when retrieving
   static UserRole _stringToRole(String roleString) {
-     debugPrint('Retrieved role string: $roleString'); // Log retrieved value
+    debugPrint('Retrieved role string: $roleString'); // Log retrieved value
     switch (roleString) {
       case 'parentStudent':
         return UserRole.parentStudent;
