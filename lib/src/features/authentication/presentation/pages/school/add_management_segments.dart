@@ -1,13 +1,13 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add-teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AddManagementSegmentsScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _AddManagementSegmentsScreenState
   bool savedTeachers = false;
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +52,7 @@ class _AddManagementSegmentsScreenState
         centerTitle: false,
         title: RichText(
           text: TextSpan(
-            text: l10n.hello,
+            text: AppStrings.hello,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontFamily: 'HelveticaNeueRounded',
                   fontSize: 16.fontSize,
@@ -80,7 +80,7 @@ class _AddManagementSegmentsScreenState
           child: Column(
             children: [
               Text(
-                l10n.beAdvisedToAddTheseSegments,
+                AppStrings.beAdvisedToAddTheseSegments,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.fontSize,
                       fontWeight: FontWeight.w300,

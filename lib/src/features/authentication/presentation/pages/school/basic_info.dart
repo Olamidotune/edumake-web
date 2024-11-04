@@ -1,5 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
@@ -7,7 +8,6 @@ import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SchoolBasicInfoScreen extends HookWidget {
@@ -36,7 +36,6 @@ class SchoolBasicInfoScreen extends HookWidget {
 
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: RawScrollbar(
@@ -62,7 +61,7 @@ class SchoolBasicInfoScreen extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  l10n.onMoreStep,
+                  AppStrings.onMoreStep,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         fontSize: 32.fontSize,
                         fontWeight: FontWeight.w300,
@@ -70,7 +69,7 @@ class SchoolBasicInfoScreen extends HookWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 Text(
-                  l10n.weNeedToKnowSomeBasicInfoAboutYou,
+                  AppStrings.weNeedToKnowSomeBasicInfoAboutYou,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 12.fontSize,
                         fontWeight: FontWeight.w300,
@@ -79,7 +78,7 @@ class SchoolBasicInfoScreen extends HookWidget {
                 ),
                 AppSpacing.verticalSpaceLarge,
                 Text(
-                  l10n.schoolHandlerAdmin,
+                  AppStrings.schoolHandlerAdmin,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 14.fontSize,
                         fontWeight: FontWeight.w400,
@@ -96,55 +95,55 @@ class SchoolBasicInfoScreen extends HookWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextFormField(
-                        title: l10n.firstName,
+                        title: AppStrings.firstName,
                         prefixIcon: 'profile',
                         controller: firstNameController,
-                        hintText: l10n.enterYourFirstName,
+                        hintText: AppStrings.enterYourFirstName,
                         keyboardType: TextInputType.name,
                         focusNode: firstNameFocusNode,
                         textInputAction: TextInputAction.next,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
                       CustomTextFormField(
-                        title: l10n.lastName,
+                        title: AppStrings.lastName,
                         prefixIcon: 'profile',
                         controller: lastNameController,
-                        hintText: l10n.enterYourLastName,
+                        hintText: AppStrings.enterYourLastName,
                         keyboardType: TextInputType.name,
                         focusNode: lastNameFocusNode,
                         textInputAction: TextInputAction.next,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
                       CustomTextFormField(
-                        title: l10n.phoneNumber,
+                        title: AppStrings.phoneNumber,
                         prefixIcon: 'phone',
                         controller: phoneNumberController,
-                        hintText: l10n.enterYourPhoneNumber,
+                        hintText: AppStrings.enterYourPhoneNumber,
                         keyboardType: TextInputType.phone,
                         focusNode: phoneNumberFocusNode,
                         textInputAction: TextInputAction.next,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
                       ),
                       AppSpacing.verticalSpaceLarge,
                       Text(
-                        l10n.schoolHandlerAdmin,
+                        AppStrings.schoolHandlerAdmin,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 14.fontSize,
                               fontWeight: FontWeight.w400,
@@ -156,29 +155,29 @@ class SchoolBasicInfoScreen extends HookWidget {
                       ),
                       AppSpacing.verticalSpaceMedium,
                       CustomTextFormField(
-                        title: l10n.nameOfSchool,
+                        title: AppStrings.nameOfSchool,
                         controller: schoolNameController,
-                        hintText: l10n.enterSchoolName,
+                        hintText: AppStrings.enterSchoolName,
                         keyboardType: TextInputType.name,
                         focusNode: schoolNameFocusNode,
                         textInputAction: TextInputAction.next,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
                       CustomTextFormField(
-                        title: l10n.schoolAddress,
+                        title: AppStrings.schoolAddress,
                         controller: schoolAddressController,
-                        hintText: l10n.enterSchoolAddress,
+                        hintText: AppStrings.enterSchoolAddress,
                         keyboardType: TextInputType.streetAddress,
                         focusNode: schoolAddressNameFocusNode,
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
@@ -187,20 +186,20 @@ class SchoolBasicInfoScreen extends HookWidget {
                       CustomTextFormField(
                         validator: (p0) {
                           if (p0!.isEmpty) {
-                            return l10n.fieldIsRequired;
+                            return AppStrings.fieldIsRequired;
                           }
                           return null;
                         },
-                        title: l10n.schoolEmailAddress,
+                        title: AppStrings.schoolEmailAddress,
                         controller: schoolPhoneNumberEmailAddressController,
-                        hintText: l10n.enterSchoolEmailAddress,
+                        hintText: AppStrings.enterSchoolEmailAddress,
                         keyboardType: TextInputType.emailAddress,
                         focusNode: schoolPhoneNumberNameFocusNode,
                         textInputAction: TextInputAction.go,
                       ),
                       AppSpacing.verticalSpaceMedium,
                       Text(
-                        l10n.schoolType,
+                        AppStrings.schoolType,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w300,
@@ -208,12 +207,12 @@ class SchoolBasicInfoScreen extends HookWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      SchoolDropDownFormWidget(
-                        hintText: l10n.selectSchoolType,
+                      const SchoolDropDownFormWidget(
+                        hintText: AppStrings.selectSchoolType,
                       ),
                       AppSpacing.verticalSpaceMedium,
                       Text(
-                        '${l10n.numberOfClasses} (${l10n.range})',
+                        '${AppStrings.numberOfClasses} (${AppStrings.range})',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w300,
@@ -221,12 +220,12 @@ class SchoolBasicInfoScreen extends HookWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      SchoolDropDownFormWidget(
-                        hintText: l10n.selectNumberOfClasses,
+                      const SchoolDropDownFormWidget(
+                        hintText: AppStrings.selectNumberOfClasses,
                       ),
                       AppSpacing.verticalSpaceMedium,
                       Text(
-                        '${l10n.numberOfStudents} (${l10n.range})',
+                        '${AppStrings.numberOfStudents} (${AppStrings.range})',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w300,
@@ -234,12 +233,12 @@ class SchoolBasicInfoScreen extends HookWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      SchoolDropDownFormWidget(
-                        hintText: l10n.selectNumberOfStudents,
+                      const SchoolDropDownFormWidget(
+                        hintText: AppStrings.selectNumberOfStudents,
                       ),
                       AppSpacing.verticalSpaceMedium,
                       Text(
-                        '${l10n.numberOfTeachers} (${l10n.range})',
+                        '${AppStrings.numberOfTeachers} (${AppStrings.range})',
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: AppColors.primaryTextColor,
                               fontWeight: FontWeight.w300,
@@ -247,12 +246,12 @@ class SchoolBasicInfoScreen extends HookWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      SchoolDropDownFormWidget(
-                        hintText: l10n.selectNumberOfTeachers,
+                      const SchoolDropDownFormWidget(
+                        hintText: AppStrings.selectNumberOfTeachers,
                       ),
                       AppSpacing.verticalSpaceHuge,
                       Button(
-                        text: l10n.submit,
+                        text: AppStrings.submit,
                         onPressed: () {
                           // if (formKey.currentState!.validate()) {
                           //   Navigator.of(context)

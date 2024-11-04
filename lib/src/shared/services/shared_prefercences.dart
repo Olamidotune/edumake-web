@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HelperFunctions {
   static Future<void> saveUserLoggedInSharedPreference(
+    // ignore: avoid_positional_boolean_parameters
     bool isUserLoggedIn,
   ) async {
     final prefs = await SharedPreferences.getInstance();

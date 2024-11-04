@@ -1,8 +1,6 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class SchoolDropDownFormWidget extends StatelessWidget {
   const SchoolDropDownFormWidget({
@@ -13,7 +11,6 @@ class SchoolDropDownFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Theme(
       data: Theme.of(context).copyWith(
         scrollbarTheme: ScrollbarThemeData(
@@ -37,7 +34,7 @@ class SchoolDropDownFormWidget extends StatelessWidget {
           hint: Text(hintText),
           validator: (value) {
             if (value == null) {
-              return l10n.fieldIsRequired;
+              return AppStrings.fieldIsRequired;
             }
             return null;
           },

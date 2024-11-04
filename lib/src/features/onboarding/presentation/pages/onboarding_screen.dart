@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
@@ -9,7 +10,7 @@ import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -24,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -57,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               AppSpacing.verticalSpaceHuge,
               Text(
-                l10n.welcomeToEDUMAKE,
+                AppStrings.welcomeToEDUMAKE,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 14.fontSize,
                       fontWeight: FontWeight.w300,
@@ -69,7 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               Button(
                 busy: _isBusy,
-                text: AppLocalizations.of(context)!.next,
+                text: AppStrings.next,
                 onPressed: () {
                   setState(() {
                     _isBusy = !_isBusy;
@@ -101,7 +102,7 @@ class OnboardingScreenTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -114,7 +115,7 @@ class OnboardingScreenTwo extends StatelessWidget {
             children: [
               AppSpacing.verticalSpaceMassive,
               Text(
-                l10n.trackYourWardsProgressAndEnjoy,
+                AppStrings.trackYourWardsProgressAndEnjoy,
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: 32.fontSize,
                       fontWeight: FontWeight.w300,
@@ -122,7 +123,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceSmall,
               Text(
-                l10n.weCategorizeOurUsersIntoTwo,
+                AppStrings.weCategorizeOurUsersIntoTwo,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 14.fontSize,
                       fontWeight: FontWeight.w300,
@@ -131,7 +132,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceLarge,
               Button(
-                text: l10n.continueAsParentStudent,
+                text: AppStrings.continueAsParentStudent,
                 onPressed: () async {
                   // Save role to shared preferences
                   await UserRoleHelper.saveUserRole(UserRole.parentStudent);
@@ -142,7 +143,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceMedium,
               Button(
-                text: l10n.contineAsSchoolManagement,
+                text: AppStrings.contineAsSchoolManagement,
                 onPressed: () async {
                   // Save role to shared preferences
                   await UserRoleHelper.saveUserRole(UserRole.schoolManagement);
@@ -154,7 +155,7 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceMedium,
               Button(
-                text: l10n.continueAsTeacher,
+                text: AppStrings.continueAsTeacher,
                 onPressed: () async {
                   // Save role to shared preferences
                   await UserRoleHelper.saveUserRole(UserRole.teacher);
