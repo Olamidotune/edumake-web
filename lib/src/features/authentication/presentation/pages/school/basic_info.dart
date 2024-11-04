@@ -2,8 +2,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
@@ -257,7 +257,8 @@ class SchoolBasicInfoScreen extends HookWidget {
                           //   Navigator.of(context)
                           //       .popAndPushNamed(Dashboard.routeName);
                           // }
-                          Navigator.of(context).popAndPushNamed(AddManagementSegmentsScreen.routeName);
+                          Navigator.of(context)
+                              .pushNamed(SchoolSubscriptionScreen.routeName);
                         },
                       ),
                     ],

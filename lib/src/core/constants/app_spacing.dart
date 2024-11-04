@@ -1,4 +1,3 @@
-
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -38,4 +37,6 @@ class AppSpacing {
   static SizedBox setHorizontalSpace(num w) => SizedBox(width: w.width);
 
   static double horizontalSpacing = 16.width;
+  static double horizontalSpacingSmall = 8.width;
+  static double horizontalSpacingMedium = 16.width;
 }

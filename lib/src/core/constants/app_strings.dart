@@ -115,4 +115,29 @@ class AppStrings {
   static const nb = 'N.B';
   static const beAdvisedToAddTheseSegments =
       'N.B: Be advised to add these segments in this other for ease in management. Tap on set up done when you are done. You can export save data (csv file), for ease in documention.';
+  static const subscription = 'Subscription';
+  static const selectASubscriptionPlan =
+      'Select a subscription package to continue on.';
+  static const quarterlyPlan = 'Quarterly Plan';
+  static const yearlyPlan = 'Yearly Plan';
+  static const essentialPackage = 'Essential\nPackage    ';
+  static const customizedPackage = 'Customized\nPackage';
+  static const ultimatePackage = 'Ultimate\nPackage    ';
+  static const essentialPackageHeader = 'Essential Package';
+  static const customizedPackageHeader = 'Customized Package';
+  static const ultimatePackageHeader = 'Ultimate Package';
+  static const essentialPackageDescription =
+      'Ideal for: Large schools with comprehensive needs.';
+  static const schoolManagement = 'School Management';
+  static const teacherManagement = 'Teacher Management';
+  static const studentManagement = 'Student Management';
+  static const academyManagement = 'Academy Management';
+  static const accessPermision = 'Access Permission';
+  static const examManagement = 'Exam Management';
+  static const lessonManagement = 'Lesson Management';
+  static const sessionManagement = 'Session Management';
+  static const holidayManagement = 'Holiday Management';
+  static const attendanceManagement = 'Attendance Management';
+  static const feesManagement = 'Fees Management';
+  static const timeTableManagement = 'Time Table Management';
 }

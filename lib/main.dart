@@ -12,6 +12,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
@@ -96,7 +97,8 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: const SplashScreen(),
+            home: const SchoolSubscriptionScreen(),
+            
             routes: {
               SplashScreen.routeName: (context) => const SplashScreen(),
               SelectLanguageScreen.routeName: (context) =>
@@ -114,6 +116,8 @@ class MyApp extends StatelessWidget {
                   const SchoolSignUpScreen(),
               SchoolBasicInfoScreen.routeName: (context) =>
                   const SchoolBasicInfoScreen(),
+              SchoolSubscriptionScreen.routeName: (context) =>
+                  const SchoolSubscriptionScreen(),
               AddManagementSegmentsScreen.routeName: (context) =>
                   const AddManagementSegmentsScreen(),
               AddClassesScreen.routeName: (context) => const AddClassesScreen(),
