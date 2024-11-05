@@ -23,7 +23,7 @@ class _SchoolSubscriptionScreenState extends State<SchoolSubscriptionScreen>
     with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   late final TabController _tabController =
-      TabController(length: 2, initialIndex: 0, vsync: this);
+      TabController(length: 2, vsync: this);
   int selectedIndex = 0;
 
   @override
@@ -249,38 +249,38 @@ class _PlanViewState extends State<PlanView> {
                 index: 20000,
               ),
               PackageDetails(
-                title: "Customized Package",
+                title: 'Customized Package',
                 description:
-                    "Ideal for large schools with comprehensive needs.",
+                    'Ideal for large schools with comprehensive needs.',
                 features: [
-                  "Access permission",
-                  "Exam Management",
-                  "Lesson Management",
-                  "Session Management",
-                  "Teacher Management",
-                  "Holiday Management",
-                  "Student Management",
-                  "Academy Management",
-                  "Time Table Management",
-                  "Attendance Management",
+                  'Access permission',
+                  'Exam Management',
+                  'Lesson Management',
+                  'Session Management',
+                  'Teacher Management',
+                  'Holiday Management',
+                  'Student Management',
+                  'Academy Management',
+                  'Time Table Management',
+                  'Attendance Management',
                 ],
                 index: 1,
               ),
               PackageDetails(
-                title: "Ultimate Package",
+                title: 'Ultimate Package',
                 description:
-                    "Ideal for large schools with comprehensive needs.",
+                    'Ideal for large schools with comprehensive needs.',
                 features: [
-                  "Access permission",
-                  "Exam Management",
-                  "Lesson Management",
-                  "Session Management",
-                  "Teacher Management",
-                  "Holiday Management",
-                  "Student Management",
-                  "Academy Management",
-                  "Time Table Management",
-                  "Attendance Management",
+                  'Access permission',
+                  'Exam Management',
+                  'Lesson Management',
+                  'Session Management',
+                  'Teacher Management',
+                  'Holiday Management',
+                  'Student Management',
+                  'Academy Management',
+                  'Time Table Management',
+                  'Attendance Management',
                 ],
                 index: 2,
               ),
@@ -382,7 +382,7 @@ class PackageDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -402,11 +402,11 @@ class PackageDetails extends StatelessWidget {
                   .map((feature) => Row(
                         children: [
                           const Icon(Icons.star,
-                              color: AppColors.primaryColor, size: 16),
+                              color: AppColors.primaryColor, size: 16,),
                           AppSpacing.horizontalSpaceSmall,
                           Expanded(child: Text(feature)),
                         ],
-                      ))
+                      ),)
                   .toList(),
             ),
             AppSpacing.verticalSpaceLarge,
