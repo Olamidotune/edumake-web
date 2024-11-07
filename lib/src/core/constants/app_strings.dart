@@ -140,4 +140,19 @@ class AppStrings {
   static const attendanceManagement = 'Attendance Management';
   static const feesManagement = 'Fees Management';
   static const timeTableManagement = 'Time Table Management';
+  static const paymentUpdate = 'Payment Update';
+  static const connectionResquest = 'Connection Requests';
+  static const upComingEvents = 'Upcoming Events';
+  static const seeAll = 'See all';
+  static const recentTeachersNote = "Recent Teacher's Note";
+  static const noPaymentUpdate = 'New Payments will appear here';
+  static const noConnectionRequest = 'New Connection Requests will appear here';
+  static const noUpcomingEvents = 'New Upcoming Events will appear here';
+  static const noRecentTeachersNote = 'New Teachers Note will appear here';
+  static const more = 'More';
+  static const wantToContectTo = 'Want to connect to';
+  static const accept = 'Accept';
+  static const reject = 'Reject';
+  static const viewAllEvents = 'View all events';
+  static const recipients = 'Recipients';
 }

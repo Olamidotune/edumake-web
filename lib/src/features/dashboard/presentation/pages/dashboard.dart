@@ -58,7 +58,7 @@ class Dashboard extends StatelessWidget {
 
 List<Widget> _buidScreens() {
   return [
-    HomeScreen(),
+    const HomeScreen(),
     const WardScreen(),
     const PaymentScreen(),
     const SettingsScreen(),
