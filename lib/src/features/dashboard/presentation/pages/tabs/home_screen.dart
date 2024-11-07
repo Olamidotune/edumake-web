@@ -356,6 +356,17 @@ class AdminDashboard extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceMedium,
         const RecentTeachersNote(),
+        AppSpacing.verticalSpaceSmall,
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Text(
+            AppStrings.seeAll,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+        ),
         AppSpacing.verticalSpaceMassive,
         AppSpacing.verticalSpaceMassive,
       ],

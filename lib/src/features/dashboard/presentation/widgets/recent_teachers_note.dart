@@ -57,7 +57,7 @@ class RecentTeachersNote extends StatelessWidget {
               ),
             ],
           ),
-          AppSpacing.verticalSpaceMedium,
+          AppSpacing.verticalSpaceSmall,
           Text(
             'I wanted to bring to your attention that Maryann has been consistently falling asleep during class. This is affecting their participation and ability to keep up ...',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
