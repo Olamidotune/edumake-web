@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -134,7 +135,9 @@ class _AddManagementSegmentsScreenState
                         savedSubjects &&
                         savedStudents &&
                         savedTeachers) {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          Dashboard.routeName, (route) => false,
+                      );
                     }
                   },
                 ),
