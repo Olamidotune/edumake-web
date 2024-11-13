@@ -24,9 +24,9 @@ class ConnectionRequestListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        backgroundColor: AppColors.greyColor,
+        backgroundColor: AppColors.greyColor.withOpacity(0.4),
         child: Text(
-          profilePic ?? titleName.substring(0, 2).toUpperCase(),
+          profilePic ?? titleName.substring(0, 1).toUpperCase(),
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontFamily: 'HelveticaNeueRounded',
                 fontSize: 12.fontSize,
@@ -57,8 +57,8 @@ class ConnectionRequestListTile extends StatelessWidget {
               text: ' $subTitleName',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 10.fontSize,
-                    color: AppColors.primaryTextColor,
-                    fontWeight: FontWeight.bold,
+                    color: date.isNotEmpty ? AppColors.primaryTextColor : AppColors.primaryTextColor,
+                    fontWeight:date.isNotEmpty ? FontWeight.bold : null,
                     fontFamily: 'HelveticaNeueRounded',
                   ),
             ),

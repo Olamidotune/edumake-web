@@ -157,5 +157,12 @@ class AppStrings {
   static const recipients = 'Recipients';
   static const connectionResquestWarning =
       'You are advised to crosscheck the request and be sure the person is a relative or a guardian to the student. To aid in this, we added the details from their NIN for clarity.';
-  static const wantsToConnectAndHaveAccessTo = 'wants to connect and have access to';
+  static const wantsToConnectAndHaveAccessTo =
+      'wants to connect and have access to';
+  static const name = 'Name';
+  static const dOB = 'Date Of Birth';
+  static const relationWithStudent = 'Relation with Student';
+  static const nin = 'NIN';
+  static const secondConnectionResquestWarning =
+      'Make sure you thoroughly verify the information of the person trying to connect to the account of this student. We advise that. you contact the parent with the phone number or email address known by the school before giving access.';
 }

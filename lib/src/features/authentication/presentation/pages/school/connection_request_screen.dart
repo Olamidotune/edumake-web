@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionRequestScreen extends StatefulWidget {
@@ -164,18 +165,9 @@ class _ConnectionRequestDetailsScreenState
                         ),
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const ConnectionRequestListTile(
-                    titleName: 'Donald Trump',
-                    subTitleName: 'New Delight Sec School.',
-                    profilePic: null,
-                    date: '',
-                    className: 'JS1',
-                  ),
-                  AppSpacing.verticalSpaceMedium,
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(
-                      top: AppSpacing.verticalValueSmall,
                       left: AppSpacing.horizontalSpacing,
                       right: AppSpacing.horizontalSpacing,
                     ),
@@ -183,33 +175,205 @@ class _ConnectionRequestDetailsScreenState
                       color: AppColors.primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: ListView.separated(
-                      itemCount: 15,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                                ConnectionRequestDetailsScreen.routeName);
-                          },
-                          child: const ConnectionRequestListTile(
-                            titleName: 'Kamala Harris',
-                            subTitleName: 'Donald Trump',
-                            profilePic: null,
-                            date: 'Today 4:20',
-                            className: 'JSS 1',
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          color: AppColors.greyColor,
-                          thickness: 1,
-                        );
-                      },
+                    child: const ConnectionRequestListTile(
+                      titleName: 'Donald Trump',
+                      subTitleName: 'New Delight Sec School.',
+                      profilePic: null,
+                      date: '',
+                      className: 'JS1',
                     ),
                   ),
+                  AppSpacing.verticalSpaceMedium,
+                  Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: AppColors.primaryColor.withOpacity(0.1),
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.primaryColor,
+                        size: 60.fontSize,
+                      ),
+                    ),
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                          ),
+                          Text(
+                            'Kamala Harris',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceHuge,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.phoneNumber,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                          ),
+                          Text(
+                            '07080787201',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceHuge,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.nin,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                          ),
+                          Text(
+                            '1234567890',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceHuge,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.relationWithStudent,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                          ),
+                          Text(
+                            'Mother',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceHuge,
+                      Container(
+                        padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                        decoration: BoxDecoration(
+                          color: AppColors.yellowWarningColor.withOpacity(0.2),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Expanded(
+                              child: Icon(
+                                Icons.warning_amber,
+                                color: AppColors.yellowWarningIconColor,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: Text(
+                                AppStrings.secondConnectionResquestWarning,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 13.fontSize,
+                           
+                                      color: AppColors.secondaryTexColor,
+                                    ),
+                                    textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceLarge,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Button(
+                          text: AppStrings.accept,
+                          onPressed: () {},
+                        ),
+                      ),
+                      AppSpacing.horizontalSpaceMedium,
+                      Expanded(
+                          child: Button(
+                        onPressed: () {},
+                        text: AppStrings.reject,
+                        buttonColor: Colors.white,
+                      ))
+                    ],
+                  )
                 ],
               ),
             ),
