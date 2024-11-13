@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class Dashboard extends StatelessWidget {
@@ -69,25 +70,43 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
   const inactiveColorPrimary = Colors.grey;
   return [
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.home),
+      inactiveIcon: SvgPicture.asset(
+        'assets/svg/home.svg',
+        color: inactiveColorPrimary,
+      ),
+      icon: SvgPicture.asset(
+        'assets/svg/home_active.svg',
+      ),
       title: 'Home',
       activeColorPrimary: activeColorPrimary,
       inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.people),
+      icon: SvgPicture.asset('assets/svg/ward_active.svg'),
+      inactiveIcon: SvgPicture.asset(
+        'assets/svg/ward.svg',
+        color: inactiveColorPrimary,
+      ),
       title: 'Ward',
       activeColorPrimary: activeColorPrimary,
       inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.payment),
+      icon: SvgPicture.asset('assets/svg/payment_active.svg'),
+      inactiveIcon: SvgPicture.asset(
+        'assets/svg/payment.svg',
+        color: inactiveColorPrimary,
+      ),
       title: 'Payment',
       activeColorPrimary: activeColorPrimary,
       inactiveColorPrimary: inactiveColorPrimary,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.settings),
+      icon: SvgPicture.asset('assets/svg/settings_active.svg'),
+      inactiveIcon: SvgPicture.asset(
+        'assets/svg/settings.svg',
+        color: inactiveColorPrimary,
+      ),
       title: 'Settings',
       activeColorPrimary: activeColorPrimary,
       inactiveColorPrimary: inactiveColorPrimary,
