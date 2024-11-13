@@ -165,4 +165,12 @@ class AppStrings {
   static const nin = 'NIN';
   static const secondConnectionResquestWarning =
       'Make sure you thoroughly verify the information of the person trying to connect to the account of this student. We advise that. you contact the parent with the phone number or email address known by the school before giving access.';
+  static const whyDidYouRejectTheRequest = 'Why did you reject the request?';
+  static const theAccountDoesNotMatchStudentDetails =
+      "The account details does not match the student's details.";
+  static const theParentDidNotVetTheAccountAskingForPermissions =
+      'The person is not a guardian to the student';
+  static const theAccountNINDetailsDoesNotMatchTheAccountdetails = "The account's NIN details does not match the\naccount details.";
+  static const others = 'Others';
+  static const theAccountAlreadyHasAMaximumNumberOfConnector = 'The account already has a maximum number of\nconnector.';
 }

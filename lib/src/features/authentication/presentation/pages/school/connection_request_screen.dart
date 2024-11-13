@@ -85,7 +85,8 @@ class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushNamed(
-                                ConnectionRequestDetailsScreen.routeName,);
+                              ConnectionRequestDetailsScreen.routeName,
+                            );
                           },
                           child: const ConnectionRequestListTile(
                             titleName: 'Kamala Harris',
@@ -344,10 +345,9 @@ class _ConnectionRequestDetailsScreenState
                                     .copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
                                       fontSize: 13.fontSize,
-                           
                                       color: AppColors.secondaryTexColor,
                                     ),
-                                    textAlign: TextAlign.justify,
+                                textAlign: TextAlign.justify,
                               ),
                             ),
                           ],
@@ -367,15 +367,141 @@ class _ConnectionRequestDetailsScreenState
                       ),
                       AppSpacing.horizontalSpaceMedium,
                       Expanded(
-                          child: Button(
-                        onPressed: () {},
-                        text: AppStrings.reject,
-                        buttonColor: Colors.white,
-                      ),),
+                        child: Button(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(RejectConnectionScreen.routeName);
+                          },
+                          text: AppStrings.reject,
+                          buttonColor: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RejectConnectionScreen extends StatefulWidget {
+  const RejectConnectionScreen({super.key});
+
+  static const String routeName = 'rejectConnection_screen';
+
+  @override
+  State<RejectConnectionScreen> createState() => _RejectConnectionScreenState();
+}
+
+class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  Map<String, bool> reasons = {
+    AppStrings.theAccountDoesNotMatchStudentDetails: false,
+    AppStrings.theParentDidNotVetTheAccountAskingForPermissions: false,
+    AppStrings.theAccountNINDetailsDoesNotMatchTheAccountdetails: false,
+    AppStrings.theAccountAlreadyHasAMaximumNumberOfConnector: false,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: RawScrollbar(
+          controller: _scrollController,
+          thumbColor: AppColors.primaryColor.withOpacity(0.4),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+              vertical: AppSpacing.verticalValueMedium,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.whyDidYouRejectTheRequest,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'HelveticaNeueRounded',
+                        fontSize: 23.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.secondaryTexColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    controller: _scrollController,
+                    physics: const BouncingScrollPhysics(),
+                    children: reasons.keys.map((String reason) {
+                      return Row(
+                        children: [
+                          Checkbox(
+                            side: const BorderSide(
+                          
+                            ),
+                            activeColor: AppColors.primaryColor,
+                            value: reasons[reason],
+                            onChanged: (bool? value) {
+                              setState(() {
+                                reasons[reason] = value ?? false;
+                              });
+                            },
+                          ),
+                          Text(
+                            reason,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 13.fontSize,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.secondaryTexColor,
+                                ),
+                            maxLines: 3,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                SizedBox(
+                  height: 200.height,
+                  child: TextField(
+                    expands: true,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                      fillColor: AppColors.primaryColor.withOpacity(.1),
+                      filled: true,
+                 
+                    ),
+                  ),
+                ),
+                 
+                 SizedBox(height: AppSpacing.verticalValueSpaceLarge * 8,),
+               
+               
+                Button(
+                  text: AppStrings.submit,
+                  onPressed: () {},
+                ),
+              ],
             ),
           ),
         ),
