@@ -85,7 +85,7 @@ class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
                         return GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushNamed(
-                                ConnectionRequestDetailsScreen.routeName);
+                                ConnectionRequestDetailsScreen.routeName,);
                           },
                           child: const ConnectionRequestListTile(
                             titleName: 'Kamala Harris',
@@ -371,9 +371,9 @@ class _ConnectionRequestDetailsScreenState
                         onPressed: () {},
                         text: AppStrings.reject,
                         buttonColor: Colors.white,
-                      ))
+                      ),),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
