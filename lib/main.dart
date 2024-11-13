@@ -9,6 +9,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
@@ -126,6 +127,10 @@ class MyApp extends StatelessWidget {
                   const AddStudentsScreen(),
               AddTeachersScreen.routeName: (context) =>
                   const AddTeachersScreen(),
+              ConnectionRequestScreen.routeName: (context) =>
+                  const ConnectionRequestScreen(),
+              ConnectionRequestDetailsScreen.routeName: (context) =>
+                  const ConnectionRequestDetailsScreen(),
               SignIn.routeName: (context) => const SignIn(),
               ForgotPasswordScreen.routeName: (context) =>
                   const ForgotPasswordScreen(),

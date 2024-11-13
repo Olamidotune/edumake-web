@@ -155,4 +155,6 @@ class AppStrings {
   static const reject = 'Reject';
   static const viewAllEvents = 'View all events';
   static const recipients = 'Recipients';
+  static const connectionResquestWarning =
+      'You are advised to crosscheck the request and be sure the person is a relative or a guardian to the student. To aid in this, we added the details from their NIN for clarity.';
 }

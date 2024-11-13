@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/announcement_card.dart';
@@ -282,7 +283,11 @@ class AdminDashboard extends StatelessWidget {
         AppSpacing.verticalSpaceMedium,
         Container(
           width: double.infinity,
-          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+          padding: EdgeInsets.only(
+            top: AppSpacing.verticalValueSmall,
+            left: AppSpacing.horizontalSpacing,
+            right: AppSpacing.horizontalSpacing,
+          ),
           decoration: BoxDecoration(
             color: AppColors.primaryColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(20),
@@ -311,12 +316,16 @@ class AdminDashboard extends StatelessWidget {
         AppSpacing.verticalSpaceMedium,
         Align(
           alignment: Alignment.bottomRight,
-          child: Text(
-            AppStrings.seeAll,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w700,
-                ),
+          child: GestureDetector(
+            onTap: () => Navigator.of(context, rootNavigator: true)
+                .pushNamed(ConnectionRequestScreen.routeName),
+            child: Text(
+              AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,

@@ -24,7 +24,7 @@ class Dashboard extends StatelessWidget {
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(60),
         colorBehindNavBar: Colors.white,
-        boxShadow:  [
+        boxShadow: [
           BoxShadow(
             color: AppColors.blackColor.withOpacity(0.9),
             blurRadius: 4,
@@ -36,7 +36,6 @@ class Dashboard extends StatelessWidget {
         top: 8,
         bottom: 10,
       ),
-  
       backgroundColor: AppColors.primaryColor,
       animationSettings: const NavBarAnimationSettings(
         navBarItemAnimation: ItemAnimationSettings(
