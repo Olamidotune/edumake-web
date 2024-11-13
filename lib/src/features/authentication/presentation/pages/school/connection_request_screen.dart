@@ -65,43 +65,44 @@ class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
                         ),
                   ),
                   AppSpacing.verticalSpaceMedium,
-                   Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: AppSpacing.verticalValueSmall,
-            left: AppSpacing.horizontalSpacing,
-            right: AppSpacing.horizontalSpacing,
-          ),
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ListView.separated(
-            itemCount: 15,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  
-                },
-                child: const ConnectionRequestListTile(
-                  titleName: 'Kamala Harris',
-                  subTitleName: 'Donald Trump',
-                  profilePic: null,
-                  date: 'Today 4:20',
-                  className: 'JSS 1',
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                color: AppColors.greyColor,
-                thickness: 1,
-              );
-            },
-          ),
-        ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.verticalValueSmall,
+                      left: AppSpacing.horizontalSpacing,
+                      right: AppSpacing.horizontalSpacing,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ListView.separated(
+                      itemCount: 15,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                ConnectionRequestDetailsScreen.routeName);
+                          },
+                          child: const ConnectionRequestListTile(
+                            titleName: 'Kamala Harris',
+                            subTitleName: 'Donald Trump',
+                            profilePic: null,
+                            date: 'Today 4:20',
+                            className: 'JSS 1',
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: AppColors.greyColor,
+                          thickness: 1,
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -112,19 +113,109 @@ class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
   }
 }
 
-
 class ConnectionRequestDetailsScreen extends StatefulWidget {
   const ConnectionRequestDetailsScreen({super.key});
 
   static const String routeName = 'connectionRequestDetails_Screen';
 
   @override
-  State<ConnectionRequestDetailsScreen> createState() => _ConnectionRequestDetailsScreenState();
+  State<ConnectionRequestDetailsScreen> createState() =>
+      _ConnectionRequestDetailsScreenState();
 }
 
-class _ConnectionRequestDetailsScreenState extends State<ConnectionRequestDetailsScreen> {
+class _ConnectionRequestDetailsScreenState
+    extends State<ConnectionRequestDetailsScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: RawScrollbar(
+          controller: _scrollController,
+          thumbColor: AppColors.primaryColor.withOpacity(0.4),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: _scrollController,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueMedium,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Kamala Harris ${AppStrings.wantsToConnectAndHaveAccessTo}',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const ConnectionRequestListTile(
+                    titleName: 'Donald Trump',
+                    subTitleName: 'New Delight Sec School.',
+                    profilePic: null,
+                    date: '',
+                    className: 'JS1',
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(
+                      top: AppSpacing.verticalValueSmall,
+                      left: AppSpacing.horizontalSpacing,
+                      right: AppSpacing.horizontalSpacing,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ListView.separated(
+                      itemCount: 15,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                ConnectionRequestDetailsScreen.routeName);
+                          },
+                          child: const ConnectionRequestListTile(
+                            titleName: 'Kamala Harris',
+                            subTitleName: 'Donald Trump',
+                            profilePic: null,
+                            date: 'Today 4:20',
+                            className: 'JSS 1',
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: AppColors.greyColor,
+                          thickness: 1,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

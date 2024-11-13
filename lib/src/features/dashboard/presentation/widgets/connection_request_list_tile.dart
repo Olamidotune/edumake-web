@@ -45,7 +45,7 @@ class ConnectionRequestListTile extends StatelessWidget {
       ),
       subtitle: RichText(
         text: TextSpan(
-          text: AppStrings.wantToContectTo,
+          text: date.isNotEmpty ? AppStrings.wantToContectTo : '',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 10.fontSize,
                 color: AppColors.primaryTextColor,
@@ -65,29 +65,38 @@ class ConnectionRequestListTile extends StatelessWidget {
           ],
         ),
       ),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            className,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 10.fontSize,
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w500,
+      trailing: date.isNotEmpty
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  className,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 10.fontSize,
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                 ),
-          ),
-          AppSpacing.verticalSpaceSmall,
-          Text(
-            date,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 10.fontSize,
-                  color: AppColors.primaryTextColor,
-                  fontWeight: FontWeight.w500,
+                AppSpacing.verticalSpaceSmall,
+                Text(
+                  date,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 10.fontSize,
+                        color: AppColors.primaryTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                 ),
-          ),
-        ],
-      ),
+              ],
+            )
+          : Text(
+              className,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 12.fontSize,
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
     );
   }
 }

@@ -157,4 +157,5 @@ class AppStrings {
   static const recipients = 'Recipients';
   static const connectionResquestWarning =
       'You are advised to crosscheck the request and be sure the person is a relative or a guardian to the student. To aid in this, we added the details from their NIN for clarity.';
+  static const wantsToConnectAndHaveAccessTo = 'wants to connect and have access to';
 }
