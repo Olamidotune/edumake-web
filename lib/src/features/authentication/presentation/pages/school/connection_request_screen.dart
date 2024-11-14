@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/con
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ConnectionRequestScreen extends StatefulWidget {
   const ConnectionRequestScreen({super.key});
@@ -202,17 +203,20 @@ class _ConnectionRequestDetailsScreenState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            AppStrings.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
+                          Expanded(
+                            flex: 7,
+                            child: Text(
+                              AppStrings.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                            ),
                           ),
                           Text(
                             'Kamala Harris',
@@ -232,17 +236,20 @@ class _ConnectionRequestDetailsScreenState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            AppStrings.phoneNumber,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
+                          Expanded(
+                            flex: 7,
+                            child: Text(
+                              AppStrings.phoneNumber,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                            ),
                           ),
                           Text(
                             '07080787201',
@@ -262,20 +269,23 @@ class _ConnectionRequestDetailsScreenState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            AppStrings.nin,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
+                          Expanded(
+                            flex: 7,
+                            child: Text(
+                              AppStrings.nin,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                            ),
                           ),
                           Text(
-                            '1234567890',
+                            '12345678901',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -290,19 +300,21 @@ class _ConnectionRequestDetailsScreenState
                       ),
                       AppSpacing.verticalSpaceHuge,
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            AppStrings.relationWithStudent,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryTextColor,
-                                ),
+                          Expanded(
+                            flex: 7,
+                            child: Text(
+                              AppStrings.relationWithStudent,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                            ),
                           ),
                           Text(
                             'Mother',
@@ -423,85 +435,205 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
           padding: const EdgeInsets.only(
             right: 10,
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-              vertical: AppSpacing.verticalValueMedium,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.whyDidYouRejectTheRequest,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'HelveticaNeueRounded',
-                        fontSize: 23.fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.secondaryTexColor,
-                      ),
-                ),
-                AppSpacing.verticalSpaceMedium,
-                Expanded(
-                  child: ListView(
-                    shrinkWrap: true,
-                    controller: _scrollController,
-                    physics: const BouncingScrollPhysics(),
-                    children: reasons.keys.map((String reason) {
-                      return Row(
-                        children: [
-                          Checkbox(
-                            side: const BorderSide(
-                          
-                            ),
-                            activeColor: AppColors.primaryColor,
-                            value: reasons[reason],
-                            onChanged: (bool? value) {
-                              setState(() {
-                                reasons[reason] = value ?? false;
-                              });
-                            },
-                          ),
-                          Text(
-                            reason,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 13.fontSize,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.secondaryTexColor,
-                                ),
-                            maxLines: 3,
-                            textAlign: TextAlign.justify,
-                          ),
-                        ],
-                      );
-                    }).toList(),
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueMedium,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.whyDidYouRejectTheRequest,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.secondaryTexColor,
+                        ),
                   ),
-                ),
-                AppSpacing.verticalSpaceMedium,
-                SizedBox(
-                  height: 200.height,
-                  child: TextField(
-                    expands: true,
-                    maxLines: null,
+                  AppSpacing.verticalSpaceMedium,
+                  Row(
+                    children: [
+                      Checkbox(
+                        side: const BorderSide(),
+                        activeColor: AppColors.primaryColor,
+                        value: reasons[
+                            AppStrings.theAccountDoesNotMatchStudentDetails],
+                        onChanged: (bool? value) {
+                          setState(() {
+                            reasons[AppStrings
+                                    .theAccountDoesNotMatchStudentDetails] =
+                                value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          AppStrings.theAccountDoesNotMatchStudentDetails,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.secondaryTexColor,
+                                  ),
+                          maxLines: 3,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Row(
+                    children: [
+                      Checkbox(
+                        side: const BorderSide(),
+                        activeColor: AppColors.primaryColor,
+                        value: reasons[AppStrings
+                            .theParentDidNotVetTheAccountAskingForPermissions],
+                        onChanged: (bool? value) {
+                          setState(() {
+                            reasons[AppStrings
+                                    .theParentDidNotVetTheAccountAskingForPermissions] =
+                                value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          AppStrings
+                              .theParentDidNotVetTheAccountAskingForPermissions,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.secondaryTexColor,
+                                  ),
+                          maxLines: 3,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Row(
+                    children: [
+                      Checkbox(
+                        side: const BorderSide(),
+                        activeColor: AppColors.primaryColor,
+                        value: reasons[AppStrings
+                            .theAccountNINDetailsDoesNotMatchTheAccountdetails],
+                        onChanged: (bool? value) {
+                          setState(() {
+                            reasons[AppStrings
+                                    .theAccountNINDetailsDoesNotMatchTheAccountdetails] =
+                                value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          AppStrings
+                              .theAccountNINDetailsDoesNotMatchTheAccountdetails,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.secondaryTexColor,
+                                  ),
+                          maxLines: 3,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Row(
+                    children: [
+                      Checkbox(
+                        side: const BorderSide(),
+                        activeColor: AppColors.primaryColor,
+                        value: reasons[AppStrings
+                            .theAccountAlreadyHasAMaximumNumberOfConnector],
+                        onChanged: (bool? value) {
+                          setState(() {
+                            reasons[AppStrings
+                                    .theAccountAlreadyHasAMaximumNumberOfConnector] =
+                                value ?? false;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          AppStrings
+                              .theAccountAlreadyHasAMaximumNumberOfConnector,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.secondaryTexColor,
+                                  ),
+                          maxLines: 3,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Text(
+                    AppStrings.others,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.secondaryTexColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  TextFormField(
+                    maxLines: 10,
+                    cursorColor: AppColors.primaryColor,
                     decoration: InputDecoration(
+                      suffixIcon: SvgPicture.asset(
+                        'assets/svg/edit.svg',
+                        color: AppColors.primaryColor,
+                      ),
+                      suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 20,
+                        maxWidth: 20,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: AppSpacing.horizontalSpacingSmall,
+                        vertical: AppSpacing.verticalValueSmall,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
                       fillColor: AppColors.primaryColor.withOpacity(.1),
                       filled: true,
-                 
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.secondaryTexColor,
+                        ),
                   ),
-                ),
-                 
-                 SizedBox(height: AppSpacing.verticalValueSpaceLarge * 8,),
-               
-               
-                Button(
-                  text: AppStrings.submit,
-                  onPressed: () {},
-                ),
-              ],
+                  SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
+                  Button(
+                    text: AppStrings.submit,
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
           ),
         ),

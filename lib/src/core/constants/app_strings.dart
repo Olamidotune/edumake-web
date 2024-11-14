@@ -170,7 +170,9 @@ class AppStrings {
       "The account details does not match the student's details.";
   static const theParentDidNotVetTheAccountAskingForPermissions =
       'The person is not a guardian to the student';
-  static const theAccountNINDetailsDoesNotMatchTheAccountdetails = "The account's NIN details does not match the\naccount details.";
+  static const theAccountNINDetailsDoesNotMatchTheAccountdetails =
+      "The account's NIN details does not match the account details.";
   static const others = 'Others';
-  static const theAccountAlreadyHasAMaximumNumberOfConnector = 'The account already has a maximum number of\nconnector.';
+  static const theAccountAlreadyHasAMaximumNumberOfConnector =
+      'The account already has a maximum number of connector.';
 }
