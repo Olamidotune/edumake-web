@@ -12,7 +12,9 @@ import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart'
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AddClassesScreen extends StatefulWidget {
   const AddClassesScreen({super.key});
@@ -123,14 +125,17 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                   ),
                   AppSpacing.verticalSpaceLarge,
-                  Text(
-                    'or add classes manually',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.primaryTextColor,
-                        ),
+                  GestureDetector(
+                    onTap: _svaeCSVTemplates,
+                    child: Text(
+                      'or add classes manually',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.primaryTextColor,
+                          ),
+                    ),
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Form(
@@ -175,7 +180,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   GestureDetector(
-                    onTap: addClass,
+                    onTap: _addClass,
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Row(
@@ -274,13 +279,49 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
       // Proceed if headers are correct
       setState(() {
-       _csvContent = displayedContent.map((e) => e.join(',')).join('\n');
+        _csvContent = displayedContent.map((e) => e.join(',')).join('\n');
         _csvFile = pickedCSV.files.first;
       });
     }
   }
 
-  void addClass() {
+  Future<String> _loadLocalCSVFile() async {
+    debugPrint('Loading local CSV file');
+    return rootBundle.loadString('assets/csv/csv_template.csv');
+  }
+
+  Future<void> _svaeCSVTemplates() async {
+    final csv = const ListToCsvConverter().convert([
+      [
+        'Index',
+        'Customer Id',
+        'First Name',
+        'Last Name',
+        'Company',
+        'City',
+        'Country',
+        'Phone 1',
+        'Phone 2',
+        'Email',
+        'Subscription Date',
+        'Website',
+      ],
+    ]);
+
+    final directory = await getApplicationDocumentsDirectory();
+
+    // Specify the file path
+    final file = File('${directory.path}/template.csv');
+
+    await file.writeAsString(csv);
+
+    CustomSnackbar.show(
+      context,
+      'CSV template saved successfully',
+    );
+  }
+
+  void _addClass() {
     setState(() {
       classes.add(classes.length + 1);
       controllers.add(TextEditingController());
