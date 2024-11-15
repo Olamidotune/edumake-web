@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AddClassesScreen extends StatefulWidget {
   const AddClassesScreen({super.key});
@@ -125,17 +126,14 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                   ),
                   AppSpacing.verticalSpaceLarge,
-                  GestureDetector(
-                    onTap: _svaeCSVTemplates,
-                    child: Text(
-                      'or add classes manually',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 12.fontSize,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.primaryTextColor,
-                          ),
-                    ),
+                  Text(
+                    'or add classes manually',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.primaryTextColor,
+                        ),
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Form(
@@ -205,6 +203,8 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   Button(
                     busy: busy,
                     text: 'Save Classes',
+                   
+
                     onPressed: () {
                       if (formKey.currentState!.validate() ||
                           _csvFile != null) {
@@ -285,40 +285,38 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     }
   }
 
-  Future<String> _loadLocalCSVFile() async {
-    debugPrint('Loading local CSV file');
+  Future<String> _loadCSV() async {
     return rootBundle.loadString('assets/csv/csv_template.csv');
   }
 
-  Future<void> _svaeCSVTemplates() async {
-    final csv = const ListToCsvConverter().convert([
-      [
-        'Index',
-        'Customer Id',
-        'First Name',
-        'Last Name',
-        'Company',
-        'City',
-        'Country',
-        'Phone 1',
-        'Phone 2',
-        'Email',
-        'Subscription Date',
-        'Website',
-      ],
-    ]);
-
+  // Save the CSV file to device storage
+  Future<void> _saveCSV(String csvContent) async {
+    // Get the device's document directory
     final directory = await getApplicationDocumentsDirectory();
 
     // Specify the file path
+    final file = File('${directory.path}/csv_template.csv');
+
+    // Write the CSV content to the file
+    await file.writeAsString(csvContent);
+
+    // Optionally, inform the user that the file is saved
+    print('CSV file saved at ${file.path}');
+  }
+
+  // Share the CSV file (optional)
+  Future<void> shareCSV(String csvContent) async {
+    // Get the device's document directory
+    final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/template.csv');
 
-    await file.writeAsString(csv);
+    // Write the CSV content to the file
+    await file.writeAsString(csvContent);
 
-    CustomSnackbar.show(
-      context,
-      'CSV template saved successfully',
-    );
+    // Share the file using share_plus
+    // await Share.shareFiles([file.path], text: 'Here is your CSV template!');
+    await Share.shareXFiles([XFile(file.path)],
+        text: 'Here is your CSV template!');
   }
 
   void _addClass() {
