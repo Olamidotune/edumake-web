@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
@@ -27,6 +30,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
+  String _csvContent = '';
   bool busy = false;
   bool savedClasses = false;
 
@@ -77,7 +81,10 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  ImportCSVButton(onTap: pickAndProcessCsv, name: 'class',),
+                  ImportCSVButton(
+                    onTap: _pickAndProcessCsv,
+                    name: 'class',
+                  ),
                   AppSpacing.verticalSpaceSmall,
                   RichText(
                     text: TextSpan(
@@ -105,6 +112,16 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ],
                     ),
                   ),
+                  AppSpacing.verticalSpaceSmall,
+                  Text(
+                    _csvContent,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
                   AppSpacing.verticalSpaceLarge,
                   Text(
                     'or add classes manually',
@@ -115,6 +132,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           color: AppColors.primaryTextColor,
                         ),
                   ),
+                  AppSpacing.verticalSpaceSmall,
                   Form(
                     key: formKey,
                     child: Column(
@@ -214,17 +232,52 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     );
   }
 
-  Future<void> pickAndProcessCsv() async {
-    final result = await FilePicker.platform.pickFiles(
+  Future<void> _pickAndProcessCsv() async {
+    final expectedHeaders = [
+      'Index',
+      'Customer Id',
+      'First Name',
+      'Last Name',
+      'Company',
+      'City',
+      'Country',
+      'Phone 1',
+      'Phone 2',
+      'Email',
+      'Subscription Date',
+      'Website',
+    ];
+
+    final pickedCSV = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
     );
 
-    if (result == null) return;
+    if (pickedCSV != null) {
+      final file = File(pickedCSV.files.single.path!);
+      final content = await file.readAsString();
+      final displayedContent = const CsvToListConverter().convert(content);
+      final headers = displayedContent.first;
 
-    setState(() {
-      _csvFile = result.files.first;
-    });
+      final headersMatch = headers.length == expectedHeaders.length &&
+          List.generate(headers.length, (i) => headers[i] == expectedHeaders[i])
+              .every((match) => match);
+
+      if (!headersMatch) {
+        CustomSnackbar.show(
+          context,
+          'Invalid CSV file. Please upload a valid CSV file with correct headers in the exact order.',
+          isError: true,
+        );
+        return;
+      }
+
+      // Proceed if headers are correct
+      setState(() {
+       _csvContent = displayedContent.map((e) => e.join(',')).join('\n');
+        _csvFile = pickedCSV.files.first;
+      });
+    }
   }
 
   void addClass() {
