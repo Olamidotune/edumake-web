@@ -1,10 +1,10 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+part 'permissions_bloc.freezed.dart';
 part 'permissions_event.dart';
 part 'permissions_state.dart';
-part 'permissions_bloc.freezed.dart';
 
 class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   PermissionsBloc() : super(const _Initial()) {
@@ -40,7 +40,8 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   ) async {
     emit(
       state.copyWith(
-        isReadStoragePermissionGranted: await Permission.storage.isGranted,
+        isReadStoragePermissionGranted: await openAppSettings() &&
+            await Permission.storage.request().isGranted,
       ),
     );
   }

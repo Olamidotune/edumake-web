@@ -7,15 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
   static const String routeName = 'dashboard';
 
   @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
+  @override
   Widget build(BuildContext context) {
     PersistentTabController controller;
-
     controller = PersistentTabController();
+
     return PersistentTabView(
       context,
       screens: _buidScreens(),

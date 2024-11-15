@@ -33,7 +33,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
-  String _csvContent = '';
+
   bool busy = false;
   bool savedClasses = false;
 
@@ -116,14 +116,24 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                     ),
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  Text(
-                    _csvContent,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.primaryTextColor,
-                        ),
+                  GestureDetector(
+                    onTap: () async {
+                      final csvContent = await _loadCSV();
+                      await _saveCSV(csvContent);
+                      CustomSnackbar.show(
+                        context,
+                        'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
+                      );
+                    },
+                    child: Text(
+                      'Click To Download CSV Example Template',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                    ),
                   ),
                   AppSpacing.verticalSpaceLarge,
                   Text(
@@ -135,7 +145,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           color: AppColors.primaryTextColor,
                         ),
                   ),
-                  AppSpacing.verticalSpaceSmall,
                   Form(
                     key: formKey,
                     child: Column(
@@ -203,8 +212,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   Button(
                     busy: busy,
                     text: 'Save Classes',
-                   
-
                     onPressed: () {
                       if (formKey.currentState!.validate() ||
                           _csvFile != null) {
@@ -271,7 +278,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       if (!headersMatch) {
         CustomSnackbar.show(
           context,
-          'Invalid CSV file. Please upload a valid CSV file with correct headers in the exact order.',
+          'Invalid CSV file. Please upload a valid CSV file with correct heades or download the CSV template!.',
           isError: true,
         );
         return;
@@ -279,29 +286,29 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
       // Proceed if headers are correct
       setState(() {
-        _csvContent = displayedContent.map((e) => e.join(',')).join('\n');
         _csvFile = pickedCSV.files.first;
       });
     }
   }
 
   Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/csv_template.csv');
+    return rootBundle.loadString('assets/csv/edumake_csv_template.csv');
   }
 
   // Save the CSV file to device storage
   Future<void> _saveCSV(String csvContent) async {
-    // Get the device's document directory
-    final directory = await getApplicationDocumentsDirectory();
+    Directory? directory;
+// Check if the platform is Android
+    if (Platform.isAndroid) {
+      // Use the Downloads directory on Android
+      directory = Directory('/storage/emulated/0/Download');
+    } else {
+      // For iOS, use the app's document directory
+      directory = await getApplicationDocumentsDirectory();
+    }
 
-    // Specify the file path
-    final file = File('${directory.path}/csv_template.csv');
-
-    // Write the CSV content to the file
+    final file = File('${directory.path}/edumake_csv_template.csv');
     await file.writeAsString(csvContent);
-
-    // Optionally, inform the user that the file is saved
-    print('CSV file saved at ${file.path}');
   }
 
   // Share the CSV file (optional)
@@ -315,8 +322,10 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
     // Share the file using share_plus
     // await Share.shareFiles([file.path], text: 'Here is your CSV template!');
-    await Share.shareXFiles([XFile(file.path)],
-        text: 'Here is your CSV template!');
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Here is your CSV template!',
+    );
   }
 
   void _addClass() {

@@ -415,17 +415,26 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
   }
 
   Future<void> insertImage(int index) async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image, // Allow only images
-    );
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image, // Allow only images
+      );
 
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        // Ensure that the list has enough length before assigning the image
-        if (index < _imageFiles.length) {
-          _imageFiles[index] = File(result.files.single.path!);
-        }
-      });
+      if (result != null && result.files.single.path != null) {
+        setState(() {
+          // Ensure that the list has enough length before assigning the image
+          if (index < _imageFiles.length) {
+            _imageFiles[index] = File(result.files.single.path!);
+          }
+        });
+      }
+    } catch (e) {
+      CustomSnackbar.show(
+        context,
+        'An error occurred while selecting image',
+        isError: true,
+      );
+      debugPrint(e.toString());
     }
   }
 
