@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SignIn(),
+              home: const SplashScreen(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>
