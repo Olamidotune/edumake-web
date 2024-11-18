@@ -3,14 +3,9 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
@@ -162,10 +157,36 @@ class _ParentWardScreenState extends State<ParentWardScreen> {
     );
   }
 }
+
 class SchoolTeacherScreen extends StatelessWidget {
   const SchoolTeacherScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final teachers = <String>[
+      'Teacher 1',
+      'Teacher 2',
+      'Teacher 3',
+      'Teacher 4',
+      'Teacher 5',
+      'Teacher 6',
+      'Teacher 7',
+      'Teacher 8',
+      'Teacher 9',
+      'Teacher 10',
+    ];
+
+    final subjects = <String>[
+      'Mathematics',
+      'English',
+      'Physics',
+      'Chemistry',
+      'Biology',
+      'Agricultural Science',
+      'Economics',
+      'Government',
+      'Civic Education',
+      'Computer Science',
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,7 +199,7 @@ class SchoolTeacherScreen extends StatelessWidget {
               ),
         ),
         AppSpacing.verticalSpaceSmall,
-         Text(
+        Text(
           AppStrings.exploreTheListofTeacherYouHaveAddedSoFar,
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 fontSize: 12.fontSize,
@@ -186,134 +207,107 @@ class SchoolTeacherScreen extends StatelessWidget {
                 color: AppColors.blackColor,
               ),
         ),
-       
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            AppStrings.more,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            '${AppStrings.connectionResquest} (10)',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.blackColor,
-                ),
-          ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: AppSpacing.verticalValueSmall,
-            left: AppSpacing.horizontalSpacing,
-            right: AppSpacing.horizontalSpacing,
-          ),
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ListView.separated(
-            itemCount: 5,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return const ConnectionRequestListTile(
-                titleName: 'Kamala Harris',
-                subTitleName: 'Donald Trump',
-                profilePic: null,
-                date: 'Today 4:20',
-                className: 'JSS 1',
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                color: AppColors.greyColor,
-                thickness: 1,
-              );
-            },
-          ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Align(
-          alignment: Alignment.bottomRight,
-          child: GestureDetector(
-            onTap: () => Navigator.of(context, rootNavigator: true)
-                .pushNamed(ConnectionRequestScreen.routeName),
-            child: Text(
-              AppStrings.seeAll,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            AppStrings.upComingEvents,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.blackColor,
-                ),
-          ),
-        ),
         AppSpacing.verticalSpaceMedium,
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (BuildContext context, int index) {
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  TeacherDetailsScreen.routeName,
+                  arguments: teachers[index],
+                );
+              },
+              child: TeachersListTileContainer(
+                teachers: teachers[index],
+                subjects: subjects[index],
+              ),
+            );
+          },
+          separatorBuilder: (context, index) {
             return AppSpacing.verticalSpaceMedium;
           },
-          itemBuilder: (BuildContext context, int index) {
-            return const SchoolMgtUpcomingEventsContainer();
-          },
-          itemCount: 3,
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            AppStrings.recentTeachersNote,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryTextColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.fontSize,
-                ),
-          ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        const RecentTeachersNote(),
-        AppSpacing.verticalSpaceSmall,
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context, rootNavigator: true)
-                .pushNamed(RecentTeachersNoteScreen.routeName);
-          },
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Text(
-              AppStrings.seeAll,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-          ),
+          itemCount: 10,
         ),
         AppSpacing.verticalSpaceMassive,
         AppSpacing.verticalSpaceMassive,
       ],
     );
+  }
+}
+
+class TeachersListTileContainer extends StatelessWidget {
+  const TeachersListTileContainer({
+    required this.teachers,
+    required this.subjects,
+    super.key,
+  });
+
+  final String teachers;
+  final String subjects;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: AppColors.primaryColor.withOpacity(0.1),
+      ),
+      child: ListTile(
+        leading: const CircleAvatar(
+          backgroundColor: AppColors.whiteColor,
+          child: Icon(
+            Icons.person,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        title: Text(
+          teachers,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 15.fontSize,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primaryColor,
+              ),
+        ),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                subjects,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: AppColors.greyColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+            ),
+            AppSpacing.horizontalSpaceSmall,
+            Expanded(
+              child: Text(
+                '[JSS1A,JSS1B,JSS1C,JSS2A,hsfugugdfudgu]',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: AppColors.goldColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12.fontSize,
+                    ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TeacherDetailsScreen extends StatelessWidget {
+  const TeacherDetailsScreen({super.key});
+
+  static const String routeName = 'teacher_details_screen';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
   }
 }
