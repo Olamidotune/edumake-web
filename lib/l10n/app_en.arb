@@ -1,0 +1,7 @@
+{
+    "@@locale": "en",
+    "language": "English",
+    "@language": {
+        "description": "Selected your language"
+    }
+}
