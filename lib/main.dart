@@ -20,6 +20,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/bloc/p
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
@@ -145,6 +146,8 @@ class MyApp extends StatelessWidget {
                     const ConnectionRequestDetailsScreen(),
                 RejectConnectionScreen.routeName: (context) =>
                     const RejectConnectionScreen(),
+                RecentTeachersNoteScreen.routeName: (context) =>
+                    const RecentTeachersNoteScreen(),
                 SignIn.routeName: (context) => const SignIn(),
                 GrantedPermissionsScreen.routeName: (context) =>
                     const GrantedPermissionsScreen(),

@@ -175,4 +175,6 @@ class AppStrings {
   static const others = 'Others';
   static const theAccountAlreadyHasAMaximumNumberOfConnector =
       'The account already has a maximum number of connector.';
+  static const teachersNote = "Teacher's Note";
+
 }

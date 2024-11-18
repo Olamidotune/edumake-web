@@ -1,4 +1,3 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
@@ -7,6 +6,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AdminDashboard extends StatelessWidget {
@@ -152,7 +152,10 @@ class AdminDashboard extends StatelessWidget {
         const RecentTeachersNote(),
         AppSpacing.verticalSpaceSmall,
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed(RecentTeachersNoteScreen.routeName);
+          },
           child: Align(
             alignment: Alignment.bottomRight,
             child: Text(
@@ -167,6 +170,71 @@ class AdminDashboard extends StatelessWidget {
         AppSpacing.verticalSpaceMassive,
         AppSpacing.verticalSpaceMassive,
       ],
+    );
+  }
+}
+
+class RecentTeachersNoteScreen extends StatelessWidget {
+  const RecentTeachersNoteScreen({super.key});
+
+  static const String routeName = '/recent-teachers-note';
+
+  @override
+  Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: RawScrollbar(
+          controller: scrollController,
+          thumbColor: AppColors.primaryColor.withOpacity(0.4),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueMedium,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.teachersNote,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                    
+                      itemBuilder: (context, index) {
+                        return const RecentTeachersNote();
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return AppSpacing.verticalSpaceMedium;
+                      },
+                      itemCount: 20,)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
