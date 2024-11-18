@@ -21,6 +21,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashb
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
@@ -108,7 +109,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SplashScreen(),
+              home: const SignIn(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>

@@ -219,16 +219,16 @@ class RecentTeachersNoteScreen extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                    
-                      itemBuilder: (context, index) {
-                        return const RecentTeachersNote();
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return AppSpacing.verticalSpaceMedium;
-                      },
-                      itemCount: 20,)
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return const RecentTeachersNote();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemCount: 20,
+                  ),
                 ],
               ),
             ),

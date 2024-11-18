@@ -180,4 +180,15 @@ class AppStrings {
   static const addTeacher = 'Add Teacher';
   static const exploreTheListofTeacherYouHaveAddedSoFar =
       'Explore the list of teachers you have added so far';
+  static const assignedTo = 'Assigned to';
+  static const addTeachers = 'Add Teachers';
+  static const classes = 'Classes';
+  static const subjects = 'Subjects';
+  static const addClasses = 'Add Classes';
+  static const addSubjects = 'Add Subjects';
+  static const assignments = 'Assignments';
+  static const addAssignments = 'Add Assignments';
+  static const examResults = 'Exam Results';
+  static const email = 'Email';
+
 }
