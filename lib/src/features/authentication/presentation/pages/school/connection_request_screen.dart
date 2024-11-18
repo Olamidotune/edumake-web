@@ -8,26 +8,20 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ConnectionRequestScreen extends StatefulWidget {
+class ConnectionRequestScreen extends StatelessWidget {
   const ConnectionRequestScreen({super.key});
 
   static const String routeName = 'connectionRequest_screen';
 
   @override
-  State<ConnectionRequestScreen> createState() =>
-      _ConnectionRequestScreenState();
-}
-
-class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
   Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
         child: RawScrollbar(
-          controller: _scrollController,
+          controller: scrollController,
           thumbColor: AppColors.primaryColor.withOpacity(0.4),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -39,7 +33,7 @@ class _ConnectionRequestScreenState extends State<ConnectionRequestScreen> {
           ),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            controller: _scrollController,
+            controller: scrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.horizontalSpacing,
@@ -128,7 +122,7 @@ class ConnectionRequestDetailsScreen extends StatefulWidget {
 
 class _ConnectionRequestDetailsScreenState
     extends State<ConnectionRequestDetailsScreen> {
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +130,7 @@ class _ConnectionRequestDetailsScreenState
       appBar: const CustomAppBar(),
       body: SafeArea(
         child: RawScrollbar(
-          controller: _scrollController,
+          controller: scrollController,
           thumbColor: AppColors.primaryColor.withOpacity(0.4),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -148,7 +142,7 @@ class _ConnectionRequestDetailsScreenState
           ),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            controller: _scrollController,
+            controller: scrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppSpacing.horizontalSpacing,
@@ -410,7 +404,7 @@ class RejectConnectionScreen extends StatefulWidget {
 }
 
 class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   Map<String, bool> reasons = {
     AppStrings.theAccountDoesNotMatchStudentDetails: false,
@@ -425,7 +419,7 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
       appBar: const CustomAppBar(),
       body: SafeArea(
         child: RawScrollbar(
-          controller: _scrollController,
+          controller: scrollController,
           thumbColor: AppColors.primaryColor.withOpacity(0.4),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -436,7 +430,7 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
             right: 10,
           ),
           child: SingleChildScrollView(
-            controller: _scrollController,
+            controller: scrollController,
             physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.symmetric(
