@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/bloc/permissions_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -11,6 +12,7 @@ import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AddStudentsScreen extends StatefulWidget {
@@ -150,55 +152,76 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                                   ),
                                   child: Row(
                                     children: [
-                                      GestureDetector(
-                                        onTap: () => insertImage(index),
-                                        child: CircleAvatar(
-                                          radius: 40,
-                                          backgroundColor:
-                                              _imageFiles[students.length] ==
+                                      BlocBuilder<PermissionsBloc,
+                                          PermissionsState>(
+                                        builder: (context, state) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              if (!state
+                                                  .isPhotoLibraryEnabled) {
+                                                context
+                                                    .read<PermissionsBloc>()
+                                                    .add(
+                                                      const PermissionsEvent
+                                                          .requestPhotoLibraryAccess(),
+                                                    );
+                                              } else {
+                                                insertImage(index);
+                                              }
+                                            },
+                                            child: CircleAvatar(
+                                              radius: 40,
+                                              backgroundColor: _imageFiles[
+                                                          students.length] ==
                                                       null
                                                   ? Colors.grey.withOpacity(0.2)
                                                   : Colors.transparent,
-                                          child: _imageFiles[index] != null
-                                              ? ClipOval(
-                                                  child: Image.file(
-                                                    File(
-                                                      _imageFiles[index]!.path,
+                                              child: _imageFiles[index] != null
+                                                  ? ClipOval(
+                                                      child: Image.file(
+                                                        File(
+                                                          _imageFiles[index]!
+                                                              .path,
+                                                        ),
+                                                        width: 80,
+                                                        height: 80,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    )
+                                                  : Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SvgPicture.asset(
+                                                          'assets/svg/camera.svg',
+                                                          color: AppColors
+                                                              .blackColor
+                                                              .withOpacity(0.6),
+                                                        ),
+                                                        Text(
+                                                          'Insert image',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyMedium!
+                                                                  .copyWith(
+                                                                    fontFamily:
+                                                                        'HelveticaNeueRounded',
+                                                                    fontSize: 8
+                                                                        .fontSize,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w300,
+                                                                    color: AppColors
+                                                                        .primaryTextColor,
+                                                                  ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    width: 80,
-                                                    height: 80,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                )
-                                              : Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    SvgPicture.asset(
-                                                      'assets/svg/camera.svg',
-                                                      color: AppColors
-                                                          .blackColor
-                                                          .withOpacity(0.6),
-                                                    ),
-                                                    Text(
-                                                      'Insert image',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                            fontFamily:
-                                                                'HelveticaNeueRounded',
-                                                            fontSize:
-                                                                8.fontSize,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                            color: AppColors
-                                                                .primaryTextColor,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       AppSpacing.horizontalSpaceMedium,
                                       Expanded(
