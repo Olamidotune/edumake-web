@@ -11,7 +11,7 @@ class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
     on<_Initialized>(_initialized);
     on<_CheckReadStoragePermission>(_checkReadStoragePermission);
     on<_CheckAccessMediaLocationPermission>(
-        _checkAccessMediaLocationPermission);
+        _checkAccessMediaLocationPermission,);
     on<_CheckReadMediaImagePermission>(_checkReadMediaImagePermission);
     on<_RequestReadStoragePermission>(_requestReadStoragePermission);
     on<_RequestPhotoLibraryAccess>(_requestPhotoLibaryAccess);

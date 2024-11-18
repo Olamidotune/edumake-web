@@ -16,11 +16,12 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/bloc/permissions_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
@@ -148,6 +149,8 @@ class MyApp extends StatelessWidget {
                     const RejectConnectionScreen(),
                 RecentTeachersNoteScreen.routeName: (context) =>
                     const RecentTeachersNoteScreen(),
+                TeacherDetailsScreen.routeName: (context) =>
+                    const TeacherDetailsScreen(),
                 SignIn.routeName: (context) => const SignIn(),
                 GrantedPermissionsScreen.routeName: (context) =>
                     const GrantedPermissionsScreen(),

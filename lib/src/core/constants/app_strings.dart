@@ -176,5 +176,19 @@ class AppStrings {
   static const theAccountAlreadyHasAMaximumNumberOfConnector =
       'The account already has a maximum number of connector.';
   static const teachersNote = "Teacher's Note";
+  static const teachers = 'Teachers';
+  static const addTeacher = 'Add Teacher';
+  static const exploreTheListofTeacherYouHaveAddedSoFar =
+      'Explore the list of teachers you have added so far';
+  static const assignedTo = 'Assigned to';
+  static const addTeachers = 'Add Teachers';
+  static const classes = 'Classes';
+  static const subjects = 'Subjects';
+  static const addClasses = 'Add Classes';
+  static const addSubjects = 'Add Subjects';
+  static const assignments = 'Assignments';
+  static const addAssignments = 'Add Assignments';
+  static const examResults = 'Exam Results';
+  static const email = 'Email';
 
 }

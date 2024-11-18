@@ -14,6 +14,6 @@ class AppColors {
   static const purpleColor = Color(0xFFB8B4FF);
   static const purpleTextColor = Color(0xFF6C63FF);
   static final shadowColor = const Color(0xFF000000).withOpacity(0.1);
-  static const yellowWarningColor =  Color(0xFFfffc47);
-    static const yellowWarningIconColor =  Color(0xFFd0b700);
-}
+  static const yellowWarningColor = Color(0xFFfffc47);
+  static const yellowWarningIconColor = Color(0xFFd0b700);
+  static const goldColor = Color(0xFFBA9400);}
