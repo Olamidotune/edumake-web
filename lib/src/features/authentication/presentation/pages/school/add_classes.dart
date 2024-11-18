@@ -5,6 +5,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/bloc/permissions_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -13,6 +15,7 @@ import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -38,209 +41,234 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   bool savedClasses = false;
 
   @override
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: RawScrollbar(
-        controller: _scrollController,
-        thumbColor: AppColors.primaryColor.withOpacity(0.4),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
-        padding: const EdgeInsets.only(
-          right: 10,
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
+    return BlocBuilder<PermissionsBloc, PermissionsState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: const CustomAppBar(),
+          body: RawScrollbar(
             controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalSpacing,
+            thumbColor: AppColors.primaryColor.withOpacity(0.4),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(8),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Add Classes',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryTextColor,
-                        ),
+            ),
+            padding: const EdgeInsets.only(
+              right: 10,
+            ),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSpacing.horizontalSpacing,
                   ),
-                  AppSpacing.verticalSpaceSmall,
-                  Text(
-                    'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputing your school data.',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.primaryTextColor,
-                        ),
-                    textAlign: TextAlign.justify,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  ImportCSVButton(
-                    onTap: _pickAndProcessCsv,
-                    name: 'class',
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  RichText(
-                    text: TextSpan(
-                      text: 'Selected file name: ',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 10.fontSize,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.greyColor,
-                          ),
-                      children: [
-                        TextSpan(
-                          text:
-                              _csvFile?.name.capitalize() ?? 'No file selected',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                fontFamily: 'HelveticaNeueRounded',
-                                fontSize: 10.fontSize,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primaryColor.withOpacity(0.7),
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  GestureDetector(
-                    onTap: () async {
-                      final csvContent = await _loadCSV();
-                      await _saveCSV(csvContent);
-                      CustomSnackbar.show(
-                        context,
-                        'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
-                      );
-                    },
-                    child: Text(
-                      'Click To Download CSV Example Template',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 12.fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
-                          ),
-                    ),
-                  ),
-                  AppSpacing.verticalSpaceLarge,
-                  Text(
-                    'or add classes manually',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.primaryTextColor,
-                        ),
-                  ),
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        ...List.generate(
-                          classes.length,
-                          (index) => Column(
-                            children: [
-                              CustomTextFormField(
-                                customFilled: true,
-                                fillColor:
-                                    AppColors.primaryColor.withOpacity(0.1),
-                                controller: controllers[index],
-                                focusNode: focusNodes[index],
-                                hintText: 'Class ${index + 1}',
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                editIcon: SvgPicture.asset(
-                                  'assets/svg/edit.svg',
-                                  height: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Add Classes',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 24.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryTextColor,
                                 ),
-                                onFieldSubmitted: () {
-                                  if (index < classes.length - 1) {
-                                    FocusScope.of(context)
-                                        .requestFocus(focusNodes[index + 1]);
-                                  }
-                                },
-                                validator: (p0) {
-                                  if (p0!.isEmpty && _csvFile == null) {
-                                    return 'Class name is required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                      Text(
+                        'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputing your school data.',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 12.fontSize,
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.primaryTextColor,
+                            ),
+                        textAlign: TextAlign.justify,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      ImportCSVButton(
+                        onTap: _pickAndProcessCsv,
+                        name: 'class',
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                      RichText(
+                        text: TextSpan(
+                          text: 'Selected file name: ',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 10.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.greyColor,
+                                  ),
+                          children: [
+                            TextSpan(
+                              text: _csvFile?.name.capitalize() ??
+                                  'No file selected',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 10.fontSize,
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        AppColors.primaryColor.withOpacity(0.7),
+                                  ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  GestureDetector(
-                    onTap: _addClass,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                      Column(
                         children: [
-                          SvgPicture.asset('assets/svg/plus.svg'),
-                          Text(
-                            ' Add more classes',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          GestureDetector(
+                            onTap: () async {
+                              final csvContent = await _loadCSV();
+                              await _downloadCSV(csvContent);
+                              CustomSnackbar.show(
+                                context,
+                                'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
+                              );
+                            },
+                            child: Text(
+                              'Click To Download CSV Example Template',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primaryColor,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceLarge,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(GrantedPermissionsScreen.routeName);
+                        },
+                        child: Text(
+                          'or add classes manually',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                        ),
+                      ),
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            ...List.generate(
+                              classes.length,
+                              (index) => Column(
+                                children: [
+                                  CustomTextFormField(
+                                    customFilled: true,
+                                    fillColor:
+                                        AppColors.primaryColor.withOpacity(0.1),
+                                    controller: controllers[index],
+                                    focusNode: focusNodes[index],
+                                    hintText: 'Class ${index + 1}',
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.text,
+                                    editIcon: SvgPicture.asset(
+                                      'assets/svg/edit.svg',
+                                      height: 10,
+                                    ),
+                                    onFieldSubmitted: () {
+                                      if (index < classes.length - 1) {
+                                        FocusScope.of(context).requestFocus(
+                                          focusNodes[index + 1],
+                                        );
+                                      }
+                                    },
+                                    validator: (p0) {
+                                      if (p0!.isEmpty && _csvFile == null) {
+                                        return 'Class name is required';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                      GestureDetector(
+                        onTap: _addClass,
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SvgPicture.asset('assets/svg/plus.svg'),
+                              Text(
+                                ' Add more classes',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
                                       fontSize: 13.fontSize,
                                       fontWeight: FontWeight.w500,
                                       color: AppColors.primaryColor,
                                     ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      AppSpacing.verticalSpaceMassive,
+                      Button(
+                        busy: busy,
+                        text: 'Save Classes',
+                        onPressed: () {
+                          if (formKey.currentState!.validate() ||
+                              _csvFile != null) {
+                            CustomSnackbar.show(
+                              context,
+                              'Classes saved successfully',
+                            );
+                            setState(() {
+                              busy = !busy;
+                            });
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Navigator.pop(context, true);
+                            });
+                            setState(() => busy);
+                          } else {
+                            CustomSnackbar.show(
+                              context,
+                              'Please upload a CSV file or add classes manually',
+                              isError: true,
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
-                  AppSpacing.verticalSpaceMassive,
-                  Button(
-                    busy: busy,
-                    text: 'Save Classes',
-                    onPressed: () {
-                      if (formKey.currentState!.validate() ||
-                          _csvFile != null) {
-                        CustomSnackbar.show(
-                          context,
-                          'Classes saved successfully',
-                        );
-                        setState(() {
-                          busy = !busy;
-                        });
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pop(context, true);
-                        });
-                        setState(() => busy);
-                      } else {
-                        CustomSnackbar.show(
-                          context,
-                          'Please upload a CSV file or add classes manually',
-                          isError: true,
-                        );
-                      }
-                    },
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -296,32 +324,30 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   }
 
   // Save the CSV file to device storage
-  Future<void> _saveCSV(String csvContent) async {
+  Future<void> _downloadCSV(String csvContent) async {
     Directory? directory;
-// Check if the platform is Android
-    if (Platform.isAndroid) {
-      // Use the Downloads directory on Android
-      directory = Directory('/storage/emulated/0/Download');
-    } else {
-      // For iOS, use the app's document directory
-      directory = await getApplicationDocumentsDirectory();
+    try {
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Download');
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+      final file = File('${directory.path}/edumake_csv_template.csv');
+      await file.writeAsString(csvContent);
+    } catch (e) {
+      CustomSnackbar.show(
+        context,
+        'Something went wrong while downloading the file.',
+        isError: true,
+      );
     }
-
-    final file = File('${directory.path}/edumake_csv_template.csv');
-    await file.writeAsString(csvContent);
   }
 
   // Share the CSV file (optional)
   Future<void> shareCSV(String csvContent) async {
-    // Get the device's document directory
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/template.csv');
-
-    // Write the CSV content to the file
     await file.writeAsString(csvContent);
-
-    // Share the file using share_plus
-    // await Share.shareFiles([file.path], text: 'Here is your CSV template!');
     await Share.shareXFiles(
       [XFile(file.path)],
       text: 'Here is your CSV template!',

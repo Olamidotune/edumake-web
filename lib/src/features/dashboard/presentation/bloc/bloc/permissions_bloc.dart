@@ -8,135 +8,121 @@ part 'permissions_state.dart';
 
 class PermissionsBloc extends Bloc<PermissionsEvent, PermissionsState> {
   PermissionsBloc() : super(const _Initial()) {
-    on<_Started>(_onStarted);
-    on<_CheckReadStoragePermissionGranted>(
-      _onCheckReadStoragePermissionGranted,
-    );
-    on<_CheckWriteStoragePermission>(_onCheckWriteStoragePermission);
+    on<_Initialized>(_initialized);
+    on<_CheckReadStoragePermission>(_checkReadStoragePermission);
     on<_CheckAccessMediaLocationPermission>(
-      _onCheckAccessMediaLocationPermission,
-    );
-    on<_CheckReadMediaImagePermission>(_onCheckReadMediaImagePermission);
-    on<_RequestReadStoragePermission>(_onRequestReadStoragePermission);
-    on<_RequestWriteStoragePermission>(_onRequestWriteStoragePermission);
-    on<_RequestAccessMediaLocationPermission>(
-      _onRequestAccessMediaLocationPermission,
-    );
-    on<_RequestReadMediaImagePermission>(_onRequestReadMediaImagePermission);
+        _checkAccessMediaLocationPermission);
+    on<_CheckReadMediaImagePermission>(_checkReadMediaImagePermission);
+    on<_RequestReadStoragePermission>(_requestReadStoragePermission);
+    on<_RequestPhotoLibraryAccess>(_requestPhotoLibaryAccess);
+    on<_RequestReadMediaImagePermission>(_requestReadMediaImagePermission);
+    on<_CheckNotificationPermission>(_checkNotificationPermission);
+    on<_RequestNotificationPermission>(_requestNotificationPermission);
 
-    add(const _Started());
+    add(const PermissionsEvent.initialized());
   }
 
-  void _onStarted(_Started event, Emitter<PermissionsState> emit) async {
-    add(const PermissionsEvent.checkReadStoragePermissionGranted());
-    add(const PermissionsEvent.checkWriteStoragePermissionGranted());
-    add(const PermissionsEvent.checkAccessMediaLocationPermissionGranted());
-    add(const PermissionsEvent.checkReadMediaImagePermissionGranted());
-  }
+  void _initialized(_Initialized event, Emitter<PermissionsState> emit) async {
+    final isStorageGranted = await Permission.storage.isGranted;
+    final isMediaLocationGranted =
+        await Permission.accessMediaLocation.isGranted;
+    final isMediaImageGranted = await Permission.photos.isGranted;
+    final isNotificationGranted = await Permission.notification.isGranted;
 
-  void _onCheckReadStoragePermissionGranted(
-    _CheckReadStoragePermissionGranted event,
-    Emitter<PermissionsState> emit,
-  ) async {
     emit(
       state.copyWith(
-        isReadStoragePermissionGranted: await openAppSettings() &&
-            await Permission.storage.request().isGranted,
+        isReadStorageEnabled: isStorageGranted,
+        isPhotoLibraryEnabled: isMediaLocationGranted,
+        isReadMediaImageEnabled: isMediaImageGranted,
+        isNotificationEnabled: isNotificationGranted,
       ),
     );
   }
 
-  void _onCheckWriteStoragePermission(
-    _CheckWriteStoragePermission event,
+  void _checkReadStoragePermission(
+    _CheckReadStoragePermission event,
     Emitter<PermissionsState> emit,
   ) async {
-    emit(
-      state.copyWith(
-        isWriteStoragePermissionGranted: await Permission.storage.isGranted,
-      ),
-    );
+    var isGranted = await Permission.storage.isGranted;
+    if (!isGranted) {
+      final status = await Permission.storage.request();
+      isGranted = status.isGranted;
+    }
+    emit(state.copyWith(isReadStorageEnabled: isGranted));
   }
 
-  void _onCheckAccessMediaLocationPermission(
+  void _requestReadStoragePermission(
+    _RequestReadStoragePermission event,
+    Emitter<PermissionsState> emit,
+  ) async {
+    final isGranted = await Permission.storage.request().isGranted;
+    emit(state.copyWith(isReadStorageEnabled: isGranted));
+    if (!isGranted) {
+      await openAppSettings();
+    }
+  }
+
+  void _checkAccessMediaLocationPermission(
     _CheckAccessMediaLocationPermission event,
     Emitter<PermissionsState> emit,
   ) async {
     emit(
       state.copyWith(
-        isAccessMediaLocationPermissionGranted:
-            await Permission.accessMediaLocation.isGranted,
+        isPhotoLibraryEnabled: await Permission.accessMediaLocation.isGranted,
       ),
     );
   }
 
-  void _onCheckReadMediaImagePermission(
+  Future<void> _requestPhotoLibaryAccess(
+    _RequestPhotoLibraryAccess event,
+    Emitter<PermissionsState> emit,
+  ) async {
+    // This will trigger the system permission dialog
+    final status = await Permission.photos.request();
+    emit(state.copyWith(isPhotoLibraryEnabled: status.isGranted));
+  }
+
+  void _checkReadMediaImagePermission(
     _CheckReadMediaImagePermission event,
     Emitter<PermissionsState> emit,
   ) async {
     emit(
       state.copyWith(
-        isReadMediaImagePermissionGranted:
-            await Permission.mediaLibrary.isGranted,
+        isReadMediaImageEnabled: await Permission.photos.isGranted,
       ),
     );
   }
 
-  void _onRequestReadStoragePermission(
-    _RequestReadStoragePermission event,
-    Emitter<PermissionsState> emit,
-  ) async {
-    final status = await Permission.storage.request();
-    if (status.isDenied) {
-      await openAppSettings();
-    }
-    emit(
-      state.copyWith(
-        isReadStoragePermissionGranted: status.isGranted,
-      ),
-    );
-  }
-
-  void _onRequestWriteStoragePermission(
-    _RequestWriteStoragePermission event,
-    Emitter<PermissionsState> emit,
-  ) async {
-    final status = await Permission.storage.request();
-    if (status.isDenied) {
-      await openAppSettings();
-    }
-    emit(
-      state.copyWith(
-        isWriteStoragePermissionGranted: status.isGranted,
-      ),
-    );
-  }
-
-  void _onRequestAccessMediaLocationPermission(
-    _RequestAccessMediaLocationPermission event,
-    Emitter<PermissionsState> emit,
-  ) async {
-    final status = await Permission.accessMediaLocation.request();
-    if (status.isDenied) {
-      await openAppSettings();
-    }
-    emit(
-      state.copyWith(
-        isAccessMediaLocationPermissionGranted: status.isGranted,
-      ),
-    );
-  }
-
-  void _onRequestReadMediaImagePermission(
+  void _requestReadMediaImagePermission(
     _RequestReadMediaImagePermission event,
     Emitter<PermissionsState> emit,
   ) async {
-    final status = await Permission.mediaLibrary.request();
-    if (status.isDenied) {
-      await openAppSettings();
-    }
     emit(
       state.copyWith(
-        isReadMediaImagePermissionGranted: status.isGranted,
+        isPhotoLibraryEnabled: await Permission.photos.request().isGranted,
+      ),
+    );
+  }
+
+  void _checkNotificationPermission(
+    _CheckNotificationPermission event,
+    Emitter<PermissionsState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isNotificationEnabled: await Permission.notification.isGranted,
+      ),
+    );
+  }
+
+  void _requestNotificationPermission(
+    _RequestNotificationPermission event,
+    Emitter<PermissionsState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isNotificationEnabled:
+            await Permission.notification.request().isGranted,
       ),
     );
   }

@@ -11,6 +11,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
@@ -106,7 +107,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SplashScreen(),
+              home: const SchoolBasicInfoScreen(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>
@@ -145,6 +146,8 @@ class MyApp extends StatelessWidget {
                 RejectConnectionScreen.routeName: (context) =>
                     const RejectConnectionScreen(),
                 SignIn.routeName: (context) => const SignIn(),
+                GrantedPermissionsScreen.routeName: (context) =>
+                    const GrantedPermissionsScreen(),
                 ForgotPasswordScreen.routeName: (context) =>
                     const ForgotPasswordScreen(),
                 VerifyAccount.routeName: (context) => const VerifyAccount(),

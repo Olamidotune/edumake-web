@@ -18,105 +18,105 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PermissionsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -144,18 +144,18 @@ class _$PermissionsEventCopyWithImpl<$Res, $Val extends PermissionsEvent>
 }
 
 /// @nodoc
-abstract class _$$StartedImplCopyWith<$Res> {
-  factory _$$StartedImplCopyWith(
-          _$StartedImpl value, $Res Function(_$StartedImpl) then) =
-      __$$StartedImplCopyWithImpl<$Res>;
+abstract class _$$InitializedImplCopyWith<$Res> {
+  factory _$$InitializedImplCopyWith(
+          _$InitializedImpl value, $Res Function(_$InitializedImpl) then) =
+      __$$InitializedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$StartedImplCopyWithImpl<$Res>
-    extends _$PermissionsEventCopyWithImpl<$Res, _$StartedImpl>
-    implements _$$StartedImplCopyWith<$Res> {
-  __$$StartedImplCopyWithImpl(
-      _$StartedImpl _value, $Res Function(_$StartedImpl) _then)
+class __$$InitializedImplCopyWithImpl<$Res>
+    extends _$PermissionsEventCopyWithImpl<$Res, _$InitializedImpl>
+    implements _$$InitializedImplCopyWith<$Res> {
+  __$$InitializedImplCopyWithImpl(
+      _$InitializedImpl _value, $Res Function(_$InitializedImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of PermissionsEvent
@@ -164,18 +164,18 @@ class __$$StartedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$StartedImpl implements _Started {
-  const _$StartedImpl();
+class _$InitializedImpl implements _Initialized {
+  const _$InitializedImpl();
 
   @override
   String toString() {
-    return 'PermissionsEvent.started()';
+    return 'PermissionsEvent.initialized()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$StartedImpl);
+        (other.runtimeType == runtimeType && other is _$InitializedImpl);
   }
 
   @override
@@ -184,51 +184,51 @@ class _$StartedImpl implements _Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
-    return started();
+    return initialized();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
-    return started?.call();
+    return initialized?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started();
+    if (initialized != null) {
+      return initialized();
     }
     return orElse();
   }
@@ -236,100 +236,100 @@ class _$StartedImpl implements _Started {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
-    return started(this);
+    return initialized(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
-    return started?.call(this);
+    return initialized?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (started != null) {
-      return started(this);
+    if (initialized != null) {
+      return initialized(this);
     }
     return orElse();
   }
 }
 
-abstract class _Started implements PermissionsEvent {
-  const factory _Started() = _$StartedImpl;
+abstract class _Initialized implements PermissionsEvent {
+  const factory _Initialized() = _$InitializedImpl;
 }
 
 /// @nodoc
-abstract class _$$CheckReadStoragePermissionGrantedImplCopyWith<$Res> {
-  factory _$$CheckReadStoragePermissionGrantedImplCopyWith(
-          _$CheckReadStoragePermissionGrantedImpl value,
-          $Res Function(_$CheckReadStoragePermissionGrantedImpl) then) =
-      __$$CheckReadStoragePermissionGrantedImplCopyWithImpl<$Res>;
+abstract class _$$CheckReadStoragePermissionImplCopyWith<$Res> {
+  factory _$$CheckReadStoragePermissionImplCopyWith(
+          _$CheckReadStoragePermissionImpl value,
+          $Res Function(_$CheckReadStoragePermissionImpl) then) =
+      __$$CheckReadStoragePermissionImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CheckReadStoragePermissionGrantedImplCopyWithImpl<$Res>
+class __$$CheckReadStoragePermissionImplCopyWithImpl<$Res>
     extends _$PermissionsEventCopyWithImpl<$Res,
-        _$CheckReadStoragePermissionGrantedImpl>
-    implements _$$CheckReadStoragePermissionGrantedImplCopyWith<$Res> {
-  __$$CheckReadStoragePermissionGrantedImplCopyWithImpl(
-      _$CheckReadStoragePermissionGrantedImpl _value,
-      $Res Function(_$CheckReadStoragePermissionGrantedImpl) _then)
+        _$CheckReadStoragePermissionImpl>
+    implements _$$CheckReadStoragePermissionImplCopyWith<$Res> {
+  __$$CheckReadStoragePermissionImplCopyWithImpl(
+      _$CheckReadStoragePermissionImpl _value,
+      $Res Function(_$CheckReadStoragePermissionImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of PermissionsEvent
@@ -338,20 +338,19 @@ class __$$CheckReadStoragePermissionGrantedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CheckReadStoragePermissionGrantedImpl
-    implements _CheckReadStoragePermissionGranted {
-  const _$CheckReadStoragePermissionGrantedImpl();
+class _$CheckReadStoragePermissionImpl implements _CheckReadStoragePermission {
+  const _$CheckReadStoragePermissionImpl();
 
   @override
   String toString() {
-    return 'PermissionsEvent.checkReadStoragePermissionGranted()';
+    return 'PermissionsEvent.checkReadStoragePermission()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CheckReadStoragePermissionGrantedImpl);
+            other is _$CheckReadStoragePermissionImpl);
   }
 
   @override
@@ -360,51 +359,51 @@ class _$CheckReadStoragePermissionGrantedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
-    return checkReadStoragePermissionGranted();
+    return checkReadStoragePermission();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
-    return checkReadStoragePermissionGranted?.call();
+    return checkReadStoragePermission?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (checkReadStoragePermissionGranted != null) {
-      return checkReadStoragePermissionGranted();
+    if (checkReadStoragePermission != null) {
+      return checkReadStoragePermission();
     }
     return orElse();
   }
@@ -412,614 +411,83 @@ class _$CheckReadStoragePermissionGrantedImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
-    return checkReadStoragePermissionGranted(this);
+    return checkReadStoragePermission(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
-    return checkReadStoragePermissionGranted?.call(this);
+    return checkReadStoragePermission?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkReadStoragePermissionGranted != null) {
-      return checkReadStoragePermissionGranted(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _CheckReadStoragePermissionGranted implements PermissionsEvent {
-  const factory _CheckReadStoragePermissionGranted() =
-      _$CheckReadStoragePermissionGrantedImpl;
-}
-
-/// @nodoc
-abstract class _$$CheckWriteStoragePermissionImplCopyWith<$Res> {
-  factory _$$CheckWriteStoragePermissionImplCopyWith(
-          _$CheckWriteStoragePermissionImpl value,
-          $Res Function(_$CheckWriteStoragePermissionImpl) then) =
-      __$$CheckWriteStoragePermissionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CheckWriteStoragePermissionImplCopyWithImpl<$Res>
-    extends _$PermissionsEventCopyWithImpl<$Res,
-        _$CheckWriteStoragePermissionImpl>
-    implements _$$CheckWriteStoragePermissionImplCopyWith<$Res> {
-  __$$CheckWriteStoragePermissionImplCopyWithImpl(
-      _$CheckWriteStoragePermissionImpl _value,
-      $Res Function(_$CheckWriteStoragePermissionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PermissionsEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$CheckWriteStoragePermissionImpl
-    implements _CheckWriteStoragePermission {
-  const _$CheckWriteStoragePermissionImpl();
-
-  @override
-  String toString() {
-    return 'PermissionsEvent.checkWriteStoragePermissionGranted()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CheckWriteStoragePermissionImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
-    required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
-    required TResult Function() requestReadMediaImagePermission,
-  }) {
-    return checkWriteStoragePermissionGranted();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
-    TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
-    TResult? Function()? requestReadMediaImagePermission,
-  }) {
-    return checkWriteStoragePermissionGranted?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
-    TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
-    TResult Function()? requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkWriteStoragePermissionGranted != null) {
-      return checkWriteStoragePermissionGranted();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
-    required TResult Function(_RequestReadStoragePermission value)
-        requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
-    required TResult Function(_RequestReadMediaImagePermission value)
-        requestReadMediaImagePermission,
-  }) {
-    return checkWriteStoragePermissionGranted(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult? Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult? Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-  }) {
-    return checkWriteStoragePermissionGranted?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
     TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
     TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (checkWriteStoragePermissionGranted != null) {
-      return checkWriteStoragePermissionGranted(this);
+    if (checkReadStoragePermission != null) {
+      return checkReadStoragePermission(this);
     }
     return orElse();
   }
 }
 
-abstract class _CheckWriteStoragePermission implements PermissionsEvent {
-  const factory _CheckWriteStoragePermission() =
-      _$CheckWriteStoragePermissionImpl;
-}
-
-/// @nodoc
-abstract class _$$CheckAccessMediaLocationPermissionImplCopyWith<$Res> {
-  factory _$$CheckAccessMediaLocationPermissionImplCopyWith(
-          _$CheckAccessMediaLocationPermissionImpl value,
-          $Res Function(_$CheckAccessMediaLocationPermissionImpl) then) =
-      __$$CheckAccessMediaLocationPermissionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CheckAccessMediaLocationPermissionImplCopyWithImpl<$Res>
-    extends _$PermissionsEventCopyWithImpl<$Res,
-        _$CheckAccessMediaLocationPermissionImpl>
-    implements _$$CheckAccessMediaLocationPermissionImplCopyWith<$Res> {
-  __$$CheckAccessMediaLocationPermissionImplCopyWithImpl(
-      _$CheckAccessMediaLocationPermissionImpl _value,
-      $Res Function(_$CheckAccessMediaLocationPermissionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PermissionsEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$CheckAccessMediaLocationPermissionImpl
-    implements _CheckAccessMediaLocationPermission {
-  const _$CheckAccessMediaLocationPermissionImpl();
-
-  @override
-  String toString() {
-    return 'PermissionsEvent.checkAccessMediaLocationPermissionGranted()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CheckAccessMediaLocationPermissionImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
-    required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
-    required TResult Function() requestReadMediaImagePermission,
-  }) {
-    return checkAccessMediaLocationPermissionGranted();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
-    TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
-    TResult? Function()? requestReadMediaImagePermission,
-  }) {
-    return checkAccessMediaLocationPermissionGranted?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
-    TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
-    TResult Function()? requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkAccessMediaLocationPermissionGranted != null) {
-      return checkAccessMediaLocationPermissionGranted();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
-    required TResult Function(_RequestReadStoragePermission value)
-        requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
-    required TResult Function(_RequestReadMediaImagePermission value)
-        requestReadMediaImagePermission,
-  }) {
-    return checkAccessMediaLocationPermissionGranted(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult? Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult? Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-  }) {
-    return checkAccessMediaLocationPermissionGranted?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkAccessMediaLocationPermissionGranted != null) {
-      return checkAccessMediaLocationPermissionGranted(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _CheckAccessMediaLocationPermission implements PermissionsEvent {
-  const factory _CheckAccessMediaLocationPermission() =
-      _$CheckAccessMediaLocationPermissionImpl;
-}
-
-/// @nodoc
-abstract class _$$CheckReadMediaImagePermissionImplCopyWith<$Res> {
-  factory _$$CheckReadMediaImagePermissionImplCopyWith(
-          _$CheckReadMediaImagePermissionImpl value,
-          $Res Function(_$CheckReadMediaImagePermissionImpl) then) =
-      __$$CheckReadMediaImagePermissionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CheckReadMediaImagePermissionImplCopyWithImpl<$Res>
-    extends _$PermissionsEventCopyWithImpl<$Res,
-        _$CheckReadMediaImagePermissionImpl>
-    implements _$$CheckReadMediaImagePermissionImplCopyWith<$Res> {
-  __$$CheckReadMediaImagePermissionImplCopyWithImpl(
-      _$CheckReadMediaImagePermissionImpl _value,
-      $Res Function(_$CheckReadMediaImagePermissionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of PermissionsEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$CheckReadMediaImagePermissionImpl
-    implements _CheckReadMediaImagePermission {
-  const _$CheckReadMediaImagePermissionImpl();
-
-  @override
-  String toString() {
-    return 'PermissionsEvent.checkReadMediaImagePermissionGranted()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CheckReadMediaImagePermissionImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
-    required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
-    required TResult Function() requestReadMediaImagePermission,
-  }) {
-    return checkReadMediaImagePermissionGranted();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
-    TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
-    TResult? Function()? requestReadMediaImagePermission,
-  }) {
-    return checkReadMediaImagePermissionGranted?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
-    TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
-    TResult Function()? requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkReadMediaImagePermissionGranted != null) {
-      return checkReadMediaImagePermissionGranted();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
-    required TResult Function(_RequestReadStoragePermission value)
-        requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
-    required TResult Function(_RequestReadMediaImagePermission value)
-        requestReadMediaImagePermission,
-  }) {
-    return checkReadMediaImagePermissionGranted(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult? Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult? Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-  }) {
-    return checkReadMediaImagePermissionGranted?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
-    TResult Function(_RequestReadStoragePermission value)?
-        requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
-    TResult Function(_RequestReadMediaImagePermission value)?
-        requestReadMediaImagePermission,
-    required TResult orElse(),
-  }) {
-    if (checkReadMediaImagePermissionGranted != null) {
-      return checkReadMediaImagePermissionGranted(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _CheckReadMediaImagePermission implements PermissionsEvent {
-  const factory _CheckReadMediaImagePermission() =
-      _$CheckReadMediaImagePermissionImpl;
+abstract class _CheckReadStoragePermission implements PermissionsEvent {
+  const factory _CheckReadStoragePermission() =
+      _$CheckReadStoragePermissionImpl;
 }
 
 /// @nodoc
@@ -1068,15 +536,15 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
     return requestReadStoragePermission();
   }
@@ -1084,15 +552,15 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
     return requestReadStoragePermission?.call();
   }
@@ -1100,15 +568,15 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
     if (requestReadStoragePermission != null) {
@@ -1120,23 +588,23 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
     return requestReadStoragePermission(this);
   }
@@ -1144,23 +612,23 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
     return requestReadStoragePermission?.call(this);
   }
@@ -1168,23 +636,23 @@ class _$RequestReadStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
     if (requestReadStoragePermission != null) {
@@ -1200,21 +668,21 @@ abstract class _RequestReadStoragePermission implements PermissionsEvent {
 }
 
 /// @nodoc
-abstract class _$$RequestWriteStoragePermissionImplCopyWith<$Res> {
-  factory _$$RequestWriteStoragePermissionImplCopyWith(
-          _$RequestWriteStoragePermissionImpl value,
-          $Res Function(_$RequestWriteStoragePermissionImpl) then) =
-      __$$RequestWriteStoragePermissionImplCopyWithImpl<$Res>;
+abstract class _$$CheckAccessMediaLocationPermissionImplCopyWith<$Res> {
+  factory _$$CheckAccessMediaLocationPermissionImplCopyWith(
+          _$CheckAccessMediaLocationPermissionImpl value,
+          $Res Function(_$CheckAccessMediaLocationPermissionImpl) then) =
+      __$$CheckAccessMediaLocationPermissionImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$RequestWriteStoragePermissionImplCopyWithImpl<$Res>
+class __$$CheckAccessMediaLocationPermissionImplCopyWithImpl<$Res>
     extends _$PermissionsEventCopyWithImpl<$Res,
-        _$RequestWriteStoragePermissionImpl>
-    implements _$$RequestWriteStoragePermissionImplCopyWith<$Res> {
-  __$$RequestWriteStoragePermissionImplCopyWithImpl(
-      _$RequestWriteStoragePermissionImpl _value,
-      $Res Function(_$RequestWriteStoragePermissionImpl) _then)
+        _$CheckAccessMediaLocationPermissionImpl>
+    implements _$$CheckAccessMediaLocationPermissionImplCopyWith<$Res> {
+  __$$CheckAccessMediaLocationPermissionImplCopyWithImpl(
+      _$CheckAccessMediaLocationPermissionImpl _value,
+      $Res Function(_$CheckAccessMediaLocationPermissionImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of PermissionsEvent
@@ -1223,20 +691,20 @@ class __$$RequestWriteStoragePermissionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestWriteStoragePermissionImpl
-    implements _RequestWriteStoragePermission {
-  const _$RequestWriteStoragePermissionImpl();
+class _$CheckAccessMediaLocationPermissionImpl
+    implements _CheckAccessMediaLocationPermission {
+  const _$CheckAccessMediaLocationPermissionImpl();
 
   @override
   String toString() {
-    return 'PermissionsEvent.requestWriteStoragePermission()';
+    return 'PermissionsEvent.checkAccessMediaLocationPermission()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestWriteStoragePermissionImpl);
+            other is _$CheckAccessMediaLocationPermissionImpl);
   }
 
   @override
@@ -1245,51 +713,51 @@ class _$RequestWriteStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
-    return requestWriteStoragePermission();
+    return checkAccessMediaLocationPermission();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
-    return requestWriteStoragePermission?.call();
+    return checkAccessMediaLocationPermission?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (requestWriteStoragePermission != null) {
-      return requestWriteStoragePermission();
+    if (checkAccessMediaLocationPermission != null) {
+      return checkAccessMediaLocationPermission();
     }
     return orElse();
   }
@@ -1297,101 +765,101 @@ class _$RequestWriteStoragePermissionImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
-    return requestWriteStoragePermission(this);
+    return checkAccessMediaLocationPermission(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
-    return requestWriteStoragePermission?.call(this);
+    return checkAccessMediaLocationPermission?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (requestWriteStoragePermission != null) {
-      return requestWriteStoragePermission(this);
+    if (checkAccessMediaLocationPermission != null) {
+      return checkAccessMediaLocationPermission(this);
     }
     return orElse();
   }
 }
 
-abstract class _RequestWriteStoragePermission implements PermissionsEvent {
-  const factory _RequestWriteStoragePermission() =
-      _$RequestWriteStoragePermissionImpl;
+abstract class _CheckAccessMediaLocationPermission implements PermissionsEvent {
+  const factory _CheckAccessMediaLocationPermission() =
+      _$CheckAccessMediaLocationPermissionImpl;
 }
 
 /// @nodoc
-abstract class _$$RequestAccessMediaLocationPermissionImplCopyWith<$Res> {
-  factory _$$RequestAccessMediaLocationPermissionImplCopyWith(
-          _$RequestAccessMediaLocationPermissionImpl value,
-          $Res Function(_$RequestAccessMediaLocationPermissionImpl) then) =
-      __$$RequestAccessMediaLocationPermissionImplCopyWithImpl<$Res>;
+abstract class _$$RequestPhotoLibraryAccessImplCopyWith<$Res> {
+  factory _$$RequestPhotoLibraryAccessImplCopyWith(
+          _$RequestPhotoLibraryAccessImpl value,
+          $Res Function(_$RequestPhotoLibraryAccessImpl) then) =
+      __$$RequestPhotoLibraryAccessImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$RequestAccessMediaLocationPermissionImplCopyWithImpl<$Res>
+class __$$RequestPhotoLibraryAccessImplCopyWithImpl<$Res>
     extends _$PermissionsEventCopyWithImpl<$Res,
-        _$RequestAccessMediaLocationPermissionImpl>
-    implements _$$RequestAccessMediaLocationPermissionImplCopyWith<$Res> {
-  __$$RequestAccessMediaLocationPermissionImplCopyWithImpl(
-      _$RequestAccessMediaLocationPermissionImpl _value,
-      $Res Function(_$RequestAccessMediaLocationPermissionImpl) _then)
+        _$RequestPhotoLibraryAccessImpl>
+    implements _$$RequestPhotoLibraryAccessImplCopyWith<$Res> {
+  __$$RequestPhotoLibraryAccessImplCopyWithImpl(
+      _$RequestPhotoLibraryAccessImpl _value,
+      $Res Function(_$RequestPhotoLibraryAccessImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of PermissionsEvent
@@ -1400,20 +868,19 @@ class __$$RequestAccessMediaLocationPermissionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestAccessMediaLocationPermissionImpl
-    implements _RequestAccessMediaLocationPermission {
-  const _$RequestAccessMediaLocationPermissionImpl();
+class _$RequestPhotoLibraryAccessImpl implements _RequestPhotoLibraryAccess {
+  const _$RequestPhotoLibraryAccessImpl();
 
   @override
   String toString() {
-    return 'PermissionsEvent.requestAccessMediaLocationPermission()';
+    return 'PermissionsEvent.requestPhotoLibraryAccess()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RequestAccessMediaLocationPermissionImpl);
+            other is _$RequestPhotoLibraryAccessImpl);
   }
 
   @override
@@ -1422,51 +889,51 @@ class _$RequestAccessMediaLocationPermissionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
-    return requestAccessMediaLocationPermission();
+    return requestPhotoLibraryAccess();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
-    return requestAccessMediaLocationPermission?.call();
+    return requestPhotoLibraryAccess?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (requestAccessMediaLocationPermission != null) {
-      return requestAccessMediaLocationPermission();
+    if (requestPhotoLibraryAccess != null) {
+      return requestPhotoLibraryAccess();
     }
     return orElse();
   }
@@ -1474,84 +941,259 @@ class _$RequestAccessMediaLocationPermissionImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
-    return requestAccessMediaLocationPermission(this);
+    return requestPhotoLibraryAccess(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
-    return requestAccessMediaLocationPermission?.call(this);
+    return requestPhotoLibraryAccess?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
-    if (requestAccessMediaLocationPermission != null) {
-      return requestAccessMediaLocationPermission(this);
+    if (requestPhotoLibraryAccess != null) {
+      return requestPhotoLibraryAccess(this);
     }
     return orElse();
   }
 }
 
-abstract class _RequestAccessMediaLocationPermission
-    implements PermissionsEvent {
-  const factory _RequestAccessMediaLocationPermission() =
-      _$RequestAccessMediaLocationPermissionImpl;
+abstract class _RequestPhotoLibraryAccess implements PermissionsEvent {
+  const factory _RequestPhotoLibraryAccess() = _$RequestPhotoLibraryAccessImpl;
+}
+
+/// @nodoc
+abstract class _$$CheckReadMediaImagePermissionImplCopyWith<$Res> {
+  factory _$$CheckReadMediaImagePermissionImplCopyWith(
+          _$CheckReadMediaImagePermissionImpl value,
+          $Res Function(_$CheckReadMediaImagePermissionImpl) then) =
+      __$$CheckReadMediaImagePermissionImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$CheckReadMediaImagePermissionImplCopyWithImpl<$Res>
+    extends _$PermissionsEventCopyWithImpl<$Res,
+        _$CheckReadMediaImagePermissionImpl>
+    implements _$$CheckReadMediaImagePermissionImplCopyWith<$Res> {
+  __$$CheckReadMediaImagePermissionImplCopyWithImpl(
+      _$CheckReadMediaImagePermissionImpl _value,
+      $Res Function(_$CheckReadMediaImagePermissionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PermissionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$CheckReadMediaImagePermissionImpl
+    implements _CheckReadMediaImagePermission {
+  const _$CheckReadMediaImagePermissionImpl();
+
+  @override
+  String toString() {
+    return 'PermissionsEvent.checkReadMediaImagePermission()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CheckReadMediaImagePermissionImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
+    required TResult Function() requestReadStoragePermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
+    required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
+  }) {
+    return checkReadMediaImagePermission();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
+    TResult? Function()? requestReadStoragePermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
+    TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
+  }) {
+    return checkReadMediaImagePermission?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
+    TResult Function()? requestReadStoragePermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
+    TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (checkReadMediaImagePermission != null) {
+      return checkReadMediaImagePermission();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
+    required TResult Function(_RequestReadStoragePermission value)
+        requestReadStoragePermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
+    required TResult Function(_RequestReadMediaImagePermission value)
+        requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
+  }) {
+    return checkReadMediaImagePermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult? Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult? Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+  }) {
+    return checkReadMediaImagePermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (checkReadMediaImagePermission != null) {
+      return checkReadMediaImagePermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CheckReadMediaImagePermission implements PermissionsEvent {
+  const factory _CheckReadMediaImagePermission() =
+      _$CheckReadMediaImagePermissionImpl;
 }
 
 /// @nodoc
@@ -1600,15 +1242,15 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() started,
-    required TResult Function() checkReadStoragePermissionGranted,
-    required TResult Function() checkWriteStoragePermissionGranted,
-    required TResult Function() checkAccessMediaLocationPermissionGranted,
-    required TResult Function() checkReadMediaImagePermissionGranted,
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
     required TResult Function() requestReadStoragePermission,
-    required TResult Function() requestWriteStoragePermission,
-    required TResult Function() requestAccessMediaLocationPermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
     required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
   }) {
     return requestReadMediaImagePermission();
   }
@@ -1616,15 +1258,15 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? started,
-    TResult? Function()? checkReadStoragePermissionGranted,
-    TResult? Function()? checkWriteStoragePermissionGranted,
-    TResult? Function()? checkAccessMediaLocationPermissionGranted,
-    TResult? Function()? checkReadMediaImagePermissionGranted,
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
     TResult? Function()? requestReadStoragePermission,
-    TResult? Function()? requestWriteStoragePermission,
-    TResult? Function()? requestAccessMediaLocationPermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
     TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
   }) {
     return requestReadMediaImagePermission?.call();
   }
@@ -1632,15 +1274,15 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? started,
-    TResult Function()? checkReadStoragePermissionGranted,
-    TResult Function()? checkWriteStoragePermissionGranted,
-    TResult Function()? checkAccessMediaLocationPermissionGranted,
-    TResult Function()? checkReadMediaImagePermissionGranted,
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
     TResult Function()? requestReadStoragePermission,
-    TResult Function()? requestWriteStoragePermission,
-    TResult Function()? requestAccessMediaLocationPermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
     TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
     required TResult orElse(),
   }) {
     if (requestReadMediaImagePermission != null) {
@@ -1652,23 +1294,23 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Started value) started,
-    required TResult Function(_CheckReadStoragePermissionGranted value)
-        checkReadStoragePermissionGranted,
-    required TResult Function(_CheckWriteStoragePermission value)
-        checkWriteStoragePermissionGranted,
-    required TResult Function(_CheckAccessMediaLocationPermission value)
-        checkAccessMediaLocationPermissionGranted,
-    required TResult Function(_CheckReadMediaImagePermission value)
-        checkReadMediaImagePermissionGranted,
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
     required TResult Function(_RequestReadStoragePermission value)
         requestReadStoragePermission,
-    required TResult Function(_RequestWriteStoragePermission value)
-        requestWriteStoragePermission,
-    required TResult Function(_RequestAccessMediaLocationPermission value)
-        requestAccessMediaLocationPermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
     required TResult Function(_RequestReadMediaImagePermission value)
         requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
   }) {
     return requestReadMediaImagePermission(this);
   }
@@ -1676,23 +1318,23 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Started value)? started,
-    TResult? Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult? Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult? Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult? Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult? Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult? Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult? Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult? Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
   }) {
     return requestReadMediaImagePermission?.call(this);
   }
@@ -1700,23 +1342,23 @@ class _$RequestReadMediaImagePermissionImpl
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Started value)? started,
-    TResult Function(_CheckReadStoragePermissionGranted value)?
-        checkReadStoragePermissionGranted,
-    TResult Function(_CheckWriteStoragePermission value)?
-        checkWriteStoragePermissionGranted,
-    TResult Function(_CheckAccessMediaLocationPermission value)?
-        checkAccessMediaLocationPermissionGranted,
-    TResult Function(_CheckReadMediaImagePermission value)?
-        checkReadMediaImagePermissionGranted,
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
     TResult Function(_RequestReadStoragePermission value)?
         requestReadStoragePermission,
-    TResult Function(_RequestWriteStoragePermission value)?
-        requestWriteStoragePermission,
-    TResult Function(_RequestAccessMediaLocationPermission value)?
-        requestAccessMediaLocationPermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
     TResult Function(_RequestReadMediaImagePermission value)?
         requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
     required TResult orElse(),
   }) {
     if (requestReadMediaImagePermission != null) {
@@ -1732,41 +1374,386 @@ abstract class _RequestReadMediaImagePermission implements PermissionsEvent {
 }
 
 /// @nodoc
+abstract class _$$CheckNotificationPermissionImplCopyWith<$Res> {
+  factory _$$CheckNotificationPermissionImplCopyWith(
+          _$CheckNotificationPermissionImpl value,
+          $Res Function(_$CheckNotificationPermissionImpl) then) =
+      __$$CheckNotificationPermissionImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$CheckNotificationPermissionImplCopyWithImpl<$Res>
+    extends _$PermissionsEventCopyWithImpl<$Res,
+        _$CheckNotificationPermissionImpl>
+    implements _$$CheckNotificationPermissionImplCopyWith<$Res> {
+  __$$CheckNotificationPermissionImplCopyWithImpl(
+      _$CheckNotificationPermissionImpl _value,
+      $Res Function(_$CheckNotificationPermissionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PermissionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$CheckNotificationPermissionImpl
+    implements _CheckNotificationPermission {
+  const _$CheckNotificationPermissionImpl();
+
+  @override
+  String toString() {
+    return 'PermissionsEvent.checkNotificationPermission()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CheckNotificationPermissionImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
+    required TResult Function() requestReadStoragePermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
+    required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
+  }) {
+    return checkNotificationPermission();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
+    TResult? Function()? requestReadStoragePermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
+    TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
+  }) {
+    return checkNotificationPermission?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
+    TResult Function()? requestReadStoragePermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
+    TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (checkNotificationPermission != null) {
+      return checkNotificationPermission();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
+    required TResult Function(_RequestReadStoragePermission value)
+        requestReadStoragePermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
+    required TResult Function(_RequestReadMediaImagePermission value)
+        requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
+  }) {
+    return checkNotificationPermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult? Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult? Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+  }) {
+    return checkNotificationPermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (checkNotificationPermission != null) {
+      return checkNotificationPermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CheckNotificationPermission implements PermissionsEvent {
+  const factory _CheckNotificationPermission() =
+      _$CheckNotificationPermissionImpl;
+}
+
+/// @nodoc
+abstract class _$$RequestNotificationPermissionImplCopyWith<$Res> {
+  factory _$$RequestNotificationPermissionImplCopyWith(
+          _$RequestNotificationPermissionImpl value,
+          $Res Function(_$RequestNotificationPermissionImpl) then) =
+      __$$RequestNotificationPermissionImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RequestNotificationPermissionImplCopyWithImpl<$Res>
+    extends _$PermissionsEventCopyWithImpl<$Res,
+        _$RequestNotificationPermissionImpl>
+    implements _$$RequestNotificationPermissionImplCopyWith<$Res> {
+  __$$RequestNotificationPermissionImplCopyWithImpl(
+      _$RequestNotificationPermissionImpl _value,
+      $Res Function(_$RequestNotificationPermissionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PermissionsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RequestNotificationPermissionImpl
+    implements _RequestNotificationPermission {
+  const _$RequestNotificationPermissionImpl();
+
+  @override
+  String toString() {
+    return 'PermissionsEvent.requestNotificationPermission()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RequestNotificationPermissionImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initialized,
+    required TResult Function() checkReadStoragePermission,
+    required TResult Function() requestReadStoragePermission,
+    required TResult Function() checkAccessMediaLocationPermission,
+    required TResult Function() requestPhotoLibraryAccess,
+    required TResult Function() checkReadMediaImagePermission,
+    required TResult Function() requestReadMediaImagePermission,
+    required TResult Function() checkNotificationPermission,
+    required TResult Function() requestNotificationPermission,
+  }) {
+    return requestNotificationPermission();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initialized,
+    TResult? Function()? checkReadStoragePermission,
+    TResult? Function()? requestReadStoragePermission,
+    TResult? Function()? checkAccessMediaLocationPermission,
+    TResult? Function()? requestPhotoLibraryAccess,
+    TResult? Function()? checkReadMediaImagePermission,
+    TResult? Function()? requestReadMediaImagePermission,
+    TResult? Function()? checkNotificationPermission,
+    TResult? Function()? requestNotificationPermission,
+  }) {
+    return requestNotificationPermission?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initialized,
+    TResult Function()? checkReadStoragePermission,
+    TResult Function()? requestReadStoragePermission,
+    TResult Function()? checkAccessMediaLocationPermission,
+    TResult Function()? requestPhotoLibraryAccess,
+    TResult Function()? checkReadMediaImagePermission,
+    TResult Function()? requestReadMediaImagePermission,
+    TResult Function()? checkNotificationPermission,
+    TResult Function()? requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (requestNotificationPermission != null) {
+      return requestNotificationPermission();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initialized value) initialized,
+    required TResult Function(_CheckReadStoragePermission value)
+        checkReadStoragePermission,
+    required TResult Function(_RequestReadStoragePermission value)
+        requestReadStoragePermission,
+    required TResult Function(_CheckAccessMediaLocationPermission value)
+        checkAccessMediaLocationPermission,
+    required TResult Function(_RequestPhotoLibraryAccess value)
+        requestPhotoLibraryAccess,
+    required TResult Function(_CheckReadMediaImagePermission value)
+        checkReadMediaImagePermission,
+    required TResult Function(_RequestReadMediaImagePermission value)
+        requestReadMediaImagePermission,
+    required TResult Function(_CheckNotificationPermission value)
+        checkNotificationPermission,
+    required TResult Function(_RequestNotificationPermission value)
+        requestNotificationPermission,
+  }) {
+    return requestNotificationPermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initialized value)? initialized,
+    TResult? Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult? Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult? Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult? Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult? Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult? Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult? Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult? Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+  }) {
+    return requestNotificationPermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initialized value)? initialized,
+    TResult Function(_CheckReadStoragePermission value)?
+        checkReadStoragePermission,
+    TResult Function(_RequestReadStoragePermission value)?
+        requestReadStoragePermission,
+    TResult Function(_CheckAccessMediaLocationPermission value)?
+        checkAccessMediaLocationPermission,
+    TResult Function(_RequestPhotoLibraryAccess value)?
+        requestPhotoLibraryAccess,
+    TResult Function(_CheckReadMediaImagePermission value)?
+        checkReadMediaImagePermission,
+    TResult Function(_RequestReadMediaImagePermission value)?
+        requestReadMediaImagePermission,
+    TResult Function(_CheckNotificationPermission value)?
+        checkNotificationPermission,
+    TResult Function(_RequestNotificationPermission value)?
+        requestNotificationPermission,
+    required TResult orElse(),
+  }) {
+    if (requestNotificationPermission != null) {
+      return requestNotificationPermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RequestNotificationPermission implements PermissionsEvent {
+  const factory _RequestNotificationPermission() =
+      _$RequestNotificationPermissionImpl;
+}
+
+/// @nodoc
 mixin _$PermissionsState {
-  bool get isReadStoragePermissionGranted => throw _privateConstructorUsedError;
-  bool get isWriteStoragePermissionGranted =>
-      throw _privateConstructorUsedError;
-  bool get isAccessMediaLocationPermissionGranted =>
-      throw _privateConstructorUsedError;
-  bool get isReadMediaImagePermissionGranted =>
-      throw _privateConstructorUsedError;
+  bool get isReadStorageEnabled => throw _privateConstructorUsedError;
+  bool get isPhotoLibraryEnabled => throw _privateConstructorUsedError;
+  bool get isReadMediaImageEnabled => throw _privateConstructorUsedError;
+  bool get isNotificationEnabled => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)
+            bool isReadStorageEnabled,
+            bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled,
+            bool isNotificationEnabled)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)?
+    TResult? Function(bool isReadStorageEnabled, bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled, bool isNotificationEnabled)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)?
+    TResult Function(bool isReadStorageEnabled, bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled, bool isNotificationEnabled)?
         initial,
     required TResult orElse(),
   }) =>
@@ -1802,10 +1789,10 @@ abstract class $PermissionsStateCopyWith<$Res> {
       _$PermissionsStateCopyWithImpl<$Res, PermissionsState>;
   @useResult
   $Res call(
-      {bool isReadStoragePermissionGranted,
-      bool isWriteStoragePermissionGranted,
-      bool isAccessMediaLocationPermissionGranted,
-      bool isReadMediaImagePermissionGranted});
+      {bool isReadStorageEnabled,
+      bool isPhotoLibraryEnabled,
+      bool isReadMediaImageEnabled,
+      bool isNotificationEnabled});
 }
 
 /// @nodoc
@@ -1823,29 +1810,27 @@ class _$PermissionsStateCopyWithImpl<$Res, $Val extends PermissionsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isReadStoragePermissionGranted = null,
-    Object? isWriteStoragePermissionGranted = null,
-    Object? isAccessMediaLocationPermissionGranted = null,
-    Object? isReadMediaImagePermissionGranted = null,
+    Object? isReadStorageEnabled = null,
+    Object? isPhotoLibraryEnabled = null,
+    Object? isReadMediaImageEnabled = null,
+    Object? isNotificationEnabled = null,
   }) {
     return _then(_value.copyWith(
-      isReadStoragePermissionGranted: null == isReadStoragePermissionGranted
-          ? _value.isReadStoragePermissionGranted
-          : isReadStoragePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isReadStorageEnabled: null == isReadStorageEnabled
+          ? _value.isReadStorageEnabled
+          : isReadStorageEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isWriteStoragePermissionGranted: null == isWriteStoragePermissionGranted
-          ? _value.isWriteStoragePermissionGranted
-          : isWriteStoragePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isPhotoLibraryEnabled: null == isPhotoLibraryEnabled
+          ? _value.isPhotoLibraryEnabled
+          : isPhotoLibraryEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAccessMediaLocationPermissionGranted: null ==
-              isAccessMediaLocationPermissionGranted
-          ? _value.isAccessMediaLocationPermissionGranted
-          : isAccessMediaLocationPermissionGranted // ignore: cast_nullable_to_non_nullable
+      isReadMediaImageEnabled: null == isReadMediaImageEnabled
+          ? _value.isReadMediaImageEnabled
+          : isReadMediaImageEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isReadMediaImagePermissionGranted: null ==
-              isReadMediaImagePermissionGranted
-          ? _value.isReadMediaImagePermissionGranted
-          : isReadMediaImagePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isNotificationEnabled: null == isNotificationEnabled
+          ? _value.isNotificationEnabled
+          : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -1860,10 +1845,10 @@ abstract class _$$InitialImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isReadStoragePermissionGranted,
-      bool isWriteStoragePermissionGranted,
-      bool isAccessMediaLocationPermissionGranted,
-      bool isReadMediaImagePermissionGranted});
+      {bool isReadStorageEnabled,
+      bool isPhotoLibraryEnabled,
+      bool isReadMediaImageEnabled,
+      bool isNotificationEnabled});
 }
 
 /// @nodoc
@@ -1879,29 +1864,27 @@ class __$$InitialImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isReadStoragePermissionGranted = null,
-    Object? isWriteStoragePermissionGranted = null,
-    Object? isAccessMediaLocationPermissionGranted = null,
-    Object? isReadMediaImagePermissionGranted = null,
+    Object? isReadStorageEnabled = null,
+    Object? isPhotoLibraryEnabled = null,
+    Object? isReadMediaImageEnabled = null,
+    Object? isNotificationEnabled = null,
   }) {
     return _then(_$InitialImpl(
-      isReadStoragePermissionGranted: null == isReadStoragePermissionGranted
-          ? _value.isReadStoragePermissionGranted
-          : isReadStoragePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isReadStorageEnabled: null == isReadStorageEnabled
+          ? _value.isReadStorageEnabled
+          : isReadStorageEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isWriteStoragePermissionGranted: null == isWriteStoragePermissionGranted
-          ? _value.isWriteStoragePermissionGranted
-          : isWriteStoragePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isPhotoLibraryEnabled: null == isPhotoLibraryEnabled
+          ? _value.isPhotoLibraryEnabled
+          : isPhotoLibraryEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAccessMediaLocationPermissionGranted: null ==
-              isAccessMediaLocationPermissionGranted
-          ? _value.isAccessMediaLocationPermissionGranted
-          : isAccessMediaLocationPermissionGranted // ignore: cast_nullable_to_non_nullable
+      isReadMediaImageEnabled: null == isReadMediaImageEnabled
+          ? _value.isReadMediaImageEnabled
+          : isReadMediaImageEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
-      isReadMediaImagePermissionGranted: null ==
-              isReadMediaImagePermissionGranted
-          ? _value.isReadMediaImagePermissionGranted
-          : isReadMediaImagePermissionGranted // ignore: cast_nullable_to_non_nullable
+      isNotificationEnabled: null == isNotificationEnabled
+          ? _value.isNotificationEnabled
+          : isNotificationEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -1911,27 +1894,27 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 class _$InitialImpl implements _Initial {
   const _$InitialImpl(
-      {this.isReadStoragePermissionGranted = false,
-      this.isWriteStoragePermissionGranted = false,
-      this.isAccessMediaLocationPermissionGranted = false,
-      this.isReadMediaImagePermissionGranted = false});
+      {this.isReadStorageEnabled = false,
+      this.isPhotoLibraryEnabled = false,
+      this.isReadMediaImageEnabled = false,
+      this.isNotificationEnabled = false});
 
   @override
   @JsonKey()
-  final bool isReadStoragePermissionGranted;
+  final bool isReadStorageEnabled;
   @override
   @JsonKey()
-  final bool isWriteStoragePermissionGranted;
+  final bool isPhotoLibraryEnabled;
   @override
   @JsonKey()
-  final bool isAccessMediaLocationPermissionGranted;
+  final bool isReadMediaImageEnabled;
   @override
   @JsonKey()
-  final bool isReadMediaImagePermissionGranted;
+  final bool isNotificationEnabled;
 
   @override
   String toString() {
-    return 'PermissionsState.initial(isReadStoragePermissionGranted: $isReadStoragePermissionGranted, isWriteStoragePermissionGranted: $isWriteStoragePermissionGranted, isAccessMediaLocationPermissionGranted: $isAccessMediaLocationPermissionGranted, isReadMediaImagePermissionGranted: $isReadMediaImagePermissionGranted)';
+    return 'PermissionsState.initial(isReadStorageEnabled: $isReadStorageEnabled, isPhotoLibraryEnabled: $isPhotoLibraryEnabled, isReadMediaImageEnabled: $isReadMediaImageEnabled, isNotificationEnabled: $isNotificationEnabled)';
   }
 
   @override
@@ -1939,31 +1922,20 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.isReadStoragePermissionGranted,
-                    isReadStoragePermissionGranted) ||
-                other.isReadStoragePermissionGranted ==
-                    isReadStoragePermissionGranted) &&
-            (identical(other.isWriteStoragePermissionGranted,
-                    isWriteStoragePermissionGranted) ||
-                other.isWriteStoragePermissionGranted ==
-                    isWriteStoragePermissionGranted) &&
-            (identical(other.isAccessMediaLocationPermissionGranted,
-                    isAccessMediaLocationPermissionGranted) ||
-                other.isAccessMediaLocationPermissionGranted ==
-                    isAccessMediaLocationPermissionGranted) &&
-            (identical(other.isReadMediaImagePermissionGranted,
-                    isReadMediaImagePermissionGranted) ||
-                other.isReadMediaImagePermissionGranted ==
-                    isReadMediaImagePermissionGranted));
+            (identical(other.isReadStorageEnabled, isReadStorageEnabled) ||
+                other.isReadStorageEnabled == isReadStorageEnabled) &&
+            (identical(other.isPhotoLibraryEnabled, isPhotoLibraryEnabled) ||
+                other.isPhotoLibraryEnabled == isPhotoLibraryEnabled) &&
+            (identical(
+                    other.isReadMediaImageEnabled, isReadMediaImageEnabled) ||
+                other.isReadMediaImageEnabled == isReadMediaImageEnabled) &&
+            (identical(other.isNotificationEnabled, isNotificationEnabled) ||
+                other.isNotificationEnabled == isNotificationEnabled));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      isReadStoragePermissionGranted,
-      isWriteStoragePermissionGranted,
-      isAccessMediaLocationPermissionGranted,
-      isReadMediaImagePermissionGranted);
+  int get hashCode => Object.hash(runtimeType, isReadStorageEnabled,
+      isPhotoLibraryEnabled, isReadMediaImageEnabled, isNotificationEnabled);
 
   /// Create a copy of PermissionsState
   /// with the given fields replaced by the non-null parameter values.
@@ -1977,53 +1949,38 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)
+            bool isReadStorageEnabled,
+            bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled,
+            bool isNotificationEnabled)
         initial,
   }) {
-    return initial(
-        isReadStoragePermissionGranted,
-        isWriteStoragePermissionGranted,
-        isAccessMediaLocationPermissionGranted,
-        isReadMediaImagePermissionGranted);
+    return initial(isReadStorageEnabled, isPhotoLibraryEnabled,
+        isReadMediaImageEnabled, isNotificationEnabled);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)?
+    TResult? Function(bool isReadStorageEnabled, bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled, bool isNotificationEnabled)?
         initial,
   }) {
-    return initial?.call(
-        isReadStoragePermissionGranted,
-        isWriteStoragePermissionGranted,
-        isAccessMediaLocationPermissionGranted,
-        isReadMediaImagePermissionGranted);
+    return initial?.call(isReadStorageEnabled, isPhotoLibraryEnabled,
+        isReadMediaImageEnabled, isNotificationEnabled);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            bool isReadStoragePermissionGranted,
-            bool isWriteStoragePermissionGranted,
-            bool isAccessMediaLocationPermissionGranted,
-            bool isReadMediaImagePermissionGranted)?
+    TResult Function(bool isReadStorageEnabled, bool isPhotoLibraryEnabled,
+            bool isReadMediaImageEnabled, bool isNotificationEnabled)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(
-          isReadStoragePermissionGranted,
-          isWriteStoragePermissionGranted,
-          isAccessMediaLocationPermissionGranted,
-          isReadMediaImagePermissionGranted);
+      return initial(isReadStorageEnabled, isPhotoLibraryEnabled,
+          isReadMediaImageEnabled, isNotificationEnabled);
     }
     return orElse();
   }
@@ -2059,19 +2016,19 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements PermissionsState {
   const factory _Initial(
-      {final bool isReadStoragePermissionGranted,
-      final bool isWriteStoragePermissionGranted,
-      final bool isAccessMediaLocationPermissionGranted,
-      final bool isReadMediaImagePermissionGranted}) = _$InitialImpl;
+      {final bool isReadStorageEnabled,
+      final bool isPhotoLibraryEnabled,
+      final bool isReadMediaImageEnabled,
+      final bool isNotificationEnabled}) = _$InitialImpl;
 
   @override
-  bool get isReadStoragePermissionGranted;
+  bool get isReadStorageEnabled;
   @override
-  bool get isWriteStoragePermissionGranted;
+  bool get isPhotoLibraryEnabled;
   @override
-  bool get isAccessMediaLocationPermissionGranted;
+  bool get isReadMediaImageEnabled;
   @override
-  bool get isReadMediaImagePermissionGranted;
+  bool get isNotificationEnabled;
 
   /// Create a copy of PermissionsState
   /// with the given fields replaced by the non-null parameter values.
