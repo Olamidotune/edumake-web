@@ -8,6 +8,7 @@ import 'package:edumake_frontend/src/features/dashboard/data/model/students/stud
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class WardScreen extends StatefulWidget {
@@ -214,10 +215,11 @@ class SchoolTeacherScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(
+                Navigator.of(context, rootNavigator: true).pushNamed(
                   TeacherDetailsScreen.routeName,
-                  arguments: teachers[index],
+                  arguments: (teachers[index], subjects[index]),
                 );
+                debugPrint('Teacher ${teachers[index]}');
               },
               child: TeachersListTileContainer(
                 teachers: teachers[index],
@@ -308,6 +310,19 @@ class TeacherDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    final teacher = ModalRoute.of(context)!.settings.arguments! as String;
+    final subject = ModalRoute.of(context)!.settings.arguments! as String;
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: teacher,
+        subtitle: subject,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+          // child: TeacherDetails(),
+        ),
+      ),
+    );
   }
 }

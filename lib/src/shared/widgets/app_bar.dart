@@ -1,12 +1,16 @@
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     this.title,
+    this.subtitle,
   });
 
   final String? title;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,27 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () => Navigator.of(context).pop(),
         child: Image.asset('assets/png/back_button.png'),
       ),
-      title: Text(title ?? ''),
+      title: subtitle == null
+          ? Text(title ?? '')
+          : Column(
+              children: [
+                Text(
+                  title ?? '',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.fontSize,
+                      ),
+                ),
+                Text(
+                  subtitle ?? '',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColors.secondaryTexColor,
+                        fontSize: 14.fontSize,
+                      ),
+                ),
+              ],
+            ),
+      centerTitle: true,
     );
   }
 

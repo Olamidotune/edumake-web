@@ -148,6 +148,8 @@ class MyApp extends StatelessWidget {
                     const RejectConnectionScreen(),
                 RecentTeachersNoteScreen.routeName: (context) =>
                     const RecentTeachersNoteScreen(),
+                TeacherDetailsScreen.routeName: (context) =>
+                    const TeacherDetailsScreen(),
                 SignIn.routeName: (context) => const SignIn(),
                 GrantedPermissionsScreen.routeName: (context) =>
                     const GrantedPermissionsScreen(),
