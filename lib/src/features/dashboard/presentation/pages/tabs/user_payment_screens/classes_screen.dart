@@ -1,8 +1,8 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -46,8 +46,8 @@ class ClassScreen extends StatelessWidget {
             Text(
               AppStrings.classes,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 16.fontSize,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 24.fontSize,
+                    fontWeight: FontWeight.w400,
                     color: AppColors.blackColor,
                   ),
             ),
@@ -90,7 +90,13 @@ class ClassScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                  '/class-details',
+                  arguments: {
+                    'className': classes[index],
+                    'studentCount': studentCount[index],
+                  },
+                );
               },
               child: ClassesListTileContainer(
                 classes: classes[index],
@@ -101,6 +107,119 @@ class ClassScreen extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceMassive,
       ],
+    );
+  }
+}
+
+class ClassDetailsScreen extends StatelessWidget {
+  const ClassDetailsScreen({super.key});
+
+  static const String routeName = '/class-details';
+
+  @override
+  Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, String>;
+    final className = args['className'];
+    final studentCount = args['studentCount'];
+
+    final scrollController = ScrollController();
+
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: CustomRawScroller(
+          scrollController: scrollController,
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: SingleChildScrollView(
+              controller: scrollController,
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    className!,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blackColor,
+                        ),
+                  ),
+
+                  AppSpacing.verticalSpaceMedium,
+                  // Students
+                  ClassesListTileContainer(
+                    classes: AppStrings.students,
+                    studentCount: '${studentCount ?? '0'} students',
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.assignments,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.testRests,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.examResults,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(classes: AppStrings.events),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.curriculumSchemeOfWork,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.payments,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(classes: AppStrings.events),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.lectureTimeTable,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    classes: AppStrings.examManagement,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomRawScroller extends StatelessWidget {
+  const CustomRawScroller({
+    required this.scrollController,
+    required this.child,
+    super.key,
+  });
+
+  final ScrollController scrollController;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return RawScrollbar(
+      controller: scrollController,
+      thumbColor: AppColors.primaryColor.withOpacity(0.4),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
+      padding: const EdgeInsets.only(
+        left: 10,
+        right: 5,
+      ),
+      child: child,
     );
   }
 }

@@ -192,4 +192,21 @@ class AppStrings {
   static const addAssignments = 'Add Assignments';
   static const examResults = 'Exam Results';
   static const email = 'Email';
+  static const testRests= 'Test Results';
+  static const addTestResults = 'Add Test Results';
+  static const addExamResults = 'Add Exam Results';
+  static const addExam = 'Add Exam';
+  static const addTest = 'Add Test';
+  static const events = 'Events';
+  static const addEvents = 'Add Events';
+  static const curriculumSchemeOfWork = 'Curriculum/Scheme of work';
+  static const addCurriculum = 'Add Curriculum';
+  static const addSchemeOfWork = 'Add Scheme of Work';
+  static const payments = 'Payments';
+  static const lectureTimeTable = 'Lecture Time Table';
+  static const examTimeTable = 'Exam Time Table';
+  static const addLectureTimeTable = 'Add Lecture Time Table';
+  static const students = 'Students';
+
+  
 }

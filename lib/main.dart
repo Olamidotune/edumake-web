@@ -20,6 +20,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permis
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/user_payment_screens/classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
@@ -109,7 +110,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const Dashboard(),
+              home: const SplashScreen(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>
@@ -151,6 +152,8 @@ class MyApp extends StatelessWidget {
                     const RecentTeachersNoteScreen(),
                 TeacherDetailsScreen.routeName: (context) =>
                     const TeacherDetailsScreen(),
+                ClassDetailsScreen.routeName: (context) =>
+                    const ClassDetailsScreen(),
                 SignIn.routeName: (context) => const SignIn(),
                 GrantedPermissionsScreen.routeName: (context) =>
                     const GrantedPermissionsScreen(),
