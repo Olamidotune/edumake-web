@@ -180,6 +180,8 @@ class AppStrings {
   static const addTeacher = 'Add Teacher';
   static const exploreTheListofTeacherYouHaveAddedSoFar =
       'Explore the list of teachers you have added so far';
+  static const exploreTheListofClassesYouHaveAddedSoFar =
+      'Explore the list of classes you have added so far';
   static const assignedTo = 'Assigned to';
   static const addTeachers = 'Add Teachers';
   static const classes = 'Classes';
@@ -190,5 +192,4 @@ class AppStrings {
   static const addAssignments = 'Add Assignments';
   static const examResults = 'Exam Results';
   static const email = 'Email';
-
 }
