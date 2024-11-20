@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
-  static const String routeName = 'payment';
+  static const String routeName = '/payment';
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -69,7 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           return const Center(
             child: Text('An error occurred while loading data'),
           );
-        }
+        };
 
         final role = snapshot.data;
 
