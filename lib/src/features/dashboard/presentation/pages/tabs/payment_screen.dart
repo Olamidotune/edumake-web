@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -172,49 +173,13 @@ class ClassScreen extends StatelessWidget {
             return AppSpacing.verticalSpaceMedium;
           },
           itemBuilder: (context, index) {
-            return Container(
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor.withOpacity(0.1),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          title: Text(
-                            classes[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 14.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.blackColor,
-                                ),
-                          ),
-                          trailing: Text(
-                            studentCount[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 14.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryColor,
-                                ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+            return GestureDetector(
+              onTap: () {
+                
+              },
+              child: ClassesListTileContainer(
+                classes: classes[index],
+                studentCount: studentCount[index],
               ),
             );
           },
