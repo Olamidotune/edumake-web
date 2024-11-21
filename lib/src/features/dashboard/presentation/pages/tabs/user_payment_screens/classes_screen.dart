@@ -182,8 +182,9 @@ class ClassDetailsScreen extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
-                      isProfilePictureEnabled: false,
-                      classes: AppStrings.events),
+                    isProfilePictureEnabled: false,
+                    classes: AppStrings.events,
+                  ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     isProfilePictureEnabled: false,
@@ -275,6 +276,15 @@ class ClassStudentsScreen extends StatelessWidget {
                   ListView.separated(
                     itemBuilder: (context, index) {
                       return ClassesListTileContainer(
+                        onTap: () {
+                          debugPrint(className.toString());
+                          Navigator.of(context).pushNamed(
+                            StudentDetailsScreen.routeName,
+                            arguments: {
+                              'className': className[index],
+                            },
+                          );
+                        },
                         isProfilePictureEnabled: true,
                         classes: 'Student ${index + 1}',
                         subTitle: 'International School of Lagos, Akoka',
@@ -298,8 +308,8 @@ class ClassStudentsScreen extends StatelessWidget {
   }
 }
 
-class ClassAssignmentsScreen extends StatelessWidget {
-  const ClassAssignmentsScreen({super.key});
+class StudentDetailsScreen extends StatelessWidget {
+  const StudentDetailsScreen({super.key});
 
   static const String routeName = '/class-assignments';
 
