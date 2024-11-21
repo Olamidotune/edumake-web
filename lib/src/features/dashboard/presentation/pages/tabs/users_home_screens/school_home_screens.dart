@@ -46,11 +46,12 @@ class AdminDashboard extends StatelessWidget {
         Align(
           alignment: Alignment.bottomRight,
           child: Text(
-            AppStrings.more,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w700,
-                ),
+            AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,
@@ -108,6 +109,7 @@ class AdminDashboard extends StatelessWidget {
               AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -137,6 +139,7 @@ class AdminDashboard extends StatelessWidget {
           },
           itemCount: 3,
         ),
+        AppSpacing.verticalSpaceHuge,
         Align(
           alignment: Alignment.bottomLeft,
           child: Text(
@@ -162,6 +165,7 @@ class AdminDashboard extends StatelessWidget {
               AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
