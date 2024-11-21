@@ -428,7 +428,13 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.assignments,
                     onTap: () {
-
+                      Navigator.of(context).pushNamed(
+                        IndvidualStudentAssignmentScreen.routeName,
+                        arguments: {
+                          'studentName': studentName,
+                          'className': className,
+                        },
+                      );
                     },
                   ),
                   AppSpacing.verticalSpaceMedium,
@@ -483,6 +489,56 @@ class IndvidualStudentAssignmentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final scrollController = ScrollController();
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final studentName = args['studentName'];
+    final className = args['className'];
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: studentName.toString(),
+        subtitle: 'International School of Lagos, Akoka, ($className)',
+      ),
+      body: CustomRawScroller(
+        scrollController: scrollController,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.subjectCourses,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 24.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                // Assignments
+                ListView.separated(
+                  itemBuilder: (context, index) {
+                    return ClassesListTileContainer(
+                      isProfilePictureEnabled: false,
+                      title: 'Assignment ${index + 1}',
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return AppSpacing.verticalSpaceMedium;
+                  },
+                  itemCount: 26,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
