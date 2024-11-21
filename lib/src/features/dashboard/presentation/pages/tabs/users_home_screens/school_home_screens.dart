@@ -167,8 +167,6 @@ class AdminDashboard extends StatelessWidget {
             ),
           ),
         ),
-        AppSpacing.verticalSpaceMassive,
-        AppSpacing.verticalSpaceMassive,
       ],
     );
   }

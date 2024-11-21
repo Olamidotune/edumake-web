@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
@@ -23,6 +24,7 @@ class _DashboardState extends State<Dashboard> {
     controller = PersistentTabController();
 
     return PersistentTabView(
+      bottomScreenMargin: 70.height,
       context,
       screens: _buidScreens(),
       controller: controller,
@@ -30,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
       resizeToAvoidBottomInset: true,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(60),
-        colorBehindNavBar: Colors.white,
+        colorBehindNavBar: AppColors.whiteColor,
         boxShadow: [
           BoxShadow(
             color: AppColors.blackColor.withOpacity(0.9),

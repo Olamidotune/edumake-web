@@ -42,6 +42,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           child: SingleChildScrollView(
             controller: scrollController,
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
               child: buildView(

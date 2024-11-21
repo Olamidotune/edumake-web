@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
+import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -38,6 +39,7 @@ class ClassScreen extends StatelessWidget {
       '23',
       '39',
     ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -101,13 +103,12 @@ class ClassScreen extends StatelessWidget {
               },
               child: ClassesListTileContainer(
                 isProfilePictureEnabled: false,
-                classes: classes[index],
-                studentCount: studentCount[index],
+                title: classes[index],
+                trailing: studentCount[index],
               ),
             );
           },
         ),
-        AppSpacing.verticalSpaceMassive,
       ],
     );
   }
@@ -153,8 +154,8 @@ class ClassDetailsScreen extends StatelessWidget {
                   // Students
                   ClassesListTileContainer(
                     isProfilePictureEnabled: false,
-                    classes: AppStrings.students,
-                    studentCount: '${studentCount ?? '0'} students',
+                    title: AppStrings.students,
+                    trailing: '${studentCount ?? '0'} students',
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         ClassStudentsScreen.routeName,
@@ -167,48 +168,48 @@ class ClassDetailsScreen extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
-                    classes: AppStrings.assignments,
+                    title: AppStrings.assignments,
                     isProfilePictureEnabled: false,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
-                    classes: AppStrings.testRests,
-                    isProfilePictureEnabled: false,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    classes: AppStrings.examResults,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    classes: AppStrings.events,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    classes: AppStrings.curriculumSchemeOfWork,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    classes: AppStrings.payments,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    classes: AppStrings.events,
-                    isProfilePictureEnabled: false,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    classes: AppStrings.lectureTimeTable,
+                    title: AppStrings.testRests,
                     isProfilePictureEnabled: false,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     isProfilePictureEnabled: false,
-                    classes: AppStrings.examManagement,
+                    title: AppStrings.examResults,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.events,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.curriculumSchemeOfWork,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.payments,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    title: AppStrings.events,
+                    isProfilePictureEnabled: false,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    title: AppStrings.lectureTimeTable,
+                    isProfilePictureEnabled: false,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.examManagement,
                   ),
                 ],
               ),
@@ -232,6 +233,20 @@ class ClassStudentsScreen extends StatelessWidget {
     final className = args['className'];
 
     final scrollController = ScrollController();
+
+    final studentName = <String>[
+      'John Doe',
+      'Donlad Trump',
+      'Barrack Obama',
+      'Joe Biden',
+      'Kamala Harris',
+      'Nancy Pelosi',
+      'Hillary Clinton',
+      'George Bush',
+      'Bill Clinton',
+      'Bernie Sanders',
+    ];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
@@ -277,23 +292,23 @@ class ClassStudentsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return ClassesListTileContainer(
                         onTap: () {
-                          debugPrint(className.toString());
                           Navigator.of(context).pushNamed(
                             StudentDetailsScreen.routeName,
                             arguments: {
-                              'className': className[index],
+                              'className': className,
+                              'studentName': studentName[index],
                             },
                           );
                         },
                         isProfilePictureEnabled: true,
-                        classes: 'Student ${index + 1}',
+                        title: studentName[index],
                         subTitle: 'International School of Lagos, Akoka',
                       );
                     },
                     separatorBuilder: (context, index) {
                       return AppSpacing.verticalSpaceMedium;
                     },
-                    itemCount: 20,
+                    itemCount: studentName.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                   ),
@@ -317,6 +332,7 @@ class StudentDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final studentName = args['studentName'];
     final className = args['className'];
 
     final scrollController = ScrollController();
@@ -333,50 +349,121 @@ class StudentDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$className ${AppStrings.assignments} ',
-                        style: TextStyle(
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.blackColor,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.greyColor.withOpacity(0.1),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(30),
+                  Center(
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: AppColors.primaryColor,
+                          radius: 50,
+                          child: Text(
+                            studentName!.toString().substring(0, 1),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 24.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.whiteColor,
+                                ),
                           ),
                         ),
-                        child: SvgPicture.asset(
-                          'assets/svg/plus.svg',
-                          color: AppColors.primaryColor,
+                        AppSpacing.verticalSpaceSmall,
+                        Text(
+                          studentName.toString(),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 16.fontSize,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.blackColor,
+                                  ),
                         ),
-                      ),
-                    ],
+                        AppSpacing.verticalSpaceSmall,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svg/grad_cap.svg',
+                              color: AppColors.primaryColor,
+                            ),
+                            AppSpacing.horizontalSpaceSmall,
+                            Text(
+                              'International School of Lagos, Akoka',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.blackColor,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.star_border_outlined,
+                              color: AppColors.primaryColor,
+                              size: 12.fontSize,
+                            ),
+                            AppSpacing.horizontalSpaceSmall,
+                            Text(
+                              className.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.blackColor,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  AppSpacing.verticalSpaceHuge,
+                  StudentDetailsListTile(
+                    leading: AppStrings.assignments,
+                    onTap: () {},
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  // Assignments
-                  ListView.separated(
-                    itemBuilder: (context, index) {
-                      return ClassesListTileContainer(
-                        isProfilePictureEnabled: false,
-                        classes: 'Assignment ${index + 1}',
-                        subTitle: 'Due in 2 days',
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return AppSpacing.verticalSpaceMedium;
-                    },
-                    itemCount: 20,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                  StudentDetailsListTile(
+                    leading: AppStrings.test,
+                    onTap: () {},
                   ),
-                  AppSpacing.verticalSpaceMassive,
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.exam,
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.connectedAccounts,
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.teachersNote,
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.analysis,
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.feesPayment,
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  StudentDetailsListTile(
+                    leading: AppStrings.paymentHistory,
+                    onTap: () {},
+                  ),
                 ],
               ),
             ),

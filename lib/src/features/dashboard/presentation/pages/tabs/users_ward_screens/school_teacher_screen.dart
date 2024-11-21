@@ -83,8 +83,6 @@ class SchoolTeacherScreen extends StatelessWidget {
           },
           itemCount: 10,
         ),
-        AppSpacing.verticalSpaceMassive,
-        AppSpacing.verticalSpaceMassive,
       ],
     );
   }
