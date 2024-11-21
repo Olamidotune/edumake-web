@@ -153,6 +153,11 @@ class ClassDetailsScreen extends StatelessWidget {
                   ClassesListTileContainer(
                     classes: AppStrings.students,
                     studentCount: '${studentCount ?? '0'} students',
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                        ClassStudentsScreen.routeName,
+                      );
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
@@ -193,5 +198,16 @@ class ClassDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ClassStudentsScreen extends StatelessWidget {
+  const ClassStudentsScreen({super.key});
+
+  static const String routeName = '/class-students';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
   }
 }
