@@ -427,7 +427,9 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceHuge,
                   StudentDetailsListTile(
                     leading: AppStrings.assignments,
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
@@ -471,5 +473,16 @@ class StudentDetailsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class IndvidualStudentAssignmentScreen extends StatelessWidget {
+  const IndvidualStudentAssignmentScreen({super.key});
+
+  static const String routeName = '/individual-student-assignment';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
