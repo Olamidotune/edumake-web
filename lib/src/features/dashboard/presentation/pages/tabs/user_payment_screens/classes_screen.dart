@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -191,35 +192,6 @@ class ClassDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomRawScroller extends StatelessWidget {
-  const CustomRawScroller({
-    required this.scrollController,
-    required this.child,
-    super.key,
-  });
-
-  final ScrollController scrollController;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawScrollbar(
-      controller: scrollController,
-      thumbColor: AppColors.primaryColor.withOpacity(0.4),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
-      padding: const EdgeInsets.only(
-        left: 10,
-        right: 5,
-      ),
-      child: child,
     );
   }
 }
