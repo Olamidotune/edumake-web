@@ -42,8 +42,8 @@ class SchoolTeacherScreen extends StatelessWidget {
         Text(
           AppStrings.teachers,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 16.fontSize,
-                fontWeight: FontWeight.bold,
+                fontSize: 24.fontSize,
+                fontWeight: FontWeight.w400,
                 color: AppColors.blackColor,
               ),
         ),

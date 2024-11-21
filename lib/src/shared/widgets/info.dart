@@ -3,23 +3,22 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class Info extends StatelessWidget {
+  const Info({
+    required this.message,
+    super.key,
+    this.title = 'Info',
+    this.buttonText,
+    this.onOkButtonPressed,
+    this.cancelButton = false,
+    this.cancelButtonText,
+  });
+
   final String? title;
   final String message;
   final String? buttonText;
   final Function? onOkButtonPressed;
   final bool cancelButton;
   final String? cancelButtonText;
-  
-
-  const Info({
-    Key? key,
-    this.title = "Info",
-    required this.message,
-    this.buttonText,
-    this.onOkButtonPressed,
-    this.cancelButton = false,
-    this.cancelButtonText,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

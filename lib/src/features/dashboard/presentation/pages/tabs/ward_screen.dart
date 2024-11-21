@@ -31,7 +31,6 @@ class _WardScreenState extends State<WardScreen> {
   @override
   Widget build(BuildContext context) {
     final students = parseStudents(studentList);
-
     return Scaffold(
       body: SafeArea(
         child: RawScrollbar(
@@ -91,12 +90,12 @@ class _WardScreenState extends State<WardScreen> {
   }
 }
 
-List<StudentModel> parseStudents(Map<String, dynamic> data) {
-  final studentsData = data['students'] as List<dynamic>;
-  return studentsData
-      .map(
-        (studentMap) =>
-            StudentModel.fromMap(studentMap as Map<String, dynamic>),
-      )
-      .toList();
-}
+// List<StudentModel> parseStudents(Map<String, dynamic> data) {
+//   final studentsData = data['students'] as List<dynamic>;
+//   return studentsData
+//       .map(
+//         (studentMap) =>
+//             StudentModel.fromMap(studentMap as Map<String, dynamic>),
+//       )
+//       .toList();
+// }
