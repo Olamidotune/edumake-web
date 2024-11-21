@@ -100,6 +100,7 @@ class ClassScreen extends StatelessWidget {
                 );
               },
               child: ClassesListTileContainer(
+                isProfilePictureEnabled: false,
                 classes: classes[index],
                 studentCount: studentCount[index],
               ),
@@ -151,44 +152,61 @@ class ClassDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   // Students
                   ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
                     classes: AppStrings.students,
                     studentCount: '${studentCount ?? '0'} students',
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).pushNamed(
+                      Navigator.of(context).pushNamed(
                         ClassStudentsScreen.routeName,
+                        arguments: {
+                          'className': className,
+                          'studentCount': studentCount,
+                        },
                       );
                     },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     classes: AppStrings.assignments,
+                    isProfilePictureEnabled: false,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     classes: AppStrings.testRests,
+                    isProfilePictureEnabled: false,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
                     classes: AppStrings.examResults,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(classes: AppStrings.events),
+                  const ClassesListTileContainer(
+                      isProfilePictureEnabled: false,
+                      classes: AppStrings.events),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
                     classes: AppStrings.curriculumSchemeOfWork,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
                     classes: AppStrings.payments,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(classes: AppStrings.events),
-                  AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
-                    classes: AppStrings.lectureTimeTable,
+                    classes: AppStrings.events,
+                    isProfilePictureEnabled: false,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
+                    classes: AppStrings.lectureTimeTable,
+                    isProfilePictureEnabled: false,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
                     classes: AppStrings.examManagement,
                   ),
                 ],
@@ -208,6 +226,153 @@ class ClassStudentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final className = args['className'];
+
+    final scrollController = ScrollController();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: CustomRawScroller(
+          scrollController: scrollController,
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '$className ${AppStrings.students} ',
+                        style: TextStyle(
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blackColor,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.greyColor.withOpacity(0.1),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/svg/plus.svg',
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  // Students
+                  ListView.separated(
+                    itemBuilder: (context, index) {
+                      return ClassesListTileContainer(
+                        isProfilePictureEnabled: true,
+                        classes: 'Student ${index + 1}',
+                        subTitle: 'International School of Lagos, Akoka',
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemCount: 20,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  AppSpacing.verticalSpaceMassive,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ClassAssignmentsScreen extends StatelessWidget {
+  const ClassAssignmentsScreen({super.key});
+
+  static const String routeName = '/class-assignments';
+
+  @override
+  Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final className = args['className'];
+
+    final scrollController = ScrollController();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: CustomRawScroller(
+          scrollController: scrollController,
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '$className ${AppStrings.assignments} ',
+                        style: TextStyle(
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blackColor,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.greyColor.withOpacity(0.1),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/svg/plus.svg',
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  // Assignments
+                  ListView.separated(
+                    itemBuilder: (context, index) {
+                      return ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        classes: 'Assignment ${index + 1}',
+                        subTitle: 'Due in 2 days',
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemCount: 20,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  AppSpacing.verticalSpaceMassive,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

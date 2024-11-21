@@ -110,7 +110,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SplashScreen(),
+              home: const Dashboard(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>
@@ -161,6 +161,8 @@ class MyApp extends StatelessWidget {
                     const ForgotPasswordScreen(),
                 ClassStudentsScreen.routeName: (context) =>
                     const ClassStudentsScreen(),
+                ClassAssignmentsScreen.routeName: (context) =>
+                    const ClassAssignmentsScreen(),
                 VerifyAccount.routeName: (context) => const VerifyAccount(),
                 Dashboard.routeName: (context) => const Dashboard(),
                 KycScreen.routeName: (context) => const KycScreen(),

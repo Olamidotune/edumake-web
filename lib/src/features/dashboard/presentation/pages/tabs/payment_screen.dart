@@ -69,7 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           return const Center(
             child: Text('An error occurred while loading data'),
           );
-        };
+        }
 
         final role = snapshot.data;
 
