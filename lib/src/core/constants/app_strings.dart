@@ -214,4 +214,5 @@ class AppStrings {
   static const feesPayment = 'Fees Payment';
   static const paymentHistory = 'Payment History';
   static const subjectCourses = 'Subject/Courses';
+  static const addSubject = 'Add Subject';
 }

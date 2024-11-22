@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -553,8 +554,6 @@ class IndvidualStudentAssignmentScreen extends StatelessWidget {
   }
 }
 
-
-
 class ClassEventsScreen extends StatelessWidget {
   const ClassEventsScreen({super.key});
 
@@ -562,6 +561,92 @@ class ClassEventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    final className = args['className'];
+
+    final scrollController = ScrollController();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: CustomRawScroller(
+        scrollController: scrollController,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          controller: scrollController,
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppStrings.events,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 24.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.blackColor,
+                          ),
+                    ),
+                    AppSpacing.horizontalSpaceSmall,
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svg/plus.svg',
+                          color: AppColors.primaryColor,
+                        ),
+                        AppSpacing.horizontalSpaceSmall,
+                        Text(
+                          AppStrings.addEvents,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 14.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryColor,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                AppSpacing.verticalSpaceMedium,
+                CustomSearchBar(
+                  isHomePage: false,
+                  hintText: 'Search for events...',
+                  onSearch: () {},
+                ),
+                // Events
+                AppSpacing.verticalSpaceMassive,
+                Text(
+                  AppStrings.upComingEvents,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blackColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                
+                ListView.separated(
+                  itemBuilder: (context, index) {
+                    return ClassesListTileContainer(
+                      isProfilePictureEnabled: false,
+                      title: 'Event ${index + 1}',
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return AppSpacing.verticalSpaceMedium;
+                  },
+                  itemCount: 26,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
