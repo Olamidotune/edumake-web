@@ -6,8 +6,10 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/sch
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -588,23 +590,32 @@ class ClassEventsScreen extends StatelessWidget {
                           ),
                     ),
                     AppSpacing.horizontalSpaceSmall,
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/plus.svg',
-                          color: AppColors.primaryColor,
-                        ),
-                        AppSpacing.horizontalSpaceSmall,
-                        Text(
-                          AppStrings.addEvents,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 14.fontSize,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.primaryColor,
-                                  ),
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          AddEventsScreen.routeName,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/plus.svg',
+                            color: AppColors.primaryColor,
+                          ),
+                          AppSpacing.horizontalSpaceSmall,
+                          Text(
+                            AppStrings.addEvents,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 14.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -688,6 +699,81 @@ class ClassEventsScreen extends StatelessWidget {
   }
 }
 
+class AddEventsScreen extends StatelessWidget {
+  const AddEventsScreen({super.key});
+
+  static const String routeName = '/add-events';
+
+  @override
+  Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+    // final eventDetailsController = TextEditingController();
+    // final eventDetailsFocusNode = FocusNode();
+    // final recepientsController = TextEditingController();
+    // final recepientsFocusNode = FocusNode();
+    final eventTitleController = TextEditingController();
+    final eventTitleFocusNode = FocusNode();
+    final eventDateController = TextEditingController();
+    final eventDateFocusNode = FocusNode();
+
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: CustomRawScroller(
+        scrollController: scrollController,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          controller: scrollController,
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.addEvents,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 24.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blackColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                CustomTextFormField(
+                  title: AppStrings.eventTitle,
+                  controller: eventTitleController,
+                  focusNode: eventTitleFocusNode,
+                  hintText: AppStrings.eventTitle,
+                  keyboardType: TextInputType.text,
+                  customFilled: true,
+                  editIcon: SvgPicture.asset(
+                    'assets/svg/edit.svg',
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                CustomTextFormField(
+                  title: AppStrings.eventsDate,
+                  controller: eventDateController,
+                  focusNode: eventDateFocusNode,
+                  hintText: AppStrings.eventsDate,
+                  keyboardType: TextInputType.text,
+                  customFilled: true,
+                  editIcon: SvgPicture.asset(
+                    'assets/svg/calendar.svg',
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                const CustomBigTextFormField(header: AppStrings.eventsDetails),
+                AppSpacing.verticalSpaceMedium,
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ClassEventDetailsScreen extends StatelessWidget {
   const ClassEventDetailsScreen({super.key});
 
@@ -719,9 +805,8 @@ class ClassEventDetailsScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 250,
                     child: Image.asset(
-                      // 'assets/png/event.png',
-                      'assets/png/event.png'
-                    ),
+                        // 'assets/png/event.png',
+                        'assets/png/event.png'),
                   ),
                   Text(
                     eventName!,

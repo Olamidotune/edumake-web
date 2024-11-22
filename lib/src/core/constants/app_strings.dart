@@ -216,4 +216,9 @@ class AppStrings {
   static const subjectCourses = 'Subject/Courses';
   static const addSubject = 'Add Subject';
   static const previousEvents = 'Previous Events';
+  static const eventTitle = "Event's Title";
+  static const eventsName = "Event's Name";
+  static const eventsDate = "Event's Date";
+  static const eventsDetails = "Event's Details";
+  static const associatedEventOptional = 'Associated Event (Optional)';
 }

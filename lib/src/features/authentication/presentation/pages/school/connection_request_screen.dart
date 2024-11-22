@@ -5,8 +5,8 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ConnectionRequestScreen extends StatelessWidget {
   const ConnectionRequestScreen({super.key});
@@ -581,46 +581,8 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
                     ],
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  Text(
-                    AppStrings.others,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 13.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.secondaryTexColor,
-                        ),
-                  ),
                   AppSpacing.verticalSpaceSmall,
-                  TextFormField(
-                    maxLines: 10,
-                    cursorColor: AppColors.primaryColor,
-                    decoration: InputDecoration(
-                      suffixIcon: SvgPicture.asset(
-                        'assets/svg/edit.svg',
-                        color: AppColors.primaryColor,
-                      ),
-                      suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 20,
-                        maxWidth: 20,
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: AppSpacing.horizontalSpacingSmall,
-                        vertical: AppSpacing.verticalValueSmall,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      fillColor: AppColors.primaryColor.withOpacity(.1),
-                      filled: true,
-                    ),
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 13.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.secondaryTexColor,
-                        ),
-                  ),
+                  const CustomBigTextFormField(header: AppStrings.others,),
                   SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
                   Button(
                     text: AppStrings.submit,
