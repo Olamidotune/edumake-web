@@ -110,13 +110,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Authors
 
-- **Your Name** - *Initial work* - [YourGithub](https://github.com/yourusername)
+- Egundeyi Oladotun David - Flutter Dev - https://github.com/Olamidotune
 
 ## 🙏 Acknowledgments
 
 - Flutter team for the amazing framework
 - All contributors who have helped this project grow
-- [Any other acknowledgments]
 
 ## 📞 Support
 
@@ -135,4 +134,4 @@ For support and queries:
 
 ---
 
-Made with ❤️ by [Your Name/Team]
+Made with ❤️ by Egundeyi Oladotun David and the Alphaco Business Solutions Team
