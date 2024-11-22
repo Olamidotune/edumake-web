@@ -182,9 +182,17 @@ class ClassDetailsScreen extends StatelessWidget {
                     title: AppStrings.examResults,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
+                  ClassesListTileContainer(
                     isProfilePictureEnabled: false,
                     title: AppStrings.events,
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        ClassEventsScreen.routeName,
+                        arguments: {
+                          'className': className,
+                        },
+                      );
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
@@ -342,7 +350,9 @@ class StudentDetailsScreen extends StatelessWidget {
         child: CustomRawScroller(
           scrollController: scrollController,
           child: Padding(
-            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+            ),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               controller: scrollController,
@@ -540,5 +550,18 @@ class IndvidualStudentAssignmentScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+
+
+class ClassEventsScreen extends StatelessWidget {
+  const ClassEventsScreen({super.key});
+
+  static const String routeName = '/class-events';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
