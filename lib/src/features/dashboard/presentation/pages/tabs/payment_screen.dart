@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/user_payment_screens/classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/classes_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +42,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           child: SingleChildScrollView(
             controller: scrollController,
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
               child: buildView(
@@ -69,7 +70,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           return const Center(
             child: Text('An error occurred while loading data'),
           );
-        };
+        }
 
         final role = snapshot.data;
 

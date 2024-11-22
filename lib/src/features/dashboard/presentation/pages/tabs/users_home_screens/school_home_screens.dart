@@ -46,9 +46,10 @@ class AdminDashboard extends StatelessWidget {
         Align(
           alignment: Alignment.bottomRight,
           child: Text(
-            AppStrings.more,
+            AppStrings.seeAll,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: AppColors.primaryColor,
+                  fontSize: 16.fontSize,
                   fontWeight: FontWeight.w700,
                 ),
           ),
@@ -108,6 +109,7 @@ class AdminDashboard extends StatelessWidget {
               AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -133,10 +135,19 @@ class AdminDashboard extends StatelessWidget {
             return AppSpacing.verticalSpaceMedium;
           },
           itemBuilder: (BuildContext context, int index) {
-            return const SchoolMgtUpcomingEventsContainer();
+            return const SchoolMgtUpcomingEventsContainer(
+              previousEvents: false,
+              title: 'State Spelling Bee for SS2',
+              date: '13 Feb 2023',
+              description:
+                  'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
+              recipients: '${AppStrings.recipients}: ',
+              recipientsList: 'Kamala Harris, Donald Trump, Joe Biden',
+            );
           },
           itemCount: 3,
         ),
+        AppSpacing.verticalSpaceHuge,
         Align(
           alignment: Alignment.bottomLeft,
           child: Text(
@@ -162,13 +173,12 @@ class AdminDashboard extends StatelessWidget {
               AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
           ),
         ),
-        AppSpacing.verticalSpaceMassive,
-        AppSpacing.verticalSpaceMassive,
       ],
     );
   }

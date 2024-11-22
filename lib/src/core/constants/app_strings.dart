@@ -192,7 +192,7 @@ class AppStrings {
   static const addAssignments = 'Add Assignments';
   static const examResults = 'Exam Results';
   static const email = 'Email';
-  static const testRests= 'Test Results';
+  static const testRests = 'Test Results';
   static const addTestResults = 'Add Test Results';
   static const addExamResults = 'Add Exam Results';
   static const addExam = 'Add Exam';
@@ -207,6 +207,18 @@ class AppStrings {
   static const examTimeTable = 'Exam Time Table';
   static const addLectureTimeTable = 'Add Lecture Time Table';
   static const students = 'Students';
-
-  
+  static const test = 'Test';
+  static const exam = 'Exam';
+  static const connectedAccounts = 'Connected Accounts';
+  static const analysis = 'Analysis';
+  static const feesPayment = 'Fees Payment';
+  static const paymentHistory = 'Payment History';
+  static const subjectCourses = 'Subject/Courses';
+  static const addSubject = 'Add Subject';
+  static const previousEvents = 'Previous Events';
+  static const eventTitle = "Event's Title";
+  static const eventsName = "Event's Name";
+  static const eventsDate = "Event's Date";
+  static const eventsDetails = "Event's Details";
+  static const associatedEventOptional = 'Associated Event (Optional)';
 }

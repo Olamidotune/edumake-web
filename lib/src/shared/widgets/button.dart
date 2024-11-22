@@ -10,6 +10,7 @@ class Button extends StatelessWidget {
     this.textColor = AppColors.whiteColor,
     this.busy = false,
     this.pill = false,
+    this.deleteButton = false,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class Button extends StatelessWidget {
   final Color textColor;
   final bool busy;
   final bool pill;
+  final bool deleteButton;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,11 @@ class Button extends StatelessWidget {
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               side: BorderSide(
-                color: buttonColor == Colors.white
-                    ? AppColors.primaryColor
-                    : Colors.transparent,
+                color: deleteButton
+                    ? AppColors.redColor
+                    : buttonColor == Colors.white
+                        ? AppColors.primaryColor
+                        : Colors.transparent,
               ),
               borderRadius: BorderRadius.circular(pill ? 50.radius : 10.radius),
             ),
@@ -62,12 +66,17 @@ class Button extends StatelessWidget {
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 16.fontSize,
-                      color: buttonColor == Colors.white
+                      color: 
+                      
+                      deleteButton
+                          ? AppColors.redColor
+                          :
+                      buttonColor == Colors.white
                           ? AppColors.primaryColor
                           : textColor,
                       fontWeight: FontWeight.w500,
                     ),
-                    textAlign: TextAlign.center,
+                textAlign: TextAlign.center,
               ),
       ),
     );

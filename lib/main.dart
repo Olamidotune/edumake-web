@@ -20,8 +20,8 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permis
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/user_payment_screens/classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -159,6 +159,18 @@ class MyApp extends StatelessWidget {
                     const GrantedPermissionsScreen(),
                 ForgotPasswordScreen.routeName: (context) =>
                     const ForgotPasswordScreen(),
+                ClassStudentsScreen.routeName: (context) =>
+                    const ClassStudentsScreen(),
+                StudentDetailsScreen.routeName: (context) =>
+                    const StudentDetailsScreen(),
+                IndvidualStudentAssignmentScreen.routeName: (context) =>
+                    const IndvidualStudentAssignmentScreen(),
+                ClassEventsScreen.routeName: (context) =>
+                    const ClassEventsScreen(),
+                ClassEventDetailsScreen.routeName: (context) =>
+                    const ClassEventDetailsScreen(),
+                AddEventsScreen.routeName: (context) =>
+                    const AddEventsScreen(),
                 VerifyAccount.routeName: (context) => const VerifyAccount(),
                 Dashboard.routeName: (context) => const Dashboard(),
                 KycScreen.routeName: (context) => const KycScreen(),

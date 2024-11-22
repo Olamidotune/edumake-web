@@ -47,6 +47,7 @@ class _WardScreenState extends State<WardScreen> {
           ),
           child: SingleChildScrollView(
             controller: scrollController,
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
               child: buildView(userRoleFuture, students),
