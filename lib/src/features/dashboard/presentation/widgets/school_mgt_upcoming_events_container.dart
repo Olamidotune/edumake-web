@@ -1,14 +1,26 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
   const SchoolMgtUpcomingEventsContainer({
-    super.key,
+    required this.title,
+    required this.date,
+    required this.description,
+    required this.previousEvents, super.key,
+    this.recipients,
+    this.recipientsList,
   });
+
+  final String title;
+  final String date;
+  final String description;
+  final String? recipients;
+  //come back to this
+  // final List<String>? recipientsList;
+  final String? recipientsList;
+  final bool previousEvents;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +28,13 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor.withOpacity(0.1),
+        border: Border.all(
+          color: AppColors.primaryColor.withOpacity(0.1),
+        
+        ),
+        color: previousEvents
+            ? AppColors.whiteColor.withOpacity(0.2)
+            : AppColors.primaryColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -25,7 +43,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'State Spelling Bee for JSS1',
+                title,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.fontSize,
                       color: AppColors.primaryColor,
@@ -34,7 +52,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
                     ),
               ),
               Text(
-                '13, Feb 2023',
+                date,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.fontSize,
                       color: AppColors.primaryTextColor,
@@ -46,19 +64,26 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
           ),
           AppSpacing.verticalSpaceMedium,
           Text(
-            'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students and parents',
+            description,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 13.fontSize,
                   color: AppColors.primaryTextColor,
                   fontWeight: FontWeight.w300,
                 ),
+            textAlign: TextAlign.justify,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 5,
           ),
-          AppSpacing.verticalSpaceMedium,
+          if (recipients != null)
+            AppSpacing.verticalSpaceMedium
+          else
+            const SizedBox.shrink(),
           Align(
             alignment: Alignment.bottomLeft,
             child: RichText(
               text: TextSpan(
-                text: AppStrings.recipients,
+                text: recipients ?? '',
+                // text: AppStrings.recipients,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.fontSize,
                       color: AppColors.primaryTextColor,
@@ -67,7 +92,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
                     ),
                 children: [
                   TextSpan(
-                    text: ': Parents, Teachers, Students',
+                    text: recipientsList ?? '',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 12.fontSize,
                           color: AppColors.primaryColor,
