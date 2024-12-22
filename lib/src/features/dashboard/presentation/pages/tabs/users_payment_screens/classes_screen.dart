@@ -707,10 +707,6 @@ class AddEventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
-    // final eventDetailsController = TextEditingController();
-    // final eventDetailsFocusNode = FocusNode();
-    // final recepientsController = TextEditingController();
-    // final recepientsFocusNode = FocusNode();
     final eventTitleController = TextEditingController();
     final eventTitleFocusNode = FocusNode();
     final eventDateController = TextEditingController();
@@ -751,6 +747,19 @@ class AddEventsScreen extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 CustomTextFormField(
+                  title: AppStrings.recipients,
+                  controller: eventDateController,
+                  focusNode: eventDateFocusNode,
+                  hintText: AppStrings.recipients,
+                  keyboardType: TextInputType.text,
+                  customFilled: true,
+                  editIcon: SvgPicture.asset(
+                    'assets/svg/calendar.svg',
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                CustomTextFormField(
                   title: AppStrings.eventsDate,
                   controller: eventDateController,
                   focusNode: eventDateFocusNode,
@@ -764,6 +773,56 @@ class AddEventsScreen extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 const CustomBigTextFormField(header: AppStrings.eventsDetails),
+                AppSpacing.verticalSpaceMedium,
+                Text(
+                  '${AppStrings.associatedEvent} (${AppStrings.optional})',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.blackColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceSmall,
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 100.height,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/svg/upload.svg',
+                            color: AppColors.primaryColor,
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          Text(
+                            '${AppStrings.upload} ${AppStrings.pngJpg}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                Button(
+                  text: AppStrings.review,
+                  onPressed: () {},
+                ),
                 AppSpacing.verticalSpaceMedium,
               ],
             ),
