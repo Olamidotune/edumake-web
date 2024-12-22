@@ -805,8 +805,8 @@ class ClassEventDetailsScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 250,
                     child: Image.asset(
-                        // 'assets/png/event.png',
-                        'assets/png/event.png'),
+                      'assets/png/event.png',
+                    ),
                   ),
                   Text(
                     eventName!,
