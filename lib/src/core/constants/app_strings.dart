@@ -221,4 +221,15 @@ class AppStrings {
   static const eventsDate = "Event's Date";
   static const eventsDetails = "Event's Details";
   static const associatedEventOptional = 'Associated Event (Optional)';
+  static const review = ' Review';
+  static const add = 'Add';
+  static const associatedEvent = 'Associated Event';
+  static const eventDate = 'Event Date';
+  static const eventDetails = 'Event Details';
+  static const eventTitleIsRequired = "Event's Title is required";
+  static const eventDateIsRequired = "Event's Date is required";
+  static const eventDetailsIsRequired = "Event's Details is required";
+  static const optional = 'Optional';
+  static const upload = 'Upload';
+  static const pngJpg = 'PNG/JPG';
 }
