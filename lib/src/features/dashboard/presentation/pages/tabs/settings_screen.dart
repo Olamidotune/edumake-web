@@ -27,6 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
+        left: false,
+        right: false,
         child: RawScrollbar(
           controller: scrollController,
           thumbColor: AppColors.primaryColor.withOpacity(0.4),

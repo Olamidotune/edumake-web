@@ -240,6 +240,8 @@ class AppStrings {
   static const support = 'Support';
   static const settings = 'Settings';
   static const messages = 'Messages';
-
+  static const privacyPolicy = 'Privacy Policy';
+  static const termsOfService = 'Terms of Service';
+  static const logOut = 'Log Out';
 
 }

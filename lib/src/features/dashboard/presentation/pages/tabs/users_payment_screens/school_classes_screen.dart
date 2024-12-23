@@ -209,11 +209,7 @@ class ClassDetailsScreen extends StatelessWidget {
                     isProfilePictureEnabled: false,
                     title: AppStrings.payments,
                   ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    title: AppStrings.events,
-                    isProfilePictureEnabled: false,
-                  ),
+                
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     title: AppStrings.lectureTimeTable,
