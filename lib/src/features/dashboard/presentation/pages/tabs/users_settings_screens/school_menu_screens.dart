@@ -64,12 +64,12 @@ class SchoolMenuScreen extends StatelessWidget {
                   height: 2,
                 ),
               ),
-               _SchoolMenuListTile(
-            title: AppStrings.privacyPolicy,
-            icon: 'shield_done',
-            onTap: () {},
-          ),
-            Padding(
+              _SchoolMenuListTile(
+                title: AppStrings.privacyPolicy,
+                icon: 'shield_done',
+                onTap: () {},
+              ),
+              Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSpacing.horizontalSpacing,
                 ),
@@ -78,39 +78,38 @@ class SchoolMenuScreen extends StatelessWidget {
                   height: 2,
                 ),
               ),
-               _SchoolMenuListTile(
-            title: AppStrings.termsOfService,
-            icon: 'paper',
-            onTap: () {},
-          ),
+              _SchoolMenuListTile(
+                title: AppStrings.termsOfService,
+                icon: 'paper',
+                onTap: () {},
+              ),
             ],
           ),
         ),
-
-         AppSpacing.verticalSpaceMassive,
+        AppSpacing.verticalSpaceMassive,
         Container(
           decoration: BoxDecoration(
             color: AppColors.primaryColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child:   ListTile(
-          onTap: (){},
-          leading: SvgPicture.asset(
-            'assets/svg/logout.svg',
-            color: AppColors.redColor,
-            height: 15.fontSize,
+          child: ListTile(
+            onTap: () {},
+            leading: SvgPicture.asset(
+              'assets/svg/logout.svg',
+              color: AppColors.redColor,
+              height: 15.fontSize,
+            ),
+            title: Text(
+              AppStrings.logOut,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 14.fontSize,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.redColor,
+                  ),
+            ),
+            trailing: SvgPicture.asset('assets/svg/arrow_right.svg'),
           ),
-          title: Text(
-            AppStrings.logOut,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 14.fontSize,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.redColor,
-                ),
-          ),
-          trailing: SvgPicture.asset('assets/svg/arrow_right.svg'),
         ),
-        )
       ],
     );
   }
@@ -162,7 +161,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
             title: AppStrings.addTeacher,
             icon: 'plus',
             onTap: () {
-             Navigator.of(context, rootNavigator: true).pushNamed(AddTeachersScreen.routeName,);
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                AddTeachersScreen.routeName,
+              );
             },
           ),
           Padding(
@@ -178,7 +179,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
             title: AppStrings.connectionResquest,
             icon: 'scan',
             onTap: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(ConnectionRequestScreen.routeName,);
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                ConnectionRequestScreen.routeName,
+              );
             },
           ),
           Padding(
@@ -264,7 +267,8 @@ class SchoolMenuTopContainer extends StatelessWidget {
             title: AppStrings.events,
             icon: 'ticket',
             onTap: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(ClassEventsScreen.routeName);
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(ClassEventsScreen.routeName);
             },
           ),
           Padding(
