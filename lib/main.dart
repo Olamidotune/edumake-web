@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
               ),
-              home: const SplashScreen(),
+              home: const Dashboard(),
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 SelectLanguageScreen.routeName: (context) =>

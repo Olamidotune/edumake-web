@@ -232,4 +232,14 @@ class AppStrings {
   static const optional = 'Optional';
   static const upload = 'Upload';
   static const pngJpg = 'PNG/JPG';
+  static const paymentFees = 'Payment/Fees';
+  static const addStudents = 'Add Students';
+  static const notifications = 'Notifications';
+  static const parentsGuardians = 'Parents/Guardians';
+  static const reports = 'Reports';
+  static const support = 'Support';
+  static const settings = 'Settings';
+  static const messages = 'Messages';
+
+
 }
