@@ -85,7 +85,7 @@ class SignIn extends HookWidget {
                     ),
                     AppSpacing.verticalSpaceMedium,
                     CustomTextFormField(
-                      textInputAction: TextInputAction.next,
+                      textInputAction: TextInputAction.go,
                       controller: passwordController,
                       focusNode: passwordNode,
                       title: 'Password',
@@ -94,6 +94,16 @@ class SignIn extends HookWidget {
                       prefixIcon: 'password',
                       obscureText: obscurePassword.value,
                       isPassword: true,
+                      onFieldSubmitted: () {
+                        if (formKey.currentState!.validate()) {
+                          isBusy.value = true;
+                          Future.delayed(const Duration(seconds: 3), () {
+                            Navigator.of(context)
+                                .pushNamed(Dashboard.routeName);
+                            isBusy.value = false;
+                          });
+                        }
+                      },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter a valid password';
@@ -147,13 +157,12 @@ class SignIn extends HookWidget {
                       busy: isBusy.value,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                             isBusy.value = true;
+                          isBusy.value = true;
                           Future.delayed(const Duration(seconds: 3), () {
                             Navigator.of(context)
                                 .pushNamed(Dashboard.routeName);
                             isBusy.value = false;
                           });
-                          
                         }
                       },
                     ),
