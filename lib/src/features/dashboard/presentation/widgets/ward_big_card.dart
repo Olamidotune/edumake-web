@@ -37,14 +37,6 @@ class WardBigCard extends StatelessWidget {
         border: Border.all(
           color: color.withOpacity(0.2),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.blackColor.withOpacity(0.2),
-            blurRadius: 3,
-            spreadRadius: 1,
-            offset: const Offset(1, 3),
-          ),
-        ],
       ),
       child: Column(
         children: [

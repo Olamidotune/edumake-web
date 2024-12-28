@@ -1,7 +1,6 @@
 
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:flutter/material.dart';
 
@@ -27,9 +26,6 @@ class TeachersNote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-      height: MediaQuery.of(context).size.height < kMinSupportedHeight
-          ? 150.height
-          : 100.height,
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(20),
@@ -73,9 +69,9 @@ class TeachersNote extends StatelessWidget {
                   color: AppColors.primaryTextColor,
                   fontWeight: FontWeight.w300,
                 ),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.justify,
             overflow: TextOverflow.ellipsis,
-            maxLines: 3,
+            maxLines: 4,
           ),
           AppSpacing.verticalSpaceSmall,
           Align(

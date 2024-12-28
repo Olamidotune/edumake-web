@@ -124,7 +124,9 @@ class YourWardCard extends StatelessWidget {
                     ),
               ),
               Expanded(
-                child: AutoScrollingText(
+
+                child: 
+                AutoScrollingText(
                   text:
                       'Maths: $scores%, English: $scores%, Physics: 60%, Chemistry: 50%, Biology: 40%, Geography: 30%, History: 20%, CRK: 10%',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
