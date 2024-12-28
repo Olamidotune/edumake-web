@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +28,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+          bottom: false,
+        left: false,
+        right: false,
         child: RawScrollbar(
           controller: scrollController,
           thumbColor: AppColors.primaryColor.withOpacity(0.4),

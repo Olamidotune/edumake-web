@@ -97,11 +97,14 @@ class SignIn extends HookWidget {
                       onFieldSubmitted: () {
                         if (formKey.currentState!.validate()) {
                           isBusy.value = true;
-                          Future.delayed(const Duration(seconds: 3), () {
-                            Navigator.of(context)
-                                .pushNamed(Dashboard.routeName);
-                            isBusy.value = false;
-                          });
+                          Future.delayed(
+                            const Duration(seconds: 3),
+                            () {
+                              Navigator.of(context)
+                                  .pushNamed(Dashboard.routeName);
+                              isBusy.value = false;
+                            },
+                          );
                         }
                       },
                       validator: (value) {
