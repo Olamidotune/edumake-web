@@ -126,8 +126,8 @@ class _ParentMenuTopContainer extends StatelessWidget {
       child: Column(
         children: [
           MenuListTile(
-            title: AppStrings.curriculumSchemeOfWork,
-            icon: 'document',
+            title: AppStrings.events,
+            icon: 'ticket',
             onTap: () {},
           ),
           Padding(
@@ -156,20 +156,6 @@ class _ParentMenuTopContainer extends StatelessWidget {
           MenuListTile(
             title: AppStrings.messages,
             icon: 'chat',
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.submittedAssignment,
-            icon: 'document',
             onTap: () {},
           ),
           Padding(
