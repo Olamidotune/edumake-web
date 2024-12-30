@@ -2,7 +2,6 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,7 +28,7 @@ class ParentMenuScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: AppColors.secondaryTexColor,
                 ),
-          ), //Name of the school
+          ), //Name of the user
           subtitle: Text(
             'Davidegundeyi@yahoo.co.uk',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -37,10 +36,10 @@ class ParentMenuScreen extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                   color: Colors.grey,
                 ),
-          ), // Email of the school
+          ), // Email of the user
         ),
         AppSpacing.verticalSpaceMedium,
-        const SchoolMenuTopContainer(),
+        const _ParentMenuTopContainer(),
         AppSpacing.verticalSpaceMassive,
         Container(
           decoration: BoxDecoration(
@@ -110,6 +109,85 @@ class ParentMenuScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ParentMenuTopContainer extends StatelessWidget {
+  const _ParentMenuTopContainer();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          MenuListTile(
+            title: AppStrings.curriculumSchemeOfWork,
+            icon: 'document',
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+            ),
+            child: Divider(
+              color: AppColors.greyColor.withOpacity(0.7),
+              height: 2,
+            ),
+          ),
+          MenuListTile(
+            title: AppStrings.teachersNote,
+            icon: 'document',
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+            ),
+            child: Divider(
+              color: AppColors.greyColor.withOpacity(0.7),
+              height: 2,
+            ),
+          ),
+          MenuListTile(
+            title: AppStrings.messages,
+            icon: 'chat',
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+            ),
+            child: Divider(
+              color: AppColors.greyColor.withOpacity(0.7),
+              height: 2,
+            ),
+          ),
+          MenuListTile(
+            title: AppStrings.submittedAssignment,
+            icon: 'document',
+            onTap: () {},
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSpacing.horizontalSpacing,
+            ),
+            child: Divider(
+              color: AppColors.greyColor.withOpacity(0.7),
+              height: 2,
+            ),
+          ),
+          MenuListTile(
+            title: AppStrings.notifications,
+            icon: 'notification',
+            onTap: () {},
+          ),
+        ],
+      ),
     );
   }
 }

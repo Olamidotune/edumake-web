@@ -22,6 +22,7 @@ class MenuListTile extends StatelessWidget {
         'assets/svg/$icon.svg',
         height: 24,
         width: 24,
+        color: AppColors.primaryColor,
       ),
       title: Text(
         title,
