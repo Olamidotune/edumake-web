@@ -247,4 +247,8 @@ class AppStrings {
   static const schoolEvents = 'School Events';
   static const studyMaterials = 'Study Materials';
   static const certificates = 'Certificates';
+  static const searchPayment = "search with school's name or pupil's name";
+  static const pendingPayments = 'Pending Payments';
+  static const schoolFeePayment = 'School Fee Payment';
+  static const payFee = 'Pay Fee';
 }
