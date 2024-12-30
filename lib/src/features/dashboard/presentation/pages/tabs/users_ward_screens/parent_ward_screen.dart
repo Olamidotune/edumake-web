@@ -1,4 +1,3 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
@@ -23,17 +22,6 @@ class _ParentWardScreenState extends State<ParentWardScreen> {
         Text(
           '${AppStrings.yourWards} (3)',
           style: Theme.of(context).textTheme.displayMedium,
-        ),
-        AppSpacing.verticalSpaceMedium,
-        const WardBigCard(
-          wardName: 'John Doe',
-          wardClass: 'Grade 5',
-          wardSchool: 'Springfield Elementary',
-          wardNextEvent: 'Parent-Teacher Meeting',
-          wardAttendance: '95%',
-          wardGender: 'Male',
-          feesAmount: '120,000',
-          color: AppColors.primaryColor,
         ),
         AppSpacing.verticalSpaceMedium,
         ListView.separated(

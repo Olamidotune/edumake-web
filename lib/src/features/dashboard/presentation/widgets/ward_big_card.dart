@@ -69,7 +69,7 @@ class WardBigCard extends StatelessWidget {
               ),
             ],
           ),
-          AppSpacing.verticalSpaceMedium,
+          AppSpacing.verticalSpaceSmall,
           Row(
             children: [
               Expanded(
@@ -158,7 +158,7 @@ class WardBigCard extends StatelessWidget {
               ),
             ],
           ),
-          AppSpacing.verticalSpaceMedium,
+          AppSpacing.verticalSpaceSmall,
           Row(
             children: [
               Expanded(
@@ -237,7 +237,7 @@ class WardBigCard extends StatelessWidget {
               ),
             ],
           ),
-          AppSpacing.verticalSpaceMedium,
+          AppSpacing.verticalSpaceSmall,
           const Divider(
             color: AppColors.primaryTextColor,
             thickness: 0.5,
