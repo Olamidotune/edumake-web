@@ -81,6 +81,7 @@ class WardDetailScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
             child: SingleChildScrollView(
+              controller: scrollController,
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
@@ -89,9 +90,110 @@ class WardDetailScreen extends StatelessWidget {
                     wardSchool: wardSchool,
                     wardClass: wardClass,
                   ),
+                  AppSpacing.verticalSpaceLarge,
+                  const _WardDetailsButton(
+                    AppStrings.fees,
+                    'payment',
+                    'Paid',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.subjectCourses,
+                    'document',
+                    '13',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.assignments,
+                    'document',
+                    '3 new',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.lectureTimeTable,
+                    'document',
+                    '',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.schoolEvents,
+                    'document',
+                    '',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.studyMaterials,
+                    'document',
+                    '',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.examTimeTable,
+                    'document',
+                    '',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.paymentHistory,
+                    'document',
+                    '',
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  const _WardDetailsButton(
+                    AppStrings.certificates,
+                    'document',
+                    '',
+                  ),
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WardDetailsButton extends StatelessWidget {
+  const _WardDetailsButton(
+    this.title,
+    this.icon,
+    this.trailing,
+  );
+
+  final String title;
+  final String icon;
+  final String? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: AppColors.primaryColor.withOpacity(.1),
+      ),
+      child: GestureDetector(
+        onTap: () {},
+        child: ListTile(
+          leading: SvgPicture.asset(
+            'assets/svg/$icon.svg',
+            color: AppColors.primaryColor,
+          ),
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.blackColor,
+                  fontSize: 12.fontSize,
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
+          trailing: Text(
+            trailing ?? '',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.primaryColor,
+                  fontSize: 12.fontSize,
+                  fontWeight: FontWeight.w400,
+                ),
           ),
         ),
       ),

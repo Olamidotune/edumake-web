@@ -243,5 +243,8 @@ class AppStrings {
   static const privacyPolicy = 'Privacy Policy';
   static const termsOfService = 'Terms of Service';
   static const logOut = 'Log Out';
-
+  static const fees = 'Fees';
+  static const schoolEvents = 'School Events';
+  static const studyMaterials = 'Study Materials';
+  static const certificates = 'Certificates';
 }
