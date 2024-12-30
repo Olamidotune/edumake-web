@@ -3,7 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
-import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -582,7 +582,9 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   AppSpacing.verticalSpaceSmall,
-                  const CustomBigTextFormField(header: AppStrings.others,),
+                  const CustomBigTextFormField(
+                    header: AppStrings.others,
+                  ),
                   SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
                   Button(
                     text: AppStrings.submit,
