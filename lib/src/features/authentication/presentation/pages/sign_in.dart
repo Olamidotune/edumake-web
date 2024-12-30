@@ -163,7 +163,7 @@ class SignIn extends HookWidget {
                           isBusy.value = true;
                           Future.delayed(const Duration(seconds: 3), () {
                             Navigator.of(context)
-                                .pushNamed(Dashboard.routeName);
+                                .popAndPushNamed(Dashboard.routeName);
                             isBusy.value = false;
                           });
                         }
