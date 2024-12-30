@@ -23,43 +23,55 @@ class _DashboardState extends State<Dashboard> {
     PersistentTabController controller;
     controller = PersistentTabController();
 
-    return PersistentTabView(
-      bottomScreenMargin: 70.height,
-      context,
-      screens: _buidScreens(),
-      controller: controller,
-      items: _navBarsItems(),
-      resizeToAvoidBottomInset: true,
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(60),
-        colorBehindNavBar: AppColors.whiteColor,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.blackColor.withOpacity(0.9),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-      padding: const EdgeInsets.only(
-        top: 8,
-        bottom: 10,
-      ),
-      backgroundColor: AppColors.primaryColor,
-      animationSettings: const NavBarAnimationSettings(
-        navBarItemAnimation: ItemAnimationSettings(
-          duration: Duration(
-            milliseconds: 003,
-          ),
-          curve: Curves.decelerate,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, Object? result) async {
+        if (didPop) {
+          return;
+        }
+        final shouldPop = await _showExitDialog(context) ?? false;
+        if (context.mounted && shouldPop) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: PersistentTabView(
+        bottomScreenMargin: 70.height,
+        context,
+        screens: _buidScreens(),
+        controller: controller,
+        items: _navBarsItems(),
+        resizeToAvoidBottomInset: true,
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(60),
+          colorBehindNavBar: AppColors.whiteColor,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.blackColor.withOpacity(0.9),
+              blurRadius: 4,
+            ),
+          ],
         ),
-        screenTransitionAnimation: ScreenTransitionAnimationSettings(
-          animateTabTransition: true,
-          duration: Duration(milliseconds: 200),
-          screenTransitionAnimationType: ScreenTransitionAnimationType.slide,
+        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        padding: const EdgeInsets.only(
+          top: 8,
+          bottom: 10,
         ),
+        backgroundColor: AppColors.primaryColor,
+        animationSettings: const NavBarAnimationSettings(
+          navBarItemAnimation: ItemAnimationSettings(
+            duration: Duration(
+              milliseconds: 003,
+            ),
+            curve: Curves.decelerate,
+          ),
+          screenTransitionAnimation: ScreenTransitionAnimationSettings(
+            animateTabTransition: true,
+            duration: Duration(milliseconds: 200),
+            screenTransitionAnimationType: ScreenTransitionAnimationType.slide,
+          ),
+        ),
+        navBarStyle: NavBarStyle.style12,
       ),
-      navBarStyle: NavBarStyle.style12,
     );
   }
 }
@@ -120,4 +132,49 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       inactiveColorPrimary: inactiveColorPrimary,
     ),
   ];
+}
+
+Future<bool?> _showExitDialog(BuildContext context) async {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          'Are you sure you want to exit?',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontFamily: 'HelveticaNeueRounded',
+                fontSize: 12.fontSize,
+                fontWeight: FontWeight.w400,
+                color: AppColors.primaryTextColor,
+              ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(
+              'No',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontFamily: 'HelveticaNeueRounded',
+                    fontSize: 12.fontSize,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.greenColor,
+                  ),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(
+              'Yes',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontFamily: 'HelveticaNeueRounded',
+                    fontSize: 12.fontSize,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.redColor,
+                  ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
