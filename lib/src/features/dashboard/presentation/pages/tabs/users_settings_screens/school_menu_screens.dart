@@ -145,7 +145,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
           ),
           _SchoolMenuListTile(
             title: AppStrings.addStudents,
-            icon: 'plus',
+            icon: 'plus1',
             onTap: () {},
           ),
           Padding(
@@ -159,7 +159,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
           ),
           _SchoolMenuListTile(
             title: AppStrings.addTeacher,
-            icon: 'plus',
+            icon: 'plus1',
             onTap: () {
               Navigator.of(context, rootNavigator: true).pushNamed(
                 AddTeachersScreen.routeName,

@@ -216,7 +216,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SvgPicture.asset('assets/svg/plus.svg'),
+                          SvgPicture.asset('assets/svg/plus1.svg'),
                           Text(
                             ' Add more subjects',
                             style:

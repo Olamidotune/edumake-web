@@ -373,7 +373,7 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SvgPicture.asset('assets/svg/plus.svg'),
+                          SvgPicture.asset('assets/svg/plus1.svg'),
                           Text(
                             ' Add more students',
                             style:

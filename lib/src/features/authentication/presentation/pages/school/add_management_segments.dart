@@ -246,7 +246,7 @@ class AddCsvContainer extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/svg/plus.svg'),
+            SvgPicture.asset('assets/svg/plus1.svg'),
             AppSpacing.horizontalSpaceSmall,
             Text(
               name,

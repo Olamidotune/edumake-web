@@ -71,7 +71,7 @@ class ClassScreen extends StatelessWidget {
                   ),
                 ),
                 child: SvgPicture.asset(
-                  'assets/svg/plus.svg',
+                  'assets/svg/plus1.svg',
                   color: AppColors.primaryColor,
                 ),
               ),
@@ -289,7 +289,7 @@ class ClassStudentsScreen extends StatelessWidget {
                           ),
                         ),
                         child: SvgPicture.asset(
-                          'assets/svg/plus.svg',
+                          'assets/svg/plu1.svg',
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -595,7 +595,7 @@ class ClassEventsScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           SvgPicture.asset(
-                            'assets/svg/plus.svg',
+                            'assets/svg/plus1.svg',
                             color: AppColors.primaryColor,
                           ),
                           AppSpacing.horizontalSpaceSmall,
