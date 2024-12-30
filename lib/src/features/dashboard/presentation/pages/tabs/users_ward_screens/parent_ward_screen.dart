@@ -29,15 +29,27 @@ class _ParentWardScreenState extends State<ParentWardScreen> {
           physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.students.length,
           itemBuilder: (context, index) {
-            return WardBigCard(
-              wardName: widget.students[index].name,
-              wardClass: widget.students[index].classLevel,
-              wardSchool: widget.students[index].school,
-              wardNextEvent: widget.students[index].upComingEvent,
-              wardAttendance: widget.students[index].attendance,
-              feesAmount: widget.students[index].feesAmount,
-              color: AppColors.purpleColor,
-              wardGender: widget.students[index].gender,
+            return GestureDetector(
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => WardDetailScreen(
+                //       ward: widget.students[index],
+                //     ),
+                //   ),
+                // );
+              },
+              child: WardBigCard(
+                wardName: widget.students[index].name,
+                wardClass: widget.students[index].classLevel,
+                wardSchool: widget.students[index].school,
+                wardNextEvent: widget.students[index].upComingEvent,
+                wardAttendance: widget.students[index].attendance,
+                feesAmount: widget.students[index].feesAmount,
+                color: AppColors.purpleColor,
+                wardGender: widget.students[index].gender,
+              ),
             );
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -46,5 +58,16 @@ class _ParentWardScreenState extends State<ParentWardScreen> {
         ),
       ],
     );
+  }
+}
+
+class WardDetailScreen extends StatelessWidget {
+  const WardDetailScreen({super.key});
+
+  static const routeName = '/ward-details';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
   }
 }
