@@ -2,17 +2,14 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
-class SchoolMenuScreen extends StatelessWidget {
-  const SchoolMenuScreen({super.key});
+class ParentMenuScreen extends StatelessWidget {
+  const ParentMenuScreen({super.key});
 
-  static const String routeName = '/school-menu';
+  static const String routeName = '/parent-menu';
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,7 @@ class SchoolMenuScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: AppColors.secondaryTexColor,
                 ),
-          ), //Name of the school
+          ), //Name of the user
           subtitle: Text(
             'Davidegundeyi@yahoo.co.uk',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -39,10 +36,10 @@ class SchoolMenuScreen extends StatelessWidget {
                   fontWeight: FontWeight.w300,
                   color: Colors.grey,
                 ),
-          ), // Email of the school
+          ), // Email of the user
         ),
         AppSpacing.verticalSpaceMedium,
-        const SchoolMenuTopContainer(),
+        const _ParentMenuTopContainer(),
         AppSpacing.verticalSpaceMassive,
         Container(
           decoration: BoxDecoration(
@@ -116,10 +113,8 @@ class SchoolMenuScreen extends StatelessWidget {
   }
 }
 
-class SchoolMenuTopContainer extends StatelessWidget {
-  const SchoolMenuTopContainer({
-    super.key,
-  });
+class _ParentMenuTopContainer extends StatelessWidget {
+  const _ParentMenuTopContainer();
 
   @override
   Widget build(BuildContext context) {
@@ -131,100 +126,8 @@ class SchoolMenuTopContainer extends StatelessWidget {
       child: Column(
         children: [
           MenuListTile(
-            title: AppStrings.paymentFees,
-            icon: 'payment',
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.addStudents,
-            icon: 'plus1',
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.addTeacher,
-            icon: 'plus1',
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                AddTeachersScreen.routeName,
-              );
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.connectionResquest,
-            icon: 'scan',
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                ConnectionRequestScreen.routeName,
-              );
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.messages,
-            icon: 'chat',
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.notifications,
-            icon: 'notification',
-            onTap: () {},
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSpacing.horizontalSpacing,
-            ),
-            child: Divider(
-              color: AppColors.greyColor.withOpacity(0.7),
-              height: 2,
-            ),
-          ),
-          MenuListTile(
-            title: AppStrings.parentsGuardians,
-            icon: 'profile',
+            title: AppStrings.curriculumSchemeOfWork,
+            icon: 'document',
             onTap: () {},
           ),
           Padding(
@@ -251,8 +154,8 @@ class SchoolMenuTopContainer extends StatelessWidget {
             ),
           ),
           MenuListTile(
-            title: AppStrings.subscription,
-            icon: 'discovery',
+            title: AppStrings.messages,
+            icon: 'chat',
             onTap: () {},
           ),
           Padding(
@@ -265,12 +168,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
             ),
           ),
           MenuListTile(
-            title: AppStrings.events,
-            icon: 'ticket',
-            onTap: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(ClassEventsScreen.routeName);
-            },
+            title: AppStrings.submittedAssignment,
+            icon: 'document',
+            onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -282,8 +182,8 @@ class SchoolMenuTopContainer extends StatelessWidget {
             ),
           ),
           MenuListTile(
-            title: AppStrings.reports,
-            icon: 'danger',
+            title: AppStrings.notifications,
+            icon: 'notification',
             onTap: () {},
           ),
         ],

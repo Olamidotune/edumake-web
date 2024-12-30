@@ -251,4 +251,5 @@ class AppStrings {
   static const pendingPayments = 'Pending Payments';
   static const schoolFeePayment = 'School Fee Payment';
   static const payFee = 'Pay Fee';
+  static const submittedAssignment = 'Submitted Assignment';
 }
