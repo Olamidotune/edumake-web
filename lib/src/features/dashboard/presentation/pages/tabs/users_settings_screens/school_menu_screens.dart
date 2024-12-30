@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -50,7 +51,7 @@ class SchoolMenuScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _SchoolMenuListTile(
+              MenuListTile(
                 title: AppStrings.support,
                 icon: 'shield_done',
                 onTap: () {},
@@ -64,7 +65,7 @@ class SchoolMenuScreen extends StatelessWidget {
                   height: 2,
                 ),
               ),
-              _SchoolMenuListTile(
+              MenuListTile(
                 title: AppStrings.privacyPolicy,
                 icon: 'shield_done',
                 onTap: () {},
@@ -78,7 +79,7 @@ class SchoolMenuScreen extends StatelessWidget {
                   height: 2,
                 ),
               ),
-              _SchoolMenuListTile(
+              MenuListTile(
                 title: AppStrings.termsOfService,
                 icon: 'paper',
                 onTap: () {},
@@ -129,7 +130,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.paymentFees,
             icon: 'payment',
             onTap: () {},
@@ -143,7 +144,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.addStudents,
             icon: 'plus1',
             onTap: () {},
@@ -157,7 +158,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.addTeacher,
             icon: 'plus1',
             onTap: () {
@@ -175,7 +176,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.connectionResquest,
             icon: 'scan',
             onTap: () {
@@ -193,7 +194,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.messages,
             icon: 'chat',
             onTap: () {},
@@ -207,7 +208,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.notifications,
             icon: 'notification',
             onTap: () {},
@@ -221,7 +222,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.parentsGuardians,
             icon: 'profile',
             onTap: () {},
@@ -235,7 +236,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.teachersNote,
             icon: 'document',
             onTap: () {},
@@ -249,7 +250,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.subscription,
             icon: 'discovery',
             onTap: () {},
@@ -263,7 +264,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.events,
             icon: 'ticket',
             onTap: () {
@@ -280,51 +281,13 @@ class SchoolMenuTopContainer extends StatelessWidget {
               height: 2,
             ),
           ),
-          _SchoolMenuListTile(
+          MenuListTile(
             title: AppStrings.reports,
             icon: 'danger',
             onTap: () {},
           ),
         ],
       ),
-    );
-  }
-}
-
-class _SchoolMenuListTile extends StatelessWidget {
-  const _SchoolMenuListTile({
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String title;
-  final String icon;
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppSpacing.verticalSpaceSmall,
-        ListTile(
-          onTap: onTap,
-          leading: SvgPicture.asset(
-            'assets/svg/$icon.svg',
-            color: AppColors.primaryColor,
-            height: 15.fontSize,
-          ),
-          title: Text(
-            title,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 14.fontSize,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.primaryTextColor,
-                ),
-          ),
-          trailing: SvgPicture.asset('assets/svg/arrow_right.svg'),
-        ),
-      ],
     );
   }
 }
