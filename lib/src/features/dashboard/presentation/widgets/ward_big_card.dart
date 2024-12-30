@@ -51,8 +51,8 @@ class WardBigCard extends StatelessWidget {
                 children: [
                   Text(
                     wardName,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 16.fontSize,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 14.fontSize,
                           color: AppColors.secondaryTexColor,
                           fontWeight: FontWeight.w600,
                         ),
@@ -60,7 +60,7 @@ class WardBigCard extends StatelessWidget {
                   Text(
                     wardGender,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 14.fontSize,
+                          fontSize: 12.fontSize,
                           color: AppColors.primaryTextColor,
                           fontWeight: FontWeight.w400,
                         ),
@@ -92,7 +92,7 @@ class WardBigCard extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                  fontSize: 13.fontSize,
+                                  fontSize: 11.fontSize,
                                   color: AppColors.primaryTextColor,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -135,7 +135,7 @@ class WardBigCard extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                  fontSize: 13.fontSize,
+                                  fontSize: 11.fontSize,
                                   color: AppColors.primaryTextColor,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -181,7 +181,7 @@ class WardBigCard extends StatelessWidget {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                  fontSize: 13.fontSize,
+                                  fontSize: 11.fontSize,
                                   color: AppColors.primaryTextColor,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -209,15 +209,17 @@ class WardBigCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(
-                          Icons.person_2,
+                        SvgPicture.asset(
+                          'assets/svg/profile.svg',
+                          height: 15,
                           color: AppColors.primaryColor,
                         ),
+                        AppSpacing.horizontalSpaceSmall,
                         Text(
                           AppStrings.attendance,
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 13.fontSize,
+                                    fontSize: 11.fontSize,
                                     color: AppColors.primaryTextColor,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -254,7 +256,7 @@ class WardBigCard extends StatelessWidget {
                   Text(
                     'N $feesAmount',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 16.fontSize,
+                          fontSize: 14.fontSize,
                           color: AppColors.primaryColor,
                           fontWeight: FontWeight.w700,
                         ),

@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
@@ -95,54 +96,70 @@ class WardDetailScreen extends StatelessWidget {
                     AppStrings.fees,
                     'payment',
                     'Paid',
+                    null,
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.subjectCourses,
                     'document',
                     '13',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.assignments,
                     'document',
                     '3 new',
+                    () {
+                      Navigator.of(context).pushNamed(
+                          IndvidualStudentAssignmentScreen.routeName,
+                          arguments: {
+                            'studentName': wardName,
+                            'className': wardClass,
+                          });
+                    },
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.lectureTimeTable,
                     'document',
                     '',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.schoolEvents,
                     'document',
                     '',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.studyMaterials,
                     'document',
                     '',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.examTimeTable,
                     'document',
                     '',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.paymentHistory,
                     'document',
                     '',
+                    () {},
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  const _WardDetailsButton(
+                  _WardDetailsButton(
                     AppStrings.certificates,
                     'document',
                     '',
+                    () {},
                   ),
                 ],
               ),
@@ -159,11 +176,13 @@ class _WardDetailsButton extends StatelessWidget {
     this.title,
     this.icon,
     this.trailing,
+    this.onTap,
   );
 
   final String title;
   final String icon;
   final String? trailing;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +192,7 @@ class _WardDetailsButton extends StatelessWidget {
         color: AppColors.primaryColor.withOpacity(.1),
       ),
       child: GestureDetector(
-        onTap: () {},
+        onTap: onTap,
         child: ListTile(
           leading: SvgPicture.asset(
             'assets/svg/$icon.svg',
