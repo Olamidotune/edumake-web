@@ -7,7 +7,7 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
-import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';

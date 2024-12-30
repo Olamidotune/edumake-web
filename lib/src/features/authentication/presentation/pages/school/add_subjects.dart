@@ -2,8 +2,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
-import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
@@ -159,7 +159,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                         return null;
                                       },
                                       suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg',),
+                                        'assets/svg/edit.svg',
+                                      ),
                                       hintText:
                                           'what is the name of the subject?',
                                     ),
@@ -175,7 +176,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                         return null;
                                       },
                                       suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg',),
+                                        'assets/svg/edit.svg',
+                                      ),
                                       hintText:
                                           'Introduce the subject few words',
                                     ),
@@ -192,7 +194,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                         return null;
                                       },
                                       suffixIcon: SvgPicture.asset(
-                                          'assets/svg/edit.svg',),
+                                        'assets/svg/edit.svg',
+                                      ),
                                       hintText: 'e.g. JSS1, JSS2, JSS3',
                                     ),
                                     AppSpacing.verticalSpaceTiny,

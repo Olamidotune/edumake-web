@@ -7,10 +7,9 @@ import 'package:edumake_frontend/src/features/onboarding/presentation/pages/pare
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/school/school_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
-import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -21,11 +20,8 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  bool _isBusy = false;
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -69,22 +65,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 height: 100,
               ),
               Button(
-                busy: _isBusy,
                 text: AppStrings.next,
                 onPressed: () {
-                  setState(() {
-                    _isBusy = !_isBusy;
-                  });
-                  Future.delayed(
-                    const Duration(seconds: 1),
-                    () {
-                      Navigator.of(context)
-                          .pushNamed(OnboardingScreenTwo.routeName);
-                      setState(
-                        () => _isBusy = false,
-                      );
-                    },
-                  );
+                  Navigator.of(context)
+                      .pushNamed(OnboardingScreenTwo.routeName);
                 },
               ),
             ],
@@ -102,7 +86,6 @@ class OnboardingScreenTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(

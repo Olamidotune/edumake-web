@@ -3,9 +3,9 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
-import 'package:edumake_frontend/src/shared/widgets/app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
@@ -99,7 +99,7 @@ class ClassScreen extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 Navigator.of(context, rootNavigator: true).pushNamed(
-                  '/class-details',
+                  ClassDetailsScreen.routeName,
                   arguments: {
                     'className': classes[index],
                     'studentCount': studentCount[index],
@@ -209,7 +209,7 @@ class ClassDetailsScreen extends StatelessWidget {
                     isProfilePictureEnabled: false,
                     title: AppStrings.payments,
                   ),
-                
+
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     title: AppStrings.lectureTimeTable,
