@@ -1,10 +1,16 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/teacher_payment_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -81,7 +87,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         if (role == UserRole.parentStudent) {
           return const ParentPaymentScreen();
         } else if (role == UserRole.teacher) {
-          return const Center(child: Text('Teacher'));
+          return const TeacherPaymentScreen();
         }
         return const ClassScreen();
       },
