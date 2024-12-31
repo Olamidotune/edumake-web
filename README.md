@@ -47,7 +47,12 @@ cd edumake_frontend
 flutter pub get
 ```
 
-4. Run the app
+4. Run the build command
+```bash
+make runner
+```
+
+5. Run the app
 ```bash
 flutter run
 ```
