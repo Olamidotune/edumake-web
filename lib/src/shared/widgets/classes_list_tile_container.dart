@@ -58,7 +58,7 @@ class ClassesListTileContainer extends StatelessWidget {
             ? Text(
                 subTitle!,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 14.fontSize,
+                      fontSize: 10.fontSize,
                       fontWeight: FontWeight.w400,
                       color: AppColors.greyColor,
                     ),

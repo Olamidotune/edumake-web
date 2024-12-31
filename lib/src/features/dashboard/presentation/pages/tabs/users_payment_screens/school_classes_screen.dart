@@ -289,7 +289,7 @@ class ClassStudentsScreen extends StatelessWidget {
                           ),
                         ),
                         child: SvgPicture.asset(
-                          'assets/svg/plu1.svg',
+                          'assets/svg/plus1.svg',
                           color: AppColors.primaryColor,
                         ),
                       ),
