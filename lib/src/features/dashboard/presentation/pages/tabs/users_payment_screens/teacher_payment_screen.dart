@@ -30,7 +30,7 @@ class TeacherPaymentScreen extends StatelessWidget {
             AppSpacing.horizontalSpaceSmall,
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(
+                Navigator.of(context, rootNavigator: true).pushNamed(
                   AddEventsScreen.routeName,
                 );
               },
@@ -75,7 +75,7 @@ class TeacherPaymentScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(
+                Navigator.of(context, rootNavigator: true).pushNamed(
                   ClassEventDetailsScreen.routeName,
                   arguments: {
                     'eventName': 'State Spelling Bee for JSS1',
