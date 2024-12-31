@@ -252,4 +252,6 @@ class AppStrings {
   static const schoolFeePayment = 'School Fee Payment';
   static const payFee = 'Pay Fee';
   static const submittedAssignment = 'Submitted Assignment';
+  static const viewAssignment = 'View Assignment';
+  static const assignmentSubmission = 'Assignment Submission';
 }

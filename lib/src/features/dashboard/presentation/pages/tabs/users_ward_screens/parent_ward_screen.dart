@@ -112,11 +112,12 @@ class WardDetailScreen extends StatelessWidget {
                     '3 new',
                     () {
                       Navigator.of(context).pushNamed(
-                          IndvidualStudentAssignmentScreen.routeName,
-                          arguments: {
-                            'studentName': wardName,
-                            'className': wardClass,
-                          });
+                        IndvidualStudentAssignmentScreen.routeName,
+                        arguments: {
+                          'studentName': wardName,
+                          'className': wardClass,
+                        },
+                      );
                     },
                   ),
                   AppSpacing.verticalSpaceSmall,

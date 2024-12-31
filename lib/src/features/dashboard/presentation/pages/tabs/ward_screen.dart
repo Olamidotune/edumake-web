@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/dashboard/data/model/students/stud
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/teacher_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,7 @@ class _WardScreenState extends State<WardScreen> {
               students: students,
             );
           } else if (role == UserRole.teacher) {
-            return Container();
+            return const TeacherClassesScreen();
           } else {
             return const SchoolTeacherScreen();
           }

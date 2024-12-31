@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/teacher_menu_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 
@@ -72,9 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (userRole == UserRole.schoolManagement) {
             return const SchoolMenuScreen();
           } else if (userRole == UserRole.teacher) {
-            return const Center(
-              child: Text('Teacher settings'),
-            );
+            return const TeacherMenuScreen();
           } else {
             return const ParentMenuScreen();
           }
