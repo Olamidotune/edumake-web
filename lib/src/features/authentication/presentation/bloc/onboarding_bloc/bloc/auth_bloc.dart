@@ -25,6 +25,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ResetSignUpForm>(_resetSignUpForm);
     on<_SignUpSuccessful>(_signUpSuccessful);
     on<_SignUpFailed>(_signUpFailed);
+    on<_OtpChanged>(_otpChanged);
+    on<_VerifyOtp>(_verifyOtp);
+    on<_VerifyOtpSuccessful>(_verifyOtpSuccessful);
+    on<_VerifyOtpFailed>(_verifyOtpFailed);
+    on<_ResendOtp>(_resendOtp);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -104,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.password.value.trim(),
         userRole.toString().split('.').last,
       );
-
+      logInfo(authData);
       debugPrint('authData: $authData');
       add(_SignUpSuccessful(authData));
     } catch (error, trace) {
@@ -157,5 +162,87 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signUpStatus: FormzSubmissionStatus.initial,
       ),
     );
+  }
+
+  void _otpChanged(_OtpChanged event, Emitter<AuthState> emit) {
+    final otp = OTPFormz.dirty(event.otp);
+    emit(
+      state.copyWith(
+        otp: otp.isValid ? OTPFormz.dirty(event.otp) : OTPFormz.pure(event.otp),
+      ),
+    );
+  }
+
+  void _verifyOtp(_VerifyOtp event, Emitter<AuthState> emit) async {
+    if (state.otpStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+    if (!Formz.validate([state.otp])) {
+      emit(state.copyWith(otp: OTPFormz.pure(state.otp.value)));
+      return;
+    }
+
+    emit(state.copyWith(otpStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      await locator<AuthenticationClient>().verifyOTP(
+        event.otp ?? state.otp.value,
+      );
+      logMessage('OTP verified successfully');
+      add(const _VerifyOtpSuccessful());
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_VerifyOtpFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _VerifyOtpFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _verifyOtpSuccessful(
+    _VerifyOtpSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(otpStatus: FormzSubmissionStatus.success));
+  }
+
+  void _verifyOtpFailed(_VerifyOtpFailed event, Emitter<AuthState> emit) async {
+    emit(
+      state.copyWith(
+        otpStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
+  }
+
+  void _resendOtp(_ResendOtp event, Emitter<AuthState> emit) async {
+    if (state.resendOtpStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(resendOtpStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      await locator<AuthenticationClient>().resendOTP(state.email.value);
+      emit(state.copyWith(resendOtpStatus: FormzSubmissionStatus.success));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            resendOtpStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            resendOtpStatus: FormzSubmissionStatus.failure,
+            errorMessage: 'An unexpected error occurred',
+          ),
+        );
+      }
+    }
   }
 }

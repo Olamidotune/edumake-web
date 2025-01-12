@@ -12,6 +12,10 @@ class AuthState with _$AuthState {
     @Default(false) acceptTerms,
     AuthData? authData,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signUpStatus,
+    @Default(OTPFormz.pure()) OTPFormz otp,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus otpStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus resendOtpStatus,
   }) = _AuthState;
   const AuthState._();
 
@@ -82,6 +86,24 @@ class PasswordConfirmFormz extends FormzInput<String, ValidationError> {
 
     if (value != password) {
       return ValidationError.invalid;
+    }
+
+    return null;
+  }
+}
+
+class OTPFormz extends FormzInput<String, ValidationError> {
+  const OTPFormz.pure([String value = '']) : super.pure(value);
+  const OTPFormz.dirty([String value = '']) : super.dirty(value);
+
+  @override
+  ValidationError? validator(String? value) {
+    if (value == null || value.isEmpty || int.tryParse(value) == null) {
+      return ValidationError.empty;
+    }
+
+    if (value.length < 6) {
+      return ValidationError.short;
     }
 
     return null;

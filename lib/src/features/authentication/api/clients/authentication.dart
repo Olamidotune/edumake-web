@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/verify_otp_model.dart';
 import 'package:retrofit/http.dart';
 
 part 'authentication.g.dart';
@@ -25,4 +26,16 @@ abstract class AuthenticationClient {
     @Field('device_os') String deviceOS, {
     @Query('with_biometrics') bool? withBiosmetrics,
   });
+
+  @POST('/api/v1/auth/verify')
+  @FormUrlEncoded()
+  Future<VerifyOtpModel> verifyOTP(
+    @Field('otp') String otp,
+  );
+
+  @POST('/api/v1/auth/resend-otp')
+  @FormUrlEncoded()
+  Future<void> resendOTP(
+    @Field('email') String email,
+  );
 }
