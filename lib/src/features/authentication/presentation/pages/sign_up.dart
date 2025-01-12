@@ -251,7 +251,7 @@ class SignUpScreen extends HookWidget {
                                 );
                                 return;
                               }
-                              // _signUp(context);
+                              _signUp(context);
                               debugPrint(
                                   'Email: ${state.email.value}, Password: ${state.password.value}');
                               Navigator.of(context)

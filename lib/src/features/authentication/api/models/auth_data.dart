@@ -5,9 +5,6 @@ part 'auth_data.g.dart';
 
 @JsonSerializable()
 class AuthData {
-  // @JsonKey(name: 'has_pin')
-  // bool hasPin = false;
-
   AuthData(
     this.user,
   );
