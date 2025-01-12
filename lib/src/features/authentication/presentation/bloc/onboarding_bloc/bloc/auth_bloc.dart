@@ -30,6 +30,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_VerifyOtpSuccessful>(_verifyOtpSuccessful);
     on<_VerifyOtpFailed>(_verifyOtpFailed);
     on<_ResendOtp>(_resendOtp);
+    on<_ForgotPassword>(_forgotPassword);
+    on<_ForgotPasswordSuccessful>(_forgotPasswordSuccessful);
+    on<_ForgotPasswordFailed>(_forgotPasswordFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -244,5 +247,52 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     }
+  }
+
+  void _forgotPassword(_ForgotPassword event, Emitter<AuthState> emit) async {
+    if (state.forgotPasswordStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(forgotPasswordStatus: FormzSubmissionStatus.inProgress),
+    );
+
+    try {
+      await locator<AuthenticationClient>().forgotPassword(event.email);
+      add(const _ForgotPasswordSuccessful());
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            forgotPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+        add(_ForgotPasswordFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _ForgotPasswordFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _forgotPasswordSuccessful(
+    _ForgotPasswordSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(forgotPasswordStatus: FormzSubmissionStatus.initial));
+  }
+
+  void _forgotPasswordFailed(
+    _ForgotPasswordFailed event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.initial,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
   }
 }

@@ -38,4 +38,10 @@ abstract class AuthenticationClient {
   Future<void> resendOTP(
     @Field('email') String email,
   );
+
+  @POST('/api/v1/auth/resend-otp')
+  @FormUrlEncoded()
+  Future<void> forgotPassword(
+    @Field('email') String email,
+  );
 }
