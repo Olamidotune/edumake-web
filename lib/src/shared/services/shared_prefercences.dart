@@ -52,8 +52,8 @@ class UserRoleHelper {
   static UserRole _stringToRole(String roleString) {
     debugPrint('Retrieved role string: $roleString'); // Log retrieved value
     switch (roleString) {
-      case 'parentStudent':
-        return UserRole.parentStudent;
+      case 'parent':
+        return UserRole.parent;
       case 'teacher':
         return UserRole.teacher;
       case 'schoolManagement':

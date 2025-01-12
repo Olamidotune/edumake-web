@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
@@ -76,10 +77,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _signUp(_SignUp event, Emitter<AuthState> emit) async {
-    // Early return if already in progress
     if (state.signUpStatus == FormzSubmissionStatus.inProgress) return;
 
-    // Validate form fields
     emit(
       state.copyWith(
         email: EmailFormz.dirty(state.email.value),
@@ -91,13 +90,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    // Check if form is valid
     if (!state.isSignUpFormValid) {
-      // Form is invalid, return early
       return;
     }
 
-    // Set status to in progress
     emit(state.copyWith(signUpStatus: FormzSubmissionStatus.inProgress));
 
     final userRole = await UserRoleHelper.getUserRole();
@@ -106,14 +102,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final authData = await locator<AuthenticationClient>().signUp(
         state.email.value.trim(),
         state.password.value.trim(),
-        userRole.toString(),
+        userRole.toString().split('.').last,
       );
 
       debugPrint('authData: $authData');
       add(_SignUpSuccessful(authData));
     } catch (error, trace) {
       logError(error, trace);
-      add(const _SignUpFailed());
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SignUpFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _SignUpFailed('An unexpected error occurred'));
+      }
     }
   }
 

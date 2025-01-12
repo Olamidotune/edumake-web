@@ -312,7 +312,6 @@ class SignUpScreen extends HookWidget {
       Navigator.of(context).pushNamed(VerifyAccount.routeName);
     } else if (previous.errorMessage != current.errorMessage &&
         current.errorMessage != null) {
-      print('Showing toast for error: ${current.errorMessage}');
       ToastService.toast(current.errorMessage!, ToastType.error);
       context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
       return false;

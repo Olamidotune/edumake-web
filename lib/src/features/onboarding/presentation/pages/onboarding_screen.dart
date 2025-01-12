@@ -115,13 +115,13 @@ class OnboardingScreenTwo extends StatelessWidget {
               ),
               AppSpacing.verticalSpaceLarge,
               Button(
-                text: AppStrings.continueAsParentStudent,
+                text: AppStrings.continueAsparent,
                 onPressed: () async {
                   // Save role to shared preferences
-                  await UserRoleHelper.saveUserRole(UserRole.parentStudent);
+                  await UserRoleHelper.saveUserRole(UserRole.parent);
 
                   // Navigate to the appropriate screen
-                  navigateBasedOnRole(context, UserRole.parentStudent);
+                  navigateBasedOnRole(context, UserRole.parent);
                 },
               ),
               AppSpacing.verticalSpaceMedium,
@@ -158,7 +158,7 @@ class OnboardingScreenTwo extends StatelessWidget {
 
 void navigateBasedOnRole(BuildContext context, UserRole role) {
   switch (role) {
-    case UserRole.parentStudent:
+    case UserRole.parent:
       Navigator.of(context).pushNamed(ParentsOnboarding.routeName);
     case UserRole.schoolManagement:
       Navigator.of(context).pushNamed(SchoolOnboarding.routeName);

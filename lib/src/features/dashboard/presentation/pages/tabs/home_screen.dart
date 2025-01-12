@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<UserRole> userRole() async {
     final role = await UserRoleHelper.getUserRole();
-    return role ?? UserRole.parentStudent;
+    return role ?? UserRole.parent;
   }
 
   Widget buildDashboard(
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return const Center(child: Text('Error loading user role'));
         } else {
           final role = snapshot.data!;
-          if (role == UserRole.parentStudent) {
+          if (role == UserRole.parent) {
             return ParentDashboard(
               students: students,
             );

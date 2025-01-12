@@ -85,5 +85,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 Future<UserRole> userRole() async {
   final role = await UserRoleHelper.getUserRole();
-  return role ?? UserRole.parentStudent;
+  return role ?? UserRole.parent;
 }

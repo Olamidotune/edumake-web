@@ -9,6 +9,7 @@ class ToastService {
       title: Text(
         message,
         maxLines: 3,
+        overflow: TextOverflow.ellipsis,
       ),
       autoCloseDuration: const Duration(seconds: 5),
       alignment: Alignment.bottomCenter,

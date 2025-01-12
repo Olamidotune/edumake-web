@@ -75,7 +75,7 @@ class _WardScreenState extends State<WardScreen> {
           return const Center(child: Text('Error loading user role'));
         } else {
           final role = snapshot.data!;
-          if (role == UserRole.parentStudent) {
+          if (role == UserRole.parent) {
             return ParentWardScreen(
               students: students,
             );
@@ -91,7 +91,7 @@ class _WardScreenState extends State<WardScreen> {
 
   Future<UserRole> userRole() async {
     final role = await UserRoleHelper.getUserRole();
-    return role ?? UserRole.parentStudent;
+    return role ?? UserRole.parent;
   }
 }
 

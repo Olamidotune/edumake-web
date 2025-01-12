@@ -79,7 +79,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
         final role = snapshot.data;
 
-        if (role == UserRole.parentStudent) {
+        if (role == UserRole.parent) {
           return const ParentPaymentScreen();
         } else if (role == UserRole.teacher) {
           return const TeacherPaymentScreen();
@@ -92,5 +92,5 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
 Future<UserRole> userRole() async {
   final role = await UserRoleHelper.getUserRole();
-  return role ?? UserRole.parentStudent;
+  return role ?? UserRole.parent;
 }
