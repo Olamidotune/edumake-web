@@ -46,7 +46,6 @@ class _SplashScreenState extends State<SplashScreen>
     });
 
     UserRoleHelper.getUserRole();
-    debugPrint(UserRoleHelper.getUserRole().toString());
   }
 
   @override

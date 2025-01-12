@@ -1,6 +1,8 @@
 import 'package:edumake_frontend/l10n/l10n.dart';
+import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/onboarding_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
@@ -38,6 +40,7 @@ import 'package:edumake_frontend/src/shared/services/locale_service.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,8 +50,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-
   final userRole = await UserRoleHelper.getUserRole();
+
+  await dotenv.load(fileName: '.env');
+  await setupLocator();
 
   runApp(
     ChangeNotifierProvider(
@@ -70,6 +75,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
+        ),
+        BlocProvider<OnboardingBloc>(
+          create: (context) => OnboardingBloc(),
         ),
       ],
       child: Consumer<LocaleService>(

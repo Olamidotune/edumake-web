@@ -24,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLength,
     this.fillColor,
     this.editIcon,
+    this.onChanged,
   });
 
   final TextEditingController controller;
@@ -43,6 +44,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final void Function()? onSuffixIconPressed;
   final void Function()? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +66,7 @@ class CustomTextFormField extends StatelessWidget {
           cursorColor: AppColors.primaryColor,
           maxLength: maxLength,
           onEditingComplete: onFieldSubmitted,
+          onChanged: onChanged,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 14.fontSize,
                 color: AppColors.primaryTextColor,
