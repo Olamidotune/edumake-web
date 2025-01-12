@@ -48,3 +48,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+#.env file
+.env.dev
+.env.nightly
+.env.production
+.env.stagings
+.env

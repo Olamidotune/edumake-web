@@ -20,7 +20,7 @@ class AppStrings {
       "Track your wards' progress and enjoy ease in school management.";
   static const weCategorizeOurUsersIntoTwo =
       'We categorize our users into two, this is to ensure that you have an amazing and stress-free user experience. However, our app is flexible so can switch anytime you want.';
-  static const continueAsParentStudent = 'Continue as Parent / Student';
+  static const continueAsparent = 'Continue as Parent / Student';
   static const continueAsTeacher = 'Continue as Teacher';
   static const contineAsSchoolManagement = 'Continue as School Management';
   static const signUpToEDUMAKE = 'Sign up to\nEdu-Make';

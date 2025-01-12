@@ -54,7 +54,7 @@ class OtpDialog extends StatelessWidget {
   void _navigate(BuildContext context) async {
     final role = await UserRoleHelper.getUserRole();
     switch (role) {
-      case UserRole.parentStudent:
+      case UserRole.parent:
         await Navigator.of(context).popAndPushNamed(
           KycScreen.routeName,
         );

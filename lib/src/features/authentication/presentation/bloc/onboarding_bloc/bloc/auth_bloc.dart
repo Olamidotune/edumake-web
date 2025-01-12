@@ -1,0 +1,161 @@
+import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:edumake_frontend/service_locator.dart';
+import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import 'package:formz/formz.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'auth_bloc.freezed.dart';
+part 'auth_event.dart';
+part 'auth_state.dart';
+
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc() : super(const AuthState()) {
+    // on<_Init>(_init);
+    on<_EmailChanged>(_emailChanged);
+    on<_PasswordChanged>(_passwordChanged);
+    on<_ConfirmPasswordChanged>(_passwordConfirmChanged);
+    on<_AcceptTermsChanged>(_acceptTermsChanged);
+    on<_SignUp>(_signUp);
+    on<_ResetSignUpForm>(_resetSignUpForm);
+    on<_SignUpSuccessful>(_signUpSuccessful);
+    on<_SignUpFailed>(_signUpFailed);
+    on<_ErrorMessage>(_errorMessage);
+  }
+
+  // void _init(_Init event, Emitter<AuthState> emit) {
+  //   emit(state.copyWith(
+  //     status: FormzStatus.pure,
+  //     email: Email.pure(),
+  //     password: Password.pure(),
+  //     confirmPassword: ConfirmPassword.pure(),
+  //     acceptTerms: AcceptTerms.pure(),
+  //   ));
+  // }
+
+  void _emailChanged(_EmailChanged event, Emitter<AuthState> emit) {
+    final email = EmailFormz.dirty(event.email);
+    emit(
+      state.copyWith(
+        email: email.isValid ? email : EmailFormz.pure(event.email),
+      ),
+    );
+  }
+
+  void _passwordChanged(_PasswordChanged event, Emitter<AuthState> emit) {
+    final password = PasswordFormz.dirty(event.password);
+    emit(
+      state.copyWith(
+        password:
+            password.isValid ? password : PasswordFormz.pure(event.password),
+      ),
+    );
+  }
+
+  void _passwordConfirmChanged(
+    _ConfirmPasswordChanged event,
+    Emitter<AuthState> emit,
+  ) {
+    final passwordConfirm = PasswordConfirmFormz.dirty(event.password);
+
+    emit(
+      state.copyWith(
+        passwordConfirm: passwordConfirm.isValid
+            ? passwordConfirm
+            : PasswordConfirmFormz.pure(event.password),
+      ),
+    );
+  }
+
+  void _acceptTermsChanged(_AcceptTermsChanged event, Emitter<AuthState> emit) {
+    emit(state.copyWith(acceptTerms: event.acceptTerms));
+  }
+
+  void _signUp(_SignUp event, Emitter<AuthState> emit) async {
+    if (state.signUpStatus == FormzSubmissionStatus.inProgress) return;
+
+    emit(
+      state.copyWith(
+        email: EmailFormz.dirty(state.email.value),
+        password: PasswordFormz.dirty(state.password.value),
+        passwordConfirm: PasswordConfirmFormz.dirty(
+          state.passwordConfirm.value,
+          state.password.value,
+        ),
+      ),
+    );
+
+    if (!state.isSignUpFormValid) {
+      return;
+    }
+
+    emit(state.copyWith(signUpStatus: FormzSubmissionStatus.inProgress));
+
+    final userRole = await UserRoleHelper.getUserRole();
+
+    try {
+      final authData = await locator<AuthenticationClient>().signUp(
+        state.email.value.trim(),
+        state.password.value.trim(),
+        userRole.toString().split('.').last,
+      );
+
+      debugPrint('authData: $authData');
+      add(_SignUpSuccessful(authData));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SignUpFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _SignUpFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _signUpSuccessful(
+    _SignUpSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        signUpStatus: FormzSubmissionStatus.success,
+        authData: event.authData,
+      ),
+    );
+    add(const _ResetSignUpForm());
+  }
+
+  void _signUpFailed(_SignUpFailed event, Emitter<AuthState> emit) async {
+    emit(
+      state.copyWith(
+        signUpStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
+  }
+
+  void _errorMessage(_ErrorMessage event, Emitter<AuthState> emit) {
+    emit(
+      state.copyWith(
+        errorMessage: event.message,
+      ),
+    );
+  }
+
+  void _resetSignUpForm(_ResetSignUpForm event, Emitter<AuthState> emit) {
+    emit(
+      state.copyWith(
+        email: const EmailFormz.pure(),
+        password: const PasswordFormz.pure(),
+        passwordConfirm: const PasswordConfirmFormz.pure(),
+        acceptTerms: false,
+        signUpStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+}
