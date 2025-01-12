@@ -2,7 +2,7 @@ import 'package:edumake_frontend/l10n/l10n.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/onboarding_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
@@ -46,6 +46,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,136 +77,139 @@ class MyApp extends StatelessWidget {
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
         ),
-        BlocProvider<OnboardingBloc>(
-          create: (context) => OnboardingBloc(),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(),
         ),
       ],
-      child: Consumer<LocaleService>(
-        builder: (context, value, child) {
-          return ScreenUtilInit(
-            minTextAdapt: true,
-            splitScreenMode: true,
-            child: MaterialApp(
-              locale: value.locale,
-              supportedLocales: L10n.locals,
-              title: 'Edumake',
-              theme: ThemeData(
-                useMaterial3: true,
-                primaryColor: AppColors.primaryColor,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                fontFamily: 'HelveticaNeueRounded',
-                scaffoldBackgroundColor: AppColors.whiteColor,
-                appBarTheme: const AppBarTheme(
-                  backgroundColor: AppColors.whiteColor,
-                  elevation: 0,
+      child: ToastificationWrapper(
+        child: Consumer<LocaleService>(
+          builder: (context, value, child) {
+            return ScreenUtilInit(
+              minTextAdapt: true,
+              splitScreenMode: true,
+              child: MaterialApp(
+                locale: value.locale,
+                supportedLocales: L10n.locals,
+                title: 'Edumake',
+                theme: ThemeData(
+                  useMaterial3: true,
+                  primaryColor: AppColors.primaryColor,
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  fontFamily: 'HelveticaNeueRounded',
+                  scaffoldBackgroundColor: AppColors.whiteColor,
+                  appBarTheme: const AppBarTheme(
+                    backgroundColor: AppColors.whiteColor,
+                    elevation: 0,
+                  ),
+                  textTheme: const TextTheme(
+                    displayLarge: TextStyle(
+                      fontSize: 32,
+                      color: AppColors.primaryColor,
+                    ),
+                    displayMedium: TextStyle(
+                      fontSize: 24,
+                      color: AppColors.primaryColor,
+                    ),
+                    bodyLarge: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.secondaryColor,
+                    ),
+                    bodyMedium: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.primaryTextColor,
+                    ),
+                    bodySmall: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.primaryTextColor,
+                    ),
+                  ),
                 ),
-                textTheme: const TextTheme(
-                  displayLarge: TextStyle(
-                    fontSize: 32,
-                    color: AppColors.primaryColor,
-                  ),
-                  displayMedium: TextStyle(
-                    fontSize: 24,
-                    color: AppColors.primaryColor,
-                  ),
-                  bodyLarge: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.secondaryColor,
-                  ),
-                  bodyMedium: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.primaryTextColor,
-                  ),
-                  bodySmall: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.primaryTextColor,
-                  ),
-                ),
+                home: const SignUpScreen(),
+                routes: {
+                  SplashScreen.routeName: (context) => const SplashScreen(),
+                  SelectLanguageScreen.routeName: (context) =>
+                      const SelectLanguageScreen(),
+                  OnboardingScreen.routeName: (context) =>
+                      const OnboardingScreen(),
+                  OnboardingScreenTwo.routeName: (context) =>
+                      const OnboardingScreenTwo(),
+                  ParentsOnboarding.routeName: (context) =>
+                      const ParentsOnboarding(),
+                  TeachersOnboarding.routeName: (context) =>
+                      const TeachersOnboarding(),
+                  SchoolOnboarding.routeName: (context) =>
+                      const SchoolOnboarding(),
+                  SignUpScreen.routeName: (context) => const SignUpScreen(),
+                  SchoolSignUpScreen.routeName: (context) =>
+                      const SchoolSignUpScreen(),
+                  SchoolBasicInfoScreen.routeName: (context) =>
+                      const SchoolBasicInfoScreen(),
+                  SchoolSubscriptionScreen.routeName: (context) =>
+                      const SchoolSubscriptionScreen(),
+                  AddManagementSegmentsScreen.routeName: (context) =>
+                      const AddManagementSegmentsScreen(),
+                  AddClassesScreen.routeName: (context) =>
+                      const AddClassesScreen(),
+                  AddSubjectsScreen.routeName: (context) =>
+                      const AddSubjectsScreen(),
+                  AddStudentsScreen.routeName: (context) =>
+                      const AddStudentsScreen(),
+                  AddTeachersScreen.routeName: (context) =>
+                      const AddTeachersScreen(),
+                  ConnectionRequestScreen.routeName: (context) =>
+                      const ConnectionRequestScreen(),
+                  ConnectionRequestDetailsScreen.routeName: (context) =>
+                      const ConnectionRequestDetailsScreen(),
+                  RejectConnectionScreen.routeName: (context) =>
+                      const RejectConnectionScreen(),
+                  RecentTeachersNoteScreen.routeName: (context) =>
+                      const RecentTeachersNoteScreen(),
+                  TeacherDetailsScreen.routeName: (context) =>
+                      const TeacherDetailsScreen(),
+                  ClassDetailsScreen.routeName: (context) =>
+                      const ClassDetailsScreen(),
+                  SignIn.routeName: (context) => const SignIn(),
+                  GrantedPermissionsScreen.routeName: (context) =>
+                      const GrantedPermissionsScreen(),
+                  ForgotPasswordScreen.routeName: (context) =>
+                      const ForgotPasswordScreen(),
+                  ClassStudentsScreen.routeName: (context) =>
+                      const ClassStudentsScreen(),
+                  StudentDetailsScreen.routeName: (context) =>
+                      const StudentDetailsScreen(),
+                  IndvidualStudentAssignmentScreen.routeName: (context) =>
+                      const IndvidualStudentAssignmentScreen(),
+                  ClassEventsScreen.routeName: (context) =>
+                      const ClassEventsScreen(),
+                  ClassEventDetailsScreen.routeName: (context) =>
+                      const ClassEventDetailsScreen(),
+                  AddEventsScreen.routeName: (context) =>
+                      const AddEventsScreen(),
+                  SchoolMenuScreen.routeName: (context) =>
+                      const SchoolMenuScreen(),
+                  WardDetailScreen.routeName: (context) =>
+                      const WardDetailScreen(),
+                  ParentPaymentScreen.routeName: (context) =>
+                      const ParentPaymentScreen(),
+                  ParentMenuScreen.routeName: (context) =>
+                      const ParentMenuScreen(),
+                  VerifyAccount.routeName: (context) => const VerifyAccount(),
+                  Dashboard.routeName: (context) => const Dashboard(),
+                  KycScreen.routeName: (context) => const KycScreen(),
+                  HomeScreen.routeName: (context) => const HomeScreen(),
+                  WardScreen.routeName: (context) => const WardScreen(),
+                  SettingsScreen.routeName: (context) => const SettingsScreen(),
+                },
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  AppLocalizations.delegate,
+                ],
               ),
-              home: const SplashScreen(),
-              routes: {
-                SplashScreen.routeName: (context) => const SplashScreen(),
-                SelectLanguageScreen.routeName: (context) =>
-                    const SelectLanguageScreen(),
-                OnboardingScreen.routeName: (context) =>
-                    const OnboardingScreen(),
-                OnboardingScreenTwo.routeName: (context) =>
-                    const OnboardingScreenTwo(),
-                ParentsOnboarding.routeName: (context) =>
-                    const ParentsOnboarding(),
-                TeachersOnboarding.routeName: (context) =>
-                    const TeachersOnboarding(),
-                SchoolOnboarding.routeName: (context) =>
-                    const SchoolOnboarding(),
-                SignUpScreen.routeName: (context) => const SignUpScreen(),
-                SchoolSignUpScreen.routeName: (context) =>
-                    const SchoolSignUpScreen(),
-                SchoolBasicInfoScreen.routeName: (context) =>
-                    const SchoolBasicInfoScreen(),
-                SchoolSubscriptionScreen.routeName: (context) =>
-                    const SchoolSubscriptionScreen(),
-                AddManagementSegmentsScreen.routeName: (context) =>
-                    const AddManagementSegmentsScreen(),
-                AddClassesScreen.routeName: (context) =>
-                    const AddClassesScreen(),
-                AddSubjectsScreen.routeName: (context) =>
-                    const AddSubjectsScreen(),
-                AddStudentsScreen.routeName: (context) =>
-                    const AddStudentsScreen(),
-                AddTeachersScreen.routeName: (context) =>
-                    const AddTeachersScreen(),
-                ConnectionRequestScreen.routeName: (context) =>
-                    const ConnectionRequestScreen(),
-                ConnectionRequestDetailsScreen.routeName: (context) =>
-                    const ConnectionRequestDetailsScreen(),
-                RejectConnectionScreen.routeName: (context) =>
-                    const RejectConnectionScreen(),
-                RecentTeachersNoteScreen.routeName: (context) =>
-                    const RecentTeachersNoteScreen(),
-                TeacherDetailsScreen.routeName: (context) =>
-                    const TeacherDetailsScreen(),
-                ClassDetailsScreen.routeName: (context) =>
-                    const ClassDetailsScreen(),
-                SignIn.routeName: (context) => const SignIn(),
-                GrantedPermissionsScreen.routeName: (context) =>
-                    const GrantedPermissionsScreen(),
-                ForgotPasswordScreen.routeName: (context) =>
-                    const ForgotPasswordScreen(),
-                ClassStudentsScreen.routeName: (context) =>
-                    const ClassStudentsScreen(),
-                StudentDetailsScreen.routeName: (context) =>
-                    const StudentDetailsScreen(),
-                IndvidualStudentAssignmentScreen.routeName: (context) =>
-                    const IndvidualStudentAssignmentScreen(),
-                ClassEventsScreen.routeName: (context) =>
-                    const ClassEventsScreen(),
-                ClassEventDetailsScreen.routeName: (context) =>
-                    const ClassEventDetailsScreen(),
-                AddEventsScreen.routeName: (context) => const AddEventsScreen(),
-                SchoolMenuScreen.routeName: (context) =>
-                    const SchoolMenuScreen(),
-                WardDetailScreen.routeName: (context) =>
-                    const WardDetailScreen(),
-                ParentPaymentScreen.routeName: (context) =>
-                    const ParentPaymentScreen(),
-                ParentMenuScreen.routeName: (context) =>
-                    const ParentMenuScreen(),
-                VerifyAccount.routeName: (context) => const VerifyAccount(),
-                Dashboard.routeName: (context) => const Dashboard(),
-                KycScreen.routeName: (context) => const KycScreen(),
-                HomeScreen.routeName: (context) => const HomeScreen(),
-                WardScreen.routeName: (context) => const WardScreen(),
-                SettingsScreen.routeName: (context) => const SettingsScreen(),
-              },
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                AppLocalizations.delegate,
-              ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

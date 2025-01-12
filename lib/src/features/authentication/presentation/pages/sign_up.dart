@@ -1,10 +1,12 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/onboarding_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -50,9 +52,9 @@ class SignUpScreen extends HookWidget {
         padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: BlocBuilder<OnboardingBloc, OnboardingState>(
+          child: BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) =>
-                _onOnboardingBlocBuildWhen(context, current, previous),
+                _onOnboardingBlocBuildWhen(context, previous, current),
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,10 +90,9 @@ class SignUpScreen extends HookWidget {
                           hintText: 'Enter your preferred email address',
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: 'email',
-                          onChanged: (vaule) =>
-                              context.read<OnboardingBloc>().add(
-                                    OnboardingEvent.emailChanged(vaule),
-                                  ),
+                          onChanged: (vaule) => context.read<AuthBloc>().add(
+                                AuthEvent.emailChanged(vaule),
+                              ),
                           validator: (value) {
                             if (EmailValidator.validate(value?.trim() ?? '')) {
                               return null;
@@ -110,10 +111,9 @@ class SignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscurePassword.value,
                           isPassword: true,
-                          onChanged: (vaule) =>
-                              context.read<OnboardingBloc>().add(
-                                    OnboardingEvent.passwordChanged(vaule),
-                                  ),
+                          onChanged: (vaule) => context.read<AuthBloc>().add(
+                                AuthEvent.passwordChanged(vaule),
+                              ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter a valid password';
@@ -140,10 +140,8 @@ class SignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscureConfirmPassword.value,
                           isPassword: true,
-                          onChanged: (vaule) => context
-                              .read<OnboardingBloc>()
-                              .add(
-                                OnboardingEvent.onConfirmPasswordChanged(vaule),
+                          onChanged: (vaule) => context.read<AuthBloc>().add(
+                                AuthEvent.onConfirmPasswordChanged(vaule),
                               ),
                           onFieldSubmitted: () {
                             if (formKey.currentState!.validate()) {
@@ -243,7 +241,6 @@ class SignUpScreen extends HookWidget {
                           text: 'Sign Up',
                           busy: state.signUpStatus ==
                               FormzSubmissionStatus.inProgress,
-                          // onPressed: () => _signUp(context),
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
@@ -302,22 +299,22 @@ class SignUpScreen extends HookWidget {
   }
 
   void _signUp(BuildContext context) =>
-      context.read<OnboardingBloc>().add(const OnboardingEvent.signUp());
+      context.read<AuthBloc>().add(const AuthEvent.signUp());
 
   bool _onOnboardingBlocBuildWhen(
     BuildContext context,
-    OnboardingState previous,
-    OnboardingState current,
+    AuthState previous,
+    AuthState current,
   ) {
     if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&
         current.signUpStatus == FormzSubmissionStatus.success) {
+      ToastService.toast(AppStrings.welcomeToEDUMAKE);
       Navigator.of(context).pushNamed(VerifyAccount.routeName);
     } else if (previous.errorMessage != current.errorMessage &&
         current.errorMessage != null) {
-      CustomSnackbar.show(context, previous.errorMessage!, isError: true);
-      context
-          .read<OnboardingBloc>()
-          .add(const OnboardingEvent.errorMessage(null));
+      print('Showing toast for error: ${current.errorMessage}');
+      ToastService.toast(current.errorMessage!, ToastType.error);
+      context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
       return false;
     }
     return true;

@@ -1,10 +1,10 @@
 // ignore_for_file: use_super_parameters
 
-part of 'onboarding_bloc.dart';
+part of 'auth_bloc.dart';
 
 @freezed
-class OnboardingState with _$OnboardingState {
-  const factory OnboardingState({
+class AuthState with _$AuthState {
+  const factory AuthState({
     @Default(EmailFormz.pure()) EmailFormz email,
     @Default(PasswordFormz.pure()) PasswordFormz password,
     @Default(PasswordConfirmFormz.pure()) PasswordConfirmFormz passwordConfirm,
@@ -12,8 +12,8 @@ class OnboardingState with _$OnboardingState {
     @Default(false) acceptTerms,
     AuthData? authData,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signUpStatus,
-  }) = _OnboardingState;
-  const OnboardingState._();
+  }) = _AuthState;
+  const AuthState._();
 
   bool get isSignUpFormValid =>
       Formz.validate([email, password, passwordConfirm]);
