@@ -54,4 +54,5 @@ app.*.map.json
 .env.dev
 .env.nightly
 .env.production
-.env.staging
+.env.stagings
+.env

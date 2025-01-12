@@ -3,8 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:toastification/toastification.dart';
 
 class ToastService {
-  static void toast(String message,
-      [ToastType type = ToastType.success]) async {
+  static void toast(
+    String message, [
+    ToastType type = ToastType.success,
+  ]) async {
     toastification.show(
       title: Text(
         message,

@@ -53,7 +53,7 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final userRole = await UserRoleHelper.getUserRole();
 
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
   await setupLocator();
 
   runApp(

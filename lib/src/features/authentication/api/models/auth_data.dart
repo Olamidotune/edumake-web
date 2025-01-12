@@ -1,6 +1,5 @@
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import './user.dart';
 
 part 'auth_data.g.dart';
 
