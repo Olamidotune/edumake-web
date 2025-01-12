@@ -244,18 +244,13 @@ class SignUpScreen extends HookWidget {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
-                                CustomSnackbar.show(
-                                  context,
+                                ToastService.toast(
                                   'Please accept the privacy policy and terms of service',
-                                  isError: true,
+                                  ToastType.error,
                                 );
                                 return;
                               }
                               _signUp(context);
-                              debugPrint(
-                                  'Email: ${state.email.value}, Password: ${state.password.value}');
-                              Navigator.of(context)
-                                  .pushNamed(VerifyAccount.routeName);
                             }
                           },
                         ),
