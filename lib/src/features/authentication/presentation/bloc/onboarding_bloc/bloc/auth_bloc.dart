@@ -260,6 +260,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     try {
       await locator<AuthenticationClient>().forgotPassword(event.email);
+      logInfo(event.email);
       add(const _ForgotPasswordSuccessful());
     } catch (error, trace) {
       logError(error, trace);
@@ -280,8 +281,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _forgotPasswordSuccessful(
     _ForgotPasswordSuccessful event,
     Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(forgotPasswordStatus: FormzSubmissionStatus.initial));
+  ) {
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    // After navigation occurs via buildWhen, reset the status
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.initial,
+      ),
+    );
   }
 
   void _forgotPasswordFailed(
