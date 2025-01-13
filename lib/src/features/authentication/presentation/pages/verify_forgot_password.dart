@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -188,9 +189,15 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
                   Button(
                     text: 'Submit',
                     busy: state.otpStatus == FormzSubmissionStatus.inProgress,
-                    onPressed: () => context.read<AuthBloc>().add(
-                          AuthEvent.verifyOtp(_otpController.text),
-                        ),
+                    // onPressed: () => context.read<AuthBloc>().add(
+                    //       AuthEvent.verifyOtp(_otpController.text),
+                    //     ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        CreateNewPassword.routeName,
+                        (route) => false,
+                      );
+                    },
                   ),
                 ],
               );
