@@ -10,12 +10,17 @@ class AuthState with _$AuthState {
     @Default(PasswordConfirmFormz.pure()) PasswordConfirmFormz passwordConfirm,
     String? errorMessage,
     @Default(false) acceptTerms,
-    AuthData? authData,
+    SignupResponse? signupResponse,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signUpStatus,
     @Default(OTPFormz.pure()) OTPFormz otp,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus otpStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus resendOtpStatus,
+    @Default(ForgotPasswordFormz.pure()) ForgotPasswordFormz forgotPassword,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus createNewPasswordStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus forgotPasswordStatus,
   }) = _AuthState;
   const AuthState._();
 
@@ -106,6 +111,21 @@ class OTPFormz extends FormzInput<String, ValidationError> {
       return ValidationError.short;
     }
 
+    return null;
+  }
+}
+
+class ForgotPasswordFormz extends FormzInput<String, ValidationError> {
+  const ForgotPasswordFormz.pure([String value = '']) : super.pure(value);
+  const ForgotPasswordFormz.dirty([String value = '']) : super.dirty(value);
+
+  @override
+  ValidationError? validator(String? value) {
+    if (value == null || value.isEmpty) return ValidationError.empty;
+
+    if (!EmailValidator.validate(value.trim())) {
+      return ValidationError.invalid;
+    }
     return null;
   }
 }

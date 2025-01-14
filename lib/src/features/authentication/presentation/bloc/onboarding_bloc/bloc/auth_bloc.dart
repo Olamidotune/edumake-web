@@ -2,11 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -30,6 +29,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_VerifyOtpSuccessful>(_verifyOtpSuccessful);
     on<_VerifyOtpFailed>(_verifyOtpFailed);
     on<_ResendOtp>(_resendOtp);
+    on<_ForgotPassword>(_forgotPassword);
+    on<_ForgotPasswordSuccessful>(_forgotPasswordSuccessful);
+    on<_ForgotPasswordFailed>(_forgotPasswordFailed);
+    on<_CreateNewPassword>(_createNewPassword);
+    on<_CreateNewPasswordSuccessful>(_createNewPasswordSuccessful);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -104,14 +108,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final userRole = await UserRoleHelper.getUserRole();
 
     try {
-      final authData = await locator<AuthenticationClient>().signUp(
+      final signupResponse = await locator<AuthenticationClient>().signUp(
         state.email.value.trim(),
         state.password.value.trim(),
         userRole.toString().split('.').last,
       );
-      logInfo(authData);
-      debugPrint('authData: $authData');
-      add(_SignUpSuccessful(authData));
+      logInfo(signupResponse);
+      add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
@@ -129,7 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       state.copyWith(
         signUpStatus: FormzSubmissionStatus.success,
-        authData: event.authData,
+        signupResponse: event.signupResponse,
       ),
     );
     add(const _ResetSignUpForm());
@@ -244,5 +247,122 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     }
+  }
+
+  void _forgotPassword(_ForgotPassword event, Emitter<AuthState> emit) async {
+    if (state.forgotPasswordStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(forgotPasswordStatus: FormzSubmissionStatus.inProgress),
+    );
+
+    try {
+      await locator<AuthenticationClient>().forgotPassword(event.email);
+      logInfo(event.email);
+      add(const _ForgotPasswordSuccessful());
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            forgotPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+        add(_ForgotPasswordFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _ForgotPasswordFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _createNewPassword(
+    _CreateNewPassword event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (state.createNewPasswordStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
+
+    try {
+      await locator<AuthenticationClient>().createNewPassword(
+        state.otp.value,
+        event.password,
+      );
+      add(_CreateNewPasswordSuccessful(event.password));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            createNewPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            createNewPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: 'An unexpected error occurred',
+          ),
+        );
+      }
+    }
+  }
+
+  void _createNewPasswordSuccessful(
+    _CreateNewPasswordSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    // After navigation occurs via buildWhen, reset the status
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+
+  void _forgotPasswordSuccessful(
+    _ForgotPasswordSuccessful event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    // After navigation occurs via buildWhen, reset the status
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+
+  void _forgotPasswordFailed(
+    _ForgotPasswordFailed event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        forgotPasswordStatus: FormzSubmissionStatus.initial,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
   }
 }

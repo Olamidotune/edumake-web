@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/verify_otp_model.dart';
 import 'package:retrofit/http.dart';
 
@@ -12,7 +13,7 @@ abstract class AuthenticationClient {
 
   @POST('/api/v1/auth/signup')
   @FormUrlEncoded()
-  Future<AuthData> signUp(
+  Future<SignupResponse> signUp(
     @Field('email') String email,
     @Field('password') String password,
     @Field('role') String role,
@@ -37,5 +38,18 @@ abstract class AuthenticationClient {
   @FormUrlEncoded()
   Future<void> resendOTP(
     @Field('email') String email,
+  );
+
+  @POST('/api/v1/auth/resend-otp')
+  @FormUrlEncoded()
+  Future<void> forgotPassword(
+    @Field('email') String email,
+  );
+
+  @POST('/api/v1/auth/reset-password')
+  @FormUrlEncoded()
+  Future<SignupResponse> createNewPassword(
+    @Field('otp') String otp,
+    @Field('password') String password,
   );
 }

@@ -307,7 +307,7 @@ class SignUpScreen extends HookWidget {
   ) {
     if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&
         current.signUpStatus == FormzSubmissionStatus.success) {
-      ToastService.toast(AppStrings.welcomeToEDUMAKE);
+      ToastService.toast(AppStrings.welcome);
       Navigator.of(context).pushNamed(VerifyAccount.routeName);
     } else if (previous.errorMessage != current.errorMessage &&
         current.errorMessage != null) {

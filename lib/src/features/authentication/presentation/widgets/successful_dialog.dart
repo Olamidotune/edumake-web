@@ -8,8 +8,9 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class OtpDialog extends StatelessWidget {
-  const OtpDialog({super.key});
+class SuccessfulDialog extends StatelessWidget {
+  const SuccessfulDialog({required this.text, super.key});
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class OtpDialog extends StatelessWidget {
           ),
           AppSpacing.verticalSpaceMedium,
           Text(
-            "Your email address was successfully verified and your account was successfully created. Enjoy ease in your wards' education management.",
+            text,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
                 ),

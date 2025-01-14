@@ -11,7 +11,7 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.resetSignUpForm() = _ResetSignUpForm;
   const factory AuthEvent.acceptTermsChanged(acceptTerms) = _AcceptTermsChanged;
   const factory AuthEvent.signUp() = _SignUp;
-  const factory AuthEvent.signUpSuccessful(AuthData authData) =
+  const factory AuthEvent.signUpSuccessful(SignupResponse signupResponse) =
       _SignUpSuccessful;
   const factory AuthEvent.signUpFailed([String? message]) = _SignUpFailed;
   const factory AuthEvent.otpChanged(String otp) = _OtpChanged;
@@ -19,5 +19,14 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.verifyOtpSuccessful() = _VerifyOtpSuccessful;
   const factory AuthEvent.verifyOtpFailed([String? message]) = _VerifyOtpFailed;
   const factory AuthEvent.resendOtp() = _ResendOtp;
+  const factory AuthEvent.forgotPassword(String email) = _ForgotPassword;
+  const factory AuthEvent.forgotPasswordSuccessful() =
+      _ForgotPasswordSuccessful;
+  const factory AuthEvent.forgotPasswordFailed([String? message]) =
+      _ForgotPasswordFailed;
+  const factory AuthEvent.createNewPassword(String password) =
+      _CreateNewPassword;
+  const factory AuthEvent.createNewPasswordSuccessful(String password) =
+      _CreateNewPasswordSuccessful;
   const factory AuthEvent.init() = _Init;
 }

@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/widgets/successful_dialog.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -17,25 +16,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class VerifyAccount extends StatefulWidget {
-  const VerifyAccount({super.key});
-  static const routeName = 'verify-account';
+class VerifyForgotPassword extends StatefulWidget {
+  const VerifyForgotPassword({super.key});
+
+  static const routeName = 'verify-forgot-password-screen';
 
   @override
-  State<VerifyAccount> createState() => _VerifyAccountState();
+  State<VerifyForgotPassword> createState() => _VerifyForgotPasswordState();
 }
 
-class _VerifyAccountState extends State<VerifyAccount> {
+class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
   Timer? _timer;
 
   int _remainingTime = 120; // 5 minutes (300 seconds)
 
   final TextEditingController _otpController = TextEditingController();
 
+  AuthState state = AuthState();
+
   @override
   void initState() {
     _startCountdown();
     super.initState();
+    print('${state.email.value}');
   }
 
   @override
@@ -50,14 +53,14 @@ class _VerifyAccountState extends State<VerifyAccount> {
           physics: const BouncingScrollPhysics(),
           child: BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) {
-              return _authBlocBuildWhen(context, previous, current);
+              return _onAuthBlocBuildWhen(context, previous, current);
             },
             builder: (context, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Verify your\nEmail Account',
+                    'Hi, There!',
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
                           fontSize: 32.fontSize,
                           fontWeight: FontWeight.w300,
@@ -184,11 +187,17 @@ class _VerifyAccountState extends State<VerifyAccount> {
                             : 300.height,
                   ),
                   Button(
-                    text: 'Verify',
+                    text: 'Submit',
                     busy: state.otpStatus == FormzSubmissionStatus.inProgress,
-                    onPressed: () => context.read<AuthBloc>().add(
-                          AuthEvent.verifyOtp(_otpController.text),
-                        ),
+                    // onPressed: () => context.read<AuthBloc>().add(
+                    //       AuthEvent.verifyOtp(_otpController.text),
+                    //     ),
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        CreateNewPassword.routeName,
+                        (route) => false,
+                      );
+                    },
                   ),
                 ],
               );
@@ -199,18 +208,24 @@ class _VerifyAccountState extends State<VerifyAccount> {
     );
   }
 
-  bool _authBlocBuildWhen(
+  bool _onAuthBlocBuildWhen(
     BuildContext context,
     AuthState previous,
     AuthState current,
   ) {
-    if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
-        current.otpStatus == FormzSubmissionStatus.success) {
-      _showOtpSuccessDialog(context);
+    if (previous.forgotPasswordStatus == FormzSubmissionStatus.inProgress &&
+        current.forgotPasswordStatus == FormzSubmissionStatus.success) {
+      ToastService.toast(
+        'OTP has been sent to your email address',
+      );
       return false;
-    } else if (previous.resendOtpStatus == FormzSubmissionStatus.inProgress &&
-        current.otpStatus == FormzSubmissionStatus.success) {
-      ToastService.toast('Verification Code Re-Sent!');
+    } else if (previous.errorMessage != current.errorMessage &&
+        current.errorMessage != null) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
       return false;
     }
     return true;
@@ -245,16 +260,6 @@ class _VerifyAccountState extends State<VerifyAccount> {
         }
       });
     });
-  }
-
-  void _showOtpSuccessDialog(BuildContext context) async {
-    await showDialog<void>(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return const SuccessfulDialog(text: AppStrings.otpSuccessMessage);
-      },
-    );
   }
 
   @override
