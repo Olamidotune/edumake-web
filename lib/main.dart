@@ -126,7 +126,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                home: const SplashScreen(),
+                home: const CreateNewPassword(),
                 routes: {
                   SplashScreen.routeName: (context) => const SplashScreen(),
                   SelectLanguageScreen.routeName: (context) =>
