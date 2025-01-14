@@ -18,6 +18,8 @@ class AuthState with _$AuthState {
     FormzSubmissionStatus resendOtpStatus,
     @Default(ForgotPasswordFormz.pure()) ForgotPasswordFormz forgotPassword,
     @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus createNewPasswordStatus,
+    @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus forgotPasswordStatus,
   }) = _AuthState;
   const AuthState._();

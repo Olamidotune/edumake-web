@@ -45,4 +45,11 @@ abstract class AuthenticationClient {
   Future<void> forgotPassword(
     @Field('email') String email,
   );
+
+  @POST('/api/v1/auth/reset-password')
+  @FormUrlEncoded()
+  Future<SignupResponse> createNewPassword(
+    @Field('otp') String otp,
+    @Field('password') String password,
+  );
 }

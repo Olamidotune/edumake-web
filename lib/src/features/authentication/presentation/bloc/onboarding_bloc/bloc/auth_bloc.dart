@@ -32,6 +32,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ForgotPassword>(_forgotPassword);
     on<_ForgotPasswordSuccessful>(_forgotPasswordSuccessful);
     on<_ForgotPasswordFailed>(_forgotPasswordFailed);
+    on<_CreateNewPassword>(_createNewPassword);
+    on<_CreateNewPasswordSuccessful>(_createNewPasswordSuccessful);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -274,6 +276,64 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         add(const _ForgotPasswordFailed('An unexpected error occurred'));
       }
     }
+  }
+
+  void _createNewPassword(
+    _CreateNewPassword event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (state.createNewPasswordStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
+
+    try {
+      await locator<AuthenticationClient>().createNewPassword(
+        state.otp.value,
+        event.password,
+      );
+      add(_CreateNewPasswordSuccessful(event.password));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            createNewPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            createNewPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: 'An unexpected error occurred',
+          ),
+        );
+      }
+    }
+  }
+
+  void _createNewPasswordSuccessful(
+    _CreateNewPasswordSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    // After navigation occurs via buildWhen, reset the status
+    emit(
+      state.copyWith(
+        createNewPasswordStatus: FormzSubmissionStatus.initial,
+      ),
+    );
   }
 
   void _forgotPasswordSuccessful(
