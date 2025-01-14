@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/widgets/otp_dialog.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/widgets/successful_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -251,7 +252,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return const OtpDialog();
+        return const SuccessfulDialog(text: AppStrings.otpSuccessMessage);
       },
     );
   }

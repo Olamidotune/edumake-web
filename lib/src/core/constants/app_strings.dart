@@ -58,7 +58,7 @@ class AppStrings {
   static const resend = 'Resend';
   static const submit = 'Submit';
   static const successful = 'Successful';
-  static const yourEmailAddressWasSuccessfullyVerified =
+  static const otpSuccessMessage =
       "Your email address was successfully verified and your account was successfully created. Enjoy ease in your wards' education management.";
   static const continueee = 'Continue';
   static const onMoreStep = 'One More\nStep';
@@ -255,4 +255,6 @@ class AppStrings {
   static const viewAssignment = 'View Assignment';
   static const assignmentSubmission = 'Assignment Submission';
   static const welcome = 'Welcome';
+  static const createNewPasswordSuccessMessage =
+      "You have successful created a new password. Enjoy ease in your wards' education management";
 }

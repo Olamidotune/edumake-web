@@ -1,6 +1,8 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/widgets/successful_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -166,13 +168,14 @@ class CreateNewPassword extends HookWidget {
   ) {
     if (previous.createNewPasswordStatus == FormzSubmissionStatus.inProgress &&
         current.createNewPasswordStatus == FormzSubmissionStatus.success) {
-      ToastService.toast('Password reset successful');
+      const SuccessfulDialog(
+        text: AppStrings.createNewPasswordSuccessMessage,
+      );
       return false;
     } else if (previous.createNewPasswordStatus ==
             FormzSubmissionStatus.inProgress &&
         current.createNewPasswordStatus == FormzSubmissionStatus.failure &&
         current.errorMessage != null) {
-      // Only show toast when transitioning from inProgress to failure
       ToastService.toast(
         current.errorMessage ?? 'An error occurred',
         ToastType.error,
