@@ -168,9 +168,7 @@ class CreateNewPassword extends HookWidget {
   ) {
     if (previous.createNewPasswordStatus == FormzSubmissionStatus.inProgress &&
         current.createNewPasswordStatus == FormzSubmissionStatus.success) {
-      const SuccessfulDialog(
-        text: AppStrings.createNewPasswordSuccessMessage,
-      );
+      _showSuccessDialog(context);
       return false;
     } else if (previous.createNewPasswordStatus ==
             FormzSubmissionStatus.inProgress &&
@@ -184,5 +182,16 @@ class CreateNewPassword extends HookWidget {
       return false;
     }
     return true;
+  }
+
+  void _showSuccessDialog(BuildContext context) async {
+    await showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const SuccessfulDialog(
+            text: AppStrings.createNewPasswordSuccessMessage);
+      },
+    );
   }
 }
