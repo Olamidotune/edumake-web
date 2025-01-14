@@ -59,7 +59,7 @@ class UserRoleHelper {
       case 'schoolManagement':
         return UserRole.schoolManagement;
       default:
-        throw Exception('Invalid user role');
+        return UserRole.parent;
     }
   }
 

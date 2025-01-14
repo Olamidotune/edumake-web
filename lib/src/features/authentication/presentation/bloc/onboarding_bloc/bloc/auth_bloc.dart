@@ -2,11 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -107,14 +106,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final userRole = await UserRoleHelper.getUserRole();
 
     try {
-      final authData = await locator<AuthenticationClient>().signUp(
+      final signupResponse = await locator<AuthenticationClient>().signUp(
         state.email.value.trim(),
         state.password.value.trim(),
         userRole.toString().split('.').last,
       );
-      logInfo(authData);
-      debugPrint('authData: $authData');
-      add(_SignUpSuccessful(authData));
+      logInfo(signupResponse);
+      add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
@@ -132,7 +130,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       state.copyWith(
         signUpStatus: FormzSubmissionStatus.success,
-        authData: event.authData,
+        signupResponse: event.signupResponse,
       ),
     );
     add(const _ResetSignUpForm());

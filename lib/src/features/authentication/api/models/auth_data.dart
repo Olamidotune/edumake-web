@@ -12,7 +12,7 @@ class AuthData {
   factory AuthData.fromJson(Map<String, dynamic> json) =>
       _$AuthDataFromJson(json);
 
-  User user;
+  User? user; // Nullable user
 
   Map<String, dynamic> toJson() => _$AuthDataToJson(this);
 }

@@ -254,4 +254,5 @@ class AppStrings {
   static const submittedAssignment = 'Submitted Assignment';
   static const viewAssignment = 'View Assignment';
   static const assignmentSubmission = 'Assignment Submission';
+  static const welcome = 'Welcome';
 }

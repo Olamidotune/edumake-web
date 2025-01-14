@@ -11,7 +11,7 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.resetSignUpForm() = _ResetSignUpForm;
   const factory AuthEvent.acceptTermsChanged(acceptTerms) = _AcceptTermsChanged;
   const factory AuthEvent.signUp() = _SignUp;
-  const factory AuthEvent.signUpSuccessful(AuthData authData) =
+  const factory AuthEvent.signUpSuccessful(SignupResponse signupResponse) =
       _SignUpSuccessful;
   const factory AuthEvent.signUpFailed([String? message]) = _SignUpFailed;
   const factory AuthEvent.otpChanged(String otp) = _OtpChanged;

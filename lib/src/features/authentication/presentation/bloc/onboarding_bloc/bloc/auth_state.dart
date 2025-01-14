@@ -10,7 +10,7 @@ class AuthState with _$AuthState {
     @Default(PasswordConfirmFormz.pure()) PasswordConfirmFormz passwordConfirm,
     String? errorMessage,
     @Default(false) acceptTerms,
-    AuthData? authData,
+    SignupResponse? signupResponse,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signUpStatus,
     @Default(OTPFormz.pure()) OTPFormz otp,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus otpStatus,
