@@ -1,11 +1,15 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
+import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -180,30 +184,17 @@ class SignIn extends HookWidget {
                         ),
                         AppSpacing.verticalSpaceMedium,
                         Button(
-                            text: 'Sign In',
-                            busy: state.signInStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                context.read<AuthBloc>().add(
-                                      const AuthEvent.signIn(),
-                                    );
-                              }
-                            }),
-                        // Button(
-                        //   text: 'Sign In',
-                        //   busy: isBusy.value,
-                        //   onPressed: () {
-                        //     if (formKey.currentState!.validate()) {
-                        //       isBusy.value = true;
-                        //       Future.delayed(const Duration(seconds: 3), () {
-                        //         Navigator.of(context)
-                        //             .popAndPushNamed(Dashboard.routeName);
-                        //         isBusy.value = false;
-                        //       });
-                        //     }
-                        //   },
-                        // ),
+                          text: 'Sign In',
+                          busy: state.signInStatus ==
+                              FormzSubmissionStatus.inProgress,
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                    const AuthEvent.signIn(),
+                                  );
+                            }
+                          },
+                        ),
                         AppSpacing.verticalSpaceMedium,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -306,15 +297,23 @@ class SignIn extends HookWidget {
   ) {
     if (previous.signInStatus == FormzSubmissionStatus.inProgress &&
         current.signInStatus == FormzSubmissionStatus.success) {
-      ToastService.toast('Sign in successful');
-      Navigator.of(context).popAndPushNamed(Dashboard.routeName);
-      return false;
+      if (current.user?.hasOnboarded == false) {
+        ToastService.toast(
+          'Welcome, please fill in your details.',
+          ToastType.warning,
+        );
+        _navigate(context);
+      } else {
+        ToastService.toast('Sign in successful');
+        Navigator.of(context).popAndPushNamed(Dashboard.routeName);
+        return false;
+      }
     } else if (previous.signInStatus == FormzSubmissionStatus.inProgress &&
         current.signInStatus == FormzSubmissionStatus.failure) {
       if (current.errorMessage!.contains('Please confirm your email first.')) {
         ToastService.toast(
           current.errorMessage ?? 'An error occurred',
-          ToastType.error,
+          ToastType.warning,
         );
         Navigator.of(context)
             .pushNamedAndRemoveUntil(VerifyAccount.routeName, (route) => false);
@@ -326,6 +325,25 @@ class SignIn extends HookWidget {
       }
       return true;
     }
-    return true; // Added default return statement here
+    return true;
+  }
+
+  void _navigate(BuildContext context) async {
+    final role = await UserRoleHelper.getUserRole();
+    switch (role) {
+      case UserRole.parent:
+        await Navigator.of(context).popAndPushNamed(
+          KycScreen.routeName,
+        );
+      case UserRole.teacher:
+        await Navigator.of(context).popAndPushNamed(
+          KycScreen.routeName,
+        );
+      case UserRole.schoolManagement:
+        await Navigator.of(context).popAndPushNamed(
+          SchoolBasicInfoScreen.routeName,
+        );
+      case null:
+    }
   }
 }

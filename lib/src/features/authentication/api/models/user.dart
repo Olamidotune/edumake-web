@@ -31,8 +31,8 @@ class User {
   @JsonKey(name: '__v')
   int? v;
   String? firstName;
-  String lastName;
-  String phoneNumber;
+  String? lastName;
+  String? phoneNumber;
   String? idNumber;
   Map<String, dynamic> toJson() => _$UserToJson(this);
 

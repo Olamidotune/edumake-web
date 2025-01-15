@@ -22,9 +22,10 @@ class AuthServices {
 
   Future<User> getUser() async {
     final user = User(
-        await _manager._storage.read(key: prefLastName) ?? '',
-        await _manager._storage.read(key: prefEmail) ?? '',
-        await _manager._storage.read(key: prefPhoneNumber) ?? '')
+      await _manager._storage.read(key: prefLastName) ?? '',
+      await _manager._storage.read(key: prefEmail) ?? '',
+      await _manager._storage.read(key: prefPhoneNumber) ?? '',
+    )
       ..firstName = await _manager._storage.read(key: 'prefFirstName')
       ..lastName = (await _manager._storage.read(key: 'prefLastName')) ?? ''
       ..id = (await _manager._storage.read(key: 'prefId')) ?? '';

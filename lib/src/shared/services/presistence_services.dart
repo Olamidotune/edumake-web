@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:edumake_frontend/config/pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

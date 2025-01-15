@@ -33,130 +33,128 @@ class CreateNewPassword extends HookWidget {
       appBar: const CustomAppBar(),
       body: SafeArea(
         child: CustomRawScroller(
-            scrollController: scrollController,
-            child: BlocBuilder<AuthBloc, AuthState>(
-              buildWhen: (previous, current) =>
-                  _onAuthBlocBuildWhen(context, previous, current),
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  controller: scrollController,
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Create New\nPassword',
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge!
-                                .copyWith(
-                                  fontSize: 32.fontSize,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                          ),
-                          AppSpacing.verticalSpaceSmall,
-                          Text(
-                            'Create a strong password that you can remember.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                            textAlign: TextAlign.justify,
-                          ),
-                          AppSpacing.verticalSpaceLarge,
-                          CustomTextFormField(
-                            textInputAction: TextInputAction.next,
-                            controller: passwordController,
-                            focusNode: passwordFocusNode,
-                            title: 'Password',
-                            hintText: 'Input your preferred password',
-                            keyboardType: TextInputType.text,
-                            prefixIcon: 'password',
-                            obscureText: obscurePassword.value,
-                            isPassword: true,
-                            onChanged: (value) => context.read<AuthBloc>().add(
-                                  AuthEvent.passwordChanged(value),
-                                ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a valid password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
-                              }
-                              if (value !=
-                                  confirmPasswordController.value.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                            onSuffixIconPressed: () =>
-                                obscurePassword.value = !obscurePassword.value,
-                          ),
-                          AppSpacing.verticalSpaceMedium,
-                          CustomTextFormField(
-                            textInputAction: TextInputAction.go,
-                            controller: confirmPasswordController,
-                            focusNode: confirmPasswordFocusNode,
-                            title: 'Confirm Password',
-                            hintText: 'Input your preferred password',
-                            keyboardType: TextInputType.text,
-                            prefixIcon: 'password',
-                            obscureText: obscureConfirmPassword.value,
-                            isPassword: true,
-                            onFieldSubmitted: () {
-                              if (formKey.currentState!.validate()) {
-                                context.read<AuthBloc>().add(
-                                      AuthEvent.createNewPassword(
-                                        passwordController.value.text,
-                                      ),
-                                    );
-                              }
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter a valid password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
-                              }
-                              if (value != passwordController.value.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                            onSuffixIconPressed: () => obscureConfirmPassword
-                                .value = !obscureConfirmPassword.value,
-                          ),
-                          AppSpacing.verticalSpaceHuge,
-                          Button(
-                            busy: state.createNewPasswordStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            onPressed: () {
-                              debugPrint('Create Password');
-                              if (formKey.currentState!.validate()) {
-                                context.read<AuthBloc>().add(
-                                      AuthEvent.createNewPassword(
-                                        passwordController.value.text,
-                                      ),
-                                    );
-                              }
-                            },
-                            text: 'Create Password',
-                          ),
-                        ],
-                      ),
+          scrollController: scrollController,
+          child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (previous, current) =>
+                _onAuthBlocBuildWhen(context, previous, current),
+            builder: (context, state) {
+              return SingleChildScrollView(
+                controller: scrollController,
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Create New\nPassword',
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(
+                                fontSize: 32.fontSize,
+                                fontWeight: FontWeight.w300,
+                              ),
+                        ),
+                        AppSpacing.verticalSpaceSmall,
+                        Text(
+                          'Create a strong password that you can remember.',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                          textAlign: TextAlign.justify,
+                        ),
+                        AppSpacing.verticalSpaceLarge,
+                        CustomTextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: passwordController,
+                          focusNode: passwordFocusNode,
+                          title: 'Password',
+                          hintText: 'Input your preferred password',
+                          keyboardType: TextInputType.text,
+                          prefixIcon: 'password',
+                          obscureText: obscurePassword.value,
+                          isPassword: true,
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.passwordChanged(value),
+                              ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a valid password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            if (value != confirmPasswordController.value.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          onSuffixIconPressed: () =>
+                              obscurePassword.value = !obscurePassword.value,
+                        ),
+                        AppSpacing.verticalSpaceMedium,
+                        CustomTextFormField(
+                          textInputAction: TextInputAction.go,
+                          controller: confirmPasswordController,
+                          focusNode: confirmPasswordFocusNode,
+                          title: 'Confirm Password',
+                          hintText: 'Input your preferred password',
+                          keyboardType: TextInputType.text,
+                          prefixIcon: 'password',
+                          obscureText: obscureConfirmPassword.value,
+                          isPassword: true,
+                          onFieldSubmitted: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                    AuthEvent.createNewPassword(
+                                      passwordController.value.text,
+                                    ),
+                                  );
+                            }
+                          },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a valid password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters';
+                            }
+                            if (value != passwordController.value.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          onSuffixIconPressed: () => obscureConfirmPassword
+                              .value = !obscureConfirmPassword.value,
+                        ),
+                        AppSpacing.verticalSpaceHuge,
+                        Button(
+                          busy: state.createNewPasswordStatus ==
+                              FormzSubmissionStatus.inProgress,
+                          onPressed: () {
+                            debugPrint('Create Password');
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                    AuthEvent.createNewPassword(
+                                      passwordController.value.text,
+                                    ),
+                                  );
+                            }
+                          },
+                          text: 'Create Password',
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-            )),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -190,7 +188,8 @@ class CreateNewPassword extends HookWidget {
       context: context,
       builder: (context) {
         return const SuccessfulDialog(
-            text: AppStrings.createNewPasswordSuccessMessage);
+          text: AppStrings.createNewPasswordSuccessMessage,
+        );
       },
     );
   }

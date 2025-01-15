@@ -1,9 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
-import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,10 +37,6 @@ class SuccessfulDialog extends StatelessWidget {
         Button(
           text: 'Continue',
           onPressed: () {
-            // Navigator.of(context).pop();
-            // Navigator.of(context).popAndPushNamed(
-            //   KycScreen.routeName,
-            // );
             Navigator.of(context).pop();
             _navigate(context);
           },
@@ -53,21 +46,9 @@ class SuccessfulDialog extends StatelessWidget {
   }
 
   void _navigate(BuildContext context) async {
-    final role = await UserRoleHelper.getUserRole();
-    switch (role) {
-      case UserRole.parent:
-        await Navigator.of(context).popAndPushNamed(
-          KycScreen.routeName,
-        );
-      case UserRole.teacher:
-        await Navigator.of(context).popAndPushNamed(
-          KycScreen.routeName,
-        );
-      case UserRole.schoolManagement:
-        await Navigator.of(context).popAndPushNamed(
-          SchoolBasicInfoScreen.routeName,
-        );
-      case null:
-    }
+    await Navigator.of(context).pushNamedAndRemoveUntil(
+      SignIn.routeName,
+      (_) => false,
+    );
   }
 }
