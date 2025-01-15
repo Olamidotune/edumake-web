@@ -4,46 +4,40 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  User({
-    required this.id,
-    required this.email,
-    required this.password,
-    required this.role,
-    required this.isEmailVerified,
-    required this.hasOnboarded,
-    required this.classes,
-    required this.subjects,
-    required this.hasActiveSubscription,
-    required this.subscriptionStartDate,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.idNumber,
-    this.v,
+  User(
+    this.email,
+    this.phoneNumber,
+    this.lastName, {
+    this.id,
+    this.hasActiveSubscription = false,
+    this.isEmailVerified = true,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   @JsonKey(name: '_id')
-  final String id;
-  final String email;
-  final String password;
-  final String role;
-  final bool isEmailVerified;
-  final bool hasOnboarded;
-  final List<String> classes;
-  final List<String> subjects;
-  final bool hasActiveSubscription;
-  final DateTime subscriptionStartDate;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  int? id;
+  String email;
+  String? password;
+  String? role;
+  bool? isEmailVerified;
+  bool? hasOnboarded;
+  List<String>? classes;
+  List<String>? subjects;
+  bool? hasActiveSubscription;
+  DateTime? subscriptionStartDate;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   @JsonKey(name: '__v')
-  final int? v;
-  final String firstName;
-  final String lastName;
-  final String phoneNumber;
-  final String idNumber;
+  int? v;
+  String? firstName;
+  String lastName;
+  String phoneNumber;
+  String? idNumber;
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  String? get fullName {
+    final fullName = "${firstName ?? ""} $lastName";
+    return fullName == ' ' ? null : fullName;
+  }
 }

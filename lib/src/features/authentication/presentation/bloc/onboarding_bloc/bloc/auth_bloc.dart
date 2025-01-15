@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:email_validator/email_validator.dart';
@@ -21,6 +24,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ConfirmPasswordChanged>(_passwordConfirmChanged);
     on<_AcceptTermsChanged>(_acceptTermsChanged);
     on<_SignUp>(_signUp);
+    on<_SignIn>(_signIn);
+    on<_SignInSuccessful>(_signInSuccessful);
+    on<_SignInFailed>(_signInFailed);
     on<_ResetSignUpForm>(_resetSignUpForm);
     on<_SignUpSuccessful>(_signUpSuccessful);
     on<_SignUpFailed>(_signUpFailed);
@@ -142,6 +148,77 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(
       state.copyWith(
         signUpStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
+  }
+
+  void _signIn(_SignIn event, Emitter<AuthState> emit) async {
+    if (state.signInStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        email: EmailFormz.dirty(state.email.value),
+        password: PasswordFormz.dirty(state.password.value),
+      ),
+    );
+
+    if (!Formz.validate([state.email, state.password])) {
+      emit(
+        state.copyWith(
+          email: EmailFormz.pure(state.email.value),
+          password: PasswordFormz.pure(state.password.value),
+        ),
+      );
+      return;
+    }
+
+    emit(state.copyWith(signInStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final authData = await locator<AuthenticationClient>().signIn(
+        state.email.value.trim(),
+        state.password.value.trim(),
+      );
+      logInfo(authData);
+      add(_SignInSuccessful(authData));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SignInFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _SignInFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _signInSuccessful(
+    _SignInSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    await AuthServices()
+        .setSignedIn(event.authData.data.token, event.authData.data.user);
+    emit(
+      state.copyWith(
+        user: event.authData.data.user,
+        signInStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    // After navigation occurs via buildWhen, reset the status
+    emit(
+      state.copyWith(
+        signInStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+
+  void _signInFailed(_SignInFailed event, Emitter<AuthState> emit) async {
+    emit(
+      state.copyWith(
+        signInStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message ?? 'An error occurred',
       ),
     );
