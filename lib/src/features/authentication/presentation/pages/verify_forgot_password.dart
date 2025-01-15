@@ -32,13 +32,13 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
 
   final TextEditingController _otpController = TextEditingController();
 
-  AuthState state = AuthState();
+  AuthState state = const AuthState();
 
   @override
   void initState() {
     _startCountdown();
     super.initState();
-    print('${state.email.value}');
+    debugPrint(state.email.value);
   }
 
   @override

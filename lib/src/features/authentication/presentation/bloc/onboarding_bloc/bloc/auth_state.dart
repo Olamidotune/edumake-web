@@ -5,12 +5,14 @@ part of 'auth_bloc.dart';
 @freezed
 class AuthState with _$AuthState {
   const factory AuthState({
+    User? user,
     @Default(EmailFormz.pure()) EmailFormz email,
     @Default(PasswordFormz.pure()) PasswordFormz password,
     @Default(PasswordConfirmFormz.pure()) PasswordConfirmFormz passwordConfirm,
     String? errorMessage,
     @Default(false) acceptTerms,
     SignupResponse? signupResponse,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signInStatus,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus signUpStatus,
     @Default(OTPFormz.pure()) OTPFormz otp,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus otpStatus,

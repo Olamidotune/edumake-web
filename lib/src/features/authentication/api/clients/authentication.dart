@@ -19,14 +19,12 @@ abstract class AuthenticationClient {
     @Field('role') String role,
   );
 
-  @POST('v1/auth/login')
+  @POST('/api/v1/auth/login')
   @FormUrlEncoded()
   Future<AuthData> signIn(
     @Field('email') String email,
     @Field('password') String password,
-    @Field('device_os') String deviceOS, {
-    @Query('with_biometrics') bool? withBiosmetrics,
-  });
+  );
 
   @POST('/api/v1/auth/verify')
   @FormUrlEncoded()
