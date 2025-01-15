@@ -200,6 +200,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     await AuthServices()
         .setSignedIn(event.authData.data.token, event.authData.data.user);
+    logInfo(event.authData.data.user.email);
     emit(
       state.copyWith(
         user: event.authData.data.user,

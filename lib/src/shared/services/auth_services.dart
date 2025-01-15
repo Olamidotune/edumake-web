@@ -27,7 +27,7 @@ class AuthServices {
         await _manager._storage.read(key: prefPhoneNumber) ?? '')
       ..firstName = await _manager._storage.read(key: 'prefFirstName')
       ..lastName = (await _manager._storage.read(key: 'prefLastName')) ?? ''
-      ..id = int.tryParse(await _manager._storage.read(key: 'prefId') ?? '');
+      ..id = (await _manager._storage.read(key: 'prefId')) ?? '';
 
     return user;
   }

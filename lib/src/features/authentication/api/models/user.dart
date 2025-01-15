@@ -16,7 +16,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   @JsonKey(name: '_id')
-  int? id;
+  String? id;
   String email;
   String? password;
   String? role;
