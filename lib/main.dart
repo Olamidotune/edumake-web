@@ -2,7 +2,7 @@ import 'package:edumake_frontend/l10n/l10n.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/bloc/onboarding_bloc/bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
