@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/config/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // This class is used to manage the authentication services
@@ -17,7 +18,7 @@ class AuthServices {
   }
 
   Future<String?> getToken() async {
-    return _manager._storage.read(key: 'prefToken');
+    return _manager._storage.read(key: prefToken);
   }
 
   Future<User> getUser() async {
@@ -25,15 +26,20 @@ class AuthServices {
       await _manager._storage.read(key: prefLastName) ?? '',
       await _manager._storage.read(key: prefEmail) ?? '',
       await _manager._storage.read(key: prefPhoneNumber) ?? '',
+      await _manager._storage.read(key: prefFirstName) ?? '',
+      await _manager._storage.read(key: prefId) ?? '',
     )
-      ..firstName = await _manager._storage.read(key: 'prefFirstName')
-      ..lastName = (await _manager._storage.read(key: 'prefLastName')) ?? ''
-      ..id = (await _manager._storage.read(key: 'prefId')) ?? '';
-
+      ..firstName = await _manager._storage.read(key: prefFirstName) ?? ''
+      ..lastName = (await _manager._storage.read(key: prefLastName)) ?? ''
+      ..id = (await _manager._storage.read(key: prefId)) ?? ''
+      ..email = (await _manager._storage.read(key: prefEmail)) ?? ''
+      ..phoneNumber =
+          (await _manager._storage.read(key: prefPhoneNumber)) ?? '';
     return user;
   }
 
   Future<void> setSignedIn(String? token, User user) async {
+    debugPrint('Setting user with firstName: ${user.firstName}');
     //if token is null, check if token is stored in the storage
     if (token == null) {
       if ((await _manager._storage.read(key: prefToken)) == null) {
@@ -54,6 +60,10 @@ class AuthServices {
     await _manager._storage.write(key: prefFirstName, value: user.firstName);
     await _manager._storage.write(key: prefLastName, value: user.lastName);
     await _manager._storage.write(key: prefId, value: user.id.toString());
+
+    debugPrint(
+      'Verification - stored firstName: ${await _manager._storage.read(key: 'prefFirstName')}',
+    );
   }
 
   // this method is used to update the token in the storage when the token is refreshed

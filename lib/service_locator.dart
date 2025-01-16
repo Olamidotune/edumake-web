@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:edumake_frontend/config/env_keys.dart';
 import 'package:edumake_frontend/src/core/constants/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -26,4 +27,6 @@ Future<void> setupLocator() async {
       ),
     );
   }
+
+  locator.registerSingleton<AuthServices>(AuthServices());
 }

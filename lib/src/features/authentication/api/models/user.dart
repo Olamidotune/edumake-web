@@ -7,7 +7,9 @@ class User {
   User(
     this.email,
     this.phoneNumber,
-    this.lastName, {
+    this.lastName,
+    this.firstName,
+    this.idNumber, {
     this.id,
     this.hasActiveSubscription = false,
     this.isEmailVerified = true,

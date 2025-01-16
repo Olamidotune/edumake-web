@@ -3,6 +3,7 @@ import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/kyc/kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
@@ -38,6 +39,7 @@ import 'package:edumake_frontend/src/features/onboarding/presentation/pages/scho
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/select_language_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/splash_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/locale_service.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,13 @@ void main() async {
 
   await dotenv.load();
   await setupLocator();
+
+  // Initializing singleton instance.
+  AuthServices();
+
+  // final authenticated = await AuthServices().isSignedIn();
+
+  // final User? user = await AuthServices().getUser();
 
   runApp(
     ChangeNotifierProvider(
@@ -81,6 +90,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider<KycBloc>(
+          create: (context) => KycBloc(),
         ),
       ],
       child: ToastificationWrapper(
