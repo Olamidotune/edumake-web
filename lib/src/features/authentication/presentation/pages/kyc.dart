@@ -167,7 +167,12 @@ class KycScreen extends HookWidget {
                             }
                             return null;
                           },
-                          onFieldSubmitted: ninNode.unfocus,
+                          onFieldSubmitted: () {
+                            ninNode.unfocus();
+                            context.read<KycBloc>().add(
+                                  const KycEvent.submitKyc(),
+                                );
+                          },
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height <
@@ -208,11 +213,9 @@ class KycScreen extends HookWidget {
   ) {
     if (previous.kycStatus == FormzSubmissionStatus.inProgress &&
         current.kycStatus == FormzSubmissionStatus.success) {
-      if (current.user?.hasOnboarded == false) {
-        ToastService.toast('Sign in successful');
-        Navigator.of(context).popAndPushNamed(Dashboard.routeName);
-        return false;
-      }
+      ToastService.toast('KYC submitted successfully');
+      Navigator.of(context).popAndPushNamed(Dashboard.routeName);
+      return false;
     } else if (previous.kycStatus == FormzSubmissionStatus.inProgress &&
         current.kycStatus == FormzSubmissionStatus.failure) {
       ToastService.toast(

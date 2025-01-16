@@ -28,4 +28,29 @@ class PresistenceServices {
     await _manager._prefs!
         .setBool(prefHasAuthenticatedBefore, hasAuthenticatedBefore);
   }
+
+  Future<bool> saveLastName(String lastName) async {
+    await _manager._ensurePrefsLoaded();
+    return await _manager._prefs!.setString(prefLastName, lastName);
+  }
+
+  Future<String?> getLastName() async {
+    await _manager._ensurePrefsLoaded();
+    return _manager._prefs!.getString(prefLastName);
+  }
+
+  Future<bool> saveFirstName(String firstName) async {
+    await _manager._ensurePrefsLoaded();
+    return _manager._prefs!.setString(prefFirstName, firstName);
+  }
+
+  Future<String?> getFirstName() async {
+    await _manager._ensurePrefsLoaded();
+    return _manager._prefs!.getString(prefFirstName);
+  }
+
+  Future<void> clearAll() async {
+    await _manager._ensurePrefsLoaded();
+    await _manager._prefs!.clear();
+  }
 }

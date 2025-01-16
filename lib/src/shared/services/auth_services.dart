@@ -62,8 +62,7 @@ class AuthServices {
     await _manager._storage.write(key: prefId, value: user.id.toString());
 
     debugPrint(
-      'Verification - stored firstName: ${await _manager._storage.read(key: 'prefFirstName')}',
-    );
+        'Verification - stored firstName: ${await _manager._storage.read(key: 'prefFirstName')}');
   }
 
   // this method is used to update the token in the storage when the token is refreshed

@@ -1,4 +1,3 @@
-import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
@@ -32,11 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   late Future<UserRole> userRoleFuture;
   User? _user;
 
+  String get userName => _user?.fullName ?? 'User';
+
   @override
   void initState() {
     super.initState();
     userRoleFuture = userRole();
-    loadUser();
+    AuthServices().getUser().then((User user) => setState(() => _user = user));
   }
 
   List<StudentModel> parseStudents(Map<String, dynamic> data) {
@@ -65,7 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     radius: 20.width,
                     backgroundColor: AppColors.greyColor,
                     child: GestureDetector(
-                      onTap: loadUser,
+                      onTap: () {
+                        debugPrint('User: ${state.user?.email}');
+                      },
                       child: Text(
                         state.user?.fullName?.substring(0, 1) ?? '',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -91,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                       children: [
                         TextSpan(
-                          text: '${state.user?.fullName}',
+                          text: '$userName,',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
@@ -108,7 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  debugPrint('User: ${state.user?.fullName}');
+                },
                 child: SvgPicture.asset(
                   'assets/svg/chat.svg',
                   height: 20.height,
@@ -161,18 +166,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-  }
-
-  Future<void> loadUser() async {
-    try {
-      final user = await locator<AuthServices>().getUser();
-      setState(() {
-        _user = user;
-        debugPrint('User loaded: ${_user?.classes}'); // Print after user is set
-      });
-    } catch (e) {
-      debugPrint('Error loading user: $e');
-    }
   }
 
   Future<UserRole> userRole() async {

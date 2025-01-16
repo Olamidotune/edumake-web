@@ -2,10 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
-import 'package:edumake_frontend/src/shared/services/auth_services.dart';
+import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -89,21 +90,19 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       ),
     );
 
-    // debugPrint('KYC Done: ${await getAuthorization()}');
     try {
-      final result = await locator<AuthenticationClient>()
-          .submitKYC(
-        await getAuthorization(),
+      final authorization = await getAuthorization();
+      final result = await locator<AuthenticationClient>().submitKYC(
+        authorization,
         state.firstName.value.trim(),
         state.lastName.value.trim(),
         state.phoneNumber.value.trim(),
         state.nin.value.trim(),
-      )
-          .then((User kycDone) async {
-        await AuthServices().setSignedIn(await getAuthorization(), kycDone);
-        return kycDone;
-      });
-      debugPrint('KYC Done: $result');
+      );
+
+      await PresistenceServices().saveFirstName(state.firstName.value.trim());
+      await PresistenceServices().saveLastName(state.lastName.value.trim());
+
       add(_SubmitKycSuccess(result));
     } catch (error, trace) {
       debugPrint('Error type: ${error.runtimeType}');
@@ -111,19 +110,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       debugPrint('Stack trace: $trace');
       if (error is DioError && error.response?.data['message'] != null) {
         add(_SubmitKycFailure(error.response?.data['message'] as String));
-        emit(
-          state.copyWith(
-            kycStatus: FormzSubmissionStatus.failure,
-            errorMessage: error.response?.data['message'] as String,
-          ),
-        );
       } else {
-        emit(
-          state.copyWith(
-            kycStatus: FormzSubmissionStatus.failure,
-            errorMessage: 'An error occurred, please try agains',
-          ),
-        );
+        add(const _SubmitKycFailure('An error occurred'));
       }
     }
   }
@@ -135,7 +123,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     emit(
       state.copyWith(
         kycStatus: FormzSubmissionStatus.success,
-        user: event.user,
+        signupResponse: event.signupResponse,
       ),
     );
     add(const KycEvent.resetKyc());

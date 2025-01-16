@@ -19,7 +19,7 @@ class User {
 
   @JsonKey(name: '_id')
   String? id;
-  String email;
+  String? email;
   String? password;
   String? role;
   bool? isEmailVerified;
