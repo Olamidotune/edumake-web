@@ -2,14 +2,12 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
-import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +27,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   late Future<UserRole> userRoleFuture;
-  User? _user;
-
-  String get userName => _user?.fullName ?? 'User';
 
   @override
   void initState() {
     super.initState();
     userRoleFuture = userRole();
-    AuthServices().getUser().then((User user) => setState(() => _user = user));
   }
 
   List<StudentModel> parseStudents(Map<String, dynamic> data) {
@@ -67,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundColor: AppColors.greyColor,
                     child: GestureDetector(
                       onTap: () {
-                        debugPrint('User: ${state.user?.email}');
+                        debugPrint('${state.user?.id}');
                       },
                       child: Text(
                         state.user?.fullName?.substring(0, 1) ?? '',
@@ -85,22 +79,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   flex: 8,
                   child: RichText(
                     text: TextSpan(
-                      text: ' Hello ',
+                      text: 'Welcome ',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 16.fontSize,
+                            fontSize: 15.fontSize,
                             fontWeight: FontWeight.w300,
                             color: AppColors.primaryTextColor,
                           ),
                       children: [
                         TextSpan(
-                          text: '$userName,',
+                          text: '${state.user?.fullName ?? 'User'},',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 16.fontSize,
+                                    fontSize: 15.fontSize,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primaryColor,
+                                    overflow: TextOverflow.fade,
                                   ),
                         ),
                       ],
