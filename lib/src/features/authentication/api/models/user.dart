@@ -7,7 +7,9 @@ class User {
   User(
     this.email,
     this.phoneNumber,
-    this.lastName, {
+    this.lastName,
+    this.firstName,
+    this.idNumber, {
     this.id,
     this.hasActiveSubscription = false,
     this.isEmailVerified = true,
@@ -17,7 +19,7 @@ class User {
 
   @JsonKey(name: '_id')
   String? id;
-  String email;
+  String? email;
   String? password;
   String? role;
   bool? isEmailVerified;

@@ -50,4 +50,14 @@ abstract class AuthenticationClient {
     @Field('otp') String otp,
     @Field('password') String password,
   );
+
+  @PUT('/api/v1/auth/parents/kyc')
+  @FormUrlEncoded()
+  Future<SignupResponse> submitKYC(
+    @Header('Authorization') String authorization,
+    @Field('firstName') String firstName,
+    @Field('lastName') String lastName,
+    @Field('phoneNumber') String phoneNumber,
+    @Field('idNumber') String nin,
+  );
 }
