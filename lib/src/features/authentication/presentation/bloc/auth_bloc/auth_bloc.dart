@@ -9,6 +9,7 @@ import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -119,9 +120,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.password.value.trim(),
         userRole.toString().split('.').last,
       );
-      logInfo(signupResponse);
+
       add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {
+      debugPrint(
+          'Error type: ${error is DioError && error.response?.data['message'] != null}');
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
         add(_SignUpFailed(error.response?.data['message'] as String?));
@@ -141,7 +144,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signupResponse: event.signupResponse,
       ),
     );
-    add(const _ResetSignUpForm());
+    emit(
+      state.copyWith(
+        signInStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+    // add(const _ResetSignUpForm());
   }
 
   void _signUpFailed(_SignUpFailed event, Emitter<AuthState> emit) async {

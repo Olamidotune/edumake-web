@@ -7,7 +7,10 @@ void logMessage(String message) {
   logInfo(message);
 }
 
-void logError(Object error, StackTrace? trace, {bool crashlytics = true}) {
+void logError(
+  Object error,
+  StackTrace? trace,
+) {
   logger.e('An Error Occurred', error: error, stackTrace: trace);
 
   if (error is DioError) {

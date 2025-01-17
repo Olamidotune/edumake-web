@@ -339,7 +339,7 @@ class SignIn extends HookWidget {
         await Navigator.of(context).popAndPushNamed(
           KycScreen.routeName,
         );
-      case UserRole.schoolManagement:
+      case UserRole.schoolAdmin:
         await Navigator.of(context).popAndPushNamed(
           SchoolBasicInfoScreen.routeName,
         );

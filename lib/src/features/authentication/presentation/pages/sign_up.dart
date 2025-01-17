@@ -9,7 +9,6 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -43,7 +42,6 @@ class SignUpScreen extends HookWidget {
     // Form key
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
-    final isBusy = useState(false);
     final checkedPrivacyPolicy = useState(false);
 
     return Scaffold(
@@ -144,21 +142,17 @@ class SignUpScreen extends HookWidget {
                                 AuthEvent.onConfirmPasswordChanged(vaule),
                               ),
                           onFieldSubmitted: () {
-                            if (formKey.currentState!.validate()) {
+                            if (!formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
-                                CustomSnackbar.show(
-                                  context,
+                                ToastService.toast(
                                   'Please accept the privacy policy and terms of service',
-                                  isError: true,
+                                  ToastType.info,
                                 );
                                 return;
                               }
-                              isBusy.value = true;
-                              Future.delayed(const Duration(seconds: 3), () {
-                                Navigator.of(context)
-                                    .pushNamed(VerifyAccount.routeName);
-                                isBusy.value = false;
-                              });
+                              context.read<AuthBloc>().add(
+                                    const AuthEvent.signUp(),
+                                  );
                             }
                           },
                           validator: (value) {
@@ -242,16 +236,29 @@ class SignUpScreen extends HookWidget {
                           busy: state.signUpStatus ==
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              if (!checkedPrivacyPolicy.value) {
-                                ToastService.toast(
-                                  'Please accept the privacy policy and terms of service',
-                                  ToastType.error,
-                                );
-                                return;
-                              }
-                              _signUp(context);
+                            if (!checkedPrivacyPolicy.value) {
+                              ToastService.toast(
+                                'Please accept the privacy policy and terms of service',
+                                ToastType.error,
+                              );
+                              return;
+                            } else if (formKey.currentState!.validate()) {
+                              context.read<AuthBloc>().add(
+                                    const AuthEvent.signUp(),
+                                  );
                             }
+                            // if (formKey.currentState!.validate()) {
+                            //   if (!checkedPrivacyPolicy.value) {
+                            //     ToastService.toast(
+                            //       'Please accept the privacy policy and terms of service',
+                            //       ToastType.error,
+                            //     );
+                            //     return;
+                            //   }
+                            //   context.read<AuthBloc>().add(
+                            //         const AuthEvent.signUp(),
+                            //       );
+                            // }
                           },
                         ),
                       ],
@@ -297,9 +304,6 @@ class SignUpScreen extends HookWidget {
     );
   }
 
-  void _signUp(BuildContext context) =>
-      context.read<AuthBloc>().add(const AuthEvent.signUp());
-
   bool _onOnboardingBlocBuildWhen(
     BuildContext context,
     AuthState previous,
@@ -307,20 +311,14 @@ class SignUpScreen extends HookWidget {
   ) {
     if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&
         current.signUpStatus == FormzSubmissionStatus.success) {
+      debugPrint('Sign up successful');
       ToastService.toast(AppStrings.welcome);
       Navigator.of(context).pushNamed(VerifyAccount.routeName);
-    } else if (previous.errorMessage != current.errorMessage &&
-        current.errorMessage != null) {
+    } else if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&
+        current.signUpStatus == FormzSubmissionStatus.failure) {
       ToastService.toast(current.errorMessage!, ToastType.error);
-      context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
-      return false;
+      return true;
     }
     return true;
   }
-
-  // void _postSignUp(BuildContext context, OnboardingState state) {
-  //   context
-  //       .read<OnboardingBloc>()
-  //       .add(OnboardingEvent.authenticationSuccessful(state.authData!));
-  // }
 }

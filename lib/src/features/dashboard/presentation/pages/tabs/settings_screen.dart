@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         } else {
           final userRole = snapshot.data;
-          if (userRole == UserRole.schoolManagement) {
+          if (userRole == UserRole.schoolAdmin) {
             return const SchoolMenuScreen();
           } else if (userRole == UserRole.teacher) {
             return const TeacherMenuScreen();

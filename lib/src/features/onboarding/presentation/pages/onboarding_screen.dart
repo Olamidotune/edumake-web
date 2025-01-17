@@ -129,10 +129,10 @@ class OnboardingScreenTwo extends StatelessWidget {
                 text: AppStrings.contineAsSchoolManagement,
                 onPressed: () async {
                   // Save role to shared preferences
-                  await UserRoleHelper.saveUserRole(UserRole.schoolManagement);
+                  await UserRoleHelper.saveUserRole(UserRole.schoolAdmin);
 
                   // Navigate to the appropriate screen
-                  navigateBasedOnRole(context, UserRole.schoolManagement);
+                  navigateBasedOnRole(context, UserRole.schoolAdmin);
                 },
                 buttonColor: Colors.white,
               ),
@@ -160,7 +160,7 @@ void navigateBasedOnRole(BuildContext context, UserRole role) {
   switch (role) {
     case UserRole.parent:
       Navigator.of(context).pushNamed(ParentsOnboarding.routeName);
-    case UserRole.schoolManagement:
+    case UserRole.schoolAdmin:
       Navigator.of(context).pushNamed(SchoolOnboarding.routeName);
     case UserRole.teacher:
       Navigator.of(context).pushNamed(TeachersOnboarding.routeName);

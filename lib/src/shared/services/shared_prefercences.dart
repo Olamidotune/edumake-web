@@ -56,8 +56,8 @@ class UserRoleHelper {
         return UserRole.parent;
       case 'teacher':
         return UserRole.teacher;
-      case 'schoolManagement':
-        return UserRole.schoolManagement;
+      case 'school-admin':
+        return UserRole.schoolAdmin;
       default:
         return UserRole.parent;
     }
