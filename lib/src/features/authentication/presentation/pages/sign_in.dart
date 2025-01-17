@@ -42,6 +42,19 @@ class SignIn extends HookWidget {
     // Form key
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
+    useEffect(() {
+      // Your init logic here
+      UserRoleHelper.getUserRole();
+
+      // debugPrint('Here:${role}');
+
+      // Optional: Return a dispose function
+      return () {
+        // This runs like dispose
+        print('This runs when widget is disposed');
+      };
+    }, []);
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: Padding(
@@ -298,11 +311,15 @@ class SignIn extends HookWidget {
     if (previous.signInStatus == FormzSubmissionStatus.inProgress &&
         current.signInStatus == FormzSubmissionStatus.success) {
       if (current.user?.hasOnboarded == false) {
-        ToastService.toast(
-          'Welcome, please fill in your details.',
-          ToastType.warning,
-        );
-        _navigate(context);
+        // Use post-frame callback to ensure proper navigation
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _navigate(context);
+          ToastService.toast(
+            'Welcome, please fill in your details.',
+            ToastType.warning,
+          );
+        });
+        debugPrint('Here:${UserRoleHelper.getUserRole()}');
       } else {
         ToastService.toast('Sign in successful');
         Navigator.of(context).popAndPushNamed(Dashboard.routeName);
@@ -330,20 +347,16 @@ class SignIn extends HookWidget {
 
   void _navigate(BuildContext context) async {
     final role = await UserRoleHelper.getUserRole();
-    switch (role) {
-      case UserRole.parent:
-        await Navigator.of(context).popAndPushNamed(
-          KycScreen.routeName,
-        );
-      case UserRole.teacher:
-        await Navigator.of(context).popAndPushNamed(
-          KycScreen.routeName,
-        );
-      case UserRole.schoolAdmin:
-        await Navigator.of(context).popAndPushNamed(
-          SchoolBasicInfoScreen.routeName,
-        );
-      case null:
+
+    debugPrint('Here:$role');
+    if (role == UserRole.parent || role == UserRole.teacher) {
+      await Navigator.of(context).popAndPushNamed(
+        KycScreen.routeName,
+      );
+    } else {
+      await Navigator.of(context).popAndPushNamed(
+        SchoolBasicInfoScreen.routeName,
+      );
     }
   }
 }

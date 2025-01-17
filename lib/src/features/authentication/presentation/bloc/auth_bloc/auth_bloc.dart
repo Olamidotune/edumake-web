@@ -19,7 +19,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthState()) {
-    // on<_Init>(_init);
+    on<_Init>(_init);
     on<_EmailChanged>(_emailChanged);
     on<_PasswordChanged>(_passwordChanged);
     on<_ConfirmPasswordChanged>(_passwordConfirmChanged);
@@ -44,15 +44,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ErrorMessage>(_errorMessage);
   }
 
-  // void _init(_Init event, Emitter<AuthState> emit) {
-  //   emit(state.copyWith(
-  //     status: FormzStatus.pure,
-  //     email: Email.pure(),
-  //     password: Password.pure(),
-  //     confirmPassword: ConfirmPassword.pure(),
-  //     acceptTerms: AcceptTerms.pure(),
-  //   ));
-  // }
+  void _init(_Init event, Emitter<AuthState> emit) {
+    UserRoleHelper.getUserRole();
+    logInfo('User role bloc: ${UserRoleHelper.getUserRole()}');
+  }
 
   void _emailChanged(_EmailChanged event, Emitter<AuthState> emit) {
     final email = EmailFormz.dirty(event.email);

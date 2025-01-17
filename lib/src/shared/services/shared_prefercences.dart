@@ -50,7 +50,7 @@ class UserRoleHelper {
 
   // Convert string back to UserRole enum when retrieving
   static UserRole _stringToRole(String roleString) {
-    debugPrint('Retrieved role string: $roleString'); // Log retrieved value
+    debugPrint(roleString);
     switch (roleString) {
       case 'parent':
         return UserRole.parent;
