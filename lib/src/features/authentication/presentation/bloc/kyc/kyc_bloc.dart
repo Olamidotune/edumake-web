@@ -101,8 +101,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
         state.nin.value.trim(),
       );
 
-      await PresistenceServices().saveFirstName(state.firstName.value.trim());
-      await PresistenceServices().saveLastName(state.lastName.value.trim());
+      await PersistenceServices().saveFirstName(state.firstName.value.trim());
+      await PersistenceServices().saveLastName(state.lastName.value.trim());
 
       add(_SubmitKycSuccess(result));
     } catch (error, trace) {

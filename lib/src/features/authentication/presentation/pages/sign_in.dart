@@ -9,7 +9,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
-import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -41,19 +41,6 @@ class SignIn extends HookWidget {
 
     // Form key
     final formKey = useMemoized(GlobalKey<FormState>.new);
-
-    useEffect(() {
-      // Your init logic here
-      UserRoleHelper.getUserRole();
-
-      // debugPrint('Here:${role}');
-
-      // Optional: Return a dispose function
-      return () {
-        // This runs like dispose
-        print('This runs when widget is disposed');
-      };
-    }, []);
 
     return Scaffold(
       appBar: const CustomAppBar(),

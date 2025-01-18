@@ -48,7 +48,7 @@ class Button extends StatelessWidget {
                     ? AppColors.redColor
                     : buttonColor == Colors.white
                         ? AppColors.primaryColor
-                        : Colors.transparent,
+                        : AppColors.greyColor,
               ),
               borderRadius: BorderRadius.circular(pill ? 50.radius : 10.radius),
             ),

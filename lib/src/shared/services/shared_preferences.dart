@@ -2,45 +2,6 @@ import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HelperFunctions {
-  static Future<void> saveUserLoggedInSharedPreference(
-    // ignore: avoid_positional_boolean_parameters
-    bool isUserLoggedIn,
-  ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('ISLOGGEDIN', isUserLoggedIn);
-  }
-
-  static Future<bool> getUserLoggedInSharedPreference() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('ISLOGGEDIN') ?? false;
-  }
-
-  static Future<void> saveUserEmailSharedPreference(
-    String userEmail,
-  ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('USEREMAIL', userEmail);
-  }
-
-  static Future<String> getUserEmailSharedPreference() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('USEREMAIL') ?? '';
-  }
-
-  static Future<void> saveUserRoleSharedPreference(
-    String userRole,
-  ) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('USERROLE', userRole);
-  }
-
-  static Future<String> getUserRoleSharedPreference() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('USERROLE') ?? '';
-  }
-}
-
 class UserRoleHelper {
   static const String _roleKey = 'user_role';
 

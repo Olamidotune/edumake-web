@@ -3,11 +3,11 @@
 import 'package:edumake_frontend/config/pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PresistenceServices {
-  factory PresistenceServices() => _manager;
+class PersistenceServices {
+  factory PersistenceServices() => _manager;
 
-  PresistenceServices._internal();
-  static final PresistenceServices _manager = PresistenceServices._internal();
+  PersistenceServices._internal();
+  static final PersistenceServices _manager = PersistenceServices._internal();
 
   SharedPreferences? _prefs;
 
@@ -31,7 +31,7 @@ class PresistenceServices {
 
   Future<bool> saveLastName(String lastName) async {
     await _manager._ensurePrefsLoaded();
-    return await _manager._prefs!.setString(prefLastName, lastName);
+    return _manager._prefs!.setString(prefLastName, lastName);
   }
 
   Future<String?> getLastName() async {

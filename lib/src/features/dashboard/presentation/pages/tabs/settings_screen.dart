@@ -3,7 +3,7 @@ import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/teacher_menu_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {

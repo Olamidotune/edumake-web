@@ -243,6 +243,9 @@ class AppStrings {
   static const privacyPolicy = 'Privacy Policy';
   static const termsOfService = 'Terms of Service';
   static const logOut = 'Log Out';
+  static const areYouSureYouWantToLogOut = 'Are you sure you want to Log out?';
+  static const yes = 'Yes';
+  static const no = 'No';
   static const fees = 'Fees';
   static const schoolEvents = 'School Events';
   static const studyMaterials = 'Study Materials';

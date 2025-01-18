@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_prefercences.dart';
+import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
