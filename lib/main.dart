@@ -195,8 +195,8 @@ class MyApp extends StatelessWidget {
                       const ClassStudentsScreen(),
                   StudentDetailsScreen.routeName: (context) =>
                       const StudentDetailsScreen(),
-                  IndvidualStudentAssignmentScreen.routeName: (context) =>
-                      const IndvidualStudentAssignmentScreen(),
+                  IndividualStudentAssignmentScreen.routeName: (context) =>
+                      const IndividualStudentAssignmentScreen(),
                   ClassEventsScreen.routeName: (context) =>
                       const ClassEventsScreen(),
                   ClassEventDetailsScreen.routeName: (context) =>

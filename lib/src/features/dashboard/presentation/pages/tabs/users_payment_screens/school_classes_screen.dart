@@ -440,7 +440,7 @@ class StudentDetailsScreen extends StatelessWidget {
                     leading: AppStrings.assignments,
                     onTap: () {
                       Navigator.of(context).pushNamed(
-                        IndvidualStudentAssignmentScreen.routeName,
+                        IndividualStudentAssignmentScreen.routeName,
                         arguments: {
                           'studentName': studentName,
                           'className': className,
@@ -493,8 +493,8 @@ class StudentDetailsScreen extends StatelessWidget {
   }
 }
 
-class IndvidualStudentAssignmentScreen extends StatelessWidget {
-  const IndvidualStudentAssignmentScreen({super.key});
+class IndividualStudentAssignmentScreen extends StatelessWidget {
+  const IndividualStudentAssignmentScreen({super.key});
 
   static const String routeName = '/individual-student-assignment';
 

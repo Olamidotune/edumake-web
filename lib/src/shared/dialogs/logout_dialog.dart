@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -52,6 +53,7 @@ class LogoutDialog extends StatelessWidget {
                 buttonColor: AppColors.greyColor.withAlpha(3),
                 onPressed: () {
                   AuthServices().signOut();
+                  ToastService.toast('You have signed out of your account');
                   Navigator.of(context, rootNavigator: true)
                       .pushNamedAndRemoveUntil(
                     SignIn.routeName,
