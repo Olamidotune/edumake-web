@@ -205,7 +205,9 @@ class TeacherDetailsScreen extends StatelessWidget {
                         _TeacherOtherSectionListTile(
                           title: AppStrings.assignments,
                           count: '4',
-                          onTap: () {},
+                          onTap: () {
+                            //here
+                          },
                         ),
                         AppSpacing.verticalSpaceSmall,
                         Divider(
