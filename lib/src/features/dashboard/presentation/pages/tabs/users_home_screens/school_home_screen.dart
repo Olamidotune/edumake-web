@@ -2,12 +2,15 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
@@ -45,13 +48,21 @@ class AdminDashboard extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomRight,
-          child: Text(
-            AppStrings.seeAll,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.w700,
-                ),
+          child: TextButton(
+            onPressed: () {
+              debugPrint('${context.read<AuthBloc>().state.email}');
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                AddManagementSegmentsScreen.routeName,
+              );
+            },
+            child: Text(
+              AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,

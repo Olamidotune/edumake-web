@@ -42,14 +42,19 @@ class _AddManagementSegmentsScreenState
             child: CircleAvatar(
               radius: 40.width,
               backgroundColor: AppColors.greyColor,
-              child: Text(
-                'DD',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontFamily: 'HelveticaNeueRounded',
-                      fontSize: 12.fontSize,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.primaryTextColor,
-                    ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'DD',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'HelveticaNeueRounded',
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryTextColor,
+                      ),
+                ),
               ),
             ),
           ),
