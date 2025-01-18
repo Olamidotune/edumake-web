@@ -108,7 +108,7 @@ class CustomTextFormField extends StatelessWidget {
                     ? IconButton(
                         onPressed: onSuffixIconPressed,
                         icon: Icon(
-                          obscureText ? Icons.visibility_off : Icons.visibility,
+                          obscureText ? Icons.visibility : Icons.visibility_off,
                           color: AppColors.greyColor,
                         ),
                       )

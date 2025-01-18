@@ -319,7 +319,6 @@ class SignIn extends HookWidget {
             ToastType.warning,
           );
         });
-        debugPrint('Here:${UserRoleHelper.getUserRole()}');
       } else {
         ToastService.toast('Sign in successful');
         Navigator.of(context).popAndPushNamed(Dashboard.routeName);
@@ -347,8 +346,6 @@ class SignIn extends HookWidget {
 
   void _navigate(BuildContext context) async {
     final role = await UserRoleHelper.getUserRole();
-
-    debugPrint('Here:$role');
     if (role == UserRole.parent || role == UserRole.teacher) {
       await Navigator.of(context).popAndPushNamed(
         KycScreen.routeName,

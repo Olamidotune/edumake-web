@@ -142,7 +142,7 @@ class SchoolSignUpScreen extends HookWidget {
                                 AuthEvent.onConfirmPasswordChanged(vaule),
                               ),
                           onFieldSubmitted: () {
-                            if (!formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
                                 ToastService.toast(
                                   'Please accept the privacy policy and terms of service',
@@ -236,13 +236,14 @@ class SchoolSignUpScreen extends HookWidget {
                           busy: state.signUpStatus ==
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
-                            if (!checkedPrivacyPolicy.value) {
-                              ToastService.toast(
-                                'Please accept the privacy policy and terms of service',
-                                ToastType.error,
-                              );
-                              return;
-                            } else if (formKey.currentState!.validate()) {
+                            if (formKey.currentState!.validate()) {
+                              if (!checkedPrivacyPolicy.value) {
+                                ToastService.toast(
+                                  'Please accept the privacy policy and terms of service',
+                                  ToastType.info,
+                                );
+                                return;
+                              }
                               context.read<AuthBloc>().add(
                                     const AuthEvent.signUp(),
                                   );
