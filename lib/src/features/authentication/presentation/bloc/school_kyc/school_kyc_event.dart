@@ -5,7 +5,7 @@ class SchoolKycEvent with _$SchoolKycEvent {
   const factory SchoolKycEvent() = _SchoolKycEvent;
 
   const factory SchoolKycEvent.initial() = _SchoolKycEventInitial;
-  const factory SchoolKycEvent.onschoolNameChanged(String schoolName) =
+  const factory SchoolKycEvent.onSchoolNameChanged(String schoolName) =
       _OnSchoolNameChanged;
   const factory SchoolKycEvent.onFirstNameChanged(String firstName) =
       _OnFirstNameChanged;

@@ -159,7 +159,8 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                                   ),
                         ),
                         AppSpacing.verticalSpaceSmall,
-                        const SchoolDropDownFormWidget(
+                        SchoolDropDownFormWidget(
+                          onChanged: (p0) {},
                           hintText: 'Select Subject',
                         ),
                         AppSpacing.verticalSpaceLarge,
@@ -174,8 +175,9 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                                   ),
                         ),
                         AppSpacing.verticalSpaceSmall,
-                        const SchoolDropDownFormWidget(
+                        SchoolDropDownFormWidget(
                           hintText: 'Select Classes',
+                          onChanged: (p0) {},
                         ),
                         AppSpacing.verticalSpaceLarge,
                         CustomTextFormField(

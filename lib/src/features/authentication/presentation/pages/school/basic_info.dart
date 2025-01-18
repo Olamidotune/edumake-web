@@ -5,12 +5,15 @@ import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_kyc/school_kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:formz/formz.dart';
 
 class SchoolBasicInfoScreen extends HookWidget {
   const SchoolBasicInfoScreen({
@@ -52,6 +55,9 @@ class SchoolBasicInfoScreen extends HookWidget {
           right: 10,
         ),
         child: BlocBuilder<SchoolKycBloc, SchoolKycState>(
+          buildWhen: (previous, current) {
+            return _authBuildWhen(context, previous, current);
+          },
           builder: (context, state) {
             return Padding(
               padding: EdgeInsets.all(
@@ -107,9 +113,9 @@ class SchoolBasicInfoScreen extends HookWidget {
                             focusNode: firstNameFocusNode,
                             textInputAction: TextInputAction.next,
                             onChanged: (value) {
-                              // context.read<KycBloc>().add(
-                              //       KycEvent.firstNameChanged(value),
-                              //     );
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onFirstNameChanged(value),
+                                  );
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -127,8 +133,13 @@ class SchoolBasicInfoScreen extends HookWidget {
                             keyboardType: TextInputType.name,
                             focusNode: lastNameFocusNode,
                             textInputAction: TextInputAction.next,
-                            validator: (p0) {
-                              if (p0!.isEmpty) {
+                            onChanged: (value) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onLastNameChanged(value),
+                                  );
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return AppStrings.fieldIsRequired;
                               }
                               return null;
@@ -143,8 +154,13 @@ class SchoolBasicInfoScreen extends HookWidget {
                             keyboardType: TextInputType.phone,
                             focusNode: phoneNumberFocusNode,
                             textInputAction: TextInputAction.next,
-                            validator: (p0) {
-                              if (p0!.isEmpty) {
+                            onChanged: (value) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onPhoneNumberChanged(value),
+                                  );
+                            },
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return AppStrings.fieldIsRequired;
                               }
                               return null;
@@ -173,6 +189,10 @@ class SchoolBasicInfoScreen extends HookWidget {
                             keyboardType: TextInputType.name,
                             focusNode: schoolNameFocusNode,
                             textInputAction: TextInputAction.next,
+                            onChanged: (value) =>
+                                context.read<SchoolKycBloc>().add(
+                                      SchoolKycEvent.onSchoolNameChanged(value),
+                                    ),
                             validator: (p0) {
                               if (p0!.isEmpty) {
                                 return AppStrings.fieldIsRequired;
@@ -187,6 +207,12 @@ class SchoolBasicInfoScreen extends HookWidget {
                             hintText: AppStrings.enterSchoolAddress,
                             keyboardType: TextInputType.streetAddress,
                             focusNode: schoolAddressNameFocusNode,
+                            textInputAction: TextInputAction.next,
+                            onChanged: (value) => context
+                                .read<SchoolKycBloc>()
+                                .add(
+                                  SchoolKycEvent.onSchoolAddressChanged(value),
+                                ),
                             validator: (p0) {
                               if (p0!.isEmpty) {
                                 return AppStrings.fieldIsRequired;
@@ -196,11 +222,18 @@ class SchoolBasicInfoScreen extends HookWidget {
                           ),
                           AppSpacing.verticalSpaceMedium,
                           CustomTextFormField(
-                            validator: (p0) {
-                              if (p0!.isEmpty) {
-                                return AppStrings.fieldIsRequired;
+                            validator: (value) {
+                              if (EmailValidator.validate(
+                                value?.trim() ?? '',
+                              )) {
+                                return null;
                               }
-                              return null;
+                              return 'Please enter a valid email address';
+                            },
+                            onChanged: (value) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onSchoolEmailChanged(value),
+                                  );
                             },
                             title: AppStrings.schoolEmailAddress,
                             controller: schoolPhoneNumberEmailAddressController,
@@ -220,8 +253,15 @@ class SchoolBasicInfoScreen extends HookWidget {
                                     ),
                           ),
                           AppSpacing.verticalSpaceSmall,
-                          const SchoolDropDownFormWidget(
+                          SchoolTypeDropDownFormWidget(
                             hintText: AppStrings.selectSchoolType,
+                            onChanged: (schoolType) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onSchoolTypeChanged(
+                                      schoolType!,
+                                    ),
+                                  );
+                            },
                           ),
                           AppSpacing.verticalSpaceMedium,
                           Text(
@@ -234,8 +274,15 @@ class SchoolBasicInfoScreen extends HookWidget {
                                     ),
                           ),
                           AppSpacing.verticalSpaceSmall,
-                          const SchoolDropDownFormWidget(
+                          SchoolDropDownFormWidget(
                             hintText: AppStrings.selectNumberOfClasses,
+                            onChanged: (classNumberRange) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onClassNumberRangeChanged(
+                                      classNumberRange!,
+                                    ),
+                                  );
+                            },
                           ),
                           AppSpacing.verticalSpaceMedium,
                           Text(
@@ -248,8 +295,15 @@ class SchoolBasicInfoScreen extends HookWidget {
                                     ),
                           ),
                           AppSpacing.verticalSpaceSmall,
-                          const SchoolDropDownFormWidget(
+                          SchoolDropDownFormWidget(
                             hintText: AppStrings.selectNumberOfStudents,
+                            onChanged: (studentNumberRange) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onStudentNumberRangeChanged(
+                                      studentNumberRange!,
+                                    ),
+                                  );
+                            },
                           ),
                           AppSpacing.verticalSpaceMedium,
                           Text(
@@ -262,19 +316,27 @@ class SchoolBasicInfoScreen extends HookWidget {
                                     ),
                           ),
                           AppSpacing.verticalSpaceSmall,
-                          const SchoolDropDownFormWidget(
+                          SchoolDropDownFormWidget(
                             hintText: AppStrings.selectNumberOfTeachers,
+                            onChanged: (teacherNumberRange) {
+                              context.read<SchoolKycBloc>().add(
+                                    SchoolKycEvent.onTeacherNumberRangeChanged(
+                                      teacherNumberRange!,
+                                    ),
+                                  );
+                            },
                           ),
                           AppSpacing.verticalSpaceHuge,
                           Button(
+                            busy: state.schoolKycStatus ==
+                                FormzSubmissionStatus.inProgress,
                             text: AppStrings.submit,
                             onPressed: () {
-                              // if (formKey.currentState!.validate()) {
-                              //   Navigator.of(context)
-                              //       .popAndPushNamed(Dashboard.routeName);
-                              // }
-                              Navigator.of(context).pushNamed(
-                                  SchoolSubscriptionScreen.routeName);
+                              if (formKey.currentState!.validate()) {
+                                context.read<SchoolKycBloc>().add(
+                                      const SchoolKycEvent.submitSchoolKyc(),
+                                    );
+                              }
                             },
                           ),
                         ],
@@ -288,5 +350,26 @@ class SchoolBasicInfoScreen extends HookWidget {
         ),
       ),
     );
+  }
+
+  bool _authBuildWhen(
+    BuildContext context,
+    SchoolKycState previous,
+    SchoolKycState current,
+  ) {
+    if (previous.schoolKycStatus == FormzSubmissionStatus.inProgress &&
+        current.schoolKycStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Your details have been submitted successfully');
+      Navigator.of(context).pushNamed(SchoolSubscriptionScreen.routeName);
+      return false;
+    } else if (previous.schoolKycStatus == FormzSubmissionStatus.inProgress &&
+        current.schoolKycStatus == FormzSubmissionStatus.failure) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      return true;
+    }
+    return true;
   }
 }
