@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -206,7 +207,13 @@ class TeacherDetailsScreen extends StatelessWidget {
                           title: AppStrings.assignments,
                           count: '4',
                           onTap: () {
-                            //here
+                            Navigator.of(context).pushNamed(
+                              AssignmentScreen.routeName,
+                              // arguments: {
+                              //   'teacher': teacher,
+                              //   'subject': subject,
+                              // },
+                            );
                           },
                         ),
                         AppSpacing.verticalSpaceSmall,
