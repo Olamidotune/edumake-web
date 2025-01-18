@@ -8,11 +8,11 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/s
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_segments.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';

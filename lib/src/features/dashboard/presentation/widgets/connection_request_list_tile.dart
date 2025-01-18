@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionRequestListTile extends StatelessWidget {
@@ -57,8 +57,10 @@ class ConnectionRequestListTile extends StatelessWidget {
               text: ' $subTitleName',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 10.fontSize,
-                    color: date.isNotEmpty ? AppColors.primaryTextColor : AppColors.primaryTextColor,
-                    fontWeight:date.isNotEmpty ? FontWeight.bold : null,
+                    color: date.isNotEmpty
+                        ? AppColors.primaryTextColor
+                        : AppColors.primaryTextColor,
+                    fontWeight: date.isNotEmpty ? FontWeight.bold : null,
                     fontFamily: 'HelveticaNeueRounded',
                   ),
             ),

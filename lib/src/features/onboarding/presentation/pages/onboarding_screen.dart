@@ -2,7 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/school/school_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';

@@ -1,8 +1,8 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';

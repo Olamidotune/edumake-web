@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/core/extentions/string_extension.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
