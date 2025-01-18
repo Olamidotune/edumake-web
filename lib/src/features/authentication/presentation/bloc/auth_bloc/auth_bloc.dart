@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
+import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
@@ -109,17 +110,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final userRole = await UserRoleHelper.getUserRole();
 
+    final roleForAPI =
+        UserRoleHelper.getRoleStringForAPI(userRole ?? UserRole.parent);
+    logInfo(
+      'Userssss role: ${UserRoleHelper.getRoleStringForAPI(userRole ?? UserRole.parent)}',
+    );
+
     try {
       final signupResponse = await locator<AuthenticationClient>().signUp(
         state.email.value.trim(),
         state.password.value.trim(),
-        userRole.toString().split('.').last,
+        roleForAPI,
       );
-
       add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {
       debugPrint(
-          'Error type: ${error is DioError && error.response?.data['message'] != null}');
+        'Error type: ${error is DioError && error.response?.data['message'] != null}',
+      );
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
         add(_SignUpFailed(error.response?.data['message'] as String?));

@@ -247,18 +247,6 @@ class SchoolSignUpScreen extends HookWidget {
                                     const AuthEvent.signUp(),
                                   );
                             }
-                            // if (formKey.currentState!.validate()) {
-                            //   if (!checkedPrivacyPolicy.value) {
-                            //     ToastService.toast(
-                            //       'Please accept the privacy policy and terms of service',
-                            //       ToastType.error,
-                            //     );
-                            //     return;
-                            //   }
-                            //   context.read<AuthBloc>().add(
-                            //         const AuthEvent.signUp(),
-                            //       );
-                            // }
                           },
                         ),
                       ],

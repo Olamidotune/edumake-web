@@ -119,7 +119,6 @@ class OnboardingScreenTwo extends StatelessWidget {
                 onPressed: () async {
                   // Save role to shared preferences
                   await UserRoleHelper.saveUserRole(UserRole.parent);
-
                   // Navigate to the appropriate screen
                   navigateBasedOnRole(context, UserRole.parent);
                 },
@@ -130,7 +129,6 @@ class OnboardingScreenTwo extends StatelessWidget {
                 onPressed: () async {
                   // Save role to shared preferences
                   await UserRoleHelper.saveUserRole(UserRole.schoolAdmin);
-
                   // Navigate to the appropriate screen
                   navigateBasedOnRole(context, UserRole.schoolAdmin);
                 },
