@@ -2,10 +2,11 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -142,7 +143,8 @@ class SignUpScreen extends HookWidget {
                                 AuthEvent.onConfirmPasswordChanged(vaule),
                               ),
                           onFieldSubmitted: () {
-                            if (!formKey.currentState!.validate()) {
+                            logInfo('Form submitted');
+                            if (formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
                                 ToastService.toast(
                                   'Please accept the privacy policy and terms of service',
@@ -236,29 +238,20 @@ class SignUpScreen extends HookWidget {
                           busy: state.signUpStatus ==
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
-                            if (!checkedPrivacyPolicy.value) {
-                              ToastService.toast(
-                                'Please accept the privacy policy and terms of service',
-                                ToastType.error,
-                              );
-                              return;
-                            } else if (formKey.currentState!.validate()) {
+                            logInfo(
+                                'Sign up button pressed for user role: $userRole');
+                            if (formKey.currentState!.validate()) {
+                              if (!checkedPrivacyPolicy.value) {
+                                ToastService.toast(
+                                  'Please accept the privacy policy and terms of service',
+                                  ToastType.info,
+                                );
+                                return;
+                              }
                               context.read<AuthBloc>().add(
                                     const AuthEvent.signUp(),
                                   );
                             }
-                            // if (formKey.currentState!.validate()) {
-                            //   if (!checkedPrivacyPolicy.value) {
-                            //     ToastService.toast(
-                            //       'Please accept the privacy policy and terms of service',
-                            //       ToastType.error,
-                            //     );
-                            //     return;
-                            //   }
-                            //   context.read<AuthBloc>().add(
-                            //         const AuthEvent.signUp(),
-                            //       );
-                            // }
                           },
                         ),
                       ],

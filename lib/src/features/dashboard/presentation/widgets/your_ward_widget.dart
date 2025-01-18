@@ -1,6 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/auto_scrolling_text.dart';
 import 'package:flutter/material.dart';
 
@@ -78,7 +78,7 @@ class YourWardCard extends StatelessWidget {
                           fontWeight: FontWeight.w300,
                           color: AppColors.greyColor,
                         ),
-                        maxLines: 2,
+                    maxLines: 2,
                   ),
                 ],
               ),
@@ -124,9 +124,7 @@ class YourWardCard extends StatelessWidget {
                     ),
               ),
               Expanded(
-
-                child: 
-                AutoScrollingText(
+                child: AutoScrollingText(
                   text:
                       'Maths: $scores%, English: $scores%, Physics: 60%, Chemistry: 50%, Biology: 40%, Geography: 30%, History: 20%, CRK: 10%',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -137,7 +135,6 @@ class YourWardCard extends StatelessWidget {
               ),
             ],
           ),
-
         ],
       ),
     );

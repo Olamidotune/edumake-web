@@ -1,11 +1,12 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
-    required this.isHomePage, super.key,
+    required this.isHomePage,
+    super.key,
     this.hintText,
     this.onSearch,
   });
@@ -17,7 +18,7 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: isHomePage ? 20 : 0),
+      padding: EdgeInsets.symmetric(horizontal: isHomePage ? 20 : 0),
       child: TextFormField(
         decoration: InputDecoration(
           border: OutlineInputBorder(

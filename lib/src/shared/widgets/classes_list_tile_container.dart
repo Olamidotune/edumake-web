@@ -1,5 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class ClassesListTileContainer extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -108,7 +108,7 @@ class CustomTextFormField extends StatelessWidget {
                     ? IconButton(
                         onPressed: onSuffixIconPressed,
                         icon: Icon(
-                          obscureText ? Icons.visibility_off : Icons.visibility,
+                          obscureText ? Icons.visibility : Icons.visibility_off,
                           color: AppColors.greyColor,
                         ),
                       )

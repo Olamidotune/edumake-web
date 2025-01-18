@@ -1,5 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
@@ -66,14 +66,11 @@ class Button extends StatelessWidget {
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 16.fontSize,
-                      color: 
-                      
-                      deleteButton
+                      color: deleteButton
                           ? AppColors.redColor
-                          :
-                      buttonColor == Colors.white
-                          ? AppColors.primaryColor
-                          : textColor,
+                          : buttonColor == Colors.white
+                              ? AppColors.primaryColor
+                              : textColor,
                       fontWeight: FontWeight.w500,
                     ),
                 textAlign: TextAlign.center,

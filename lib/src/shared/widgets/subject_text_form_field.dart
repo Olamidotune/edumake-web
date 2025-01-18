@@ -1,6 +1,5 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class AddSubjectTextFormField extends StatelessWidget {
@@ -52,7 +51,7 @@ class AddSubjectTextFormField extends StatelessWidget {
             hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w300,
                   fontSize: 10.fontSize,
-        color: AppColors.primaryTextColor.withOpacity(0.5),
+                  color: AppColors.primaryTextColor.withOpacity(0.5),
                 ),
           ),
         ),

@@ -1,18 +1,35 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SchoolMenuScreen extends StatelessWidget {
+class SchoolMenuScreen extends StatefulWidget {
   const SchoolMenuScreen({super.key});
 
   static const String routeName = '/school-menu';
+
+  @override
+  State<SchoolMenuScreen> createState() => _SchoolMenuScreenState();
+}
+
+class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    AuthServices().getUser().then((user) => setState(() => _user = user));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +42,8 @@ class SchoolMenuScreen extends StatelessWidget {
             child: Icon(Icons.person),
           ),
           title: Text(
-            'David Egundeyi',
+            // _user?.email ?? 'User',
+            '${context.read<AuthBloc>().state.user?.fullName ?? _user?.fullName}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 16.fontSize,
                   fontWeight: FontWeight.w500,
@@ -33,7 +51,7 @@ class SchoolMenuScreen extends StatelessWidget {
                 ),
           ), //Name of the school
           subtitle: Text(
-            'Davidegundeyi@yahoo.co.uk',
+            '${context.read<AuthBloc>().state.user?.email ?? _user?.email}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 12.fontSize,
                   fontWeight: FontWeight.w300,

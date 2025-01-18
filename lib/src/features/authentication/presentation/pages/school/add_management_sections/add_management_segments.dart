@@ -1,11 +1,11 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_classes.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_students.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_subjects.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_teachers.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +42,19 @@ class _AddManagementSegmentsScreenState
             child: CircleAvatar(
               radius: 40.width,
               backgroundColor: AppColors.greyColor,
-              child: Text(
-                'DD',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontFamily: 'HelveticaNeueRounded',
-                      fontSize: 12.fontSize,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.primaryTextColor,
-                    ),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'DD',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'HelveticaNeueRounded',
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryTextColor,
+                      ),
+                ),
               ),
             ),
           ),

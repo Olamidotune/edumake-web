@@ -60,4 +60,20 @@ abstract class AuthenticationClient {
     @Field('phoneNumber') String phoneNumber,
     @Field('idNumber') String nin,
   );
+
+  @PUT('/api/v1/auth/school-admin/kyc')
+  @FormUrlEncoded()
+  Future<SignupResponse> submitSchoolAdminKYC(
+    @Header('Authorization') String authorization,
+    @Field('firstName') String firstName,
+    @Field('lastName') String lastName,
+    @Field('phoneNumber') String phoneNumber,
+    @Field('schoolEmail') String schoolEmail,
+    @Field('schoolType') String schoolType,
+    @Field('schoolAddress') String schoolAddress,
+    @Field('schoolName') String schoolName,
+    @Field('classNumberRange') String classNumberRange,
+    @Field('studentNumberRange') String studentNumberRange,
+    @Field('teacherNumberRange') String teacherNumberRange,
+  );
 }

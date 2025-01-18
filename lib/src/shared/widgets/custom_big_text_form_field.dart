@@ -1,13 +1,13 @@
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/extentions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomBigTextFormField extends StatelessWidget {
   const CustomBigTextFormField({
-    required this.header, super.key,
+    required this.header,
+    super.key,
   });
   final String header;
 
@@ -18,7 +18,7 @@ class CustomBigTextFormField extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-             header,
+            header,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontFamily: 'HelveticaNeueRounded',
                   fontSize: 13.fontSize,
