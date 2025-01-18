@@ -215,7 +215,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signInStatus: FormzSubmissionStatus.success,
       ),
     );
-
     // After navigation occurs via buildWhen, reset the status
     emit(
       state.copyWith(
