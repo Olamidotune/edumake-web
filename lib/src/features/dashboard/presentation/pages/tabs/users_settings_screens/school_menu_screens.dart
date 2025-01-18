@@ -6,10 +6,9 @@ import 'package:edumake_frontend/src/features/authentication/api/models/user.dar
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
-import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -318,56 +317,7 @@ void _showSignOutDialog(BuildContext context) async {
   await showDialog<void>(
     context: context,
     builder: (context) {
-      return AlertDialog(
-        title: Padding(
-          padding:
-              EdgeInsets.symmetric(vertical: AppSpacing.verticalValueMedium),
-          child: Column(
-            children: [
-              SvgPicture.asset(
-                'assets/svg/logout.svg',
-                height: 50.fontSize,
-              ),
-              AppSpacing.verticalSpaceMedium,
-              Text(
-                AppStrings.areYouSureYouWantToLogOut,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(),
-                maxLines: 2,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          Row(
-            children: [
-              Expanded(
-                child: Button(
-                  text: AppStrings.no,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              AppSpacing.horizontalSpaceMedium,
-              Expanded(
-                child: Button(
-                  text: AppStrings.yes,
-                  buttonColor: AppColors.greyColor.withAlpha(3),
-                  onPressed: () {
-                    AuthServices().signOut();
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamedAndRemoveUntil(
-                      SignIn.routeName,
-                      (route) => false,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      );
+      return const LogoutDialog();
     },
   );
 }
