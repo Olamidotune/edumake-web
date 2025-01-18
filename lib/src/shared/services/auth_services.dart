@@ -50,7 +50,7 @@ class AuthServices {
     //if token is not null, store the token in the storage
     if (token != null) {
       await _manager._storage.write(key: prefToken, value: token);
-      await PresistenceServices().saveHasAuthenticatedBefore(true);
+      await PersistenceServices().saveHasAuthenticatedBefore(true);
     }
 
     //store the user details in the storage

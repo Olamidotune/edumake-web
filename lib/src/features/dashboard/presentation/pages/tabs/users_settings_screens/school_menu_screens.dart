@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +113,9 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
-            onTap: () {},
+            onTap: () {
+              _showSignOutDialog(context);
+            },
             leading: SvgPicture.asset(
               'assets/svg/logout.svg',
               color: AppColors.redColor,
@@ -308,4 +311,13 @@ class SchoolMenuTopContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showSignOutDialog(BuildContext context) async {
+  await showDialog<void>(
+    context: context,
+    builder: (context) {
+      return const LogoutDialog();
+    },
+  );
 }
