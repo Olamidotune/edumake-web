@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
@@ -120,28 +121,7 @@ class SignIn extends HookWidget {
                                   );
                             }
                           },
-                          // onFieldSubmitted: () {
-                          //   if (formKey.currentState!.validate()) {
-                          //     isBusy.value = true;
-                          //     Future.delayed(
-                          //       const Duration(seconds: 3),
-                          //       () {
-                          //         Navigator.of(context)
-                          //             .pushNamed(Dashboard.routeName);
-                          //         isBusy.value = false;
-                          //       },
-                          //     );
-                          //   }
-                          // },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter a valid password';
-                            }
-                            if (value.length < 6) {
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null;
-                          },
+                          validator: validatePassword,
                           onSuffixIconPressed: () =>
                               obscurePassword.value = !obscurePassword.value,
                         ),
