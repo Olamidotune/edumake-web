@@ -37,7 +37,7 @@ class _DashboardState extends State<Dashboard> {
       child: PersistentTabView(
         bottomScreenMargin: 70.height,
         context,
-        screens: _buidScreens(),
+        screens: _buildScreens(),
         controller: controller,
         items: _navBarsItems(),
         resizeToAvoidBottomInset: true,
@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-List<Widget> _buidScreens() {
+List<Widget> _buildScreens() {
   return [
     const HomeScreen(),
     const WardScreen(),

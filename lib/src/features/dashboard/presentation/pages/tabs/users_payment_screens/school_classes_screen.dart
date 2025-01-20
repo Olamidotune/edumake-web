@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
@@ -172,7 +173,10 @@ class ClassDetailsScreen extends StatelessWidget {
                     },
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
+                  ClassesListTileContainer(
+                    onTap: () => Navigator.of(context).pushNamed(
+                      AssignmentScreen.routeName,
+                    ),
                     title: AppStrings.assignments,
                     isProfilePictureEnabled: false,
                   ),
@@ -534,6 +538,14 @@ class IndividualStudentAssignmentScreen extends StatelessWidget {
                 ListView.separated(
                   itemBuilder: (context, index) {
                     return ClassesListTileContainer(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          AssignmentScreen.routeName,
+                          arguments: {
+                            'assignmentName': 'Assignment ${index + 1}',
+                          },
+                        );
+                      },
                       isProfilePictureEnabled: false,
                       title: 'Assignment ${index + 1}',
                     );
