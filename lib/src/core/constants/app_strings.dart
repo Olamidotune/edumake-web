@@ -100,6 +100,7 @@ class AppStrings {
   static const schoolType = 'School Type';
   static const numberOfClasses = 'Number of Classes';
   static const range = 'Range';
+  static const previousSubmission = 'Previous Submission';
   static const numberOfStudents = 'Number of Students';
   static const numberOfTeachers = 'Number of Teachers';
   static const enterSchoolName = "Enter School's name";
@@ -251,7 +252,9 @@ class AppStrings {
   static const studyMaterials = 'Study Materials';
   static const certificates = 'Certificates';
   static const searchPayment = "search with school's name or pupil's name";
+  static const searchAssignment = 'search with subject or class';
   static const pendingPayments = 'Pending Payments';
+  static const pendingSubmission = 'Pending Submission';
   static const schoolFeePayment = 'School Fee Payment';
   static const payFee = 'Pay Fee';
   static const submittedAssignment = 'Submitted Assignment';

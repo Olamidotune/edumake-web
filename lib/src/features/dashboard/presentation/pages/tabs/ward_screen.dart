@@ -4,7 +4,7 @@ import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/teacher_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';

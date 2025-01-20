@@ -9,7 +9,6 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
-import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +115,6 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
           child: ListTile(
             onTap: () {
               _showSignOutDialog(context);
-              ToastService.toast('You have signed out of your account');
             },
             leading: SvgPicture.asset(
               'assets/svg/logout.svg',

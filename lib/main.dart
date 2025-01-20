@@ -32,7 +32,8 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_teacher_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/teacher_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
@@ -142,7 +143,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                home: const SplashScreen(),
+                home: const SignIn(),
                 routes: {
                   SplashScreen.routeName: (context) => const SplashScreen(),
                   SelectLanguageScreen.routeName: (context) =>
@@ -195,8 +196,8 @@ class MyApp extends StatelessWidget {
                       const ClassStudentsScreen(),
                   StudentDetailsScreen.routeName: (context) =>
                       const StudentDetailsScreen(),
-                  IndvidualStudentAssignmentScreen.routeName: (context) =>
-                      const IndvidualStudentAssignmentScreen(),
+                  IndividualStudentAssignmentScreen.routeName: (context) =>
+                      const IndividualStudentAssignmentScreen(),
                   ClassEventsScreen.routeName: (context) =>
                       const ClassEventsScreen(),
                   ClassEventDetailsScreen.routeName: (context) =>
@@ -207,6 +208,8 @@ class MyApp extends StatelessWidget {
                       const SchoolMenuScreen(),
                   WardDetailScreen.routeName: (context) =>
                       const WardDetailScreen(),
+                  AssignmentScreen.routeName: (context) =>
+                      const AssignmentScreen(),
                   ParentPaymentScreen.routeName: (context) =>
                       const ParentPaymentScreen(),
                   ParentMenuScreen.routeName: (context) =>
