@@ -4,6 +4,7 @@ import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
@@ -112,9 +113,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final roleForAPI =
         UserRoleHelper.getRoleStringForAPI(userRole ?? UserRole.parent);
-    logInfo(
-      'Userssss role: ${UserRoleHelper.getRoleStringForAPI(userRole ?? UserRole.parent)}',
-    );
 
     try {
       final signupResponse = await locator<AuthenticationClient>().signUp(
@@ -207,11 +205,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _SignInSuccessful event,
     Emitter<AuthState> emit,
   ) async {
-    await AuthServices()
-        .setSignedIn(event.authData.data.token, event.authData.data.user);
+    //here we set the user as signed in
+    await AuthServices().setSignedIn(
+      event.authData.data.token,
+      event.authData.data.user,
+      event.authData.data.user.school,
+    );
     emit(
       state.copyWith(
         user: event.authData.data.user,
+        school: event.authData.data.user.school,
         signInStatus: FormzSubmissionStatus.success,
       ),
     );

@@ -6,6 +6,7 @@ part of 'auth_bloc.dart';
 class AuthState with _$AuthState {
   const factory AuthState({
     User? user,
+    SchoolModel? school,
     @Default(EmailFormz.pure()) EmailFormz email,
     @Default(PasswordFormz.pure()) PasswordFormz password,
     @Default(PasswordConfirmFormz.pure()) PasswordConfirmFormz passwordConfirm,
