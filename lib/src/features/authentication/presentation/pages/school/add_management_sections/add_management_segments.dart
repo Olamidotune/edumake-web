@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
@@ -9,6 +10,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class AddManagementSegmentsScreen extends StatefulWidget {
@@ -35,121 +37,125 @@ class _AddManagementSegmentsScreenState
       onWillPop: () async {
         return false;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: EdgeInsets.only(left: AppSpacing.horizontalSpacing),
-            child: CircleAvatar(
-              radius: 40.width,
-              backgroundColor: AppColors.greyColor,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'DD',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'HelveticaNeueRounded',
-                        fontSize: 12.fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.primaryTextColor,
-                      ),
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: Padding(
+                padding: EdgeInsets.only(left: AppSpacing.horizontalSpacing),
+                child: CircleAvatar(
+                  radius: 40.width,
+                  backgroundColor: AppColors.greyColor,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      state.user!.fullName!.substring(0, 1).toUpperCase(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primaryTextColor,
+                          ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          centerTitle: false,
-          title: RichText(
-            text: TextSpan(
-              text: AppStrings.hello,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontFamily: 'HelveticaNeueRounded',
-                    fontSize: 16.fontSize,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.primaryTextColor,
-                  ),
-              children: [
-                TextSpan(
-                  text: ' David Doe,',
+              centerTitle: false,
+              title: RichText(
+                text: TextSpan(
+                  text: AppStrings.hello,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'HelveticaNeueRounded',
                         fontSize: 16.fontSize,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryTextColor,
                       ),
+                  children: [
+                    TextSpan(
+                      text: ' ${state.user?.fullName ?? ''}',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 16.fontSize,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primaryColor,
+                          ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-            child: Column(
-              children: [
-                Text(
-                  AppStrings.beAdvisedToAddTheseSegments,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.fontSize,
-                        fontWeight: FontWeight.w300,
-                      ),
-                  textAlign: TextAlign.justify,
+            body: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                child: Column(
+                  children: [
+                    Text(
+                      AppStrings.beAdvisedToAddTheseSegments,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.w300,
+                          ),
+                      textAlign: TextAlign.justify,
+                    ),
+                    AppSpacing.verticalSpaceMassive,
+                    AddCsvContainer(
+                      name: savedClasses ? 'Classes Added' : 'Add Classes',
+                      onTap: () {
+                        _navigateToClassScreen(AddClassesScreen.routeName);
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    AddCsvContainer(
+                      name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
+                      onTap: () {
+                        _navigateToSchoolScreen(AddSubjectsScreen.routeName);
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    AddCsvContainer(
+                      name: savedStudents ? 'Students Added' : 'Add Students',
+                      onTap: () {
+                        _navigateToStudentsScreen(AddStudentsScreen.routeName);
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    AddCsvContainer(
+                      name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
+                      onTap: () {
+                        _navigateToTeachersScreen(AddTeachersScreen.routeName);
+                      },
+                    ),
+                    AppSpacing.verticalSpaceMassive,
+                    Button(
+                      buttonColor: savedClasses &&
+                              savedSubjects &&
+                              savedStudents &&
+                              savedTeachers
+                          ? AppColors.primaryColor
+                          : AppColors.secondaryColor.withOpacity(0.1),
+                      busy: busy,
+                      text: 'Setup Done',
+                      onPressed: () {
+                        if (savedClasses &&
+                            savedSubjects &&
+                            savedStudents &&
+                            savedTeachers) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            Dashboard.routeName,
+                            (route) => false,
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                AppSpacing.verticalSpaceMassive,
-                AddCsvContainer(
-                  name: savedClasses ? 'Classes Added' : 'Add Classes',
-                  onTap: () {
-                    _navigateToClassScreen(AddClassesScreen.routeName);
-                  },
-                ),
-                AppSpacing.verticalSpaceMedium,
-                AddCsvContainer(
-                  name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
-                  onTap: () {
-                    _navigateToSchoolScreen(AddSubjectsScreen.routeName);
-                  },
-                ),
-                AppSpacing.verticalSpaceMedium,
-                AddCsvContainer(
-                  name: savedStudents ? 'Students Added' : 'Add Students',
-                  onTap: () {
-                    _navigateToStudentsScreen(AddStudentsScreen.routeName);
-                  },
-                ),
-                AppSpacing.verticalSpaceMedium,
-                AddCsvContainer(
-                  name: savedTeachers ? 'Teachers Added' : 'Add Teachers',
-                  onTap: () {
-                    _navigateToTeachersScreen(AddTeachersScreen.routeName);
-                  },
-                ),
-                AppSpacing.verticalSpaceMassive,
-                Button(
-                  buttonColor: savedClasses &&
-                          savedSubjects &&
-                          savedStudents &&
-                          savedTeachers
-                      ? AppColors.primaryColor
-                      : AppColors.secondaryColor.withOpacity(0.1),
-                  busy: busy,
-                  text: 'Setup Done',
-                  onPressed: () {
-                    if (savedClasses &&
-                        savedSubjects &&
-                        savedStudents &&
-                        savedTeachers) {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        Dashboard.routeName,
-                        (route) => false,
-                      );
-                    }
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

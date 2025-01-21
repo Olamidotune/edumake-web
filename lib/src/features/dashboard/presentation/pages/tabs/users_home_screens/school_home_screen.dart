@@ -68,13 +68,18 @@ class AdminDashboard extends StatelessWidget {
         AppSpacing.verticalSpaceMedium,
         Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            '${AppStrings.connectionResquest} (10)',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.blackColor,
-                ),
+          child: GestureDetector(
+            onTap: () {
+              // debugPrint()
+            },
+            child: Text(
+              '${AppStrings.connectionResquest} (10)',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.blackColor,
+                  ),
+            ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,

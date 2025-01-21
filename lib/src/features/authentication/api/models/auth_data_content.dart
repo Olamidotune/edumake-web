@@ -13,8 +13,8 @@ class AuthDataContent {
   factory AuthDataContent.fromJson(Map<String, dynamic> json) =>
       _$AuthDataContentFromJson(json);
 
-  final User user;
   final String token;
+  final User user;
 
   Map<String, dynamic> toJson() => _$AuthDataContentToJson(this);
 }

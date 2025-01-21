@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/config/pref_keys.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,16 @@ class AuthServices {
       await _manager._storage.read(key: prefPhoneNumber) ?? '',
       await _manager._storage.read(key: prefFirstName) ?? '',
       await _manager._storage.read(key: prefId) ?? '',
+      SchoolModel(
+        await _manager._storage.read(key: prefAdmin) ?? '',
+        await _manager._storage.read(key: prefSchoolName) ?? '',
+        await _manager._storage.read(key: prefSchoolAddress) ?? '',
+        await _manager._storage.read(key: prefSchoolEmail) ?? '',
+        await _manager._storage.read(key: prefSchoolType) ?? '',
+        await _manager._storage.read(key: prefClassNumberRange) ?? '',
+        await _manager._storage.read(key: prefStudentNumberRange) ?? '',
+        await _manager._storage.read(key: prefTeacherNumberRange) ?? '',
+      ),
     )
       ..firstName = await _manager._storage.read(key: prefFirstName) ?? ''
       ..lastName = (await _manager._storage.read(key: prefLastName)) ?? ''
@@ -38,7 +49,34 @@ class AuthServices {
     return user;
   }
 
-  Future<void> setSignedIn(String? token, User user) async {
+  // Future<SchoolModel?> getSchoolModel() async {
+  //   final schoolModel = SchoolModel(
+  //     await _manager._storage.read(key: prefAdmin) ?? '',
+  //     await _manager._storage.read(key: prefSchoolName) ?? '',
+  //     await _manager._storage.read(key: prefSchoolAddress) ?? '',
+  //     await _manager._storage.read(key: prefSchoolEmail) ?? '',
+  //     await _manager._storage.read(key: prefSchoolType) ?? '',
+  //     await _manager._storage.read(key: prefClassNumberRange) ?? '',
+  //     await _manager._storage.read(key: prefStudentNumberRange) ?? '',
+  //     await _manager._storage.read(key: prefTeacherNumberRange) ?? '',
+  //   )
+  //     ..admin = await _manager._storage.read(key: prefAdmin) ?? ''
+  //     ..schoolName = await _manager._storage.read(key: prefSchoolName) ?? ''
+  //     ..schoolAddress =
+  //         await _manager._storage.read(key: prefSchoolAddress) ?? ''
+  //     ..schoolEmail = await _manager._storage.read(key: prefSchoolEmail) ?? ''
+  //     ..schoolType = await _manager._storage.read(key: prefSchoolType) ?? ''
+  //     ..classNumberRange =
+  //         await _manager._storage.read(key: prefClassNumberRange) ?? ''
+  //     ..studentNumberRange =
+  //         await _manager._storage.read(key: prefStudentNumberRange) ?? ''
+  //     ..teacherNumberRange =
+  //         await _manager._storage.read(key: prefTeacherNumberRange) ?? '';
+  //   return schoolModel;
+  // }
+
+  Future<void> setSignedIn(
+      String? token, User user, SchoolModel schoolModel) async {
     debugPrint('Setting user with firstName: ${user.firstName}');
     //if token is null, check if token is stored in the storage
     if (token == null) {

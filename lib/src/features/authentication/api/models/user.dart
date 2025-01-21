@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -9,7 +10,8 @@ class User {
     this.phoneNumber,
     this.lastName,
     this.firstName,
-    this.idNumber, {
+    this.idNumber,
+    this.school, {
     this.id,
     this.hasActiveSubscription = false,
     this.isEmailVerified = true,
@@ -36,6 +38,8 @@ class User {
   String? lastName;
   String? phoneNumber;
   String? idNumber;
+  SchoolModel school;
+
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   String? get fullName {
