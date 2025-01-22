@@ -69,9 +69,7 @@ class AdminDashboard extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: GestureDetector(
-            onTap: () {
-              // debugPrint()
-            },
+            onTap: () {},
             child: Text(
               '${AppStrings.connectionResquest} (10)',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(

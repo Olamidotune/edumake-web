@@ -211,6 +211,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.authData.data.user,
       event.authData.data.user.school,
     );
+
+    await AuthServices()
+        .setSchoolID(event.authData.data.user.school.schoolID ?? '');
+
     emit(
       state.copyWith(
         user: event.authData.data.user,

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:edumake_frontend/config/env_keys.dart';
 import 'package:edumake_frontend/src/core/constants/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/features/authentication/api/clients/school_data_upload.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,19 +14,33 @@ Future<void> setupLocator() async {
   final dio = Dio(BaseOptions(headers: baseHeaders));
 
   if (kDebugMode) {
-    locator.registerFactory<AuthenticationClient>(
-      () => AuthenticationClient(
-        dio,
-        baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
-      ),
-    );
+    locator
+      ..registerFactory<AuthenticationClient>(
+        () => AuthenticationClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerFactory<SchoolDataUpload>(
+        () => SchoolDataUpload(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      );
   } else {
-    locator.registerSingleton<AuthenticationClient>(
-      AuthenticationClient(
-        dio,
-        baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
-      ),
-    );
+    locator
+      ..registerSingleton<AuthenticationClient>(
+        AuthenticationClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<SchoolDataUpload>(
+        SchoolDataUpload(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      );
   }
 
   locator.registerSingleton<AuthServices>(AuthServices());
