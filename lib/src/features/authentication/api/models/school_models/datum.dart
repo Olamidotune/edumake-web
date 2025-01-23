@@ -8,7 +8,6 @@ class Datum {
     required this.school,
     required this.name,
     required this.id,
-    required this.v,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -18,7 +17,7 @@ class Datum {
   String name;
   @JsonKey(name: '_id')
   final String id;
-  int v;
+
   DateTime createdAt;
   DateTime updatedAt;
 

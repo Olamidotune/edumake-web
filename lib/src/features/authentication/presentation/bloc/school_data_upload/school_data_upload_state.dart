@@ -18,7 +18,9 @@ class SchoolDataUploadState with _$SchoolDataUploadState {
   const factory SchoolDataUploadState({
     @Default(ClassesFormz.pure()) ClassesFormz manualClasses,
     @Default([]) List<String> csvClasses,
-    List<Datum>? datum,
+    Datum? selectedClass,
+    String? classID,
+    String? className,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus classesUploadStatus,
     String? errorMessage,

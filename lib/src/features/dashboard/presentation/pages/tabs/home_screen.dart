@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                       children: [
                         TextSpan(
-                          text: '${state.user?.school.schoolID ?? 'User'},',
+                          text: '${state.user?.fullName ?? 'User'},',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',

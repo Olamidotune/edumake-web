@@ -116,6 +116,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(state.className ?? 'Here'),
                       Text(
                         'Add Classes',
                         style:
@@ -187,10 +188,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                             onTap: () async {
                               final csvContent = await _loadCSV();
                               await _downloadCSV(csvContent);
-                              CustomSnackbar.show(
-                                context,
-                                'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
-                              );
                             },
                             child: Text(
                               'Click To Download CSV Example Template',
@@ -404,11 +401,9 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       final file = File('${directory.path}/edumake_csv_template.csv');
       await file.writeAsString(csvContent);
     } catch (e) {
-      CustomSnackbar.show(
-        context,
-        'Something went wrong while downloading the file.',
-        isError: true,
-      );
+      debugPrint('This is the error :$e');
+      ToastService.toast(
+          'Something went wrong while downloading the file', ToastType.error);
     }
   }
 

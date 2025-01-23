@@ -107,6 +107,8 @@ class SchoolDataUploadBloc
     emit(
       state.copyWith(
         classesUploadStatus: FormzSubmissionStatus.success,
+        classID: event.classes.data.id,
+        className: event.classes.data.name,
         manualClasses: const ClassesFormz.pure(),
         csvClasses: [],
       ),
