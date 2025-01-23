@@ -2,7 +2,6 @@ import 'package:edumake_frontend/config/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // This class is used to manage the authentication services
@@ -80,9 +79,6 @@ class AuthServices {
     await _manager._storage.write(key: prefFirstName, value: user.firstName);
     await _manager._storage.write(key: prefLastName, value: user.lastName);
     await _manager._storage.write(key: prefId, value: user.id.toString());
-
-    debugPrint(
-        'Verification - stored firstName: ${await _manager._storage.read(key: 'prefFirstName')}');
   }
 
   // this method is used to update the token in the storage when the token is refreshed
