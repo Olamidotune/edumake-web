@@ -43,19 +43,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   bool busy = false;
   bool savedClasses = false;
 
-  // void _loadCsvClasses() async {
-  //   final rawData = await rootBundle.loadString(
-  //     _csvFile?.path ?? '',
-  //   );
-  //   final csvClassesList = const CsvToListConverter().convert(rawData);
-
-  //   final flattenedClasses =
-  //       csvClassesList.skip(1).expand((row) => row).join(', ');
-
-  //   setState(() {
-  //     csvClasses = flattenedClasses;
-  //   });
-  // }
+  SchoolDataUploadState schoolDataUploadState = const SchoolDataUploadState();
 
   void _loadCsvClasses() async {
     if (_csvFile != null) {
@@ -75,13 +63,17 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     }
   }
 
-  void _uploadClasses() {
+  void _uploadClasses() async {
+    final rawData = await rootBundle.loadString(_csvFile?.path ?? '');
+    final csvClassesList = const CsvToListConverter().convert(rawData);
+    final classes = csvClassesList
+        .skip(1)
+        .expand((row) => row)
+        .where((element) => element != null && element.toString().isNotEmpty)
+        .map((e) => e.toString().trim())
+        .toList();
     context.read<SchoolDataUploadBloc>().add(
-          SchoolDataUploadEvent.uploadClasses(
-            classes: const [], // Not used anymore as it's handled internally
-            includeManualInput: true,
-            includeCsvInput: _csvFile != null,
-          ),
+          SchoolDataUploadEvent.uploadClasses(classes: classes),
         );
   }
 
@@ -116,7 +108,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(state.className ?? 'Here'),
                       Text(
                         'Add Classes',
                         style:
@@ -173,36 +164,24 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      Text(
-                        'Classes in CSV file: $csvClasses',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final csvContent = await _loadCSV();
-                              await _downloadCSV(csvContent);
-                            },
-                            child: Text(
-                              'Click To Download CSV Example Template',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                      GestureDetector(
+                        onTap: () async {
+                          final csvContent = await _loadCSV();
+                          await _downloadCSV(csvContent);
+                          ToastService.toast(
+                            'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
+                          );
+                        },
+                        child: Text(
+                          'Click To Download CSV Example Template',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 12.fontSize,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primaryColor,
                                   ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                       AppSpacing.verticalSpaceLarge,
                       GestureDetector(
@@ -347,6 +326,10 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     return true;
   }
 
+  List<String> getAllClassNames() {
+    return controllers.map((controller) => controller.text.trim()).toList();
+  }
+
   Future<void> _pickAndProcessCsv() async {
     final expectedHeaders = [
       'Class Name',
@@ -389,7 +372,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     return rootBundle.loadString('assets/csv/edumake_csv_template.csv');
   }
 
-  // Save the CSV file to device storage
   Future<void> _downloadCSV(String csvContent) async {
     Directory? directory;
     try {
@@ -401,9 +383,10 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       final file = File('${directory.path}/edumake_csv_template.csv');
       await file.writeAsString(csvContent);
     } catch (e) {
-      debugPrint('This is the error :$e');
       ToastService.toast(
-          'Something went wrong while downloading the file', ToastType.error);
+        'Something went wrong while downloading the file',
+        ToastType.error,
+      );
     }
   }
 

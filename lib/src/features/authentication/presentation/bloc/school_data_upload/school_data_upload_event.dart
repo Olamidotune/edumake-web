@@ -12,8 +12,6 @@ class SchoolDataUploadEvent with _$SchoolDataUploadEvent {
 
   const factory SchoolDataUploadEvent.uploadClasses({
     required List<String> classes,
-    required bool includeManualInput,
-    required bool includeCsvInput,
   }) = _UploadClasses;
 
   const factory SchoolDataUploadEvent.uploadClassesSuccess(Classes classes) =

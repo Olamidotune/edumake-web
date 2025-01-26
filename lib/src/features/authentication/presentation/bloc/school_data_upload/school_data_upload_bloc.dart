@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/school_m
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -23,12 +24,25 @@ class SchoolDataUploadBloc
     on<_UploadClassesSuccess>(_onUploadClassesSuccess);
     on<_UploadClassesFailure>(_onUploadClassesFailure);
   }
+  final List<TextEditingController> controllers = [];
 
   void _onClassNameChanged(
     _OnClassNameChanged event,
     Emitter<SchoolDataUploadState> emit,
   ) {
-    final classes = ClassesFormz.dirty(event.classes);
+    // Extract the current list of manual classes
+    final currentManualClasses = state.manualClasses.value.isNotEmpty
+        ? state.manualClasses.value.split(',').map((e) => e.trim()).toList()
+        : <String>[];
+
+    // Add the new class input to the list
+    final updatedManualClasses = [
+      ...currentManualClasses,
+      event.classes.trim()
+    ];
+
+    // Emit the updated manualClasses state as a comma-separated string
+    final classes = ClassesFormz.dirty(updatedManualClasses.join(','));
     emit(
       state.copyWith(
         manualClasses: classes.isValid ? classes : classes,
@@ -50,25 +64,8 @@ class SchoolDataUploadBloc
     if (state.classesUploadStatus == FormzSubmissionStatus.inProgress) return;
 
     try {
-      final classesToUpload = <String>[];
-
-      // Add manual entries if selected
-      if (event.includeManualInput && state.manualClasses.value.isNotEmpty) {
-        classesToUpload.addAll(
-          state.manualClasses.value
-              .split(',')
-              .map((e) => e.trim())
-              .where((e) => e.isNotEmpty),
-        );
-      }
-
-      // Add CSV entries if selected
-      if (event.includeCsvInput && state.csvClasses.isNotEmpty) {
-        classesToUpload.addAll(state.csvClasses);
-      }
-
-      // Remove duplicates
-      final uniqueClasses = classesToUpload.toSet().toList();
+      // Use the provided class names directly (from the filtered list)
+      final uniqueClasses = event.classes.toSet().toList();
 
       if (uniqueClasses.isEmpty) {
         add(const _UploadClassesFailure('No classes selected for upload'));
@@ -107,8 +104,6 @@ class SchoolDataUploadBloc
     emit(
       state.copyWith(
         classesUploadStatus: FormzSubmissionStatus.success,
-        classID: event.classes.data.id,
-        className: event.classes.data.name,
         manualClasses: const ClassesFormz.pure(),
         csvClasses: [],
       ),
