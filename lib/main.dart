@@ -24,6 +24,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
@@ -104,11 +105,14 @@ class MyApp extends StatelessWidget {
         BlocProvider<KycBloc>(
           create: (context) => KycBloc(),
         ),
-        BlocProvider(
+        BlocProvider<SchoolKycBloc>(
           create: (context) => SchoolKycBloc(),
         ),
-        BlocProvider(
+        BlocProvider<SchoolDataUploadBloc>(
           create: (context) => SchoolDataUploadBloc(),
+        ),
+        BlocProvider<GetSchoolDataBloc>(
+          create: (context) => GetSchoolDataBloc(),
         ),
       ],
       child: ToastificationWrapper(
@@ -154,7 +158,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                home: const SignIn(),
+                home: const SplashScreen(),
                 routes: {
                   SplashScreen.routeName: (context) => const SplashScreen(),
                   SelectLanguageScreen.routeName: (context) =>

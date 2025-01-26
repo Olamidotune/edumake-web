@@ -14,9 +14,9 @@ class GetSchoolDataModel {
   factory GetSchoolDataModel.fromJson(Map<String, dynamic> json) =>
       _$GetSchoolDataModelFromJson(json);
 
-  String message;
-  int statusCode;
-  List<Datum> data;
+  final String message;
+  final int statusCode;
+  final List<Datum> data;
 
   Map<String, dynamic> toJson() => _$GetSchoolDataModelToJson(this);
 }
