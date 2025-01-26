@@ -58,7 +58,10 @@ class AuthServices {
   }
 
   Future<void> setSignedIn(
-      String? token, User user, SchoolModel schoolModel) async {
+    String? token,
+    User user,
+    SchoolModel? schoolModel,
+  ) async {
     //if token is null, check if token is stored in the storage
     if (token == null) {
       if ((await _manager._storage.read(key: prefToken)) == null) {

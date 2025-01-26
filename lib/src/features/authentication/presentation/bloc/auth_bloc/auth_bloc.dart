@@ -213,7 +213,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     await AuthServices()
-        .setSchoolID(event.authData.data.user.school.schoolID ?? '');
+        .setSchoolID(event.authData.data.user.school?.schoolID ?? '');
 
     emit(
       state.copyWith(

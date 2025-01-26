@@ -170,7 +170,7 @@ class SignIn extends HookWidget {
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
                             logInfo(
-                                'Sign in button pressed: ${state.user?.school.schoolID}');
+                                'Sign in button pressed: ${state.user?.school?.schoolID}');
                             if (formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
                                     const AuthEvent.signIn(),
