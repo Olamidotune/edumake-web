@@ -14,3 +14,4 @@ const String prefSchoolType = 'pref_school_type';
 const String prefClassNumberRange = 'pref_class_number_range';
 const String prefStudentNumberRange = 'pref_student_number_range';
 const String prefTeacherNumberRange = 'pref_teacher_number_range';
+const String prefSchoolID = 'pref_school_id';

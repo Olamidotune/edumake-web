@@ -10,6 +10,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -168,6 +169,8 @@ class SignIn extends HookWidget {
                           busy: state.signInStatus ==
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
+                            logInfo(
+                                'Sign in button pressed: ${state.user?.school.schoolID}');
                             if (formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
                                     const AuthEvent.signIn(),

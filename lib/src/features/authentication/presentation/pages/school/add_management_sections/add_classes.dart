@@ -5,8 +5,9 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/school_data_upload_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -36,14 +38,51 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   final List<FocusNode> focusNodes = [FocusNode()];
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
+  String csvClasses = '';
 
   bool busy = false;
   bool savedClasses = false;
 
-  @override
+  SchoolDataUploadState schoolDataUploadState = const SchoolDataUploadState();
+
+  void _loadCsvClasses() async {
+    if (_csvFile != null) {
+      final rawData = await rootBundle.loadString(_csvFile?.path ?? '');
+      final csvClassesList = const CsvToListConverter().convert(rawData);
+
+      final classes = csvClassesList
+          .skip(1)
+          .expand((row) => row)
+          .where((element) => element != null && element.toString().isNotEmpty)
+          .map((e) => e.toString().trim())
+          .toList();
+
+      context.read<SchoolDataUploadBloc>().add(
+            SchoolDataUploadEvent.setCsvClasses(classes),
+          );
+    }
+  }
+
+  void _uploadClasses() async {
+    final rawData = await rootBundle.loadString(_csvFile?.path ?? '');
+    final csvClassesList = const CsvToListConverter().convert(rawData);
+    final classes = csvClassesList
+        .skip(1)
+        .expand((row) => row)
+        .where((element) => element != null && element.toString().isNotEmpty)
+        .map((e) => e.toString().trim())
+        .toList();
+    context.read<SchoolDataUploadBloc>().add(
+          SchoolDataUploadEvent.uploadClasses(classes: classes),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PermissionsBloc, PermissionsState>(
+    return BlocBuilder<SchoolDataUploadBloc, SchoolDataUploadState>(
+      buildWhen: (previous, current) {
+        return _authBuildWhen(context, previous, current);
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: const CustomAppBar(),
@@ -81,7 +120,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ),
                       AppSpacing.verticalSpaceSmall,
                       Text(
-                        'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputing your school data.',
+                        'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inpu tting your school data.',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
                               fontSize: 12.fontSize,
@@ -125,31 +164,24 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              final csvContent = await _loadCSV();
-                              await _downloadCSV(csvContent);
-                              CustomSnackbar.show(
-                                context,
-                                'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
-                              );
-                            },
-                            child: Text(
-                              'Click To Download CSV Example Template',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                      GestureDetector(
+                        onTap: () async {
+                          final csvContent = await _loadCSV();
+                          await _downloadCSV(csvContent);
+                          ToastService.toast(
+                            'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
+                          );
+                        },
+                        child: Text(
+                          'Click To Download CSV Example Template',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 12.fontSize,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primaryColor,
                                   ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                       AppSpacing.verticalSpaceLarge,
                       GestureDetector(
@@ -189,6 +221,14 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                                       'assets/svg/edit.svg',
                                       height: 10,
                                     ),
+                                    onChanged: (classString) {
+                                      context.read<SchoolDataUploadBloc>().add(
+                                            SchoolDataUploadEvent
+                                                .onClassNameChanged(
+                                              classString,
+                                            ),
+                                          );
+                                    },
                                     onFieldSubmitted: () {
                                       if (index < classes.length - 1) {
                                         FocusScope.of(context).requestFocus(
@@ -211,7 +251,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ),
                       AppSpacing.verticalSpaceSmall,
                       GestureDetector(
-                        onTap: _addClass,
+                        onTap: _addMoreClass,
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Row(
@@ -236,27 +276,17 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ),
                       AppSpacing.verticalSpaceMassive,
                       Button(
-                        busy: busy,
+                        busy: state.classesUploadStatus ==
+                            FormzSubmissionStatus.inProgress,
                         text: 'Save Classes',
                         onPressed: () {
                           if (formKey.currentState!.validate() ||
                               _csvFile != null) {
-                            CustomSnackbar.show(
-                              context,
-                              'Classes saved successfully',
-                            );
-                            setState(() {
-                              busy = !busy;
-                            });
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.pop(context, true);
-                            });
-                            setState(() => busy);
+                            _uploadClasses();
                           } else {
-                            CustomSnackbar.show(
-                              context,
+                            ToastService.toast(
                               'Please upload a CSV file or add classes manually',
-                              isError: true,
+                              ToastType.error,
                             );
                           }
                         },
@@ -272,20 +302,37 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     );
   }
 
+  bool _authBuildWhen(
+    BuildContext context,
+    SchoolDataUploadState previous,
+    SchoolDataUploadState current,
+  ) {
+    if (previous.classesUploadStatus == FormzSubmissionStatus.inProgress &&
+        current.classesUploadStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Classes saved successfully');
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pop(context, true);
+      });
+      return false;
+    } else if (previous.classesUploadStatus ==
+            FormzSubmissionStatus.inProgress &&
+        current.classesUploadStatus == FormzSubmissionStatus.failure) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      return true;
+    }
+    return true;
+  }
+
+  List<String> getAllClassNames() {
+    return controllers.map((controller) => controller.text.trim()).toList();
+  }
+
   Future<void> _pickAndProcessCsv() async {
     final expectedHeaders = [
-      'Index',
-      'Customer Id',
-      'First Name',
-      'Last Name',
-      'Company',
-      'City',
-      'Country',
-      'Phone 1',
-      'Phone 2',
-      'Email',
-      'Subscription Date',
-      'Website',
+      'Class Name',
     ];
 
     final pickedCSV = await FilePicker.platform.pickFiles(
@@ -306,7 +353,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       if (!headersMatch) {
         CustomSnackbar.show(
           context,
-          'Invalid CSV file. Please upload a valid CSV file with correct heades or download the CSV template!.',
+          'Invalid CSV file. Please upload a valid CSV file with correct headers or download the CSV template!.',
           isError: true,
         );
         return;
@@ -316,6 +363,8 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       setState(() {
         _csvFile = pickedCSV.files.first;
       });
+      ToastService.toast('CSV file selected successfully');
+      _loadCsvClasses();
     }
   }
 
@@ -323,7 +372,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     return rootBundle.loadString('assets/csv/edumake_csv_template.csv');
   }
 
-  // Save the CSV file to device storage
   Future<void> _downloadCSV(String csvContent) async {
     Directory? directory;
     try {
@@ -335,10 +383,9 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       final file = File('${directory.path}/edumake_csv_template.csv');
       await file.writeAsString(csvContent);
     } catch (e) {
-      CustomSnackbar.show(
-        context,
-        'Something went wrong while downloading the file.',
-        isError: true,
+      ToastService.toast(
+        'Something went wrong while downloading the file',
+        ToastType.error,
       );
     }
   }
@@ -354,7 +401,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     );
   }
 
-  void _addClass() {
+  void _addMoreClass() {
     setState(() {
       classes.add(classes.length + 1);
       controllers.add(TextEditingController());
@@ -372,4 +419,17 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     }
     super.dispose();
   }
+}
+
+/////////////
+
+enum ClassDataSource {
+  manual,
+  csv,
+}
+
+class ClassData {
+  ClassData({required this.className, required this.source});
+  final String className;
+  final ClassDataSource source;
 }

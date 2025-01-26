@@ -5,6 +5,10 @@ Future<String> getAuthorization() async {
   return "Bearer ${await AuthServices().getToken() ?? "<none>"}";
 }
 
+Future<String> getSchoolID() async {
+  return await AuthServices().getSchoolID() ?? '<none>';
+}
+
 String getErrorMessage(Object error) {
   if (error is DioError) {
     switch (error.type) {

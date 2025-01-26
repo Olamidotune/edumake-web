@@ -12,8 +12,8 @@ class SchoolModel {
     this.schoolType,
     this.classNumberRange,
     this.studentNumberRange,
-    this.teacherNumberRange, {
-    this.id,
+    this.teacherNumberRange,
+    this.schoolID, {
     this.createdAt,
     this.updatedAt,
   });
@@ -30,7 +30,7 @@ class SchoolModel {
   String? studentNumberRange;
   String? teacherNumberRange;
   @JsonKey(name: '_id')
-  String? id;
+  String? schoolID;
   DateTime? createdAt;
   DateTime? updatedAt;
 

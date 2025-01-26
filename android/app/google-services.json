@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "846725259249",
+    "project_id": "edumake-dede7",
+    "storage_bucket": "edumake-dede7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846725259249:android:724114b0e18632250eee50",
+        "android_client_info": {
+          "package_name": "com.example.edumake_frontend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846725259249-dds3vvd9slq06jisalukpbkcu23o719u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGypCP2FlPQW6YPXLm-rXEjmu5TFfyd38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846725259249-dds3vvd9slq06jisalukpbkcu23o719u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

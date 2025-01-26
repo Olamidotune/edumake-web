@@ -1,9 +1,11 @@
+import 'package:edumake_frontend/firebase_options.dart';
 import 'package:edumake_frontend/l10n/l10n.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/kyc/kyc_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/school_data_upload_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_kyc/school_kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
@@ -44,6 +46,7 @@ import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teac
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/locale_service.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -56,6 +59,11 @@ import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   final prefs = await SharedPreferences.getInstance();
   final userRole = await UserRoleHelper.getUserRole();
 
@@ -98,6 +106,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SchoolKycBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SchoolDataUploadBloc(),
         ),
       ],
       child: ToastificationWrapper(
@@ -143,7 +154,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                home: const SplashScreen(),
+                home: const SignIn(),
                 routes: {
                   SplashScreen.routeName: (context) => const SplashScreen(),
                   SelectLanguageScreen.routeName: (context) =>
