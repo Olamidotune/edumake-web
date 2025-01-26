@@ -57,8 +57,9 @@ app.*.map.json
 .env.stagings
 .env
 
-# #firebase related
-# lib/firebase_options.dart
-# firebase.json
-# ios/Runner/GoogleService-Info.plist
-# android/app/google-services.json
+#firebase related
+lib/firebase_options.dart
+firebase.json
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+lib/firebase_options.dart
