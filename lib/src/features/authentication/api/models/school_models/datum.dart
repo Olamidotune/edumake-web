@@ -8,8 +8,6 @@ class Datum {
     required this.school,
     required this.name,
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
@@ -17,9 +15,6 @@ class Datum {
   String name;
   @JsonKey(name: '_id')
   final String id;
-
-  DateTime createdAt;
-  DateTime updatedAt;
 
   Map<String, dynamic> toJson() => _$DatumToJson(this);
 }
