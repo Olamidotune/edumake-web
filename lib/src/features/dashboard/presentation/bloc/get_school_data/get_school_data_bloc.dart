@@ -24,8 +24,19 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     add(const _Init());
   }
 
-  void _init(_Init event, Emitter<GetSchoolDataState> emit) {
-    add(const _FetchClasses());
+  void _init(_Init event, Emitter<GetSchoolDataState> emit) async {
+    try {
+      final result = await locator<GetSchoolDataClient>()
+          .getClasses(await getAuthorization(), await getSchoolID());
+      add(_FetchClassesSuccess(result));
+    } catch (error, trace) {
+      onError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_FetchClassesFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _FetchClassesFailed('An unexpected error occurred'));
+      }
+    }
   }
 
   void _fetchClasses(
@@ -72,9 +83,12 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     _FetchClassesFailed event,
     Emitter<GetSchoolDataState> emit,
   ) {
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
         fetchClassesStatus: FormzSubmissionStatus.failure,
-        errorMessage: event.message ?? 'An error occurred'));
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<GetSchoolDataState> emit) {

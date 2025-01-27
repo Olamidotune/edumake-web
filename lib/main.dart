@@ -96,9 +96,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PermissionsBloc>(
-          create: (context) => PermissionsBloc(),
-        ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
         ),
@@ -113,6 +110,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GetSchoolDataBloc>(
           create: (context) => GetSchoolDataBloc(),
+        ),
+        BlocProvider<PermissionsBloc>(
+          create: (context) => PermissionsBloc(),
         ),
       ],
       child: ToastificationWrapper(

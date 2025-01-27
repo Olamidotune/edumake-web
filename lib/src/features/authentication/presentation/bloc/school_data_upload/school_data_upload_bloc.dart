@@ -38,7 +38,7 @@ class SchoolDataUploadBloc
     // Add the new class input to the list
     final updatedManualClasses = [
       ...currentManualClasses,
-      event.classes.trim()
+      event.classes.trim(),
     ];
 
     // Emit the updated manualClasses state as a comma-separated string

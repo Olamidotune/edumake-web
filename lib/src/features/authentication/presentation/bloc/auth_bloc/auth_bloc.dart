@@ -44,6 +44,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_CreateNewPassword>(_createNewPassword);
     on<_CreateNewPasswordSuccessful>(_createNewPasswordSuccessful);
     on<_ErrorMessage>(_errorMessage);
+
+    add(const _Init());
   }
 
   void _init(_Init event, Emitter<AuthState> emit) {
@@ -190,6 +192,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.email.value.trim(),
         state.password.value.trim(),
       );
+
       add(_SignInSuccessful(authData));
     } catch (error, trace) {
       logError(error, trace);
