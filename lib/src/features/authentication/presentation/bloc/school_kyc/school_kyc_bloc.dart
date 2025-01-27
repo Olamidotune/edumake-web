@@ -33,7 +33,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onFirstNameChanged(
-      _OnFirstNameChanged event, Emitter<SchoolKycState> emit) {
+    _OnFirstNameChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final firstName = FirstNameFormz.dirty(event.firstName);
     emit(
       state.copyWith(
@@ -45,7 +47,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onLastNameChanged(
-      _OnLastNameChanged event, Emitter<SchoolKycState> emit) {
+    _OnLastNameChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final lastName = LastNameFormz.dirty(event.lastName);
     emit(
       state.copyWith(
@@ -56,7 +60,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onPhoneNumberChanged(
-      _OnPhoneNumberChanged event, Emitter<SchoolKycState> emit) {
+    _OnPhoneNumberChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final phoneNumber = PhoneNumberFormz.dirty(event.phoneNumber);
     emit(
       state.copyWith(
@@ -68,7 +74,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSchoolEmailChanged(
-      _OnSchoolEmailChanged event, Emitter<SchoolKycState> emit) {
+    _OnSchoolEmailChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final schoolEmail = SchooolEmailFormz.dirty(event.schoolEmail);
     emit(
       state.copyWith(
@@ -80,7 +88,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSchoolAddressChanged(
-      _OnSchoolAddressChanged event, Emitter<SchoolKycState> emit) {
+    _OnSchoolAddressChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final schoolAddress = SchoolAddressFormz.dirty(event.schoolAddress);
     emit(
       state.copyWith(
@@ -92,7 +102,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSchoolTypeChanged(
-      _OnSchoolTypeChanged event, Emitter<SchoolKycState> emit) {
+    _OnSchoolTypeChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     emit(
       state.copyWith(
         schoolType: event.schoolType,
@@ -101,7 +113,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSchoolNameChanged(
-      _OnSchoolNameChanged event, Emitter<SchoolKycState> emit) {
+    _OnSchoolNameChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     final schoolName = SchoolNameFormz.dirty(event.schoolName);
     emit(
       state.copyWith(
@@ -113,7 +127,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onClassNumberRangeChanged(
-      _OnClassNumberRangeChanged event, Emitter<SchoolKycState> emit) {
+    _OnClassNumberRangeChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     emit(
       state.copyWith(
         classNumberRange: event.classNumberRange,
@@ -122,7 +138,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onStudentNumberRangeChanged(
-      _OnStudentNumberRangeChanged event, Emitter<SchoolKycState> emit) {
+    _OnStudentNumberRangeChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     emit(
       state.copyWith(
         studentNumberRange: event.studentNumberRange,
@@ -131,7 +149,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onTeacherNumberRangeChanged(
-      _OnTeacherNumberRangeChanged event, Emitter<SchoolKycState> emit) {
+    _OnTeacherNumberRangeChanged event,
+    Emitter<SchoolKycState> emit,
+  ) {
     emit(
       state.copyWith(
         teacherNumberRange: event.teacherNumberRange,
@@ -140,7 +160,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSubmitSchoolKyc(
-      _SubmitSchoolKyc event, Emitter<SchoolKycState> emit) async {
+    _SubmitSchoolKyc event,
+    Emitter<SchoolKycState> emit,
+  ) async {
     if (state.schoolKycStatus == FormzSubmissionStatus.inProgress) return;
 
     emit(
@@ -190,7 +212,9 @@ class SchoolKycBloc extends Bloc<SchoolKycEvent, SchoolKycState> {
   }
 
   void _onSubmitSchoolKycSuccess(
-      _SubmitSchoolKycSuccess event, Emitter<SchoolKycState> emit) async {
+    _SubmitSchoolKycSuccess event,
+    Emitter<SchoolKycState> emit,
+  ) async {
     emit(
       state.copyWith(
         signupResponse: event.schoolSignupResponse,

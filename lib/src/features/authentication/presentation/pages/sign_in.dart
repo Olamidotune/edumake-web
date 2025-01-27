@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
@@ -170,7 +172,7 @@ class SignIn extends HookWidget {
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
                             logInfo(
-                                'Sign in button pressed: ${state.user?.school.schoolID}');
+                                'Sign in button pressed: ${state.user?.school?.schoolID}');
                             if (formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
                                     const AuthEvent.signIn(),

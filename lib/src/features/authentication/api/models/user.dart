@@ -38,12 +38,24 @@ class User {
   String? lastName;
   String? phoneNumber;
   String? idNumber;
-  SchoolModel school;
+  // Make `school` nullable
+  @JsonKey(fromJson: _schoolFromJson, toJson: _schoolToJson)
+  SchoolModel? school;
+
+  // Custom `fromJson` and `toJson` for `school`
+  static SchoolModel? _schoolFromJson(Map<String, dynamic>? json) {
+    if (json == null) return null;
+    return SchoolModel.fromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   String? get fullName {
     final fullName = "${firstName ?? ""} $lastName";
     return fullName == ' ' ? null : fullName;
+  }
+
+  static Map<String, dynamic>? _schoolToJson(SchoolModel? school) {
+    return school?.toJson();
   }
 }

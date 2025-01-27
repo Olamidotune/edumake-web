@@ -1,10 +1,12 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -18,6 +20,13 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<GetSchoolDataBloc>()
+        .add(const GetSchoolDataEvent.fetchClasses());
+  }
+
   @override
   Widget build(BuildContext context) {
     PersistentTabController controller;

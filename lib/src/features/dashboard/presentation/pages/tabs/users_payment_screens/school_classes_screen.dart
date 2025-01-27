@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -13,39 +14,19 @@ import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class ClassScreen extends StatelessWidget {
+class ClassScreen extends StatefulWidget {
   const ClassScreen({super.key});
 
   @override
+  State<ClassScreen> createState() => _ClassScreenState();
+}
+
+class _ClassScreenState extends State<ClassScreen> {
+  @override
   Widget build(BuildContext context) {
-    final classes = <String>[
-      'Jss 1A',
-      'Jss 1B',
-      'Jss 1C',
-      'Jss 2A',
-      'Jss 2B',
-      'Jss 2C',
-      'Jss 3A',
-      'Jss 3B',
-      'Jss 3C',
-      'Sss 1A',
-    ];
-
-    final studentCount = <String>[
-      '20',
-      '39',
-      '40',
-      '48',
-      '23',
-      '39',
-      '40',
-      '48',
-      '23',
-      '39',
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,29 +70,57 @@ class ClassScreen extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceMedium,
         // Classes
-        ListView.separated(
-          itemCount: classes.length,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (context, index) {
-            return AppSpacing.verticalSpaceMedium;
-          },
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(
-                  ClassDetailsScreen.routeName,
-                  arguments: {
-                    'className': classes[index],
-                    'studentCount': studentCount[index],
-                  },
+        BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+          builder: (context, state) {
+            if (state.classesData == null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(height: AppSpacing.verticalValueSpaceLarge * 6),
+                    Image.asset(
+                      'assets/png/empty.png',
+                      height: 150.height,
+                    ),
+                    Text(
+                      'No Data Available',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 20.fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryTextColor,
+                          ),
+                    ),
+                    AppSpacing.verticalSpaceSmall,
+                    Text(
+                      'Add a class or classes by clicking the + button above.',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 14.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.secondaryTexColor,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            }
+            return ListView.separated(
+              itemCount: state.classesData?.length ?? 0,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) {
+                return AppSpacing.verticalSpaceMedium;
+              },
+              itemBuilder: (context, index) {
+                final classData = state.classesData?[index];
+                return GestureDetector(
+                  onTap: () {},
+                  child: ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: classData?.name.toUpperCase() ?? '',
+                  ),
                 );
               },
-              child: ClassesListTileContainer(
-                isProfilePictureEnabled: false,
-                title: classes[index],
-                trailing: studentCount[index],
-              ),
             );
           },
         ),
@@ -234,6 +243,12 @@ class ClassDetailsScreen extends StatelessWidget {
   }
 }
 
+// Navigator.of(context, rootNavigator: true).pushNamed(
+//   ClassDetailsScreen.routeName,
+//   // arguments: {
+
+//   // },
+// );
 class ClassStudentsScreen extends StatelessWidget {
   const ClassStudentsScreen({super.key});
 
@@ -249,11 +264,11 @@ class ClassStudentsScreen extends StatelessWidget {
 
     final studentName = <String>[
       'John Doe',
-      'Donlad Trump',
+      'Donald Trump',
       'Barrack Obama',
       'Joe Biden',
       'Kamala Harris',
-      'Nancy Pelosi',
+      'Nancy Pecos',
       'Hillary Clinton',
       'George Bush',
       'Bill Clinton',

@@ -58,7 +58,10 @@ class AuthServices {
   }
 
   Future<void> setSignedIn(
-      String? token, User user, SchoolModel schoolModel) async {
+    String? token,
+    User user,
+    SchoolModel? schoolModel,
+  ) async {
     //if token is null, check if token is stored in the storage
     if (token == null) {
       if ((await _manager._storage.read(key: prefToken)) == null) {
@@ -99,9 +102,13 @@ class AuthServices {
     await _manager._storage
         .write(key: prefClassNumberRange, value: schoolModel.classNumberRange);
     await _manager._storage.write(
-        key: prefStudentNumberRange, value: schoolModel.studentNumberRange);
+      key: prefStudentNumberRange,
+      value: schoolModel.studentNumberRange,
+    );
     await _manager._storage.write(
-        key: prefTeacherNumberRange, value: schoolModel.teacherNumberRange);
+      key: prefTeacherNumberRange,
+      value: schoolModel.teacherNumberRange,
+    );
     await _manager._storage
         .write(key: prefSchoolID, value: schoolModel.schoolID);
   }

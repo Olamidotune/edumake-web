@@ -18,7 +18,8 @@ class SchoolDataUploadEvent with _$SchoolDataUploadEvent {
       _UploadClassesSuccess;
 
   const factory SchoolDataUploadEvent.uploadClassesFailure(
-      String? errorMessage) = _UploadClassesFailure;
+    String? errorMessage,
+  ) = _UploadClassesFailure;
 
   const factory SchoolDataUploadEvent.errorMessage(String errorMessage) =
       _ErrorMessage;
