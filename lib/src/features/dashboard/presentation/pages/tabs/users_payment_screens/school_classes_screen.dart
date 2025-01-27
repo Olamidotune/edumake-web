@@ -72,7 +72,7 @@ class _ClassScreenState extends State<ClassScreen> {
         // Classes
         BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
           builder: (context, state) {
-            if (state.classesData == null) {
+            if (state.classesData == null || state.classesData!.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
