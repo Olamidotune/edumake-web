@@ -181,8 +181,8 @@ class _VerifyAccountState extends State<VerifyAccount> {
                   SizedBox(
                     height:
                         AppSpacing.screenHeight(context) < kMinSupportedHeight
-                            ? 200.height
-                            : 300.height,
+                            ? 150.height
+                            : 270.height,
                   ),
                   Button(
                     text: 'Verify',
@@ -205,15 +205,31 @@ class _VerifyAccountState extends State<VerifyAccount> {
     AuthState previous,
     AuthState current,
   ) {
+    // Handle OTP submission success
     if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
         current.otpStatus == FormzSubmissionStatus.success) {
       _showOtpSuccessDialog(context);
+      ToastService.toast('Please Login');
       return false;
-    } else if (previous.resendOtpStatus == FormzSubmissionStatus.inProgress &&
-        current.otpStatus == FormzSubmissionStatus.success) {
+    }
+
+    // Handle resend OTP success
+    if (previous.resendOtpStatus == FormzSubmissionStatus.inProgress &&
+        current.resendOtpStatus == FormzSubmissionStatus.success) {
       ToastService.toast('Verification Code Re-Sent!');
       return false;
     }
+
+    // Handle OTP submission failure
+    if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
+        current.otpStatus == FormzSubmissionStatus.failure) {
+      ToastService.toast(
+        current.errorMessage ?? '',
+        ToastType.error,
+      );
+      return true;
+    }
+
     return true;
   }
 

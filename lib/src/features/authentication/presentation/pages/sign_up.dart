@@ -89,8 +89,8 @@ class SignUpScreen extends HookWidget {
                           hintText: 'Enter your preferred email address',
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: 'email',
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.emailChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.emailChanged(value),
                               ),
                           validator: (value) {
                             if (EmailValidator.validate(value?.trim() ?? '')) {
@@ -110,8 +110,8 @@ class SignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscurePassword.value,
                           isPassword: true,
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.passwordChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.passwordChanged(value),
                               ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -139,8 +139,8 @@ class SignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscureConfirmPassword.value,
                           isPassword: true,
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.onConfirmPasswordChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.onConfirmPasswordChanged(value),
                               ),
                           onFieldSubmitted: () {
                             logInfo('Form submitted');
@@ -239,7 +239,8 @@ class SignUpScreen extends HookWidget {
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
                             logInfo(
-                                'Sign up button pressed for user role: $userRole');
+                              'Sign up button pressed for user role: $userRole',
+                            );
                             if (formKey.currentState!.validate()) {
                               if (!checkedPrivacyPolicy.value) {
                                 ToastService.toast(

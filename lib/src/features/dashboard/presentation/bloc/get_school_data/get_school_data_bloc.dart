@@ -69,7 +69,6 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     _FetchClassesSuccess event,
     Emitter<GetSchoolDataState> emit,
   ) {
-    debugPrint('This is the data: ${event.getSchoolDataModel.data.first.name}');
     emit(
       state.copyWith(
         fetchClassesStatus: FormzSubmissionStatus.success,
