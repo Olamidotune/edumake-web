@@ -46,6 +46,7 @@ import 'package:edumake_frontend/src/features/onboarding/presentation/pages/spla
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/locale_service.dart';
+import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -74,23 +75,32 @@ void main() async {
   // Initializing singleton instance.
   AuthServices();
 
-  // final authenticated = await AuthServices().isSignedIn();
-
   // final User? user = await AuthServices().getUser();
+
+  final hasAuthenticatedBefore =
+      await PersistenceServices().getHasAuthenticatedBefore();
 
   runApp(
     ChangeNotifierProvider(
       create: (context) => LocaleService(prefs),
       child: MyApp(
         initialRole: userRole,
+        hasAuthenticatedBefore: hasAuthenticatedBefore,
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, this.initialRole});
+  const MyApp({
+    super.key,
+    this.initialRole,
+    this.authenticated = false,
+    this.hasAuthenticatedBefore = false,
+  });
   final UserRole? initialRole;
+  final bool authenticated;
+  final bool hasAuthenticatedBefore;
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +168,7 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                home: const SplashScreen(),
+                initialRoute: SplashScreen.routeName,
                 routes: {
                   SplashScreen.routeName: (context) => const SplashScreen(),
                   SelectLanguageScreen.routeName: (context) =>

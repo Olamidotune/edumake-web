@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
@@ -27,25 +34,32 @@ class _SplashScreenState extends State<SplashScreen>
     _animation = Tween<double>(begin: 0.5, end: 1.2).animate(
       CurvedAnimation(parent: _controller, curve: Curves.decelerate),
     );
-    _controller.forward();
+    await _controller.forward();
 
-    // Navigate to another screen after the splash screen
-    Timer(const Duration(seconds: 3), () {
+    final hasAuthenticatedBefore =
+        await PersistenceServices().getHasAuthenticatedBefore();
+
+    Timer(const Duration(microseconds: 1), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder<void>(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const OnboardingScreen(),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return hasAuthenticatedBefore
+                ? const SignIn()
+                : const OnboardingScreen();
+          },
+
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
               child: child,
             );
           },
+          // const OnboardingScreen(),
         ),
       );
     });
 
-    UserRoleHelper.getUserRole();
+    await UserRoleHelper.getUserRole();
   }
 
   @override

@@ -8,7 +8,7 @@ part 'school_data_upload.g.dart';
 abstract class SchoolDataUpload {
   factory SchoolDataUpload(Dio dio, {String baseUrl}) = _SchoolDataUpload;
 
-  @POST('/api/v1/sch/add-classes/{schoolId}')
+  @POST('/api/v1/sch/classes/{schoolId}')
   @FormUrlEncoded()
   Future<Classes> addClasses(
     @Header('Authorization') String authorization,
@@ -16,7 +16,7 @@ abstract class SchoolDataUpload {
     @Field('classNames') List<String> classNames,
   );
 
-  @POST('/api/v1/sch/add-subjects/:schoolId')
+  @POST('/api/v1/sch/subjects/:schoolId')
   @FormUrlEncoded()
   Future<void> addSubjects(
     @Header('Authorization') String authorization,

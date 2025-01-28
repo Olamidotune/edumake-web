@@ -67,12 +67,12 @@ class SchoolDataUploadBloc
       // Use the provided class names directly (from the filtered list)
       final uniqueClasses = event.classes.toSet().toList();
 
+      logInfo('message: $uniqueClasses');
+
       if (uniqueClasses.isEmpty) {
         add(const _UploadClassesFailure('No classes selected for upload'));
         return;
       }
-
-      logInfo('Uploading classes: $uniqueClasses');
 
       emit(
         state.copyWith(
@@ -87,8 +87,8 @@ class SchoolDataUploadBloc
       );
 
       add(_UploadClassesSuccess(classes));
-    } catch (error, trace) {
-      logError(error, trace);
+    } catch (error) {
+      // logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
         add(_UploadClassesFailure(error.response?.data['message'] as String?));
       } else {
