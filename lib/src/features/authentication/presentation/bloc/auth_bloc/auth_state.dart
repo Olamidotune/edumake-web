@@ -24,6 +24,7 @@ class AuthState with _$AuthState {
     FormzSubmissionStatus createNewPasswordStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus forgotPasswordStatus,
+    @Default(false) bool initialized,
   }) = _AuthState;
   const AuthState._();
 

@@ -62,6 +62,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   flutter_secure_storage: ^4.2.1
   firebase_core: ^3.10.1
+  device_info_plus: ^11.2.1
 
 dev_dependencies:
   flutter_test:

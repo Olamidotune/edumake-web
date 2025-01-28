@@ -48,9 +48,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     add(const _Init());
   }
 
-  void _init(_Init event, Emitter<AuthState> emit) {
-    UserRoleHelper.getUserRole();
-    logInfo('User role bloc: ${UserRoleHelper.getUserRole()}');
+  void _init(_Init event, Emitter<AuthState> emit) async {
+    await UserRoleHelper.getUserRole();
+    final persistedUser = await locator<AuthServices>().isSignedIn()
+        ? await locator<AuthServices>().getUser()
+        : null;
+    emit(state.copyWith(initialized: true, user: persistedUser));
   }
 
   void _emailChanged(_EmailChanged event, Emitter<AuthState> emit) {
@@ -220,6 +223,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     emit(
       state.copyWith(
+        initialized: true,
         user: event.authData.data.user,
         school: event.authData.data.user.school,
         signInStatus: FormzSubmissionStatus.success,
