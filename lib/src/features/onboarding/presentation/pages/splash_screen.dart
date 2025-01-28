@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
     final hasAuthenticatedBefore =
         await PersistenceServices().getHasAuthenticatedBefore();
 
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(microseconds: 1), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder<void>(
           pageBuilder: (context, animation, secondaryAnimation) {

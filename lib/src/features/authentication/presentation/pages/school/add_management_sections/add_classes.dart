@@ -20,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AddClassesScreen extends StatefulWidget {
@@ -45,27 +46,11 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
   SchoolDataUploadState schoolDataUploadState = const SchoolDataUploadState();
 
-  void _loadCsvClasses() async {
-    if (_csvFile != null) {
-      final rawData = await rootBundle.loadString(_csvFile?.path ?? '');
-      final csvClassesList = const CsvToListConverter().convert(rawData);
-
-      final classes = csvClassesList
-          .skip(1)
-          .expand((row) => row)
-          .where((element) => element != null && element.toString().isNotEmpty)
-          .map((e) => e.toString().trim())
-          .toList();
-
-      context.read<SchoolDataUploadBloc>().add(
-            SchoolDataUploadEvent.setCsvClasses(classes),
-          );
-    }
-  }
-
   void _uploadClasses() async {
-    final rawData = await rootBundle.loadString(_csvFile?.path ?? '');
+    final file = File(_csvFile?.path ?? '');
+    final rawData = await file.readAsString();
     final csvClassesList = const CsvToListConverter().convert(rawData);
+
     final classes = csvClassesList
         .skip(1)
         .expand((row) => row)
@@ -120,7 +105,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ),
                       AppSpacing.verticalSpaceSmall,
                       Text(
-                        'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inpu tting your school data.',
+                        'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputting your school data.',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
                               fontSize: 12.fontSize,
@@ -364,7 +349,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
         _csvFile = pickedCSV.files.first;
       });
       ToastService.toast('CSV file selected successfully');
-      _loadCsvClasses();
     }
   }
 
@@ -376,6 +360,16 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     Directory? directory;
     try {
       if (Platform.isAndroid) {
+        final status = await Permission.storage.request();
+        if (!status.isGranted) {
+          ToastService.toast(
+            'Storage permission is required to save files',
+            ToastType.error,
+          );
+          return;
+        }
+
+        await _requestPermissions();
         directory = Directory('/storage/emulated/0/Download');
       } else {
         directory = await getApplicationDocumentsDirectory();
@@ -388,6 +382,15 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
         ToastType.error,
       );
     }
+  }
+
+  Future<bool> _requestPermissions() async {
+    if (Platform.isAndroid) {
+      // Request storage permissions
+      var status = await Permission.storage.request();
+      return status.isGranted;
+    }
+    return true; // No permissions needed for iOS
   }
 
   // Share the CSV file (optional)

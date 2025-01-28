@@ -16,6 +16,7 @@ import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class ClassScreen extends StatefulWidget {
   const ClassScreen({super.key});
@@ -72,7 +73,14 @@ class _ClassScreenState extends State<ClassScreen> {
         // Classes
         BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
           builder: (context, state) {
-            if (state.classesData == null || state.classesData!.isEmpty) {
+            if (state.fetchClassesStatus == FormzSubmissionStatus.inProgress) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primaryColor,
+                ),
+              );
+            } else if (state.classesData == null ||
+                state.classesData!.isEmpty) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,12 +88,12 @@ class _ClassScreenState extends State<ClassScreen> {
                     SizedBox(height: AppSpacing.verticalValueSpaceLarge * 6),
                     Image.asset(
                       'assets/png/empty.png',
-                      height: 150.height,
+                      height: 150, // Assuming 150 is a valid height value
                     ),
                     Text(
                       'No Data Available',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 20.fontSize,
+                            fontSize: 20, // Assuming 20 is a valid font size
                             fontWeight: FontWeight.bold,
                             color: AppColors.primaryTextColor,
                           ),
@@ -94,7 +102,7 @@ class _ClassScreenState extends State<ClassScreen> {
                     Text(
                       'Add a class or classes by clicking the + button above.',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 14.fontSize,
+                            fontSize: 14, // Assuming 14 is a valid font size
                             fontWeight: FontWeight.w400,
                             color: AppColors.secondaryTexColor,
                           ),
@@ -114,10 +122,13 @@ class _ClassScreenState extends State<ClassScreen> {
               itemBuilder: (context, index) {
                 final classData = state.classesData?[index];
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    // Handle onTap action here
+                  },
                   child: ClassesListTileContainer(
                     isProfilePictureEnabled: false,
-                    title: classData?.name.toUpperCase() ?? '',
+                    title: classData?.name.toUpperCase() ??
+                        'N/A', // Provide a fallback for null name
                   ),
                 );
               },

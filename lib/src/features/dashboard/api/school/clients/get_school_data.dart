@@ -14,7 +14,7 @@ abstract class GetSchoolDataClient {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
   );
-  @GET('/api/v1/sch/classes/{schoolId}')
+  @GET('/api/v1/sch/classes/')
   @FormUrlEncoded()
   Future<GetSchoolDataModel> getClassews(
     @Header('Authorization') String authorization,
