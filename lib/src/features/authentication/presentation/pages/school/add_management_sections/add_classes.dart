@@ -387,7 +387,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   Future<bool> _requestPermissions() async {
     if (Platform.isAndroid) {
       // Request storage permissions
-      var status = await Permission.storage.request();
+      final status = await Permission.storage.request();
       return status.isGranted;
     }
     return true; // No permissions needed for iOS
