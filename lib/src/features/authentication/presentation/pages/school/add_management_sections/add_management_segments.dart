@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,9 @@ class _AddManagementSegmentsScreenState
                     AddCsvContainer(
                       name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
                       onTap: () {
+                        context
+                            .read<GetSchoolDataBloc>()
+                            .add(const GetSchoolDataEvent.fetchClasses());
                         _navigateToSchoolScreen(AddSubjectsScreen.routeName);
                       },
                     ),

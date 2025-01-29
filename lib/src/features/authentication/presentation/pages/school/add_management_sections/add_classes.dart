@@ -158,7 +158,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           );
                         },
                         child: Text(
-                          'Click To Download CSV Example Template',
+                          'Click to download CSV example template',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/api_response_message.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/classes_model.dart';
 import 'package:retrofit/http.dart';
 
@@ -18,7 +19,7 @@ abstract class SchoolDataUpload {
 
   @POST('/api/v1/sch/subjects/:schoolId')
   @FormUrlEncoded()
-  Future<void> addSubjects(
+  Future<ApiResponseMessage> addSubjects(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Field('classes') List<String> classes,

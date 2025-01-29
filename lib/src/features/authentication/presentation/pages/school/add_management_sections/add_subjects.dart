@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
@@ -9,7 +13,10 @@ import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddSubjectsScreen extends StatefulWidget {
   const AddSubjectsScreen({super.key});
@@ -88,7 +95,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   ImportCSVButton(
-                    onTap: pickAndProcessCsv,
+                    onTap: _pickAndProcessCsv,
                     name: 'subject',
                   ),
                   AppSpacing.verticalSpaceSmall,
@@ -116,6 +123,25 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                               ),
                         ),
                       ],
+                    ),
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  GestureDetector(
+                    onTap: () async {
+                      final csvContent = await _loadCSV();
+                      await _downloadCSV(csvContent);
+                      ToastService.toast(
+                        'CSV template saved successfully as "". Check your device storage',
+                      );
+                    },
+                    child: Text(
+                      'Click to download CSV example template',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
                     ),
                   ),
                   AppSpacing.verticalSpaceLarge,
@@ -267,17 +293,81 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     );
   }
 
-  Future<void> pickAndProcessCsv() async {
-    final result = await FilePicker.platform.pickFiles(
+  Future<void> _pickAndProcessCsv() async {
+    final expectedHeaders = [
+      'name of subject',
+    ];
+
+    final pickedCSV = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
     );
 
-    if (result == null) return;
+    if (pickedCSV != null) {
+      final file = File(pickedCSV.files.single.path!);
+      final content = await file.readAsString();
+      final displayedContent = const CsvToListConverter().convert(content);
+      final headers = displayedContent.first;
 
-    setState(() {
-      _csvFile = result.files.first;
-    });
+      final headersMatch = headers.length == expectedHeaders.length &&
+          List.generate(headers.length, (i) => headers[i] == expectedHeaders[i])
+              .every((match) => match);
+
+      if (!headersMatch) {
+        ToastService.toast(
+          'Invalid CSV file. Please upload a valid CSV file with correct headers or download the CSV template!.',
+          ToastType.error,
+        );
+        return;
+      }
+
+      // Proceed if headers are correct
+      setState(() {
+        _csvFile = pickedCSV.files.first;
+      });
+      ToastService.toast('CSV file selected successfully');
+    }
+  }
+
+  Future<String> _loadCSV() async {
+    return rootBundle.loadString('assets/csv/subjects upload csv template.csv');
+  }
+
+  Future<void> _downloadCSV(String csvContent) async {
+    Directory? directory;
+    try {
+      if (Platform.isAndroid) {
+        final status = await Permission.storage.request();
+        if (!status.isGranted) {
+          ToastService.toast(
+            'Storage permission is required to save files',
+            ToastType.error,
+          );
+          return;
+        }
+
+        await _requestPermissions();
+        directory = Directory('/storage/emulated/0/Download');
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+      final file = File('${directory.path}/edumake_csv_template.csv');
+      await file.writeAsString(csvContent);
+    } catch (e) {
+      ToastService.toast(
+        'Something went wrong while downloading the file',
+        ToastType.error,
+      );
+    }
+  }
+
+  Future<bool> _requestPermissions() async {
+    if (Platform.isAndroid) {
+      // Request storage permissions
+      var status = await Permission.storage.request();
+      return status.isGranted;
+    }
+    return true; // No permissions needed for iOS
   }
 
   void addSubject() {
