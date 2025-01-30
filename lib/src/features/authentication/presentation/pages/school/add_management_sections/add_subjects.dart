@@ -19,8 +19,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AddSubjectsScreen extends StatefulWidget {
   const AddSubjectsScreen({super.key});
@@ -156,135 +158,215 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceLarge,
-                      Text(
-                        'or add subjects manually',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
-                      AppSpacing.verticalSpaceTiny,
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                              subjects.length + 1,
-                              (index) => Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: AppSpacing.horizontalSpacing,
-                                      vertical: 16.height,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          AppColors.greyColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Column(
+                      BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                        builder: (context, state) {
+                          if (state.fetchClassesStatus ==
+                              FormzSubmissionStatus.inProgress) {
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: 3, // Number of shimmer placeholders
+                              separatorBuilder: (context, index) {
+                                return AppSpacing.verticalSpaceSmall;
+                              },
+                              itemBuilder: (context, index) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors
+                                      .grey[300]!, // Light gray background
+                                  highlightColor:
+                                      Colors.grey[100]!, // Lighter gray shimmer
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        AddSubjectTextFormField(
-                                          label: 'Enter Subject/Course',
-                                          controller: _subjectController[index],
-                                          focusNode: _subjectNode[index],
-                                          validator: (p0) {
-                                            if (p0!.isEmpty &&
-                                                _csvFile == null) {
-                                              return 'Field cannot be empty';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: SvgPicture.asset(
-                                            'assets/svg/edit.svg',
+                                        // Placeholder for an image
+                                        Container(
+                                          width: 80,
+                                          height: 80,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(width: 12),
+                                        // Placeholder for text
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: double.infinity,
+                                                height: 16,
+                                                color: Colors.white,
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ],
                                           ),
-                                          hintText:
-                                              'what is the name of the subject?',
                                         ),
-                                        AppSpacing.verticalSpaceHuge,
-                                        AddSubjectTextFormField(
-                                          label: 'Short Note about the subject',
-                                          controller: _noteController[index],
-                                          focusNode: _noteNode[index],
-                                          validator: (p0) {
-                                            if (p0!.isEmpty &&
-                                                _csvFile == null) {
-                                              return 'Class name is required';
-                                            }
-                                            return null;
-                                          },
-                                          suffixIcon: SvgPicture.asset(
-                                            'assets/svg/edit.svg',
-                                          ),
-                                          hintText:
-                                              'Introduce the subject few words',
-                                        ),
-                                        AppSpacing.verticalSpaceHuge,
-                                        ClassDropdown(
-                                          onChanged: (p0) {},
-                                        ),
-                                        AppSpacing.verticalSpaceTiny,
                                       ],
                                     ),
                                   ),
-                                  AppSpacing.verticalSpaceHuge,
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: addSubject,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SvgPicture.asset('assets/svg/plus1.svg'),
-                              Text(
-                                ' Add more subjects',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 13.fontSize,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      AppSpacing.verticalSpaceMassive,
-                      Button(
-                        busy: busy,
-                        text: 'Save subjects',
-                        onPressed: () {
-                          if (formKey.currentState!.validate() ||
-                              _csvFile != null) {
-                            CustomSnackbar.show(
-                              context,
-                              'subjects saved successfully',
-                            );
-                            setState(() {
-                              busy = !busy;
-                            });
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.pop(context, true);
-                            });
-                            setState(() => busy);
-                          } else {
-                            CustomSnackbar.show(
-                              context,
-                              'Please upload a CSV file or add SUBJECTS manually',
-                              isError: true,
+                                );
+                              },
                             );
                           }
+
+                          if (state.classesData == null ||
+                              state.classesData!.isEmpty) {
+                            return const Text('No classes available');
+                          }
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'or add subjects manually',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 12.fontSize,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.primaryTextColor,
+                                    ),
+                              ),
+                              AppSpacing.verticalSpaceTiny,
+                              Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    ...List.generate(
+                                      subjects.length + 1,
+                                      (index) => Column(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  AppSpacing.horizontalSpacing,
+                                              vertical: 16.height,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.greyColor
+                                                  .withOpacity(0.1),
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                AddSubjectTextFormField(
+                                                  label: 'Enter Subject/Course',
+                                                  controller:
+                                                      _subjectController[index],
+                                                  focusNode:
+                                                      _subjectNode[index],
+                                                  validator: (p0) {
+                                                    if (p0!.isEmpty &&
+                                                        _csvFile == null) {
+                                                      return 'Field cannot be empty';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  suffixIcon: SvgPicture.asset(
+                                                    'assets/svg/edit.svg',
+                                                  ),
+                                                  hintText:
+                                                      'what is the name of the subject?',
+                                                ),
+                                                AppSpacing.verticalSpaceHuge,
+                                                AddSubjectTextFormField(
+                                                  label:
+                                                      'Short Note about the subject',
+                                                  controller:
+                                                      _noteController[index],
+                                                  focusNode: _noteNode[index],
+                                                  validator: (p0) {
+                                                    if (p0!.isEmpty &&
+                                                        _csvFile == null) {
+                                                      return 'Class name is required';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  suffixIcon: SvgPicture.asset(
+                                                    'assets/svg/edit.svg',
+                                                  ),
+                                                  hintText:
+                                                      'Introduce the subject few words',
+                                                ),
+                                                AppSpacing.verticalSpaceHuge,
+                                                ClassDropdown(
+                                                  onChanged: (p0) {},
+                                                ),
+                                                AppSpacing.verticalSpaceTiny,
+                                              ],
+                                            ),
+                                          ),
+                                          AppSpacing.verticalSpaceHuge,
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: addSubject,
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      SvgPicture.asset('assets/svg/plus1.svg'),
+                                      Text(
+                                        ' Add more subjects',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                              fontFamily:
+                                                  'HelveticaNeueRounded',
+                                              fontSize: 13.fontSize,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              AppSpacing.verticalSpaceMassive,
+                              Button(
+                                busy: busy,
+                                text: 'Save subjects',
+                                onPressed: () {
+                                  if (formKey.currentState!.validate() ||
+                                      _csvFile != null) {
+                                    CustomSnackbar.show(
+                                      context,
+                                      'subjects saved successfully',
+                                    );
+                                    setState(() {
+                                      busy = !busy;
+                                    });
+                                    Future.delayed(const Duration(seconds: 2),
+                                        () {
+                                      Navigator.pop(context, true);
+                                    });
+                                    setState(() => busy);
+                                  } else {
+                                    CustomSnackbar.show(
+                                      context,
+                                      'Please upload a CSV file or add SUBJECTS manually',
+                                      isError: true,
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          );
                         },
                       ),
                     ],

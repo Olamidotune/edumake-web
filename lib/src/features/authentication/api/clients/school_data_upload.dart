@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/api_response_message.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/classes_model.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
 import 'package:retrofit/http.dart';
 
 part 'school_data_upload.g.dart';
@@ -22,8 +23,8 @@ abstract class SchoolDataUpload {
   Future<ApiResponseMessage> addSubjects(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
-    @Field('classes') List<String> classes,
-    @Field('name') String name,
+    @Field('classes') List<Datum?> classes,
+    @Field('name') String subject,
     @Field('note') String note,
   );
 
