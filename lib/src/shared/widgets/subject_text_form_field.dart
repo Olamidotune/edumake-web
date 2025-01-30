@@ -11,6 +11,7 @@ class AddSubjectTextFormField extends StatelessWidget {
     required this.suffixIcon,
     super.key,
     this.validator,
+    this.onChanged,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class AddSubjectTextFormField extends StatelessWidget {
   final String hintText;
   final Widget suffixIcon;
   final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class AddSubjectTextFormField extends StatelessWidget {
               ),
         ),
         TextFormField(
+          onChanged: onChanged,
           keyboardType: TextInputType.text,
           controller: controller,
           focusNode: focusNode,

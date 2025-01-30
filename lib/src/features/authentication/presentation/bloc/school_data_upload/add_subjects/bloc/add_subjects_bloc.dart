@@ -30,7 +30,7 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     final notes = NoteFormz.dirty(event.note);
     emit(
       state.copyWith(
-        note: notes.isValid ? notes : NoteFormz.pure(event.note),
+        note: notes, // Update only the note field
       ),
     );
   }
@@ -42,7 +42,7 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     final subjects = SubjectFormz.dirty(event.subject);
     emit(
       state.copyWith(
-        subject: subjects.isValid ? subjects : SubjectFormz.pure(event.subject),
+        subject: subjects, // Update only the subject field
       ),
     );
   }
@@ -66,6 +66,13 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     }
 
     emit(state.copyWith(subjectUploadStatus: FormzSubmissionStatus.inProgress));
+
+    logInfo(
+      await getSchoolID(),
+    );
+
+    logInfo(
+        'These are the datum: ${state.selectedClass}, ${state.subject.value}, ${state.subject.value}');
 
     try {
       final result = await locator<SchoolDataUpload>().addSubjects(

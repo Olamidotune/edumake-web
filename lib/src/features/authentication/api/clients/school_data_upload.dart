@@ -18,7 +18,7 @@ abstract class SchoolDataUpload {
     @Field('classNames') List<String> classNames,
   );
 
-  @POST('/api/v1/sch/subjects/:schoolId')
+  @POST('/api/v1/sch/subjects/{schoolId}')
   @FormUrlEncoded()
   Future<ApiResponseMessage> addSubjects(
     @Header('Authorization') String authorization,

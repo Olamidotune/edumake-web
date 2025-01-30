@@ -4,11 +4,7 @@ part of 'add_subjects_bloc.dart';
 class AddSubjectsEvent with _$AddSubjectsEvent {
   const factory AddSubjectsEvent.started() = _Started;
 
-  const factory AddSubjectsEvent.submitSubjects(
-    String selectedClass,
-    String subject,
-    String? note,
-  ) = _SubmitSubjects;
+  const factory AddSubjectsEvent.submitSubjects() = _SubmitSubjects;
 
   const factory AddSubjectsEvent.submitSubjectSuccessFul(
     ApiResponseMessage result,
