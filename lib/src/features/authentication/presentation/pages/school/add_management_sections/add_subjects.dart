@@ -267,7 +267,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     });
 
     try {
-      await _subjectCsvUpload.uploadSubjectCsvFile(_csvFile!);
+      await _subjectCsvUpload.uploadSubjectCsvFile(_csvFile!, context);
     } catch (e) {
       logInfo(e);
     } finally {

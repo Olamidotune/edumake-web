@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -12,7 +13,8 @@ import 'package:http_parser/http_parser.dart';
 class SubjectCsvUpload {
   final String? baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
 
-  Future<void> uploadSubjectCsvFile(PlatformFile file) async {
+  Future<void> uploadSubjectCsvFile(
+      PlatformFile file, BuildContext context) async {
     final schoolId = await getSchoolID();
     final token = await getAuthorization();
 
@@ -21,33 +23,37 @@ class SubjectCsvUpload {
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
       print('Final URL being called: $url');
-      // Add authorization header
+
       request.headers.addAll({
         'Authorization': token,
         'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
       });
 
-      // Add file to request
       request.files.add(
         await http.MultipartFile.fromPath(
           'file',
           file.path!,
-          contentType: MediaType('text', 'csv'), // Explicitly set CSV MIME type
+          contentType: MediaType('text', 'csv'),
         ),
       );
 
-      // Send request
       final response = await request.send();
-
       final responseBody = await response.stream.bytesToString();
       logInfo('responseBody: $responseBody');
+
+      final responseJson = jsonDecode(responseBody);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final responseBody = await response.stream.bytesToString();
+        final successMessage = responseJson['message'];
         logInfo(responseBody);
-        ToastService.toast('CSV uploaded successfully');
+        ToastService.toast(successMessage.toString());
+
+        if (context.mounted) {
+          // Check if context is still valid
+          Navigator.of(context).pop();
+        }
       } else {
-        final responseJson = jsonDecode(responseBody);
         final errorMessage =
             responseJson['message'] ?? 'An unknown error occurred';
         ToastService.toast(
@@ -61,7 +67,6 @@ class SubjectCsvUpload {
         'Something went wrong.',
         ToastType.error,
       );
-
       rethrow;
     }
   }
