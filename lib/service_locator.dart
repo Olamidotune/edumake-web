@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:edumake_frontend/config/env_keys.dart';
 import 'package:edumake_frontend/src/core/constants/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
+import 'package:edumake_frontend/src/features/authentication/api/clients/csv_upload.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/school_data_upload.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/get_school_data.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
@@ -35,6 +36,12 @@ Future<void> setupLocator() async {
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),
+      )
+      ..registerFactory<CsvUpload>(
+        () => CsvUpload(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -52,6 +59,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<GetSchoolDataClient>(
         GetSchoolDataClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<CsvUpload>(
+        CsvUpload(
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),

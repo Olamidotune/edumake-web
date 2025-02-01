@@ -20,5 +20,18 @@ class AddSubjectsEvent with _$AddSubjectsEvent {
   const factory AddSubjectsEvent.onNoteFieldChanged(String note, int index) =
       _OnNoteFieldChanged;
 
+  const factory AddSubjectsEvent.submitSubjectCSV(
+    PlatformFile file,
+  ) = _SubmitSubjectCSV;
+
+  const factory AddSubjectsEvent.pickAndUploadCsv() = _PickAndUploadCsv;
+
+  const factory AddSubjectsEvent.submitSubjectCSVSuccessful(
+    hasSaved,
+  ) = _SubmitSubjectCSVSuccessful;
+
+  const factory AddSubjectsEvent.submitSubjectCSVFailed(String? message) =
+      _SubmitSubjectCSVFailed;
+
   const factory AddSubjectsEvent.errorMessage(String? message) = _ErrorMessage;
 }

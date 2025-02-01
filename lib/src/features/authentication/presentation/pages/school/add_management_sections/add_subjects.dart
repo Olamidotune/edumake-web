@@ -3,15 +3,18 @@
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject.dart';
+import 'package:edumake_frontend/src/features/authentication/api/service/subject_csv_upload.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/add_subjects/bloc/add_subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/class_drop_down.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -38,7 +41,9 @@ class AddSubjectsScreen extends StatefulWidget {
 
 class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   PlatformFile? _csvFile;
+  bool _isUploading = false;
 
+  final _subjectCsvUpload = SubjectCsvUpload();
   // List to hold the TextEditingController instances
   final List<TextEditingController> _subjectController = [];
   final List<TextEditingController> _noteController = [];
@@ -65,6 +70,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   void initState() {
     super.initState();
     _addTextFields();
+    final dio = Dio();
   }
 
   @override
@@ -133,6 +139,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                         TextSpan(
                           text:
                               _csvFile?.name.capitalize() ?? 'No file selected',
+                          // _csvFile?.path,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -351,29 +358,11 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                             ),
                             AppSpacing.verticalSpaceMassive,
                             Button(
-                              busy: addSubjectState.subjectUploadStatus ==
-                                  FormzSubmissionStatus.inProgress,
-                              text: 'Save subjects',
-                              onPressed: () {
-                                if (formKey.currentState!.validate() ||
-                                    _csvFile != null) {
-                                  submitSubjects();
-                                  addSubjectState.subjectUploadStatus ==
-                                          FormzSubmissionStatus.success
-                                      ? ToastService.toast(
-                                          'Subjects created successfully',
-                                        )
-                                      : ToastService.toast(
-                                          '${addSubjectState.errorMessage}',
-                                          ToastType.error,
-                                        );
-                                } else {
-                                  ToastService.toast(
-                                    'Please upload a CSV file or add SUBJECTS manually',
-                                    ToastType.error,
-                                  );
-                                }
-                              },
+                              busy: _isUploading,
+                              text: _isUploading
+                                  ? 'Uploading...'
+                                  : 'Save Subjects',
+                              onPressed: _uploadFile,
                             ),
                           ],
                         );
@@ -399,7 +388,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
       return Subject(
         name: input.nameController.text,
         note: input.noteController.text,
-        classes: ['67994b1070cb1409e17f1c3d '],
+        classes: ['67994b1070cb1409e17f1c3d'],
       );
     }).toList();
 
@@ -409,60 +398,85 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   }
 
   void _printValues() {
-    print('Combined Data:');
     for (var i = 0; i < _subjectController.length; i++) {
-      print('Subject $i: ${_subjectController[i].text}');
-      if (i < _noteController.length) {
-        print('Note $i: ${_noteController[i].text}');
-      }
+      if (i < _noteController.length) {}
     }
   }
 
   Future<void> _pickAndProcessCsv() async {
     final expectedHeaders = [
-      'name of subject',
-      'class name',
+      'name',
+      'classes',
       'note',
     ];
+    try {
+      final pickedCSV = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv'],
+      );
+      if (pickedCSV != null) {
+        final file = File(pickedCSV.files.single.path!);
+        final content = await file.readAsString();
+        final rows = const CsvToListConverter().convert(content, eol: '\n');
 
-    final pickedCSV = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['csv'],
-    );
+        if (rows.isEmpty) {
+          ToastService.toast(
+            'The CSV file is empty',
+            ToastType.error,
+          );
+          return;
+        }
 
-    if (pickedCSV != null) {
-      final file = File(pickedCSV.files.single.path!);
-      final content = await file.readAsString();
-      final displayedContent = const CsvToListConverter().convert(content);
-      final headers = displayedContent.first
-          .map((header) => header.toString().trim())
-          .toList();
+        final headers = rows.first
+            .map((header) => header.toString().trim().toLowerCase())
+            .toList();
 
-      // Debugging: Print headers
-      print('Headers from CSV: $headers');
-      print('Expected headers: $expectedHeaders');
+        final lowercaseExpectedHeaders =
+            expectedHeaders.map((header) => header.toLowerCase()).toList();
 
-      final lowercaseHeaders =
-          headers.map((header) => header.toLowerCase()).toList();
-      final lowercaseExpectedHeaders =
-          expectedHeaders.map((header) => header.toLowerCase()).toList();
+        if (headers.length != lowercaseExpectedHeaders.length ||
+            !headers.every(lowercaseExpectedHeaders.contains)) {
+          ToastService.toast(
+            'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
+            ToastType.error,
+          );
+        } else {
+          ToastService.toast('CSV file selected successfully');
+        }
 
-      // Validate headers
-      if (lowercaseHeaders.length != lowercaseExpectedHeaders.length ||
-          !lowercaseHeaders
-              .every((header) => lowercaseExpectedHeaders.contains(header))) {
-        ToastService.toast(
-          'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
-          ToastType.error,
-        );
-        return;
+        setState(() {
+          _csvFile = pickedCSV.files.first;
+        });
       }
+    } catch (e) {
+      ToastService.toast(
+        'Error processing CSV file: $e',
+        ToastType.error,
+      );
+    }
+  }
 
-      // Proceed if headers are correct
+  Future<void> _uploadFile() async {
+    if (_csvFile == null) {
+      ToastService.toast(
+        'Please select a CSV file first',
+        ToastType.error,
+      );
+      return;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      await _subjectCsvUpload.uploadSubjectCsvFile(_csvFile!);
+    } catch (e) {
+      logInfo(e);
+    } finally {
       setState(() {
-        _csvFile = pickedCSV.files.first;
+        _isUploading = false;
       });
-      ToastService.toast('CSV file selected successfully');
     }
   }
 
@@ -533,15 +547,31 @@ class SubjectInput {
     required this.noteController,
     this.selectedClasses = const [],
   }) {
-    nameController.addListener(() {
-      debugPrint('Name changed: ${nameController.text}');
-    });
+    nameController.addListener(() {});
 
-    noteController.addListener(() {
-      debugPrint('Note changed: ${noteController.text}');
-    });
+    noteController.addListener(() {});
   }
   TextEditingController nameController;
   TextEditingController noteController;
   List<String> selectedClasses;
 }
+
+                              //   if (formKey.currentState!.validate() ||
+                              //       _csvFile != null) {
+                              //     submitSubjects();
+                              //     addSubjectState.subjectUploadStatus ==
+                              //             FormzSubmissionStatus.success
+                              //         ? ToastService.toast(
+                              //             'Subjects created successfully',
+                              //           )
+                              //         : ToastService.toast(
+                              //             '${addSubjectState.errorMessage}',
+                              //             ToastType.error,
+                              //           );
+                              //   } else {
+                              //     ToastService.toast(
+                              //       'Please upload a CSV file or add SUBJECTS manually',
+                              //       ToastType.error,
+                              //     );
+                              //   }
+                              // },

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
@@ -6,6 +8,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/school_m
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject_request.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -21,6 +24,9 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     on<_SubmitSubjects>(_submitSubjects);
     on<_SubmitSubjectSuccessful>(_submitSubjectsSuccessful);
     on<_SubmitSubjectFailed>(_submitSubjectFailed);
+    on<_SubmitSubjectCSV>(_submitSubjectCSV);
+    on<_SubmitSubjectCSVSuccessful>(_submitSubjectCSVSuccessful);
+    on<_SubmitSubjectCSVFailed>(_submitSubjectCSVFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -119,5 +125,115 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
 
   void _errorMessage(_ErrorMessage event, Emitter<AddSubjectsState> emit) {
     emit(state.copyWith(errorMessage: event.message));
+  }
+
+  ///CSV SECTION
+  // void _submitSubjectCSV(
+  //   _SubmitSubjectCSV event,
+  //   Emitter<AddSubjectsState> emit,
+  // ) async {
+  //   // Prevent duplicate submissions
+  //   if (state.submitSubjectCSVStatus == FormzSubmissionStatus.inProgress) {
+  //     return;
+  //   }
+
+  //   emit(state.copyWith(
+  //     submitSubjectCSVStatus: FormzSubmissionStatus.inProgress,
+  //   ));
+
+  //   final file = event.file;
+  //   try {
+  //     final hasSaved = await locator<SchoolDataUpload>().addSubjectCSV(
+  //         await getAuthorization(), await getSchoolID(), File(file));
+
+  //     emit(
+  //       state.copyWith(
+  //         submitSubjectCSVStatus: FormzSubmissionStatus.success,
+  //         hasSaved: hasSaved, // Update hasSaved if needed
+  //       ),
+  //     );
+
+  //     add(_SubmitSubjectCSVSuccessful(hasSaved));
+  //   } catch (error) {
+  //     emit(
+  //       state.copyWith(
+  //         submitSubjectCSVStatus: FormzSubmissionStatus.failure,
+  //         errorMessage: error is DioError
+  //             ? error.response?.data['message'] as String? ??
+  //                 'An error occurred'
+  //             : 'An error occurred',
+  //       ),
+  //     );
+
+  //     add(_SubmitSubjectCSVFailed(state.errorMessage ?? 'An error occurred'));
+  //   }
+  // }
+
+  //OTHER
+
+  void _submitSubjectCSV(
+    _SubmitSubjectCSV event,
+    Emitter<AddSubjectsState> emit,
+  ) async {
+    if (state.submitSubjectCSVStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(
+      submitSubjectCSVStatus: FormzSubmissionStatus.inProgress,
+    ));
+
+    try {
+      // Convert PlatformFile to File
+      final file = File(event.file.path!);
+      print(file);
+
+      final hasSaved = await locator<SchoolDataUpload>().addSubjectCSV(
+        await getAuthorization(),
+        await getSchoolID(),
+        file,
+      );
+
+      emit(state.copyWith(
+        submitSubjectCSVStatus: FormzSubmissionStatus.success,
+        hasSaved: hasSaved,
+      ));
+
+      add(_SubmitSubjectCSVSuccessful(hasSaved));
+    } catch (error) {
+      final errorMessage = error is DioError
+          ? error.response?.data['message'] as String? ?? 'An error occurred'
+          : 'An error occurred';
+
+      emit(state.copyWith(
+        submitSubjectCSVStatus: FormzSubmissionStatus.failure,
+        errorMessage: errorMessage,
+      ));
+
+      add(_SubmitSubjectCSVFailed(errorMessage));
+    }
+  }
+
+  void _submitSubjectCSVSuccessful(
+    _SubmitSubjectCSVSuccessful event,
+    Emitter<AddSubjectsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        hasSaved: event.hasSaved,
+        subjectUploadStatus: FormzSubmissionStatus.success,
+      ),
+    );
+  }
+
+  void _submitSubjectCSVFailed(
+    _SubmitSubjectCSVFailed event,
+    Emitter<AddSubjectsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        subjectUploadStatus: FormzSubmissionStatus.failure,
+      ),
+    );
   }
 }

@@ -3,7 +3,6 @@ part of 'add_subjects_bloc.dart';
 @freezed
 class AddSubjectsState with _$AddSubjectsState {
   const factory AddSubjectsState({
-    // List<Datum> selectedClass,
     String? selectedClass,
     @Default([]) List<String> csvClasses,
     @Default(SubjectFormz.pure()) SubjectFormz subject,
@@ -11,6 +10,9 @@ class AddSubjectsState with _$AddSubjectsState {
     @Default(false) hasSaved,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus subjectUploadStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus submitSubjectCSVStatus,
+    File? file,
     String? errorMessage,
   }) = _AddSubjectsState;
 
