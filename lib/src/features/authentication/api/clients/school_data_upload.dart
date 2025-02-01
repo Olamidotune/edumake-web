@@ -1,12 +1,24 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/api_response_message.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/classes_model.dart';
-import 'package:retrofit/http.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject_request.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'school_data_upload.g.dart';
 
 @RestApi()
 abstract class SchoolDataUpload {
   factory SchoolDataUpload(Dio dio, {String baseUrl}) = _SchoolDataUpload;
+
+  @POST('/api/v1/sch/subjects/csv/{schoolId}')
+  @MultiPart()
+  Future<ApiResponseMessage> addSubjectCSV(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Part() File file,
+  );
 
   @POST('/api/v1/sch/classes/{schoolId}')
   @FormUrlEncoded()
@@ -16,36 +28,11 @@ abstract class SchoolDataUpload {
     @Field('classNames') List<String> classNames,
   );
 
-  @POST('/api/v1/sch/subjects/:schoolId')
+  @POST('/api/v1/sch/subjects/{schoolId}')
   @FormUrlEncoded()
-  Future<void> addSubjects(
+  Future<ApiResponseMessage> addSubjects(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
-    @Field('classes') List<String> classes,
-    @Field('name') String name,
-    @Field('note') String note,
-  );
-
-  @POST('/api/v1/sch/add-students/:schoolId')
-  @FormUrlEncoded()
-  Future<void> addStudents(
-    @Header('Authorization') String authorization,
-    @Path('schoolId') String schoolId,
-    @Field('students') List<String> students,
-    @Field('name') String name,
-    @Field('classId') String classId,
-  );
-
-  @POST('/api/v1/sch/add-teacher/:schoolId')
-  @FormUrlEncoded()
-  Future<void> addTeacher(
-    @Header('Authorization') String authorization,
-    @Path('schoolId') String schoolId,
-    @Field('name') String name,
-    @Field('email') String email,
-    @Field('note') String note,
-    @Field('classes') List<String> classes,
-    @Field('subjects') List<String> subjects,
-    @Field('teacherImage') String teacherImage,
+    @Body() SubjectRequest subjectRequest,
   );
 }

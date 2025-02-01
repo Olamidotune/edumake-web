@@ -6,19 +6,21 @@ class AddSubjectTextFormField extends StatelessWidget {
   const AddSubjectTextFormField({
     required this.label,
     required this.controller,
-    required this.focusNode,
     required this.hintText,
     required this.suffixIcon,
+    this.focusNode,
     super.key,
     this.validator,
+    this.onChanged,
   });
 
   final String label;
   final TextEditingController controller;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final String hintText;
   final Widget suffixIcon;
   final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class AddSubjectTextFormField extends StatelessWidget {
               ),
         ),
         TextFormField(
+          onChanged: onChanged,
           keyboardType: TextInputType.text,
           controller: controller,
           focusNode: focusNode,

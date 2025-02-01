@@ -91,7 +91,7 @@ class SchoolTypeDropDownFormWidget extends StatelessWidget {
 
   // Define the items as a static list for reusability
   static const List<Map<String, String>> _dropdownItems = [
-    {'value': 'Nursey School', 'label': 'Nursey School'},
+    {'value': 'Nursery School', 'label': 'Nursery School'},
     {'value': 'Primary School', 'label': 'Primary School'},
     {'value': 'Secondary School', 'label': 'Secondary School'},
     {'value': 'Tertiary School', 'label': 'Tertiary School'},

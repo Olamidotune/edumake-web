@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/kyc/kyc_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/add_subjects/bloc/add_subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/school_data_upload_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_kyc/school_kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
@@ -15,6 +16,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/test_values.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
@@ -120,6 +122,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<GetSchoolDataBloc>(
           create: (context) => GetSchoolDataBloc(),
+        ),
+        BlocProvider<AddSubjectsBloc>(
+          create: (context) => AddSubjectsBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
@@ -248,6 +253,8 @@ class MyApp extends StatelessWidget {
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
                   WardScreen.routeName: (context) => const WardScreen(),
+                  DynamicTextFieldList.routeName: (context) =>
+                      const DynamicTextFieldList(),
                   SettingsScreen.routeName: (context) => const SettingsScreen(),
                 },
                 localizationsDelegates: const [

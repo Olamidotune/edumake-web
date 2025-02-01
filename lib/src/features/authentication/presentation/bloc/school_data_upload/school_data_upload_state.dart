@@ -1,18 +1,5 @@
 part of 'school_data_upload_bloc.dart';
 
-// @freezed
-// class SchoolDataUploadState with _$SchoolDataUploadState {
-//   const factory SchoolDataUploadState({
-//     @Default(ClassesFormz.pure()) ClassesFormz classes,
-//     List<String>? csvClassesList,
-//     @Default(FormzSubmissionStatus.initial)
-//     FormzSubmissionStatus classesUploadStatus,
-//     String? errorMessage,
-//   }) = _SchoolDataUploadState;
-
-//   const SchoolDataUploadState._();
-// }
-
 @freezed
 class SchoolDataUploadState with _$SchoolDataUploadState {
   const factory SchoolDataUploadState({
