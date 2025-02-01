@@ -10,7 +10,6 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
@@ -336,14 +335,12 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
               .every((match) => match);
 
       if (!headersMatch) {
-        CustomSnackbar.show(
-          context,
-          'Invalid CSV file. Please upload a valid CSV file with correct headers or download the CSV template!.',
-          isError: true,
+        ToastService.toast(
+          'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
+          ToastType.error,
         );
         return;
       }
-
       // Proceed if headers are correct
       setState(() {
         _csvFile = pickedCSV.files.first;
@@ -422,17 +419,4 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     }
     super.dispose();
   }
-}
-
-/////////////
-
-enum ClassDataSource {
-  manual,
-  csv,
-}
-
-class ClassData {
-  ClassData({required this.className, required this.source});
-  final String className;
-  final ClassDataSource source;
 }

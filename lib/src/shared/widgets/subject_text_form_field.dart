@@ -6,9 +6,9 @@ class AddSubjectTextFormField extends StatelessWidget {
   const AddSubjectTextFormField({
     required this.label,
     required this.controller,
-    required this.focusNode,
     required this.hintText,
     required this.suffixIcon,
+    this.focusNode,
     super.key,
     this.validator,
     this.onChanged,
@@ -16,7 +16,7 @@ class AddSubjectTextFormField extends StatelessWidget {
 
   final String label;
   final TextEditingController controller;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final String hintText;
   final Widget suffixIcon;
   final String? Function(String?)? validator;

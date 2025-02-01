@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, avoid_void_async, unused_element
+
 import 'dart:io';
 
 import 'package:csv/csv.dart';
@@ -5,8 +7,9 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/add_subjects/bloc/add_subjects_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/test_values.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/class_drop_down.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -14,7 +17,6 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,22 +38,34 @@ class AddSubjectsScreen extends StatefulWidget {
 
 class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   PlatformFile? _csvFile;
-  final List<int> subjects = [];
-  final List<TextEditingController> _subjectController = [
-    TextEditingController(),
-  ];
-  final List<TextEditingController> _noteController = [TextEditingController()];
+
   // List to hold the TextEditingController instances
-  final List<TextEditingController> _classesController = [];
-  final List<FocusNode> _subjectNode = [FocusNode()];
-  final List<FocusNode> _noteNode = [FocusNode()];
-  final List<FocusNode> _classesNode = [FocusNode()];
-  List<List<dynamic>> _csvData = []; // To store parsed CSV data
+  final List<TextEditingController> _subjectController = [];
+  final List<TextEditingController> _noteController = [];
+  final List<FocusNode> _subjectNode = [];
+  final List<FocusNode> _noteNode = [];
+  List<SubjectInput> subjectInputs = [];
+
+  // Function to add a new TextField
+  void _addTextFields() {
+    setState(() {
+      subjectInputs.add(SubjectInput(
+        nameController: TextEditingController(),
+        noteController: TextEditingController(),
+      ));
+    });
+  }
 
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
   bool busy = false;
   bool savedsubjects = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _addTextFields();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +169,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
                     builder: (context, getSchoolState) =>
                         BlocBuilder<AddSubjectsBloc, AddSubjectsState>(
-                      builder: (context, addClassesState) {
+                      builder: (context, addSubjectState) {
                         if (getSchoolState.fetchClassesStatus ==
                             FormzSubmissionStatus.inProgress) {
                           return ListView.separated(
@@ -183,7 +197,6 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                         color: Colors.white,
                                       ),
                                       const SizedBox(width: 12),
-                                      // Placeholder for text
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -235,7 +248,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                               child: Column(
                                 children: [
                                   ...List.generate(
-                                    subjects.length + 1,
+                                    subjectInputs.length,
                                     (index) => Column(
                                       children: [
                                         Container(
@@ -254,19 +267,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                             children: [
                                               AddSubjectTextFormField(
                                                 label: 'Enter Subject/Course',
-                                                controller:
-                                                    _subjectController[index],
-                                                focusNode: _subjectNode[index],
-                                                onChanged: (value) {
-                                                  context
-                                                      .read<AddSubjectsBloc>()
-                                                      .add(
-                                                        AddSubjectsEvent
-                                                            .onSubjectFieldChanged(
-                                                          value,
-                                                        ),
-                                                      );
-                                                },
+                                                controller: subjectInputs[index]
+                                                    .nameController,
                                                 validator: (p0) {
                                                   if (p0!.isEmpty &&
                                                       _csvFile == null) {
@@ -278,25 +280,14 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                                   'assets/svg/edit.svg',
                                                 ),
                                                 hintText:
-                                                    'what is the name of the subject?',
+                                                    'What is the name of the subject?',
                                               ),
                                               AppSpacing.verticalSpaceHuge,
                                               AddSubjectTextFormField(
                                                 label:
                                                     'Short Note about the subject',
-                                                controller:
-                                                    _noteController[index],
-                                                focusNode: _noteNode[index],
-                                                onChanged: (value) {
-                                                  context
-                                                      .read<AddSubjectsBloc>()
-                                                      .add(
-                                                        AddSubjectsEvent
-                                                            .onNoteFieldChanged(
-                                                          value,
-                                                        ),
-                                                      );
-                                                },
+                                                controller: subjectInputs[index]
+                                                    .noteController,
                                                 validator: (p0) {
                                                   if (p0!.isEmpty &&
                                                       _csvFile == null) {
@@ -308,13 +299,20 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                                                   'assets/svg/edit.svg',
                                                 ),
                                                 hintText:
-                                                    'Introduce the subject few words',
+                                                    'Introduce the subject in a few words',
                                               ),
                                               AppSpacing.verticalSpaceHuge,
                                               ClassDropdown(
-                                                onChanged: (value) {
-                                                  addClassesState.selectedClass;
-                                                },
+                                                items: getSchoolState
+                                                    .classesData!
+                                                    .map((Datum classData) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: classData.id,
+                                                    child: Text(classData.name),
+                                                  );
+                                                }).toList(),
+                                                onChanged: (value) {},
                                               ),
                                               AppSpacing.verticalSpaceTiny,
                                             ],
@@ -328,11 +326,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                               ),
                             ),
                             GestureDetector(
-                              // onTap: addSubject,
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(DynamicTextFieldList.routeName);
-                              },
+                              onTap: _addTextFields,
                               child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Row(
@@ -357,22 +351,22 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                             ),
                             AppSpacing.verticalSpaceMassive,
                             Button(
-                              busy: addClassesState.subjectUploadStatus ==
+                              busy: addSubjectState.subjectUploadStatus ==
                                   FormzSubmissionStatus.inProgress,
                               text: 'Save subjects',
                               onPressed: () {
                                 if (formKey.currentState!.validate() ||
                                     _csvFile != null) {
-                                  context.read<AddSubjectsBloc>().add(
-                                      const AddSubjectsEvent.submitSubjects());
-                                  ToastService.toast(
-                                    'Subjects created successfully',
-                                  );
-
-                                  Future.delayed(const Duration(seconds: 2),
-                                      () {
-                                    Navigator.pop(context, true);
-                                  });
+                                  submitSubjects();
+                                  addSubjectState.subjectUploadStatus ==
+                                          FormzSubmissionStatus.success
+                                      ? ToastService.toast(
+                                          'Subjects created successfully',
+                                        )
+                                      : ToastService.toast(
+                                          '${addSubjectState.errorMessage}',
+                                          ToastType.error,
+                                        );
                                 } else {
                                   ToastService.toast(
                                     'Please upload a CSV file or add SUBJECTS manually',
@@ -395,9 +389,40 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     );
   }
 
+  void submitSubjects() async {
+    if (subjectInputs.isEmpty) {
+      // Show error message
+      return;
+    }
+
+    final subjects = subjectInputs.map((input) {
+      return Subject(
+        name: input.nameController.text,
+        note: input.noteController.text,
+        classes: ['67994b1070cb1409e17f1c3d '],
+      );
+    }).toList();
+
+    context
+        .read<AddSubjectsBloc>()
+        .add(AddSubjectsEvent.submitSubjects(subjects));
+  }
+
+  void _printValues() {
+    print('Combined Data:');
+    for (var i = 0; i < _subjectController.length; i++) {
+      print('Subject $i: ${_subjectController[i].text}');
+      if (i < _noteController.length) {
+        print('Note $i: ${_noteController[i].text}');
+      }
+    }
+  }
+
   Future<void> _pickAndProcessCsv() async {
     final expectedHeaders = [
       'name of subject',
+      'class name',
+      'note',
     ];
 
     final pickedCSV = await FilePicker.platform.pickFiles(
@@ -409,28 +434,25 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
       final file = File(pickedCSV.files.single.path!);
       final content = await file.readAsString();
       final displayedContent = const CsvToListConverter().convert(content);
-
-      if (displayedContent.isEmpty) {
-        ToastService.toast(
-          'CSV file is empty',
-          ToastType.error,
-        );
-        return;
-      }
-
       final headers = displayedContent.first
-          .map((header) => header.toString().trim().toLowerCase())
+          .map((header) => header.toString().trim())
           .toList();
 
-      final normalizedExpectedHeaders =
-          expectedHeaders.map((header) => header.trim().toLowerCase()).toList();
+      // Debugging: Print headers
+      print('Headers from CSV: $headers');
+      print('Expected headers: $expectedHeaders');
 
-      // Check if all expected headers are present
-      final headersMatch = normalizedExpectedHeaders.every(headers.contains);
+      final lowercaseHeaders =
+          headers.map((header) => header.toLowerCase()).toList();
+      final lowercaseExpectedHeaders =
+          expectedHeaders.map((header) => header.toLowerCase()).toList();
 
-      if (!headersMatch) {
+      // Validate headers
+      if (lowercaseHeaders.length != lowercaseExpectedHeaders.length ||
+          !lowercaseHeaders
+              .every((header) => lowercaseExpectedHeaders.contains(header))) {
         ToastService.toast(
-          'Invalid CSV file. Please ensure the file contains the required header: "name of subject"',
+          'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
           ToastType.error,
         );
         return;
@@ -439,44 +461,14 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
       // Proceed if headers are correct
       setState(() {
         _csvFile = pickedCSV.files.first;
-        _csvData = displayedContent.skip(1).toList();
-        for (final row in _csvData) {
-          if (row.length >= 3) {
-            _subjectController
-                .add(TextEditingController(text: row[0].toString()));
-            _classesController
-                .add(TextEditingController(text: row[1].toString()));
-            _noteController.add(TextEditingController(text: row[2].toString()));
-            _subjectNode.add(FocusNode());
-            _classesNode.add(FocusNode());
-            _noteNode.add(FocusNode());
-            subjects.add(subjects.length + 1);
-          }
-        }
       });
-      ToastService.toast('Csv fire processed successfully');
+      ToastService.toast('CSV file selected successfully');
     }
-  }
-
-  // Get all subjects as a list (combines both manual and CSV input)
-  List<Map<String, String>> getAllSubjects() {
-    final allSubjects = <Map<String, String>>[];
-
-    for (var i = 0; i < subjects.length; i++) {
-      if (_subjectController[i].text.isNotEmpty) {
-        allSubjects.add({
-          'subject': _subjectController[i].text,
-          'classes': _classesController[i].text,
-          'note': _noteController[i].text,
-        });
-      }
-    }
-
-    return allSubjects;
   }
 
   Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/subjects_upload_csv_template.csv');
+    return rootBundle
+        .loadString('assets/csv/subjects_upload _csv_template.csv');
   }
 
   Future<void> _downloadCSV(String csvContent) async {
@@ -497,7 +489,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
       } else {
         directory = await getApplicationDocumentsDirectory();
       }
-      final file = File('${directory.path}/edumake_csv_template.csv');
+      final file = File('${directory.path}/subjects_upload _csv_template.csv');
       await file.writeAsString(csvContent);
     } catch (e) {
       ToastService.toast(
@@ -516,18 +508,6 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     return true; // No permissions needed for iOS
   }
 
-  void addSubject() {
-    setState(() {
-      subjects.add(subjects.length + 1);
-      _classesController.add(TextEditingController());
-      _noteController.add(TextEditingController());
-      _subjectController.add(TextEditingController());
-      _classesNode.add(FocusNode());
-      _noteNode.add(FocusNode());
-      _subjectNode.add(FocusNode());
-    });
-  }
-
   @override
   void dispose() {
     for (final controller in _subjectController) {
@@ -536,12 +516,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     for (final controller in _noteController) {
       controller.dispose();
     }
-    for (final controller in _classesController) {
-      controller.dispose();
-    }
-    for (final node in _classesNode) {
-      node.dispose();
-    }
+
     for (final node in _noteNode) {
       node.dispose();
     }
@@ -550,4 +525,23 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     }
     super.dispose();
   }
+}
+
+class SubjectInput {
+  SubjectInput({
+    required this.nameController,
+    required this.noteController,
+    this.selectedClasses = const [],
+  }) {
+    nameController.addListener(() {
+      debugPrint('Name changed: ${nameController.text}');
+    });
+
+    noteController.addListener(() {
+      debugPrint('Note changed: ${noteController.text}');
+    });
+  }
+  TextEditingController nameController;
+  TextEditingController noteController;
+  List<String> selectedClasses;
 }

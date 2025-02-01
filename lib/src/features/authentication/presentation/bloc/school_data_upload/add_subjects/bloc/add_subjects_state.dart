@@ -4,7 +4,7 @@ part of 'add_subjects_bloc.dart';
 class AddSubjectsState with _$AddSubjectsState {
   const factory AddSubjectsState({
     // List<Datum> selectedClass,
-    @Default([]) List<Datum?> selectedClass,
+    String? selectedClass,
     @Default([]) List<String> csvClasses,
     @Default(SubjectFormz.pure()) SubjectFormz subject,
     @Default(NoteFormz.pure()) NoteFormz note,

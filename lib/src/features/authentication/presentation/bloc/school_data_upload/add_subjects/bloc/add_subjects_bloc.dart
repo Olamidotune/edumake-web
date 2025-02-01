@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/school_data_upload.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/school_models/api_response_message.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/subject_request.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
-import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -51,44 +52,44 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     _SubmitSubjects event,
     Emitter<AddSubjectsState> emit,
   ) async {
-    if (state.subjectUploadStatus == FormzSubmissionStatus.inProgress) {
-      return;
-    }
-
-    if (!Formz.validate([state.subject, state.note])) {
-      emit(
-        state.copyWith(
-          subject: SubjectFormz.dirty(state.subject.value),
-          note: NoteFormz.dirty(state.note.value),
-        ),
-      );
-      return;
-    }
-
-    emit(state.copyWith(subjectUploadStatus: FormzSubmissionStatus.inProgress));
-
-    logInfo(
-      await getSchoolID(),
-    );
-
-    logInfo(
-        'These are the datum: ${state.selectedClass}, ${state.subject.value}, ${state.subject.value}');
+    if (state.subjectUploadStatus == FormzSubmissionStatus.inProgress) return;
 
     try {
-      final result = await locator<SchoolDataUpload>().addSubjects(
+      final subjects = event.subjects
+          .map(
+            (subject) => Subject(
+              classes: subject.classes,
+              name: subject.name,
+              note: subject.note,
+            ),
+          )
+          .toList();
+
+      if (subjects.isEmpty) {
+        add(const _SubmitSubjectFailed('No subjects selected for upload'));
+        return;
+      }
+      emit(
+        state.copyWith(
+          subjectUploadStatus: FormzSubmissionStatus.inProgress,
+        ),
+      );
+      await locator<SchoolDataUpload>().addSubjects(
         await getAuthorization(),
         await getSchoolID(),
-        state.selectedClass,
-        state.subject.value,
-        state.subject.value,
+        //come add the class
+        SubjectRequest(subjects: subjects),
       );
 
-      add(_SubmitSubjectSuccessful(result));
-    } catch (error, trace) {
-      logError(error, trace);
-      add(
-        const _SubmitSubjectFailed('Something went wrong'),
-      );
+      add(const _SubmitSubjectSuccessful());
+    } catch (error) {
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SubmitSubjectFailed(error.response?.data['message'] as String?));
+      } else {
+        add(
+          const _SubmitSubjectFailed('Something went wrong'),
+        );
+      }
     }
   }
 
@@ -110,7 +111,6 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
   ) {
     emit(
       state.copyWith(
-        //come back to add the state to hasSaved
         subjectUploadStatus: FormzSubmissionStatus.failure,
       ),
     );

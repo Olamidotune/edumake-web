@@ -164,43 +164,6 @@ class _AddManagementSegmentsScreenState
     );
   }
 
-  // void _onRequestReadStoragePermission(
-  //   PermissionsState state,
-  //   BuildContext context,
-  // ) {
-  //   if (!state.isReadStoragePermissionGranted) {
-  //     debugPrint(state.isReadStoragePermissionGranted.toString());
-  //     showDialog<void>(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: const Text('Permission Required'),
-  //           content: const Text(
-  //             'Please allow the app to access your storage to continue.',
-  //           ),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: const Text('Cancel'),
-  //             ),
-  //             TextButton(
-  //               onPressed: () {
-  //                 context.read<PermissionsBloc>().add(
-  //                       const PermissionsEvent.requestReadStoragePermission(),
-  //                     );
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: const Text('Allow'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
   void _navigateToClassScreen(String routeName) async {
     final result = await Navigator.of(context).pushNamed(routeName);
     if (result != null) {

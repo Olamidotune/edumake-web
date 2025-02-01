@@ -1,1 +1,5 @@
-name of subject,"classes (enter all classes this subject is applicable to, separated by a comma, eg. Jss1, Jss2. Ensure that they are classes that you have uploaded.)",note (optional)
+name of subject,class name,note,
+CSV MATHS,JSS2 SS1,Class note
+CSV ENGLISH,Jss1,
+CSV F.MATHS,Basic 3,
+CSV BIOLOGY,SS3,

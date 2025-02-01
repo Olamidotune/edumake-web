@@ -9,11 +9,13 @@ class ClassDropdown extends StatelessWidget {
   const ClassDropdown({
     Key? key,
     this.onChanged,
+    this.items,
     this.value,
   }) : super(key: key);
 
   final void Function(String?)? onChanged;
   final String? value;
+  final List<DropdownMenuItem<String>>? items;
 
   @override
   Widget build(BuildContext context) {
