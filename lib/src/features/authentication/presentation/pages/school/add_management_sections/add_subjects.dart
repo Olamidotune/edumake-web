@@ -1,8 +1,6 @@
 // ignore_for_file: unused_local_variable, avoid_void_async, unused_element
 
 import 'dart:io';
-
-import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
@@ -36,7 +34,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   PlatformFile? _csvFile;
   bool _isUploading = false;
 
-  final _subjectCsvUpload = SubjectCsvUpload();
+  final _subjectCsvUpload = CsvUploadService();
   // List to hold the TextEditingController instances
   final List<TextEditingController> _subjectController = [];
   final List<TextEditingController> _noteController = [];
@@ -56,7 +54,6 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
 
   final formKey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
-  bool busy = false;
   bool savedsubjects = false;
 
   @override
@@ -200,57 +197,70 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
         .add(AddSubjectsEvent.submitSubjects(subjects));
   }
 
+  // Future<void> _pickAndProcessCsv() async {
+  //   final expectedHeaders = [
+  //     'name',
+  //     'classes',
+  //     'note',
+  //   ];
+  //   try {
+  //     final pickedCSV = await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       allowedExtensions: ['csv'],
+  //     );
+  //     if (pickedCSV != null) {
+  //       final file = File(pickedCSV.files.single.path!);
+  //       final content = await file.readAsString();
+  //       final rows = const CsvToListConverter().convert(content, eol: '\n');
+
+  //       if (rows.isEmpty) {
+  //         ToastService.toast(
+  //           'The CSV file is empty',
+  //           ToastType.error,
+  //         );
+  //         return;
+  //       }
+
+  //       final headers = rows.first
+  //           .map((header) => header.toString().trim().toLowerCase())
+  //           .toList();
+
+  //       final lowercaseExpectedHeaders =
+  //           expectedHeaders.map((header) => header.toLowerCase()).toList();
+
+  //       if (headers.length != lowercaseExpectedHeaders.length ||
+  //           !headers.every(lowercaseExpectedHeaders.contains)) {
+  //         ToastService.toast(
+  //           'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
+  //           ToastType.error,
+  //         );
+  //       } else {
+  //         ToastService.toast('CSV file selected successfully');
+  //       }
+
+  //       setState(() {
+  //         _csvFile = pickedCSV.files.first;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     ToastService.toast(
+  //       'Error processing CSV file: $e',
+  //       ToastType.error,
+  //     );
+  //   }
+  // }
+
   Future<void> _pickAndProcessCsv() async {
-    final expectedHeaders = [
-      'name',
-      'classes',
-      'note',
-    ];
-    try {
-      final pickedCSV = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['csv'],
-      );
-      if (pickedCSV != null) {
-        final file = File(pickedCSV.files.single.path!);
-        final content = await file.readAsString();
-        final rows = const CsvToListConverter().convert(content, eol: '\n');
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv'],
+    );
 
-        if (rows.isEmpty) {
-          ToastService.toast(
-            'The CSV file is empty',
-            ToastType.error,
-          );
-          return;
-        }
+    if (result == null) return;
 
-        final headers = rows.first
-            .map((header) => header.toString().trim().toLowerCase())
-            .toList();
-
-        final lowercaseExpectedHeaders =
-            expectedHeaders.map((header) => header.toLowerCase()).toList();
-
-        if (headers.length != lowercaseExpectedHeaders.length ||
-            !headers.every(lowercaseExpectedHeaders.contains)) {
-          ToastService.toast(
-            'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
-            ToastType.error,
-          );
-        } else {
-          ToastService.toast('CSV file selected successfully');
-        }
-
-        setState(() {
-          _csvFile = pickedCSV.files.first;
-        });
-      }
-    } catch (e) {
-      ToastService.toast(
-        'Error processing CSV file: $e',
-        ToastType.error,
-      );
-    }
+    setState(() {
+      _csvFile = result.files.first;
+    });
   }
 
   Future<void> _uploadFile() async {
