@@ -3,7 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/school_classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';

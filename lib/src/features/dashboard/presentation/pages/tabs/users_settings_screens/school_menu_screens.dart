@@ -6,7 +6,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/user.dar
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/school_classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
