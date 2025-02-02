@@ -1,8 +1,7 @@
-import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_payment_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_classes_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/school_classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/teacher_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -33,23 +32,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         bottom: false,
         left: false,
         right: false,
-        child: RawScrollbar(
+        child: SingleChildScrollView(
           controller: scrollController,
-          thumbColor: AppColors.primaryColor.withOpacity(0.4),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8),
-            ),
-          ),
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 5,
-          ),
-          child: SingleChildScrollView(
-            controller: scrollController,
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Container(
               child: buildView(
                 userRoleFuture,
               ),

@@ -15,6 +15,7 @@ import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart'
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
@@ -26,6 +27,17 @@ class ClassScreen extends StatefulWidget {
 }
 
 class _ClassScreenState extends State<ClassScreen> {
+  final scrollController = ScrollController();
+  String lastCursor = '';
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(_loadMoreClasses);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -71,72 +83,107 @@ class _ClassScreenState extends State<ClassScreen> {
         ),
         AppSpacing.verticalSpaceMedium,
         // Classes
-        BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
-          builder: (context, state) {
-            if (state.fetchClassesStatus == FormzSubmissionStatus.inProgress) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primaryColor,
-                ),
-              );
-            } else if (state.classesData == null ||
-                state.classesData!.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(height: AppSpacing.verticalValueSpaceLarge * 6),
-                    Image.asset(
-                      'assets/png/empty.png',
-                      height: 150, // Assuming 150 is a valid height value
-                    ),
-                    Text(
-                      'No Data Available',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 20, // Assuming 20 is a valid font size
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryTextColor,
-                          ),
-                    ),
-                    AppSpacing.verticalSpaceSmall,
-                    Text(
-                      'Add a class or classes by clicking the + button above.',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 14, // Assuming 14 is a valid font size
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.secondaryTexColor,
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              );
-            }
-            return ListView.separated(
-              itemCount: state.classesData?.length ?? 0,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) {
-                return AppSpacing.verticalSpaceMedium;
-              },
-              itemBuilder: (context, index) {
-                final classData = state.classesData?[index];
-                return GestureDetector(
-                  onTap: () {
-                    // Handle onTap action here
-                  },
-                  child: ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: classData?.name.toUpperCase() ??
-                        'N/A', // Provide a fallback for null name
+        CustomRawScroller(
+          scrollController: scrollController,
+          child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+            builder: (context, state) {
+              if (state.classesData == null || state.classesData!.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 6),
+                      Image.asset(
+                        'assets/png/empty.png',
+                        height: 150,
+                      ),
+                      Text(
+                        'No Data Available',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 20, // Assuming 20 is a valid font size
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryTextColor,
+                            ),
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                      Text(
+                        'Add a class or classes by clicking the + button above.',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 14, // Assuming 14 is a valid font size
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.secondaryTexColor,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 );
-              },
-            );
-          },
+              }
+              return SizedBox(
+                height: 700,
+                child: ListView.separated(
+                  itemCount: state.classes.length +
+                      (state.fetchClassesStatus ==
+                              FormzSubmissionStatus.inProgress
+                          ? 1
+                          : 0),
+                  controller: scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) {
+                    return AppSpacing.verticalSpaceMedium;
+                  },
+                  itemBuilder: (context, index) {
+                    // Show loader at the bottom
+                    if (index == state.classes.length &&
+                        state.fetchClassesStatus ==
+                            FormzSubmissionStatus.inProgress) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: SpinKitPulsingGrid(
+                            color: AppColors.primaryColor,
+                            size: 30,
+                          ),
+                        ),
+                      );
+                    }
+                    // Show regular list item
+                    final classes = state.classesData![index];
+                    return Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Handle onTap action here
+                        },
+                        child: ClassesListTileContainer(
+                          isProfilePictureEnabled: false,
+                          title: classes.name,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
+  }
+
+  void _loadMoreClasses() {
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        context.read<GetSchoolDataBloc>().state.totalCursor !=
+            context
+                .read<GetSchoolDataBloc>()
+                .state
+                .getSchoolDataModel
+                ?.cursor) {
+      context
+          .read<GetSchoolDataBloc>()
+          .add(const GetSchoolDataEvent.fetchPaginatedClasses());
+    }
   }
 }
 

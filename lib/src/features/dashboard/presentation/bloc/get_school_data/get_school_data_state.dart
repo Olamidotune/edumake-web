@@ -6,8 +6,11 @@ class GetSchoolDataState with _$GetSchoolDataState {
     GetSchoolDataModel? getSchoolDataModel,
     List<Datum>? classesData,
     String? errorMessage,
+    String? totalCursor,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchClassesStatus,
+    @Default([]) List<Datum> classes,
+    @Default(false) bool isLoading,
   }) = _GetSchoolDataState;
 
   const GetSchoolDataState._();

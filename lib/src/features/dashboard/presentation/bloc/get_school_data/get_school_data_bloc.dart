@@ -16,7 +16,7 @@ part 'get_school_data_bloc.freezed.dart';
 class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
   GetSchoolDataBloc() : super(const GetSchoolDataState()) {
     on<_Init>(_init);
-    on<_FetchClasses>(_fetchClasses);
+    on<_FetchClasses>(_fetchPaginatedClasses);
     on<_FetchClassesSuccess>(_fetchClassesSuccess);
     on<_FetchClassesFailed>(_fetchClassesFailed);
     on<_ErrorMessage>(_errorMessage);
@@ -26,9 +26,15 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
 
   void _init(_Init event, Emitter<GetSchoolDataState> emit) async {
     try {
-      final result = await locator<GetSchoolDataClient>()
-          .getClasses(await getAuthorization(), await getSchoolID());
-      add(_FetchClassesSuccess(result));
+      final result = await locator<GetSchoolDataClient>().getClasses(
+        await getAuthorization(),
+        await getSchoolID(),
+        1000,
+        null,
+      );
+      add(_FetchClassesSuccess(
+        result,
+      ));
     } catch (error, trace) {
       onError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
@@ -39,7 +45,43 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     }
   }
 
-  void _fetchClasses(
+  // void _fetchPaginatedClasses(
+  //   _FetchClasses event,
+  //   Emitter<GetSchoolDataState> emit,
+  // ) async {
+  //   emit(
+  //     state.copyWith(
+  //       fetchClassesStatus: FormzSubmissionStatus.inProgress,
+  //     ),
+  //   );
+
+  //   try {
+  //     String? nextCursor;
+  //     const totalCursor = '';
+  //     final result = await locator<GetSchoolDataClient>().getClasses(
+  //       await getAuthorization(),
+  //       await getSchoolID(),
+  //       10,
+  //       nextCursor,
+  //     );
+
+  //     emit(state.copyWith(totalCursor: totalCursor));
+
+  //     if (result.data.isNotEmpty) {
+  //       nextCursor = result.cursor;
+  //     }
+
+  //     add(_FetchClassesSuccess(result));
+  //   } catch (error, trace) {
+  //     onError(error, trace);
+  //     if (error is DioError && error.response?.data['message'] != null) {
+  //       add(_FetchClassesFailed(error.response?.data['message'] as String?));
+  //     } else {
+  //       add(const _FetchClassesFailed('An unexpected error occurred'));
+  //     }
+  //   }
+  // }
+  void _fetchPaginatedClasses(
     _FetchClasses event,
     Emitter<GetSchoolDataState> emit,
   ) async {
@@ -49,12 +91,33 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
       ),
     );
 
-//come back to set timeout for token
-
     try {
-      final result = await locator<GetSchoolDataClient>()
-          .getClasses(await getAuthorization(), await getSchoolID());
-      add(_FetchClassesSuccess(result));
+      final result = await locator<GetSchoolDataClient>().getClasses(
+        await getAuthorization(),
+        await getSchoolID(),
+        10,
+        state.totalCursor, // Use the current cursor from the state
+      );
+
+      if (result.data.isNotEmpty) {
+        // Append new data to the existing list
+        final updatedClasses = List<Datum>.from(state.classes)
+          ..addAll(result.data);
+
+        emit(
+          state.copyWith(
+            classes: updatedClasses,
+            totalCursor: result.cursor, // Update the cursor for the next fetch
+            fetchClassesStatus: FormzSubmissionStatus.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            fetchClassesStatus: FormzSubmissionStatus.success,
+          ),
+        );
+      }
     } catch (error, trace) {
       onError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {

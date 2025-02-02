@@ -112,9 +112,8 @@ class _AddManagementSegmentsScreenState
                     AddCsvContainer(
                       name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
                       onTap: () {
-                        context
-                            .read<GetSchoolDataBloc>()
-                            .add(const GetSchoolDataEvent.fetchClasses());
+                        context.read<GetSchoolDataBloc>().add(
+                            const GetSchoolDataEvent.fetchPaginatedClasses());
                         _navigateToSchoolScreen(AddSubjectsScreen.routeName);
                       },
                     ),

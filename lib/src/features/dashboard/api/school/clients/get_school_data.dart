@@ -13,6 +13,8 @@ abstract class GetSchoolDataClient {
   Future<GetSchoolDataModel> getClasses(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
+    @Query('limit') int? limit,
+    @Query('cursor') String? cursor,
   );
   @GET('/api/v1/sch/classes/')
   @FormUrlEncoded()
