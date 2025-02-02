@@ -7,9 +7,9 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -198,8 +198,12 @@ class SignIn extends HookWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(SignUpScreen.routeName);
+                                  Navigator.pushNamed(
+                                    context,
+                                    OnboardingScreenTwo.routeName,
+                                  );
+                                  // Navigator.of(context)
+                                  //     .pushNamed(SignUpScreen.routeName);
                                 },
                                 child: Text(
                                   'Sign up',
