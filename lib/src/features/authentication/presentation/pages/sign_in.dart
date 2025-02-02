@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
@@ -16,7 +14,6 @@ import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
 import 'package:email_validator/email_validator.dart';
@@ -47,229 +44,233 @@ class SignIn extends HookWidget {
     final formKey = useMemoized(GlobalKey<FormState>.new);
 
     return Scaffold(
-      appBar: const CustomAppBar(),
-      body: Padding(
-        padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-        child: BlocBuilder<AuthBloc, AuthState>(
-          buildWhen: (previous, current) =>
-              _authBuildWhen(context, previous, current),
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppSpacing.verticalSpaceTiny,
-                  Text(
-                    'Welcome\nback',
-                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                          fontSize: 32.fontSize,
-                          fontWeight: FontWeight.w300,
-                        ),
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  Text(
-                    'We are delighted to have you back here.',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                        ),
-                    textAlign: TextAlign.justify,
-                  ),
-                  AppSpacing.verticalSpaceLarge,
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        CustomTextFormField(
-                          textInputAction: TextInputAction.next,
-                          controller: emailController,
-                          focusNode: emailNode,
-                          title: 'Email Address',
-                          hintText: 'Enter your preferred email address',
-                          keyboardType: TextInputType.emailAddress,
-                          prefixIcon: 'email',
-                          onChanged: (value) {
-                            context.read<AuthBloc>().add(
-                                  AuthEvent.emailChanged(value),
-                                );
-                          },
-                          validator: (value) {
-                            if (EmailValidator.validate(value?.trim() ?? '')) {
-                              return null;
-                            }
-                            return 'Please enter a valid email address';
-                          },
-                        ),
-                        AppSpacing.verticalSpaceMedium,
-                        CustomTextFormField(
-                          textInputAction: TextInputAction.go,
-                          controller: passwordController,
-                          focusNode: passwordNode,
-                          title: 'Password',
-                          hintText: 'Input your preferred password',
-                          keyboardType: TextInputType.text,
-                          prefixIcon: 'password',
-                          obscureText: obscurePassword.value,
-                          isPassword: true,
-                          onChanged: (value) {
-                            context.read<AuthBloc>().add(
-                                  AuthEvent.passwordChanged(value),
-                                );
-                          },
-                          onFieldSubmitted: () {
-                            if (formKey.currentState!.validate()) {
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+          child: BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (previous, current) =>
+                _authBuildWhen(context, previous, current),
+            builder: (context, state) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppSpacing.verticalSpaceTiny,
+                    Text(
+                      'Welcome\nback',
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                            fontSize: 32.fontSize,
+                            fontWeight: FontWeight.w300,
+                          ),
+                    ),
+                    AppSpacing.verticalSpaceSmall,
+                    Text(
+                      'We are delighted to have you back here.',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.w300,
+                          ),
+                      textAlign: TextAlign.justify,
+                    ),
+                    AppSpacing.verticalSpaceLarge,
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          CustomTextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: emailController,
+                            focusNode: emailNode,
+                            title: 'Email Address',
+                            hintText: 'Enter your preferred email address',
+                            keyboardType: TextInputType.emailAddress,
+                            prefixIcon: 'email',
+                            onChanged: (value) {
                               context.read<AuthBloc>().add(
-                                    const AuthEvent.signIn(),
+                                    AuthEvent.emailChanged(value),
                                   );
-                            }
-                          },
-                          validator: validatePassword,
-                          onSuffixIconPressed: () =>
-                              obscurePassword.value = !obscurePassword.value,
-                        ),
-                        AppSpacing.verticalSpaceMassive,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Forgot password? ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 16.fontSize,
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.primaryTextColor,
-                                  ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  ForgotPasswordScreen.routeName,
-                                );
-                              },
-                              child: Text(
-                                'Recover Password',
+                            },
+                            validator: (value) {
+                              if (EmailValidator.validate(
+                                value?.trim() ?? '',
+                              )) {
+                                return null;
+                              }
+                              return 'Please enter a valid email address';
+                            },
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          CustomTextFormField(
+                            textInputAction: TextInputAction.go,
+                            controller: passwordController,
+                            focusNode: passwordNode,
+                            title: 'Password',
+                            hintText: 'Input your preferred password',
+                            keyboardType: TextInputType.text,
+                            prefixIcon: 'password',
+                            obscureText: obscurePassword.value,
+                            isPassword: true,
+                            onChanged: (value) {
+                              context.read<AuthBloc>().add(
+                                    AuthEvent.passwordChanged(value),
+                                  );
+                            },
+                            onFieldSubmitted: () {
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      const AuthEvent.signIn(),
+                                    );
+                              }
+                            },
+                            validator: validatePassword,
+                            onSuffixIconPressed: () =>
+                                obscurePassword.value = !obscurePassword.value,
+                          ),
+                          AppSpacing.verticalSpaceMassive,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Forgot password? ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
                                       fontSize: 16.fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.primaryColor,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppSpacing.verticalSpaceMedium,
-                        Button(
-                          text: 'Sign In',
-                          busy: state.signInStatus ==
-                              FormzSubmissionStatus.inProgress,
-                          onPressed: () {
-                            logInfo(
-                                'Sign in button pressed: ${state.user?.school?.schoolID}');
-                            if (formKey.currentState!.validate()) {
-                              context.read<AuthBloc>().add(
-                                    const AuthEvent.signIn(),
-                                  );
-                            }
-                          },
-                        ),
-                        AppSpacing.verticalSpaceMedium,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account with us? ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 16.fontSize,
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.primaryTextColor,
-                                  ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(SignUpScreen.routeName);
-                              },
-                              child: Text(
-                                'Sign up',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 16.fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.primaryColor,
-                                    ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        AppSpacing.verticalSpaceHuge,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Expanded(
-                              child: Divider(
-                                color: AppColors.greyColor,
-                                thickness: 1,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(
-                                'Or continue with',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w300,
                                       color: AppColors.primaryTextColor,
                                     ),
                               ),
-                            ),
-                            const Expanded(
-                              child: Divider(
-                                color: AppColors.greyColor,
-                                thickness: 1,
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    ForgotPasswordScreen.routeName,
+                                  );
+                                },
+                                child: Text(
+                                  'Recover Password',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontSize: 16.fontSize,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        AppSpacing.verticalSpaceMedium,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SmallSocialButton(
-                              icon: 'small_google',
-                            ),
-                            AppSpacing.horizontalSpaceMassive,
-                            const SmallSocialButton(
-                              icon: 'small_facebook',
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          Button(
+                            text: 'Sign In',
+                            busy: state.signInStatus ==
+                                FormzSubmissionStatus.inProgress,
+                            onPressed: () {
+                              logInfo(
+                                'Sign in button pressed: ${state.user?.school?.schoolID}',
+                              );
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      const AuthEvent.signIn(),
+                                    );
+                              }
+                            },
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an account with us? ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 16.fontSize,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.primaryTextColor,
+                                    ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(SignUpScreen.routeName);
+                                },
+                                child: Text(
+                                  'Sign up',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontSize: 16.fontSize,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          AppSpacing.verticalSpaceHuge,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Expanded(
+                                child: Divider(
+                                  color: AppColors.greyColor,
+                                  thickness: 1,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  'Or continue with',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.primaryTextColor,
+                                      ),
+                                ),
+                              ),
+                              const Expanded(
+                                child: Divider(
+                                  color: AppColors.greyColor,
+                                  thickness: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SmallSocialButton(
+                                icon: 'small_google',
+                              ),
+                              AppSpacing.horizontalSpaceMassive,
+                              const SmallSocialButton(
+                                icon: 'small_facebook',
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  AppSpacing.verticalSpaceMassive,
-                ],
-              ),
-            );
-          },
+                    AppSpacing.verticalSpaceMassive,
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

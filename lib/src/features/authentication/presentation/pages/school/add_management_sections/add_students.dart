@@ -4,16 +4,18 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/api/service/subject_csv_upload.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
-import 'package:edumake_frontend/src/shared/widgets/subject_text_form_field.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddStudentsScreen extends StatefulWidget {
   const AddStudentsScreen({super.key});
@@ -26,7 +28,11 @@ class AddStudentsScreen extends StatefulWidget {
 
 class _AddStudentsScreenState extends State<AddStudentsScreen> {
   final List<String> classes = ['Class 1', 'Class 2', 'Class 3'];
+
   PlatformFile? _csvFile;
+  bool _isUploading = false;
+
+  final _csvUploadService = CsvUploadService();
   final List<File?> _imageFiles = [];
   final List<int> students = [];
   final List<TextEditingController> controllers = [TextEditingController()];
@@ -41,6 +47,7 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //name,class (the class this student is in)
       appBar: const CustomAppBar(),
       body: RawScrollbar(
         thumbVisibility: true,
@@ -86,9 +93,21 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  ImportCSVButton(
-                    onTap: pickAndProcessCsv,
-                    name: 'student',
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 13,
+                        child: ImportCSVButton(
+                          onTap: pickAndProcessCsv,
+                          name: 'student',
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.info_outline)),
+                      ),
+                    ],
                   ),
                   AppSpacing.verticalSpaceSmall,
                   RichText(
@@ -117,303 +136,301 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                       ],
                     ),
                   ),
-                  AppSpacing.verticalSpaceLarge,
-                  Text(
-                    'or add students manually',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.primaryTextColor,
-                        ),
-                  ),
-                  AppSpacing.verticalSpaceTiny,
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: students.length + 1,
-                          itemBuilder: (context, index) {
-                            if (_imageFiles.length <= index) {
-                              _imageFiles.add(null);
-                            }
-                            return Column(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AppSpacing.horizontalSpacing,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.greyColor.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      BlocBuilder<PermissionsBloc,
-                                          PermissionsState>(
-                                        builder: (context, state) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              if (!state
-                                                  .isPhotoLibraryEnabled) {
-                                                context
-                                                    .read<PermissionsBloc>()
-                                                    .add(
-                                                      const PermissionsEvent
-                                                          .requestPhotoLibraryAccess(),
-                                                    );
-                                              } else {
-                                                insertImage(index);
-                                              }
-                                            },
-                                            child: CircleAvatar(
-                                              radius: 40,
-                                              backgroundColor: _imageFiles[
-                                                          students.length] ==
-                                                      null
-                                                  ? Colors.grey.withOpacity(0.2)
-                                                  : Colors.transparent,
-                                              child: _imageFiles[index] != null
-                                                  ? ClipOval(
-                                                      child: Image.file(
-                                                        File(
-                                                          _imageFiles[index]!
-                                                              .path,
-                                                        ),
-                                                        width: 80,
-                                                        height: 80,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    )
-                                                  : Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/svg/camera.svg',
-                                                          color: AppColors
-                                                              .blackColor
-                                                              .withOpacity(0.6),
-                                                        ),
-                                                        Text(
-                                                          'Insert image',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodyMedium!
-                                                                  .copyWith(
-                                                                    fontFamily:
-                                                                        'HelveticaNeueRounded',
-                                                                    fontSize: 8
-                                                                        .fontSize,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
-                                                                    color: AppColors
-                                                                        .primaryTextColor,
-                                                                  ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      AppSpacing.horizontalSpaceMedium,
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            AddSubjectTextFormField(
-                                              label: '',
-                                              controller: controllers[index],
-                                              focusNode: focusNodes[index],
-                                              validator: (p0) {
-                                                if (p0!.isEmpty &&
-                                                    _csvFile == null) {
-                                                  return 'Field cannot be empty';
-                                                }
-                                                return null;
-                                              },
-                                              suffixIcon: SvgPicture.asset(
-                                                'assets/svg/edit.svg',
-                                              ),
-                                              hintText: 'Name of student',
-                                            ),
-                                            AppSpacing.verticalSpaceMedium,
-                                            DropdownButtonFormField(
-                                              isExpanded: true,
-                                              focusColor:
-                                                  AppColors.primaryColor,
-                                              itemHeight: 64,
-                                              menuMaxHeight: 200,
-                                              hint: Text(
-                                                selectedClass ??
-                                                    "Select student's class",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                      fontFamily:
-                                                          'HelveticaNeueRounded',
-                                                      fontSize: 10.fontSize,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: AppColors
-                                                          .primaryTextColor
-                                                          .withOpacity(0.5),
-                                                    ),
-                                              ),
-                                              validator: (value) {
-                                                if (value == null &&
-                                                    _csvFile == null) {
-                                                  return 'Field is required';
-                                                }
-                                                return null;
-                                              },
-                                              items:
-                                                  classes.map((String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(
-                                                    value,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                          fontFamily:
-                                                              'HelveticaNeueRounded',
-                                                          fontSize: 12.fontSize,
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          color: AppColors
-                                                              .primaryTextColor,
-                                                        ),
-                                                  ),
-                                                );
-                                              }).toList(),
-                                              onChanged: (String? value) {
-                                                setState(
-                                                  () {
-                                                    selectedClass = value;
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                            AppSpacing.verticalSpaceMedium,
-                                            Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  if (formKey.currentState!
-                                                          .validate() &&
-                                                      _imageFiles[index] !=
-                                                          null) {
-                                                    CustomSnackbar.show(
-                                                      context,
-                                                      'student saved successfully',
-                                                    );
-                                                  }
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal: 30.width,
-                                                    vertical: 10.height,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      15,
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                    'Save',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium!
-                                                        .copyWith(
-                                                          fontFamily:
-                                                              'HelveticaNeueRounded',
-                                                          fontSize: 13.fontSize,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: AppColors
-                                                              .primaryColor,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            AppSpacing.verticalSpaceMedium,
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                AppSpacing.verticalSpaceHuge,
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                  AppSpacing.verticalSpaceMedium,
                   GestureDetector(
-                    onTap: addMoreStudents,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          SvgPicture.asset('assets/svg/plus1.svg'),
-                          Text(
-                            ' Add more students',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 13.fontSize,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryColor,
-                                    ),
+                    onTap: () async {
+                      final csvContent = await _loadCSV();
+                      await _downloadCSV(csvContent);
+                      ToastService.toast(
+                        'CSV template saved successfully as "assets/csv/students_upload_csv_template.csv". Check your device storage',
+                      );
+                    },
+                    child: Text(
+                      'Click to download CSV example template',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
                           ),
-                        ],
-                      ),
                     ),
                   ),
-                  AppSpacing.verticalSpaceMassive,
+                  AppSpacing.verticalSpaceLarge,
+                  // Text(
+                  //   'or add students manually',
+                  //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  //         fontFamily: 'HelveticaNeueRounded',
+                  //         fontSize: 12.fontSize,
+                  //         fontWeight: FontWeight.w300,
+                  //         color: AppColors.primaryTextColor,
+                  //       ),
+                  // ),
+                  // AppSpacing.verticalSpaceTiny,
+                  // Form(
+                  //   key: formKey,
+                  //   child: Column(
+                  //     children: [
+                  //       ListView.builder(
+                  //         shrinkWrap: true,
+                  //         physics: const NeverScrollableScrollPhysics(),
+                  //         itemCount: students.length + 1,
+                  //         itemBuilder: (context, index) {
+                  //           if (_imageFiles.length <= index) {
+                  //             _imageFiles.add(null);
+                  //           }
+                  //           return Column(
+                  //             children: [
+                  //               Container(
+                  //                 padding: EdgeInsets.symmetric(
+                  //                   horizontal: AppSpacing.horizontalSpacing,
+                  //                 ),
+                  //                 decoration: BoxDecoration(
+                  //                   color: AppColors.greyColor.withOpacity(0.1),
+                  //                   borderRadius: BorderRadius.circular(15),
+                  //                 ),
+                  //                 child: Row(
+                  //                   children: [
+                  //                     BlocBuilder<PermissionsBloc,
+                  //                         PermissionsState>(
+                  //                       builder: (context, state) {
+                  //                         return GestureDetector(
+                  //                           onTap: () {
+                  //                             if (!state
+                  //                                 .isPhotoLibraryEnabled) {
+                  //                               context
+                  //                                   .read<PermissionsBloc>()
+                  //                                   .add(
+                  //                                     const PermissionsEvent
+                  //                                         .requestPhotoLibraryAccess(),
+                  //                                   );
+                  //                             } else {
+                  //                               insertImage(index);
+                  //                             }
+                  //                           },
+                  //                           child: CircleAvatar(
+                  //                             radius: 40,
+                  //                             backgroundColor: _imageFiles[
+                  //                                         students.length] ==
+                  //                                     null
+                  //                                 ? Colors.grey.withOpacity(0.2)
+                  //                                 : Colors.transparent,
+                  //                             child: _imageFiles[index] != null
+                  //                                 ? ClipOval(
+                  //                                     child: Image.file(
+                  //                                       File(
+                  //                                         _imageFiles[index]!
+                  //                                             .path,
+                  //                                       ),
+                  //                                       width: 80,
+                  //                                       height: 80,
+                  //                                       fit: BoxFit.cover,
+                  //                                     ),
+                  //                                   )
+                  //                                 : Column(
+                  //                                     mainAxisAlignment:
+                  //                                         MainAxisAlignment
+                  //                                             .center,
+                  //                                     children: [
+                  //                                       SvgPicture.asset(
+                  //                                         'assets/svg/camera.svg',
+                  //                                         color: AppColors
+                  //                                             .blackColor
+                  //                                             .withOpacity(0.6),
+                  //                                       ),
+                  //                                       Text(
+                  //                                         'Insert image',
+                  //                                         style:
+                  //                                             Theme.of(context)
+                  //                                                 .textTheme
+                  //                                                 .bodyMedium!
+                  //                                                 .copyWith(
+                  //                                                   fontFamily:
+                  //                                                       'HelveticaNeueRounded',
+                  //                                                   fontSize: 8
+                  //                                                       .fontSize,
+                  //                                                   fontWeight:
+                  //                                                       FontWeight
+                  //                                                           .w300,
+                  //                                                   color: AppColors
+                  //                                                       .primaryTextColor,
+                  //                                                 ),
+                  //                                       ),
+                  //                                     ],
+                  //                                   ),
+                  //                           ),
+                  //                         );
+                  //                       },
+                  //                     ),
+                  //                     AppSpacing.horizontalSpaceMedium,
+                  //                     Expanded(
+                  //                       child: Column(
+                  //                         children: [
+                  //                           AddSubjectTextFormField(
+                  //                             label: '',
+                  //                             controller: controllers[index],
+                  //                             focusNode: focusNodes[index],
+                  //                             validator: (p0) {
+                  //                               if (p0!.isEmpty &&
+                  //                                   _csvFile == null) {
+                  //                                 return 'Field cannot be empty';
+                  //                               }
+                  //                               return null;
+                  //                             },
+                  //                             suffixIcon: SvgPicture.asset(
+                  //                               'assets/svg/edit.svg',
+                  //                             ),
+                  //                             hintText: 'Name of student',
+                  //                           ),
+                  //                           AppSpacing.verticalSpaceMedium,
+                  //                           DropdownButtonFormField(
+                  //                             isExpanded: true,
+                  //                             focusColor:
+                  //                                 AppColors.primaryColor,
+                  //                             itemHeight: 64,
+                  //                             menuMaxHeight: 200,
+                  //                             hint: Text(
+                  //                               selectedClass ??
+                  //                                   "Select student's class",
+                  //                               style: Theme.of(context)
+                  //                                   .textTheme
+                  //                                   .bodyMedium!
+                  //                                   .copyWith(
+                  //                                     fontFamily:
+                  //                                         'HelveticaNeueRounded',
+                  //                                     fontSize: 10.fontSize,
+                  //                                     fontWeight:
+                  //                                         FontWeight.w300,
+                  //                                     color: AppColors
+                  //                                         .primaryTextColor
+                  //                                         .withOpacity(0.5),
+                  //                                   ),
+                  //                             ),
+                  //                             validator: (value) {
+                  //                               if (value == null &&
+                  //                                   _csvFile == null) {
+                  //                                 return 'Field is required';
+                  //                               }
+                  //                               return null;
+                  //                             },
+                  //                             items:
+                  //                                 classes.map((String value) {
+                  //                               return DropdownMenuItem<String>(
+                  //                                 value: value,
+                  //                                 child: Text(
+                  //                                   value,
+                  //                                   style: Theme.of(context)
+                  //                                       .textTheme
+                  //                                       .bodyMedium!
+                  //                                       .copyWith(
+                  //                                         fontFamily:
+                  //                                             'HelveticaNeueRounded',
+                  //                                         fontSize: 12.fontSize,
+                  //                                         fontWeight:
+                  //                                             FontWeight.w300,
+                  //                                         color: AppColors
+                  //                                             .primaryTextColor,
+                  //                                       ),
+                  //                                 ),
+                  //                               );
+                  //                             }).toList(),
+                  //                             onChanged: (String? value) {
+                  //                               setState(
+                  //                                 () {
+                  //                                   selectedClass = value;
+                  //                                 },
+                  //                               );
+                  //                             },
+                  //                           ),
+                  //                           AppSpacing.verticalSpaceMedium,
+                  //                           Align(
+                  //                             alignment: Alignment.bottomRight,
+                  //                             child: InkWell(
+                  //                               onTap: () {
+                  //                                 if (formKey.currentState!
+                  //                                         .validate() &&
+                  //                                     _imageFiles[index] !=
+                  //                                         null) {
+                  //                                   CustomSnackbar.show(
+                  //                                     context,
+                  //                                     'student saved successfully',
+                  //                                   );
+                  //                                 }
+                  //                               },
+                  //                               child: Container(
+                  //                                 padding: EdgeInsets.symmetric(
+                  //                                   horizontal: 30.width,
+                  //                                   vertical: 10.height,
+                  //                                 ),
+                  //                                 decoration: BoxDecoration(
+                  //                                   border: Border.all(
+                  //                                     color: AppColors
+                  //                                         .primaryColor,
+                  //                                   ),
+                  //                                   borderRadius:
+                  //                                       BorderRadius.circular(
+                  //                                     15,
+                  //                                   ),
+                  //                                 ),
+                  //                                 child: Text(
+                  //                                   'Save',
+                  //                                   style: Theme.of(context)
+                  //                                       .textTheme
+                  //                                       .bodyMedium!
+                  //                                       .copyWith(
+                  //                                         fontFamily:
+                  //                                             'HelveticaNeueRounded',
+                  //                                         fontSize: 13.fontSize,
+                  //                                         fontWeight:
+                  //                                             FontWeight.w500,
+                  //                                         color: AppColors
+                  //                                             .primaryColor,
+                  //                                       ),
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                           ),
+                  //                           AppSpacing.verticalSpaceMedium,
+                  //                         ],
+                  //                       ),
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //               AppSpacing.verticalSpaceHuge,
+                  //             ],
+                  //           );
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: addMoreStudents,
+                  //   child: Align(
+                  //     alignment: Alignment.bottomLeft,
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.end,
+                  //       children: [
+                  //         SvgPicture.asset('assets/svg/plus1.svg'),
+                  //         Text(
+                  //           ' Add more students',
+                  //           style:
+                  //               Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  //                     fontFamily: 'HelveticaNeueRounded',
+                  //                     fontSize: 13.fontSize,
+                  //                     fontWeight: FontWeight.w500,
+                  //                     color: AppColors.primaryColor,
+                  //                   ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
                   Button(
-                    busy: busy,
+                    busy: _isUploading,
                     text: 'Save students',
-                    onPressed: () {
-                      if (formKey.currentState!.validate() ||
-                          _csvFile != null) {
-                        CustomSnackbar.show(
-                          context,
-                          'students saved successfully',
-                        );
-                        setState(() {
-                          busy = !busy;
-                        });
-                        Future.delayed(const Duration(seconds: 2), () {
-                          Navigator.pop(context, true);
-                        });
-                        setState(() => busy);
-                      } else {
-                        CustomSnackbar.show(
-                          context,
-                          'Please upload a CSV file or add students manually',
-                          isError: true,
-                        );
-                      }
-                    },
+                    onPressed: _uploadFile,
                   ),
                 ],
               ),
@@ -422,6 +439,71 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _uploadFile() async {
+    if (_csvFile == null) {
+      ToastService.toast(
+        'Please select a CSV file first',
+        ToastType.error,
+      );
+      return;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      await _csvUploadService.uploadStudentCsvFile(_csvFile!, context);
+    } catch (e) {
+      logInfo(e);
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
+  Future<String> _loadCSV() async {
+    return rootBundle.loadString('assets/csv/students_upload_csv_template.csv');
+  }
+
+  Future<void> _downloadCSV(String csvContent) async {
+    Directory? directory;
+    try {
+      if (Platform.isAndroid) {
+        final status = await Permission.storage.request();
+        if (!status.isGranted) {
+          ToastService.toast(
+            'Storage permission is required to save files',
+            ToastType.error,
+          );
+          return;
+        }
+
+        await _requestPermissions();
+        directory = Directory('/storage/emulated/0/Download');
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+      final file = File('${directory.path}/students_upload _csv_template.csv');
+      await file.writeAsString(csvContent);
+    } catch (e) {
+      ToastService.toast(
+        'Something went wrong while downloading the file',
+        ToastType.error,
+      );
+    }
+  }
+
+  Future<bool> _requestPermissions() async {
+    if (Platform.isAndroid) {
+      // Request storage permissions
+      final status = await Permission.storage.request();
+      return status.isGranted;
+    }
+    return true; // No permissions needed for iOS
   }
 
   Future<void> pickAndProcessCsv() async {
