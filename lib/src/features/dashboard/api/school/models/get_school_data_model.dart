@@ -9,6 +9,7 @@ class GetSchoolDataModel {
     required this.data,
     required this.message,
     required this.statusCode,
+    required this.cursor,
   });
 
   factory GetSchoolDataModel.fromJson(Map<String, dynamic> json) =>
@@ -17,6 +18,7 @@ class GetSchoolDataModel {
   final String message;
   final int statusCode;
   final List<Datum> data;
+  final String cursor;
 
   Map<String, dynamic> toJson() => _$GetSchoolDataModelToJson(this);
 }

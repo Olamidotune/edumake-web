@@ -1,9 +1,10 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/teacher_menu_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
+
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -17,12 +18,13 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final ScrollController scrollController = ScrollController();
-  late Future<UserRole> userRoleFuture;
+
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    userRoleFuture = userRole();
+    AuthServices().getUser().then((User? user) => setState(() => user = _user));
   }
 
   @override
@@ -47,43 +49,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: SingleChildScrollView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),
-            child: buildSettingsView(
-              userRoleFuture,
-            ),
+            child: _buildView(_user),
           ),
         ),
       ),
     );
   }
 
-  Widget buildSettingsView(Future<UserRole> userRoleFuture) {
-    return FutureBuilder<UserRole>(
-      future: userRoleFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return const Center(
-            child: Text('An error occurred!'),
-          );
-        } else {
-          final userRole = snapshot.data;
-          if (userRole == UserRole.schoolAdmin) {
-            return const SchoolMenuScreen();
-          } else if (userRole == UserRole.teacher) {
-            return const TeacherMenuScreen();
-          } else {
-            return const ParentMenuScreen();
-          }
-        }
-      },
-    );
+  Widget _buildView(User? user) {
+    final role = user?.role;
+    if (role == 'parent') {
+      return const ParentMenuScreen();
+    } else if (role == 'teacher') {
+      return const TeacherMenuScreen();
+    } else {
+      return const SchoolMenuScreen();
+    }
   }
-}
-
-Future<UserRole> userRole() async {
-  final role = await UserRoleHelper.getUserRole();
-  return role ?? UserRole.parent;
 }

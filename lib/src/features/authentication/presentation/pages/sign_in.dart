@@ -1,17 +1,15 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
+import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
-import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
@@ -198,8 +196,12 @@ class SignIn extends HookWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(SignUpScreen.routeName);
+                                  Navigator.pushNamed(
+                                    context,
+                                    OnboardingScreenTwo.routeName,
+                                  );
+                                  // Navigator.of(context)
+                                  //     .pushNamed(SignUpScreen.routeName);
                                 },
                                 child: Text(
                                   'Sign up',
@@ -293,6 +295,7 @@ class SignIn extends HookWidget {
           );
         });
       } else {
+        print('NAVIGATE ROLE: ${current.user?.role}');
         ToastService.toast('Sign in successful');
         Navigator.of(context).popAndPushNamed(Dashboard.routeName);
         return false;
@@ -318,8 +321,8 @@ class SignIn extends HookWidget {
   }
 
   void _navigate(BuildContext context) async {
-    final role = await UserRoleHelper.getUserRole();
-    if (role == UserRole.parent || role == UserRole.teacher) {
+    final role = context.read<AuthBloc>().state.user?.role;
+    if (role == 'parent' || role == 'teacher') {
       await Navigator.of(context).popAndPushNamed(
         KycScreen.routeName,
       );

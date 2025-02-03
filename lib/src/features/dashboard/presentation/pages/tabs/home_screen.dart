@@ -1,14 +1,14 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,12 +26,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
-  late Future<UserRole> userRoleFuture;
 
+  User? _user;
   @override
   void initState() {
     super.initState();
-    userRoleFuture = userRole();
+
+    AuthServices().getUser().then(
+          (User user) => setState(() => _user = user),
+        );
   }
 
   List<StudentModel> parseStudents(Map<String, dynamic> data) {
@@ -154,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const BouncingScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                child: buildDashboard(userRoleFuture, students),
+                child: _buildView(_user, students),
               ),
             ),
           ),
@@ -163,35 +166,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<UserRole> userRole() async {
-    final role = await UserRoleHelper.getUserRole();
-    return role ?? UserRole.parent;
-  }
-
-  Widget buildDashboard(
-    Future<UserRole> userRoleFuture,
-    List<StudentModel> students,
-  ) {
-    return FutureBuilder<UserRole>(
-      future: userRoleFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return const Center(child: Text('Error loading user role'));
-        } else {
-          final role = snapshot.data!;
-          if (role == UserRole.parent) {
-            return ParentDashboard(
-              students: students,
-            );
-          } else if (role == UserRole.teacher) {
-            return const TeacherHomeScreen();
-          } else {
-            return const AdminDashboard();
-          }
-        }
-      },
-    );
+  Widget _buildView(User? user, List<StudentModel> students) {
+    final role = user?.role;
+    if (role == 'parent') {
+      return ParentDashboard(
+        students: students,
+      );
+    } else if (role == 'teacher') {
+      return const TeacherHomeScreen();
+    } else {
+      return const SchoolDashBoard();
+    }
   }
 }

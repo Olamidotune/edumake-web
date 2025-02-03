@@ -2,7 +2,6 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
@@ -10,10 +9,9 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/rec
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({super.key});
+class SchoolDashBoard extends StatelessWidget {
+  const SchoolDashBoard({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +48,6 @@ class AdminDashboard extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: TextButton(
             onPressed: () {
-              debugPrint('${context.read<AuthBloc>().state.email}');
               Navigator.of(context, rootNavigator: true).pushNamed(
                 AddManagementSegmentsScreen.routeName,
               );
