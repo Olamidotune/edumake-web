@@ -113,7 +113,8 @@ class _AddManagementSegmentsScreenState
                       name: savedSubjects ? 'Subjects Added' : 'Add Subjects',
                       onTap: () {
                         context.read<GetSchoolDataBloc>().add(
-                            const GetSchoolDataEvent.fetchPaginatedClasses());
+                              const GetSchoolDataEvent.fetchPaginatedClasses(),
+                            );
                         _navigateToSchoolScreen(AddSubjectsScreen.routeName);
                       },
                     ),

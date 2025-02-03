@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (role == 'teacher') {
       return const TeacherHomeScreen();
     } else {
-      return const AdminDashboard();
+      return const SchoolDashBoard();
     }
   }
 }

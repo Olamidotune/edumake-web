@@ -153,7 +153,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           final csvContent = await _loadCSV();
                           await _downloadCSV(csvContent);
                           ToastService.toast(
-                            'CSV template saved successfully as "edumake_csv_template.csv". Check your device storage',
+                            'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
                           );
                         },
                         child: Text(
@@ -316,7 +316,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
   Future<void> _pickAndProcessCsv() async {
     final expectedHeaders = [
-      'Class Name',
+      'name',
     ];
 
     final pickedCSV = await FilePicker.platform.pickFiles(
@@ -350,7 +350,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   }
 
   Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/edumake_csv_template.csv');
+    return rootBundle.loadString('assets/csv/classes_upload_csv_template.csv');
   }
 
   Future<void> _downloadCSV(String csvContent) async {
@@ -371,7 +371,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
       } else {
         directory = await getApplicationDocumentsDirectory();
       }
-      final file = File('${directory.path}/edumake_csv_template.csv');
+      final file = File('${directory.path}/classes_upload_csv_template.csv');
       await file.writeAsString(csvContent);
     } catch (e) {
       ToastService.toast(
