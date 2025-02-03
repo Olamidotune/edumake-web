@@ -517,6 +517,8 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
     setState(() {
       _csvFile = result.files.first;
     });
+
+    ToastService.toast('CSV file selected successfully');
   }
 
   Future<void> insertImage(int index) async {

@@ -208,6 +208,8 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
     setState(() {
       _csvFile = result.files.first;
     });
+
+    ToastService.toast('CSV file selected successfully');
   }
 
   Future<void> _uploadFile() async {
@@ -235,7 +237,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   }
 
   Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/.csv');
+    return rootBundle.loadString('assets/csv/subjects_upload_csv_template.csv');
   }
 
   Future<void> _downloadCSV(String csvContent) async {
