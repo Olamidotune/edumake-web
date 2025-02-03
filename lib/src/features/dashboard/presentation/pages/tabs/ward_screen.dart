@@ -1,12 +1,12 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/teacher_classes_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 class WardScreen extends StatefulWidget {
@@ -19,14 +19,14 @@ class WardScreen extends StatefulWidget {
 }
 
 class _WardScreenState extends State<WardScreen> {
-  late Future<UserRole> userRoleFuture;
-
   final ScrollController scrollController = ScrollController();
+
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    userRoleFuture = userRole();
+    AuthServices().getUser().then((User? user) => setState(() => user = _user));
   }
 
   @override
@@ -54,7 +54,7 @@ class _WardScreenState extends State<WardScreen> {
             physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-              child: buildView(userRoleFuture, students),
+              child: _buildView(_user, students),
             ),
           ),
         ),
@@ -62,45 +62,16 @@ class _WardScreenState extends State<WardScreen> {
     );
   }
 
-  Widget buildView(
-    Future<UserRole> userRoleFuture,
-    List<StudentModel> students,
-  ) {
-    return FutureBuilder<UserRole>(
-      future: userRoleFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return const Center(child: Text('Error loading user role'));
-        } else {
-          final role = snapshot.data!;
-          if (role == UserRole.parent) {
-            return ParentWardScreen(
-              students: students,
-            );
-          } else if (role == UserRole.teacher) {
-            return const TeacherClassesScreen();
-          } else {
-            return const SchoolTeacherScreen();
-          }
-        }
-      },
-    );
-  }
-
-  Future<UserRole> userRole() async {
-    final role = await UserRoleHelper.getUserRole();
-    return role ?? UserRole.parent;
+  Widget _buildView(User? user, List<StudentModel> students) {
+    final role = user?.role;
+    if (role == 'parent') {
+      return ParentWardScreen(
+        students: students,
+      );
+    } else if (role == 'teacher') {
+      return const TeacherClassesScreen();
+    } else {
+      return const SchoolTeacherScreen();
+    }
   }
 }
-
-// List<StudentModel> parseStudents(Map<String, dynamic> data) {
-//   final studentsData = data['students'] as List<dynamic>;
-//   return studentsData
-//       .map(
-//         (studentMap) =>
-//             StudentModel.fromMap(studentMap as Map<String, dynamic>),
-//       )
-//       .toList();
-// }

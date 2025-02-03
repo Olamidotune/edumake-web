@@ -1,9 +1,9 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/school_classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/teacher_payment_screen.dart';
-import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -17,12 +17,15 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   final ScrollController scrollController = ScrollController();
-  late Future<UserRole> userRoleFuture;
+
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    userRoleFuture = userRole();
+    AuthServices().getUser().then(
+          (User user) => setState(() => _user = user),
+        );
   }
 
   @override
@@ -38,9 +41,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           child: Padding(
             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
             child: Container(
-              child: buildView(
-                userRoleFuture,
-              ),
+              child: _buildView(_user),
             ),
           ),
         ),
@@ -48,37 +49,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget buildView(
-    Future<UserRole> userRoleFuture,
-  ) {
-    return FutureBuilder<UserRole>(
-      future: userRoleFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text('An error occurred while loading data'),
-          );
-        }
-
-        final role = snapshot.data;
-
-        if (role == UserRole.parent) {
-          return const ParentPaymentScreen();
-        } else if (role == UserRole.teacher) {
-          return const TeacherPaymentScreen();
-        }
-        return const ClassScreen();
-      },
-    );
+  Widget _buildView(User? user) {
+    final role = user?.role;
+    if (role == 'parent') {
+      return const ParentPaymentScreen();
+    } else if (role == 'teacher') {
+      return const TeacherPaymentScreen();
+    } else {
+      return const ClassScreen();
+    }
   }
-}
-
-Future<UserRole> userRole() async {
-  final role = await UserRoleHelper.getUserRole();
-  return role ?? UserRole.parent;
 }
