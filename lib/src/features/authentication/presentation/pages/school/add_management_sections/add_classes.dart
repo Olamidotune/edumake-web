@@ -6,17 +6,14 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/school_data_upload_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -168,97 +165,97 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceLarge,
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(GrantedPermissionsScreen.routeName);
-                        },
-                        child: Text(
-                          'or add classes manually',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.primaryTextColor,
-                                  ),
-                        ),
-                      ),
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            ...List.generate(
-                              classes.length,
-                              (index) => Column(
-                                children: [
-                                  CustomTextFormField(
-                                    customFilled: true,
-                                    fillColor:
-                                        AppColors.primaryColor.withOpacity(0.1),
-                                    controller: controllers[index],
-                                    focusNode: focusNodes[index],
-                                    hintText: 'Class ${index + 1}',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardType: TextInputType.text,
-                                    editIcon: SvgPicture.asset(
-                                      'assets/svg/edit.svg',
-                                      height: 10,
-                                    ),
-                                    onChanged: (classString) {
-                                      context.read<SchoolDataUploadBloc>().add(
-                                            SchoolDataUploadEvent
-                                                .onClassNameChanged(
-                                              classString,
-                                            ),
-                                          );
-                                    },
-                                    onFieldSubmitted: () {
-                                      if (index < classes.length - 1) {
-                                        FocusScope.of(context).requestFocus(
-                                          focusNodes[index + 1],
-                                        );
-                                      }
-                                    },
-                                    validator: (p0) {
-                                      if (p0!.isEmpty && _csvFile == null) {
-                                        return 'Class name is required';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                      GestureDetector(
-                        onTap: _addMoreClass,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SvgPicture.asset('assets/svg/plus1.svg'),
-                              Text(
-                                ' Add more classes',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 13.fontSize,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      AppSpacing.verticalSpaceMassive,
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.of(context)
+                      //         .pushNamed(GrantedPermissionsScreen.routeName);
+                      //   },
+                      //   child: Text(
+                      //     'or add classes manually',
+                      //     style:
+                      //         Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      //               fontFamily: 'HelveticaNeueRounded',
+                      //               fontSize: 12.fontSize,
+                      //               fontWeight: FontWeight.w300,
+                      //               color: AppColors.primaryTextColor,
+                      //             ),
+                      //   ),
+                      // ),
+                      // Form(
+                      //   key: formKey,
+                      //   child: Column(
+                      //     children: [
+                      //       ...List.generate(
+                      //         classes.length,
+                      //         (index) => Column(
+                      //           children: [
+                      //             CustomTextFormField(
+                      //               customFilled: true,
+                      //               fillColor:
+                      //                   AppColors.primaryColor.withOpacity(0.1),
+                      //               controller: controllers[index],
+                      //               focusNode: focusNodes[index],
+                      //               hintText: 'Class ${index + 1}',
+                      //               textInputAction: TextInputAction.next,
+                      //               keyboardType: TextInputType.text,
+                      //               editIcon: SvgPicture.asset(
+                      //                 'assets/svg/edit.svg',
+                      //                 height: 10,
+                      //               ),
+                      //               onChanged: (classString) {
+                      //                 context.read<SchoolDataUploadBloc>().add(
+                      //                       SchoolDataUploadEvent
+                      //                           .onClassNameChanged(
+                      //                         classString,
+                      //                       ),
+                      //                     );
+                      //               },
+                      //               onFieldSubmitted: () {
+                      //                 if (index < classes.length - 1) {
+                      //                   FocusScope.of(context).requestFocus(
+                      //                     focusNodes[index + 1],
+                      //                   );
+                      //                 }
+                      //               },
+                      //               validator: (p0) {
+                      //                 if (p0!.isEmpty && _csvFile == null) {
+                      //                   return 'Class name is required';
+                      //                 }
+                      //                 return null;
+                      //               },
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // AppSpacing.verticalSpaceSmall,
+                      // GestureDetector(
+                      //   onTap: _addMoreClass,
+                      //   child: Align(
+                      //     alignment: Alignment.bottomLeft,
+                      //     child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.end,
+                      //       children: [
+                      //         SvgPicture.asset('assets/svg/plus1.svg'),
+                      //         Text(
+                      //           ' Add more classes',
+                      //           style: Theme.of(context)
+                      //               .textTheme
+                      //               .bodyLarge!
+                      //               .copyWith(
+                      //                 fontFamily: 'HelveticaNeueRounded',
+                      //                 fontSize: 13.fontSize,
+                      //                 fontWeight: FontWeight.w500,
+                      //                 color: AppColors.primaryColor,
+                      //               ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      // AppSpacing.verticalSpaceMassive,
                       Button(
                         busy: state.classesUploadStatus ==
                             FormzSubmissionStatus.inProgress,
@@ -401,13 +398,13 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     );
   }
 
-  void _addMoreClass() {
-    setState(() {
-      classes.add(classes.length + 1);
-      controllers.add(TextEditingController());
-      focusNodes.add(FocusNode());
-    });
-  }
+  // void _addMoreClass() {
+  //   setState(() {
+  //     classes.add(classes.length + 1);
+  //     controllers.add(TextEditingController());
+  //     focusNodes.add(FocusNode());
+  //   });
+  // }
 
   @override
   void dispose() {

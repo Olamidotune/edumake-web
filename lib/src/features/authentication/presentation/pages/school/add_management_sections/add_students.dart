@@ -93,21 +93,9 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
                     textAlign: TextAlign.justify,
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 13,
-                        child: ImportCSVButton(
-                          onTap: pickAndProcessCsv,
-                          name: 'student',
-                        ),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.info_outline)),
-                      ),
-                    ],
+                  ImportCSVButton(
+                    onTap: pickAndProcessCsv,
+                    name: 'student',
                   ),
                   AppSpacing.verticalSpaceSmall,
                   RichText(
