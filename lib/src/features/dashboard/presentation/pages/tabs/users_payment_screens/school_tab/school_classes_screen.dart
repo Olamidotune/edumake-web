@@ -1,12 +1,14 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
@@ -80,7 +82,9 @@ class _ClassScreenState extends State<ClassScreen> {
           child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
             builder: (context, state) {
               if (state.classesData == null || state.classesData!.isEmpty) {
-                return Center(
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: scrollController,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -111,9 +115,12 @@ class _ClassScreenState extends State<ClassScreen> {
                   ),
                 );
               }
-              return SizedBox(
-                height: 700,
+              return Container(
+                height: MediaQuery.of(context).size.height < kMinSupportedHeight
+                    ? 450.height
+                    : 510.height,
                 child: ListView.separated(
+                  shrinkWrap: true,
                   itemCount: state.classes.length +
                       (state.fetchClassesStatus ==
                               FormzSubmissionStatus.inProgress
@@ -125,7 +132,7 @@ class _ClassScreenState extends State<ClassScreen> {
                     return AppSpacing.verticalSpaceMedium;
                   },
                   itemBuilder: (context, index) {
-                    // Show loader at the bottom
+                    // Check if this is the last item and we're loading
                     if (index == state.classes.length &&
                         state.fetchClassesStatus ==
                             FormzSubmissionStatus.inProgress) {
@@ -139,18 +146,16 @@ class _ClassScreenState extends State<ClassScreen> {
                         ),
                       );
                     }
-                    // Show regular list item
-                    final classes = state.classesData![index];
-                    return Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Handle onTap action here
-                        },
-                        child: ClassesListTileContainer(
-                          isProfilePictureEnabled: false,
-                          title: classes.name,
-                        ),
+
+                    // Now we know index is within bounds of classesData
+                    final classData = state.classes[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // Handle onTap action here
+                      },
+                      child: ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: classData.name.toUpperCase(),
                       ),
                     );
                   },

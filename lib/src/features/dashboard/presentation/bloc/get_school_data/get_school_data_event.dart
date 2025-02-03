@@ -6,7 +6,8 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   const factory GetSchoolDataEvent.init() = _Init;
   const factory GetSchoolDataEvent.fetchPaginatedClasses() = _FetchClasses;
   const factory GetSchoolDataEvent.fetchClassesSuccess(
-      GetSchoolDataModel getSchoolDataModel) = _FetchClassesSuccess;
+    GetSchoolDataModel getSchoolDataModel,
+  ) = _FetchClassesSuccess;
   const factory GetSchoolDataEvent.fetchClassesFailed(String? message) =
       _FetchClassesFailed;
   const factory GetSchoolDataEvent.errorMessage(String? message) =
