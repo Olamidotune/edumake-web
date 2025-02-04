@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ClassesListTileContainer extends StatelessWidget {
   const ClassesListTileContainer({
@@ -35,14 +36,10 @@ class ClassesListTileContainer extends StatelessWidget {
         onTap: onTap,
         leading: isProfilePictureEnabled
             ? CircleAvatar(
+                radius: 18.fontSize,
                 backgroundColor: AppColors.primaryColor,
-                child: Text(
-                  title.substring(0, 1),
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 14.fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.whiteColor,
-                      ),
+                child: SvgPicture.asset(
+                  'assets/svg/people.svg',
                 ),
               )
             : null,

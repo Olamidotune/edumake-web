@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/classes_details_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
@@ -152,6 +153,15 @@ class _ClassScreenState extends State<ClassScreen> {
                     return GestureDetector(
                       onTap: () {
                         // Handle onTap action here
+                        context.read<GetSchoolDataBloc>().add(
+                              GetSchoolDataEvent.onSelectedClassNameChanged(
+                                classData.name,
+                              ),
+                            );
+                        Navigator.of(context, rootNavigator: true).pushNamed(
+                          ClassDetailsScreen.routeName,
+                          arguments: classData.name,
+                        );
                       },
                       child: ClassesListTileContainer(
                         isProfilePictureEnabled: false,

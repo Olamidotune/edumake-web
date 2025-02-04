@@ -10,18 +10,32 @@ import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 
-class ClassDetailsScreen extends StatelessWidget {
+class ClassDetailsScreen extends StatefulWidget {
   const ClassDetailsScreen({super.key});
 
   static const String routeName = '/class-details';
 
   @override
-  Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, String>;
-    final className = args['className'];
-    final studentCount = args['studentCount'];
+  State<ClassDetailsScreen> createState() => _ClassDetailsScreenState();
+}
 
+class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
+  String? _classNameKey;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_getClassNameKey);
+  }
+
+  void _getClassNameKey(_) {
+    setState(() {
+      _classNameKey = ModalRoute.of(context)!.settings.arguments as String?;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final scrollController = ScrollController();
 
     return Scaffold(
@@ -38,7 +52,7 @@ class ClassDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    className!,
+                    _classNameKey ?? '',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 24.fontSize,
                           fontWeight: FontWeight.w400,
@@ -51,13 +65,13 @@ class ClassDetailsScreen extends StatelessWidget {
                   ClassesListTileContainer(
                     isProfilePictureEnabled: false,
                     title: AppStrings.students,
-                    trailing: '${studentCount ?? '0'} students',
+                    trailing: '${_classNameKey ?? '0'} students',
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         ClassStudentsScreen.routeName,
                         arguments: {
-                          'className': className,
-                          'studentCount': studentCount,
+                          'className': _classNameKey,
+                          'studentCount': _classNameKey,
                         },
                       );
                     },
@@ -88,7 +102,7 @@ class ClassDetailsScreen extends StatelessWidget {
                       Navigator.of(context).pushNamed(
                         ClassEventsScreen.routeName,
                         arguments: {
-                          'className': className,
+                          'className': _classNameKey,
                         },
                       );
                     },

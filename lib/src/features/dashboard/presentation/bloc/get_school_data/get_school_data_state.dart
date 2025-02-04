@@ -11,6 +11,7 @@ class GetSchoolDataState with _$GetSchoolDataState {
     FormzSubmissionStatus fetchClassesStatus,
     @Default([]) List<Datum> classes,
     @Default(false) bool isLoading,
+    String? selectedClassName,
   }) = _GetSchoolDataState;
 
   const GetSchoolDataState._();

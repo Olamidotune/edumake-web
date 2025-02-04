@@ -20,6 +20,7 @@ class StudentDetailsScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     final studentName = args['studentName'];
     final className = args['className'];
+    final schoolName = args['schoolName'];
 
     final scrollController = ScrollController();
     return Scaffold(
@@ -43,16 +44,8 @@ class StudentDetailsScreen extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor: AppColors.primaryColor,
                           radius: 50,
-                          child: Text(
-                            studentName!.toString().substring(0, 1),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 24.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.whiteColor,
-                                ),
+                          child: SvgPicture.asset(
+                            'assets/svg/people.svg',
                           ),
                         ),
                         AppSpacing.verticalSpaceSmall,
@@ -75,7 +68,7 @@ class StudentDetailsScreen extends StatelessWidget {
                             ),
                             AppSpacing.horizontalSpaceSmall,
                             Text(
-                              'International School of Lagos, Akoka',
+                              schoolName!.toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!

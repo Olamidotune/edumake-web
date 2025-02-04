@@ -19,6 +19,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     on<_FetchClasses>(_fetchPaginatedClasses);
     on<_FetchClassesSuccess>(_fetchClassesSuccess);
     on<_FetchClassesFailed>(_fetchClassesFailed);
+    on<_OnSelectedClassNameChanged>(_onSelectedClassNameChanged);
     on<_ErrorMessage>(_errorMessage);
 
     add(const _Init());
@@ -45,42 +46,6 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     }
   }
 
-  // void _fetchPaginatedClasses(
-  //   _FetchClasses event,
-  //   Emitter<GetSchoolDataState> emit,
-  // ) async {
-  //   emit(
-  //     state.copyWith(
-  //       fetchClassesStatus: FormzSubmissionStatus.inProgress,
-  //     ),
-  //   );
-
-  //   try {
-  //     String? nextCursor;
-  //     const totalCursor = '';
-  //     final result = await locator<GetSchoolDataClient>().getClasses(
-  //       await getAuthorization(),
-  //       await getSchoolID(),
-  //       10,
-  //       nextCursor,
-  //     );
-
-  //     emit(state.copyWith(totalCursor: totalCursor));
-
-  //     if (result.data.isNotEmpty) {
-  //       nextCursor = result.cursor;
-  //     }
-
-  //     add(_FetchClassesSuccess(result));
-  //   } catch (error, trace) {
-  //     onError(error, trace);
-  //     if (error is DioError && error.response?.data['message'] != null) {
-  //       add(_FetchClassesFailed(error.response?.data['message'] as String?));
-  //     } else {
-  //       add(const _FetchClassesFailed('An unexpected error occurred'));
-  //     }
-  //   }
-  // }
   void _fetchPaginatedClasses(
     _FetchClasses event,
     Emitter<GetSchoolDataState> emit,
@@ -139,6 +104,13 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
         classesData: event.getSchoolDataModel.data,
       ),
     );
+  }
+
+  void _onSelectedClassNameChanged(
+    _OnSelectedClassNameChanged event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(state.copyWith(selectedClassName: event.classNameKey));
   }
 
   void _fetchClassesFailed(

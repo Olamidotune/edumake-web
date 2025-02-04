@@ -2,7 +2,6 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
@@ -46,20 +45,13 @@ class SchoolDashBoard extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomRight,
-          child: TextButton(
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                AddManagementSegmentsScreen.routeName,
-              );
-            },
-            child: Text(
-              AppStrings.seeAll,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontSize: 16.fontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
+          child: Text(
+            AppStrings.seeAll,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.primaryColor,
+                  fontSize: 16.fontSize,
+                  fontWeight: FontWeight.w700,
+                ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,
