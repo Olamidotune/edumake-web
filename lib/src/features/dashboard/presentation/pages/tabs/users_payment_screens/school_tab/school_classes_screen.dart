@@ -23,7 +23,6 @@ class ClassScreen extends StatefulWidget {
 
 class _ClassScreenState extends State<ClassScreen> {
   final scrollController = ScrollController();
-  String lastCursor = '';
 
   bool isLoading = false;
 
@@ -116,7 +115,7 @@ class _ClassScreenState extends State<ClassScreen> {
                   ),
                 );
               }
-              return Container(
+              return SizedBox(
                 height: MediaQuery.of(context).size.height < kMinSupportedHeight
                     ? 450.height
                     : 510.height,
@@ -152,7 +151,6 @@ class _ClassScreenState extends State<ClassScreen> {
                     final classData = state.classes[index];
                     return GestureDetector(
                       onTap: () {
-                        // Handle onTap action here
                         context.read<GetSchoolDataBloc>().add(
                               GetSchoolDataEvent.onSelectedClassNameChanged(
                                 classData.name,
@@ -181,7 +179,7 @@ class _ClassScreenState extends State<ClassScreen> {
   void _loadMoreClasses() {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
-        context.read<GetSchoolDataBloc>().state.totalCursor !=
+        context.read<GetSchoolDataBloc>().state.totalClassCursor !=
             context
                 .read<GetSchoolDataBloc>()
                 .state

@@ -55,25 +55,30 @@ class ClassStudentsScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            '$className ${AppStrings.students} ',
-                            style: TextStyle(
-                              fontSize: 24.fontSize,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
+                          Expanded(
+                            flex: 10,
+                            child: Text(
+                              '$className ${AppStrings.students} ',
+                              style: TextStyle(
+                                  fontSize: 24.fontSize,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blackColor,
+                                  overflow: TextOverflow.ellipsis),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: AppColors.greyColor.withOpacity(0.1),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(30),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColors.greyColor.withOpacity(0.1),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
                               ),
-                            ),
-                            child: SvgPicture.asset(
-                              'assets/svg/plus1.svg',
-                              color: AppColors.primaryColor,
+                              child: SvgPicture.asset(
+                                'assets/svg/plus1.svg',
+                                color: AppColors.primaryColor,
+                              ),
                             ),
                           ),
                         ],
