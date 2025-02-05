@@ -164,10 +164,15 @@ class _IndividualStudentAssignmentScreenState
                                       subjectData.name,
                                     ),
                                   );
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushNamed(
+                              Navigator.of(
+                                context,
+                              ).pushNamed(
                                 AssignmentScreen.routeName,
-                                arguments: subjectData.name,
+                                arguments: {
+                                  'schoolName': schoolName,
+                                  'className': className,
+                                  'studentName': studentName
+                                },
                               );
                             },
                             child: ClassesListTileContainer(

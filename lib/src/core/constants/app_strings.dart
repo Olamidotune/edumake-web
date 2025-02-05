@@ -12,6 +12,7 @@ class AppStrings {
   static const english = 'English';
   static const french = 'French';
   static const next = 'Next';
+  static const assignment = 'Assignment';
   static const getStarted =
       'Welcome, before we get started, please select your preferred language.';
   static const selectLanguageScreen = 'Select Language Screen';
