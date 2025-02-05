@@ -52,13 +52,13 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     }
 
     try {
-      final _subjects = await locator<GetSchoolDataClient>().getSubjects(
+      final subjects = await locator<GetSchoolDataClient>().getSubjects(
         await getAuthorization(),
         await getSchoolID(),
         10000,
         null, // Use the current cursor from the state
       );
-      add(_FetchSubjectsSuccess(_subjects));
+      add(_FetchSubjectsSuccess(subjects));
     } catch (error, trace) {
       onError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
