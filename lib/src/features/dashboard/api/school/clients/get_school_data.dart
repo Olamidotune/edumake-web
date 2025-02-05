@@ -16,10 +16,12 @@ abstract class GetSchoolDataClient {
     @Query('limit') int? limit,
     @Query('cursor') String? cursor,
   );
-  @GET('/api/v1/sch/classes/')
+  @GET('/api/v1/sch/subjects/{schoolId}')
   @FormUrlEncoded()
-  Future<GetSchoolDataModel> getClassews(
+  Future<GetSchoolDataModel> getSubjects(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
+    @Query('limit') int? limit,
+    @Query('cursor') String? cursor,
   );
 }

@@ -19,6 +19,11 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     on<_FetchClasses>(_fetchPaginatedClasses);
     on<_FetchClassesSuccess>(_fetchClassesSuccess);
     on<_FetchClassesFailed>(_fetchClassesFailed);
+    on<_OnSelectedClassNameChanged>(_onSelectedClassNameChanged);
+    on<_FetchSubjects>(_fetchSubjects);
+    on<_FetchSubjectsSuccess>(_fetchSubjectSuccess);
+    on<_FetchSubjectsFailed>(_fetchSubjectFailed);
+    on<_OnSelectedSubjectNameChanged>(_onSelectedSubjectChanged);
     on<_ErrorMessage>(_errorMessage);
 
     add(const _Init());
@@ -29,12 +34,14 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
       final result = await locator<GetSchoolDataClient>().getClasses(
         await getAuthorization(),
         await getSchoolID(),
-        1000,
+        10000,
         null,
       );
-      add(_FetchClassesSuccess(
-        result,
-      ));
+      add(
+        _FetchClassesSuccess(
+          result,
+        ),
+      );
     } catch (error, trace) {
       onError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
@@ -43,44 +50,25 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
         add(const _FetchClassesFailed('An unexpected error occurred'));
       }
     }
+
+    try {
+      final _subjects = await locator<GetSchoolDataClient>().getSubjects(
+        await getAuthorization(),
+        await getSchoolID(),
+        10000,
+        null, // Use the current cursor from the state
+      );
+      add(_FetchSubjectsSuccess(_subjects));
+    } catch (error, trace) {
+      onError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_FetchSubjectsFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _FetchSubjectsFailed('An unexpected error occurred'));
+      }
+    }
   }
 
-  // void _fetchPaginatedClasses(
-  //   _FetchClasses event,
-  //   Emitter<GetSchoolDataState> emit,
-  // ) async {
-  //   emit(
-  //     state.copyWith(
-  //       fetchClassesStatus: FormzSubmissionStatus.inProgress,
-  //     ),
-  //   );
-
-  //   try {
-  //     String? nextCursor;
-  //     const totalCursor = '';
-  //     final result = await locator<GetSchoolDataClient>().getClasses(
-  //       await getAuthorization(),
-  //       await getSchoolID(),
-  //       10,
-  //       nextCursor,
-  //     );
-
-  //     emit(state.copyWith(totalCursor: totalCursor));
-
-  //     if (result.data.isNotEmpty) {
-  //       nextCursor = result.cursor;
-  //     }
-
-  //     add(_FetchClassesSuccess(result));
-  //   } catch (error, trace) {
-  //     onError(error, trace);
-  //     if (error is DioError && error.response?.data['message'] != null) {
-  //       add(_FetchClassesFailed(error.response?.data['message'] as String?));
-  //     } else {
-  //       add(const _FetchClassesFailed('An unexpected error occurred'));
-  //     }
-  //   }
-  // }
   void _fetchPaginatedClasses(
     _FetchClasses event,
     Emitter<GetSchoolDataState> emit,
@@ -96,7 +84,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
         await getAuthorization(),
         await getSchoolID(),
         10,
-        state.totalCursor, // Use the current cursor from the state
+        state.totalClassCursor, // Use the current cursor from the state
       );
 
       if (result.data.isNotEmpty) {
@@ -107,7 +95,8 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
         emit(
           state.copyWith(
             classes: updatedClasses,
-            totalCursor: result.cursor, // Update the cursor for the next fetch
+            totalClassCursor:
+                result.cursor, // Update the cursor for the next fetch
             fetchClassesStatus: FormzSubmissionStatus.success,
           ),
         );
@@ -141,8 +130,98 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     );
   }
 
+  void _onSelectedClassNameChanged(
+    _OnSelectedClassNameChanged event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(state.copyWith(selectedClassName: event.classNameKey));
+  }
+
   void _fetchClassesFailed(
     _FetchClassesFailed event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchClassesStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  /// Subjects
+  //////////////////////////////////////////////////////////////////////////////
+
+  void _fetchSubjects(
+    _FetchSubjects event,
+    Emitter<GetSchoolDataState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        fetchClassesStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
+
+    try {
+      final result = await locator<GetSchoolDataClient>().getSubjects(
+        await getAuthorization(),
+        await getSchoolID(),
+        10,
+        state.totalSubjectCursor, // Use the current cursor from the state
+      );
+
+      if (result.data.isNotEmpty) {
+        // Append new data to the existing list
+        final updatedSubjects = List<Datum>.from(state.subjects)
+          ..addAll(result.data);
+        emit(
+          state.copyWith(
+            subjects: updatedSubjects,
+            totalSubjectCursor:
+                result.cursor, // Update the cursor for the next fetch
+            fetchSubjectStatus: FormzSubmissionStatus.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            fetchSubjectStatus: FormzSubmissionStatus.success,
+          ),
+        );
+      }
+    } catch (error, trace) {
+      onError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_FetchSubjectsFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _FetchSubjectsFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _fetchSubjectSuccess(
+    _FetchSubjectsSuccess event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectStatus: FormzSubmissionStatus.success,
+        getSchoolDataModel: event.getSchoolDataModel,
+        subjectData: event.getSchoolDataModel.data,
+      ),
+    );
+  }
+
+  void _onSelectedSubjectChanged(
+    _OnSelectedSubjectNameChanged event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(state.copyWith(selectedSubject: event.subjectNameKey));
+  }
+
+  void _fetchSubjectFailed(
+    _FetchSubjectsFailed event,
     Emitter<GetSchoolDataState> emit,
   ) {
     emit(

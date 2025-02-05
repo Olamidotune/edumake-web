@@ -10,6 +10,19 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   ) = _FetchClassesSuccess;
   const factory GetSchoolDataEvent.fetchClassesFailed(String? message) =
       _FetchClassesFailed;
+  const factory GetSchoolDataEvent.onSelectedClassNameChanged(
+    String? classNameKey,
+  ) = _OnSelectedClassNameChanged;
+  const factory GetSchoolDataEvent.fetchSubjects() = _FetchSubjects;
+  const factory GetSchoolDataEvent.fetchSubjectsSuccess(
+    GetSchoolDataModel getSchoolDataModel,
+  ) = _FetchSubjectsSuccess;
+  const factory GetSchoolDataEvent.fetchSubjectsFailed(
+    String? message,
+  ) = _FetchSubjectsFailed;
+  const factory GetSchoolDataEvent.onSelectedSubjectNameChanged(
+    String? subjectNameKey,
+  ) = _OnSelectedSubjectNameChanged;
   const factory GetSchoolDataEvent.errorMessage(String? message) =
       _ErrorMessage;
 }

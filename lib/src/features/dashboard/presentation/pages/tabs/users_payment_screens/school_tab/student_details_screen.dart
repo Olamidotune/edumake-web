@@ -2,11 +2,13 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StudentDetailsScreen extends StatelessWidget {
@@ -20,6 +22,7 @@ class StudentDetailsScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     final studentName = args['studentName'];
     final className = args['className'];
+    final schoolName = args['schoolName'];
 
     final scrollController = ScrollController();
     return Scaffold(
@@ -43,16 +46,8 @@ class StudentDetailsScreen extends StatelessWidget {
                         CircleAvatar(
                           backgroundColor: AppColors.primaryColor,
                           radius: 50,
-                          child: Text(
-                            studentName!.toString().substring(0, 1),
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 24.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.whiteColor,
-                                ),
+                          child: SvgPicture.asset(
+                            'assets/svg/people.svg',
                           ),
                         ),
                         AppSpacing.verticalSpaceSmall,
@@ -75,7 +70,7 @@ class StudentDetailsScreen extends StatelessWidget {
                             ),
                             AppSpacing.horizontalSpaceSmall,
                             Text(
-                              'International School of Lagos, Akoka',
+                              schoolName!.toString(),
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -116,11 +111,15 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.assignments,
                     onTap: () {
+                      context.read<GetSchoolDataBloc>().add(
+                            const GetSchoolDataEvent.fetchSubjects(),
+                          );
                       Navigator.of(context).pushNamed(
                         IndividualStudentAssignmentScreen.routeName,
                         arguments: {
                           'studentName': studentName,
                           'className': className,
+                          'schoolName': schoolName,
                         },
                       );
                     },
@@ -143,7 +142,11 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.teachersNote,
-                    onTap: () {},
+                    onTap: () {
+                      context
+                          .read<GetSchoolDataBloc>()
+                          .add(const GetSchoolDataEvent.fetchSubjects());
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(

@@ -19,14 +19,21 @@ class AssignmentScreen extends StatefulWidget {
 
 class _AssignmentScreenState extends State<AssignmentScreen> {
   final ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final schoolName = args['schoolName'];
+    final classNameKey = args['className'];
+    final studentName = args['studentName'];
+
     return Scaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         //put name of teacher here
-        title: 'Assignments',
-        //put subject here
-        subtitle: 'Subject',
+        title: studentName.toString(),
+
+        subtitle: '$schoolName ($classNameKey)',
       ),
       body: CustomRawScroller(
         scrollController: scrollController,
@@ -40,7 +47,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppStrings.assignments,
+                      AppStrings.assignment,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             fontSize: 24.fontSize,
                             fontWeight: FontWeight.w400,
