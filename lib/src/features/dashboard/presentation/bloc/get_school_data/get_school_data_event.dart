@@ -13,6 +13,7 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   const factory GetSchoolDataEvent.onSelectedClassNameChanged(
     String? classNameKey,
   ) = _OnSelectedClassNameChanged;
+  //////////SUBJECTS//////////////
   const factory GetSchoolDataEvent.fetchSubjects() = _FetchSubjects;
   const factory GetSchoolDataEvent.fetchSubjectsSuccess(
     GetSchoolDataModel getSchoolDataModel,
@@ -23,6 +24,14 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   const factory GetSchoolDataEvent.onSelectedSubjectNameChanged(
     String? subjectNameKey,
   ) = _OnSelectedSubjectNameChanged;
+////////STUDENTS/////////
+  const factory GetSchoolDataEvent.fetchStudents(String? selectedClassId) =
+      _FetchStudents;
+  const factory GetSchoolDataEvent.fetchStudentsSuccessful(
+    GetStudentsModel getStudentsModel,
+  ) = _FetchStudentsSuccessful;
+  const factory GetSchoolDataEvent.fetchStudentsFailed(String? message) =
+      _FetchStudentsFailed;
   const factory GetSchoolDataEvent.errorMessage(String? message) =
       _ErrorMessage;
 }

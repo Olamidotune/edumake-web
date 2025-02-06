@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
 import 'package:retrofit/http.dart';
 
@@ -16,6 +17,7 @@ abstract class GetSchoolDataClient {
     @Query('limit') int? limit,
     @Query('cursor') String? cursor,
   );
+
   @GET('/api/v1/sch/subjects/{schoolId}')
   @FormUrlEncoded()
   Future<GetSchoolDataModel> getSubjects(
@@ -23,5 +25,12 @@ abstract class GetSchoolDataClient {
     @Path('schoolId') String schoolId,
     @Query('limit') int? limit,
     @Query('cursor') String? cursor,
+  );
+
+  @GET('/api/v1/sch/students/class/{classId}')
+  @FormUrlEncoded()
+  Future<GetStudentsModel> getStudentsByClass(
+    @Header('Authorization') String authorization,
+    @Path('classId') String classId,
   );
 }

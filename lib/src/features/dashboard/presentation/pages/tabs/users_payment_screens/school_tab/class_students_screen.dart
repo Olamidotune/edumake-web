@@ -3,13 +3,16 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class ClassStudentsScreen extends StatelessWidget {
   const ClassStudentsScreen({super.key});
@@ -23,19 +26,6 @@ class ClassStudentsScreen extends StatelessWidget {
     final className = args['className'];
 
     final scrollController = ScrollController();
-
-    final studentName = <String>[
-      'John Doe',
-      'Donald Trump',
-      'Barrack Obama',
-      'Joe Biden',
-      'Kamala Harris',
-      'Nancy Pecos',
-      'Hillary Clinton',
-      'George Bush',
-      'Bill Clinton',
-      'Bernie Sanders',
-    ];
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -60,10 +50,11 @@ class ClassStudentsScreen extends StatelessWidget {
                             child: Text(
                               '$className ${AppStrings.students} ',
                               style: TextStyle(
-                                  fontSize: 24.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.blackColor,
-                                  overflow: TextOverflow.ellipsis),
+                                fontSize: 24.fontSize,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blackColor,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -85,39 +76,107 @@ class ClassStudentsScreen extends StatelessWidget {
                       ),
                       AppSpacing.verticalSpaceMedium,
                       // Students
-                      ListView.separated(
-                        itemBuilder: (context, index) {
-                          return ClassesListTileContainer(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                StudentDetailsScreen.routeName,
-                                arguments: {
-                                  'className': className,
-                                  'studentName': studentName[index],
-                                  'schoolName': context
-                                      .read<AuthBloc>()
-                                      .state
-                                      .school
-                                      ?.schoolName,
+                      BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                        builder: (context, schoolDataState) {
+                          final students =
+                              schoolDataState.getStudentsDatum ?? [];
+                          return ListView.separated(
+                            itemCount: students.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final student = students[index];
+                              if (schoolDataState.fetchStudentsStatus ==
+                                  FormzSubmissionStatus.inProgress) {
+                                return SizedBox(
+                                  height: 800,
+                                  child: ListView.builder(
+                                    itemBuilder: (context, index) {
+                                      return const CustomShimmer();
+                                    },
+                                    itemCount: 10,
+                                  ),
+                                );
+                              }
+                              if (schoolDataState.getStudentsDatum == null ||
+                                  schoolDataState.getStudentsDatum!.isEmpty) {
+                                return SingleChildScrollView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  controller: scrollController,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                          height: AppSpacing
+                                                  .verticalValueSpaceLarge *
+                                              6),
+                                      Image.asset(
+                                        'assets/png/empty.png',
+                                        height: 150,
+                                      ),
+                                      Text(
+                                        'No Data Available',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                              fontSize:
+                                                  20, // Assuming 20 is a valid font size
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.primaryTextColor,
+                                            ),
+                                      ),
+                                      AppSpacing.verticalSpaceSmall,
+                                      Text(
+                                        'Add a class or classes by clicking the + button above.',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              fontSize:
+                                                  14, // Assuming 14 is a valid font size
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  AppColors.secondaryTexColor,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return ClassesListTileContainer(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    StudentDetailsScreen.routeName,
+                                    arguments: {
+                                      'className': className,
+                                      'studentName': student.name,
+                                      'schoolName': context
+                                          .read<AuthBloc>()
+                                          .state
+                                          .school
+                                          ?.schoolName,
+                                    },
+                                  );
                                 },
+                                isProfilePictureEnabled: true,
+                                title: student.name,
+                                subTitle: context
+                                        .read<AuthBloc>()
+                                        .state
+                                        .school
+                                        ?.schoolName ??
+                                    '',
                               );
                             },
-                            isProfilePictureEnabled: true,
-                            title: studentName[index],
-                            subTitle: context
-                                    .read<AuthBloc>()
-                                    .state
-                                    .school
-                                    ?.schoolName ??
-                                '',
+                            separatorBuilder: (context, index) {
+                              return AppSpacing.verticalSpaceMedium;
+                            },
                           );
                         },
-                        separatorBuilder: (context, index) {
-                          return AppSpacing.verticalSpaceMedium;
-                        },
-                        itemCount: studentName.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
                       ),
                       AppSpacing.verticalSpaceMassive,
                     ],
