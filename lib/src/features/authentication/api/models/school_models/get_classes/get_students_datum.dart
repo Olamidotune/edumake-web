@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'get_classes_datum.g.dart';
+part 'get_students_datum.g.dart';
 
 @JsonSerializable()
-class GetClassDatum {
-  GetClassDatum({
+class GetStudentsDatum {
+  GetStudentsDatum({
     required this.id,
     required this.datumClass,
     required this.name,
@@ -16,8 +16,8 @@ class GetClassDatum {
     required this.updatedAt,
   });
 
-  factory GetClassDatum.fromJson(Map<String, dynamic> json) =>
-      _$GetClassDatumFromJson(json);
+  factory GetStudentsDatum.fromJson(Map<String, dynamic> json) =>
+      _$GetStudentsDatumFromJson(json);
   String id;
   String datumClass;
   String name;
@@ -28,5 +28,5 @@ class GetClassDatum {
   DateTime createdAt;
   DateTime updatedAt;
 
-  Map<String, dynamic> toJson() => _$GetClassDatumToJson(this);
+  Map<String, dynamic> toJson() => _$GetStudentsDatumToJson(this);
 }
