@@ -1,10 +1,10 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/school_classes_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/teacher_payment_screen.dart';
-import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -17,16 +17,6 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   final ScrollController scrollController = ScrollController();
-
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    AuthServices().getUser().then(
-          (User user) => setState(() => _user = user),
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +31,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           child: Padding(
             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
             child: Container(
-              child: _buildView(_user),
+              child: _buildView(),
             ),
           ),
         ),
@@ -49,8 +39,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildView(User? user) {
-    final role = user?.role;
+  Widget _buildView() {
+    final role = context.read<AuthBloc>().state.user?.role;
     if (role == 'parent') {
       return const ParentPaymentScreen();
     } else if (role == 'teacher') {
