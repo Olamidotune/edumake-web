@@ -16,6 +16,7 @@ abstract class GetSchoolDataClient {
     @Query('limit') int? limit,
     @Query('cursor') String? cursor,
   );
+
   @GET('/api/v1/sch/subjects/{schoolId}')
   @FormUrlEncoded()
   Future<GetSchoolDataModel> getSubjects(
@@ -23,5 +24,12 @@ abstract class GetSchoolDataClient {
     @Path('schoolId') String schoolId,
     @Query('limit') int? limit,
     @Query('cursor') String? cursor,
+  );
+
+  @GET('/api/v1/sch/students/class/{classId}')
+  @FormUrlEncoded()
+  Future<GetSchoolDataModel> getStudentsByClass(
+    @Header('Authorization') String authorization,
+    @Path('classId') String schoolId,
   );
 }
