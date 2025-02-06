@@ -151,6 +151,13 @@ class _ClassScreenState extends State<ClassScreen> {
                     final classData = state.classes[index];
                     return GestureDetector(
                       onTap: () {
+                        //this is the class ID
+                        // debugPrint('${classData.id}');
+                        context.read<GetSchoolDataBloc>().add(
+                              GetSchoolDataEvent.fetchStudents(
+                                classData.id,
+                              ),
+                            );
                         context.read<GetSchoolDataBloc>().add(
                               GetSchoolDataEvent.onSelectedClassNameChanged(
                                 classData.name,
@@ -158,7 +165,11 @@ class _ClassScreenState extends State<ClassScreen> {
                             );
                         Navigator.of(context, rootNavigator: true).pushNamed(
                           ClassDetailsScreen.routeName,
-                          arguments: classData.name,
+                          arguments: {
+                            'className': classData.name,
+                            'classId': classData.id,
+                            'studentCount': state.getStudentsDatum?.length ?? 0,
+                          },
                         );
                       },
                       child: ClassesListTileContainer(

@@ -31,6 +31,6 @@ abstract class GetSchoolDataClient {
   @FormUrlEncoded()
   Future<GetStudentsModel> getStudentsByClass(
     @Header('Authorization') String authorization,
-    @Path('classId') String schoolId,
+    @Path('classId') String classId,
   );
 }

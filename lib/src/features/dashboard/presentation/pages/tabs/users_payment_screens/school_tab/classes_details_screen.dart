@@ -2,13 +2,18 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 class ClassDetailsScreen extends StatefulWidget {
   const ClassDetailsScreen({super.key});
@@ -20,22 +25,13 @@ class ClassDetailsScreen extends StatefulWidget {
 }
 
 class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
-  String? _classNameKey;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_getClassNameKey);
-  }
-
-  void _getClassNameKey(_) {
-    setState(() {
-      _classNameKey = ModalRoute.of(context)!.settings.arguments as String?;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, Object>;
+    final className = args['className'];
+    final classId = args['classId'];
+    // final studentCount = args['studentCount'];
     final scrollController = ScrollController();
 
     return Scaffold(
@@ -48,87 +44,116 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
             child: SingleChildScrollView(
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _classNameKey ?? '',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.blackColor,
+              child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                builder: (context, state) {
+                  if (state.fetchStudentsStatus ==
+                      FormzSubmissionStatus.inProgress) {
+                    return SizedBox(
+                      height: 800,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return const CustomShimmer();
+                        },
+                        itemCount: 10,
+                      ),
+                    );
+                  }
+                  if (state.classesData == null) {
+                    return const Text('Something is wrong');
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        className.toString(),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 24.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackColor,
+                            ),
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.students,
+                        trailing:
+                            '${state.getStudentsDatum?.length ?? 0} Students',
+                        onTap: () {
+                          context.read<GetSchoolDataBloc>().add(
+                                GetSchoolDataEvent.fetchStudents(
+                                  classId.toString(),
+                                ),
+                              );
+                          if (state.getStudentsDatum != null &&
+                              state.getStudentsDatum!.isNotEmpty) {
+                            Navigator.of(context).pushNamed(
+                              ClassStudentsScreen.routeName,
+                              arguments: {
+                                'className': className,
+                                'studentCount': className,
+                              },
+                            );
+                          } else {
+                            ToastService.toast(
+                              'There are no students in $className',
+                            );
+                          }
+                        },
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      ClassesListTileContainer(
+                        onTap: () => Navigator.of(context).pushNamed(
+                          AssignmentScreen.routeName,
                         ),
-                  ),
-
-                  AppSpacing.verticalSpaceMedium,
-                  // Students
-                  ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.students,
-                    trailing: '${_classNameKey ?? '0'} students',
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        ClassStudentsScreen.routeName,
-                        arguments: {
-                          'className': _classNameKey,
-                          'studentCount': _classNameKey,
+                        title: AppStrings.assignments,
+                        isProfilePictureEnabled: false,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        title: AppStrings.testRests,
+                        isProfilePictureEnabled: false,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.examResults,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.events,
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            ClassEventsScreen.routeName,
+                            arguments: {
+                              'className': className,
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  ClassesListTileContainer(
-                    onTap: () => Navigator.of(context).pushNamed(
-                      AssignmentScreen.routeName,
-                    ),
-                    title: AppStrings.assignments,
-                    isProfilePictureEnabled: false,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    title: AppStrings.testRests,
-                    isProfilePictureEnabled: false,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.examResults,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.events,
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        ClassEventsScreen.routeName,
-                        arguments: {
-                          'className': _classNameKey,
-                        },
-                      );
-                    },
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.curriculumSchemeOfWork,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.payments,
-                  ),
-
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    title: AppStrings.lectureTimeTable,
-                    isProfilePictureEnabled: false,
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.examManagement,
-                  ),
-                ],
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.curriculumSchemeOfWork,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.payments,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        title: AppStrings.lectureTimeTable,
+                        isProfilePictureEnabled: false,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      const ClassesListTileContainer(
+                        isProfilePictureEnabled: false,
+                        title: AppStrings.examManagement,
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
