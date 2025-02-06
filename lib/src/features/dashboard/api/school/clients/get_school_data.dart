@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'get_school_data.g.dart';
@@ -33,4 +34,11 @@ abstract class GetSchoolDataClient {
     @Header('Authorization') String authorization,
     @Path('classId') String classId,
   );
+
+  //////////////////////////////////////////////////////////////////////////////
+  ///SEARCH
+  //////////////////////////////////////////////////////////////////////////////
+
+  @GET('/api/v1/par/search/')
+  Future<SearchResponse> search(@Query('query') String query);
 }
