@@ -26,6 +26,11 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
       return;
     }
 
+    emit(
+      state.copyWith(
+          requestAccessToWardStatus: FormzSubmissionStatus.inProgress),
+    );
+
     try {
       final request = await locator<WardsClient>().requestAccessToWard(
         await getAuthorization(),

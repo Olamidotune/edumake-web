@@ -10,6 +10,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/connect_ward_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
@@ -175,12 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
               }
 
               if (state.searchResultStatus == FormzSubmissionStatus.success) {
-                return Expanded(
-                  flex: 10,
-                  child: SearchResultsList(
-                    searchResults: state.searchResponse?.data,
-                    scrollController: _scrollController,
-                  ),
+                return SearchResultsList(
+                  searchResults: state.searchResponse?.data,
+                  scrollController: _scrollController,
                 );
               }
               return RawScrollbar(
@@ -311,7 +309,6 @@ class SearchResultItem extends StatelessWidget {
   }
 }
 
-// Update the ListView.builder in your SearchScreen
 class SearchResultsList extends StatelessWidget {
   const SearchResultsList({
     required this.searchResults,
@@ -365,22 +362,37 @@ void _showConnectDialog(
 ) async {
   await showDialog<void>(
     context: context,
-    builder: (context) {
-      return BlocBuilder<WardMgtBloc, WardMgtState>(
-        builder: (context, state) {
-          return ConnectWardDialog(
-            studentName: studentName,
-            schoolName: schoolName,
-            className: className,
-            busy: state.requestAccessToWardStatus ==
-                FormzSubmissionStatus.inProgress,
-            onTap: () {
-              context
-                  .read<WardMgtBloc>()
-                  .add(WardMgtEvent.getRequest(studentId));
-            },
-          );
+    builder: (dialogContext) {
+      return BlocListener<WardMgtBloc, WardMgtState>(
+        listener: (context, state) {
+          if (state.requestAccessToWardStatus ==
+              FormzSubmissionStatus.failure) {
+            ToastService.toast(
+              state.getRequestModel?.message ?? 'Something went wrong',
+            );
+          }
+          if (state.requestAccessToWardStatus ==
+              FormzSubmissionStatus.success) {
+            ToastService.toast('Request sent successfully to admin');
+            Navigator.of(dialogContext).pop();
+          }
         },
+        child: BlocBuilder<WardMgtBloc, WardMgtState>(
+          builder: (context, state) {
+            return ConnectWardDialog(
+              studentName: studentName,
+              schoolName: schoolName,
+              className: className,
+              busy: state.requestAccessToWardStatus ==
+                  FormzSubmissionStatus.inProgress,
+              onTap: () {
+                context
+                    .read<WardMgtBloc>()
+                    .add(WardMgtEvent.getRequest(studentId));
+              },
+            );
+          },
+        ),
       );
     },
   );

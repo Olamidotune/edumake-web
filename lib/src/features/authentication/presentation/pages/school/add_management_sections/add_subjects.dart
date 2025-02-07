@@ -45,10 +45,12 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
   // Function to add a new TextField
   void _addTextFields() {
     setState(() {
-      subjectInputs.add(SubjectInput(
-        nameController: TextEditingController(),
-        noteController: TextEditingController(),
-      ));
+      subjectInputs.add(
+        SubjectInput(
+          nameController: TextEditingController(),
+          noteController: TextEditingController(),
+        ),
+      );
     });
   }
 
