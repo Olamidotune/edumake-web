@@ -86,8 +86,8 @@ class ForgotPasswordScreen extends HookWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height <
                                   kMinSupportedHeight
-                              ? .45.sh
-                              : .56.sh,
+                              ? .42.sh
+                              : .50.sh,
                         ),
                         Button(
                           busy: state.forgotPasswordStatus ==

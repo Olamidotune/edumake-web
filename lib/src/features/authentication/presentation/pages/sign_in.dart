@@ -15,6 +15,7 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -126,41 +127,41 @@ class SignIn extends HookWidget {
                                 obscurePassword.value = !obscurePassword.value,
                           ),
                           AppSpacing.verticalSpaceMassive,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Forgot password? ',
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Forgot password? ',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyMedium!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
                                       fontSize: 16.fontSize,
                                       fontWeight: FontWeight.w300,
                                       color: AppColors.primaryTextColor,
                                     ),
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.of(context).pushNamed(
+                                          ForgotPasswordScreen.routeName,
+                                        );
+                                      },
+                                    text: 'Recover Password',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontFamily: 'HelveticaNeueRounded',
+                                          fontSize: 16.fontSize,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.primaryColor,
+                                        ),
+                                  ),
+                                ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    ForgotPasswordScreen.routeName,
-                                  );
-                                },
-                                child: Text(
-                                  'Recover Password',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 16.fontSize,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                           AppSpacing.verticalSpaceMedium,
                           Button(
@@ -179,45 +180,45 @@ class SignIn extends HookWidget {
                             },
                           ),
                           AppSpacing.verticalSpaceMedium,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Don't have an account with us? ",
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Don't have an account with us? ",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyMedium!
+                                    .bodyLarge!
                                     .copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
                                       fontSize: 16.fontSize,
                                       fontWeight: FontWeight.w300,
                                       color: AppColors.primaryTextColor,
                                     ),
+                                children: [
+                                  TextSpan(
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          OnboardingScreenTwo.routeName,
+                                        );
+                                      },
+                                    text: 'Sign up',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge!
+                                        .copyWith(
+                                          fontFamily: 'HelveticaNeueRounded',
+                                          fontSize: 16.fontSize,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.primaryColor,
+                                        ),
+                                  ),
+                                ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    OnboardingScreenTwo.routeName,
-                                  );
-                                  // Navigator.of(context)
-                                  //     .pushNamed(SignUpScreen.routeName);
-                                },
-                                child: Text(
-                                  'Sign up',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 16.fontSize,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
+
+                          // ),
                           AppSpacing.verticalSpaceHuge,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
