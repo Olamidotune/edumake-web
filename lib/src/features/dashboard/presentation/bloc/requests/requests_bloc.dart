@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/request/get_request_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/request/get_request_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:formz/formz.dart';
@@ -36,6 +37,8 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       final requests = await locator<WardsClient>()
           .getAllRequests(await getAuthorization(), await getSchoolID());
 
+      print('API Response: ${requests.data.length}'); // Log the response
+
       add(_GetRequestSuccessful(requests));
     } catch (error, trace) {
       onError(error, trace);
@@ -53,6 +56,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
   ) {
     emit(
       state.copyWith(
+        getRequestModel: event.getRequestModel,
         getRequestStatus: FormzSubmissionStatus.success,
         errorMessage: null,
       ),

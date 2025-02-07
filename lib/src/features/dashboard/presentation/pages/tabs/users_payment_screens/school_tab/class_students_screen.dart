@@ -100,18 +100,16 @@ class ClassStudentsScreen extends StatelessWidget {
                               }
                               if (schoolDataState.getStudentsDatum == null ||
                                   schoolDataState.getStudentsDatum!.isEmpty) {
-                                return SingleChildScrollView(
-                                  physics:
-                                      const AlwaysScrollableScrollPhysics(),
-                                  controller: scrollController,
+                                return Center(
                                   child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       SizedBox(
-                                          height: AppSpacing
-                                                  .verticalValueSpaceLarge *
-                                              6),
+                                        height:
+                                            AppSpacing.verticalValueSpaceLarge *
+                                                6,
+                                      ),
                                       Image.asset(
                                         'assets/png/empty.png',
                                         height: 150,

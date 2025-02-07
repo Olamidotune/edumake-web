@@ -3,19 +3,19 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ConnectionRequestListTile extends StatelessWidget {
   const ConnectionRequestListTile({
     required this.titleName,
     required this.subTitleName,
-    required this.profilePic,
     required this.date,
     required this.className,
     super.key,
   });
   final String titleName;
   final String subTitleName;
-  final String? profilePic;
+
   final String date;
   final String className;
 
@@ -24,15 +24,13 @@ class ConnectionRequestListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        backgroundColor: AppColors.greyColor.withOpacity(0.4),
-        child: Text(
-          profilePic ?? titleName.substring(0, 1).toUpperCase(),
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontFamily: 'HelveticaNeueRounded',
-                fontSize: 12.fontSize,
-                fontWeight: FontWeight.w400,
-                color: AppColors.primaryColor,
-              ),
+        radius: 30,
+        backgroundColor: AppColors.secondaryColor.withOpacity(.3),
+        child: ClipRRect(
+          child: SvgPicture.asset(
+            'assets/svg/parent_icon.svg',
+            height: 40,
+          ),
         ),
       ),
       title: Text(
