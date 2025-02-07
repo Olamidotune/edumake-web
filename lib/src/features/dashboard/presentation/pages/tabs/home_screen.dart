@@ -6,7 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/search
 
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/connect_ward_dialog.dart';

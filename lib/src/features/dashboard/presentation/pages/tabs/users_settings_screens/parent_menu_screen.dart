@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -91,7 +92,9 @@ class ParentMenuScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
-            onTap: () {},
+            onTap: () {
+              _showSignOutDialog(context);
+            },
             leading: SvgPicture.asset(
               'assets/svg/logout.svg',
               color: AppColors.redColor,
@@ -176,4 +179,13 @@ class _ParentMenuTopContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showSignOutDialog(BuildContext context) async {
+  await showDialog<void>(
+    context: context,
+    builder: (context) {
+      return const LogoutDialog();
+    },
+  );
 }

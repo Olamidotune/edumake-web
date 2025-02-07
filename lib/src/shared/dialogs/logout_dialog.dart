@@ -50,7 +50,7 @@ class LogoutDialog extends StatelessWidget {
             Expanded(
               child: Button(
                 text: AppStrings.yes,
-                buttonColor: AppColors.greyColor.withAlpha(3),
+                buttonColor: AppColors.primaryColor.withOpacity(0.2),
                 onPressed: () {
                   AuthServices().signOut();
                   ToastService.toast('You have signed out of your account');
