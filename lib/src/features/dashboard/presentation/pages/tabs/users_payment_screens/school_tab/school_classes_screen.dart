@@ -30,6 +30,9 @@ class _ClassScreenState extends State<ClassScreen> {
   void initState() {
     super.initState();
     scrollController.addListener(_loadMoreClasses);
+    context
+        .read<GetSchoolDataBloc>()
+        .add(const GetSchoolDataEvent.fetchPaginatedClasses());
   }
 
   @override
