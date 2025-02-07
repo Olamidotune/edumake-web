@@ -143,7 +143,7 @@ class AppStrings {
   static const feesManagement = 'Fees Management';
   static const timeTableManagement = 'Time Table Management';
   static const paymentUpdate = 'Payment Update';
-  static const connectionResquest = 'Connection Requests';
+  static const connectionRequest = 'Connection Requests';
   static const upComingEvents = 'Upcoming Events';
   static const seeAll = 'See all';
   static const recentTeachersNote = "Recent Teacher's Note";
@@ -157,7 +157,7 @@ class AppStrings {
   static const reject = 'Reject';
   static const viewAllEvents = 'View all events';
   static const recipients = 'Recipients';
-  static const connectionResquestWarning =
+  static const connectionRequestWarning =
       'You are advised to crosscheck the request and be sure the person is a relative or a guardian to the student. To aid in this, we added the details from their NIN for clarity.';
   static const wantsToConnectAndHaveAccessTo =
       'wants to connect and have access to';
@@ -165,7 +165,7 @@ class AppStrings {
   static const dOB = 'Date Of Birth';
   static const relationWithStudent = 'Relation with Student';
   static const nin = 'NIN';
-  static const secondConnectionResquestWarning =
+  static const secondConnectionRequestWarning =
       'Make sure you thoroughly verify the information of the person trying to connect to the account of this student. We advise that. you contact the parent with the phone number or email address known by the school before giving access.';
   static const whyDidYouRejectTheRequest = 'Why did you reject the request?';
   static const theAccountDoesNotMatchStudentDetails =

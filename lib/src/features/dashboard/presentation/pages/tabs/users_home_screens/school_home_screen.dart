@@ -60,7 +60,7 @@ class SchoolDashBoard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {},
             child: Text(
-              '${AppStrings.connectionResquest} (10)',
+              '${AppStrings.connectionRequest} (10)',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 16.fontSize,
                     fontWeight: FontWeight.bold,

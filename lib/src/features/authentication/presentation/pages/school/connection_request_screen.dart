@@ -43,7 +43,7 @@ class ConnectionRequestScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppStrings.connectionResquest,
+                    AppStrings.connectionRequest,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 24.fontSize,
@@ -53,7 +53,7 @@ class ConnectionRequestScreen extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Text(
-                    AppStrings.connectionResquestWarning,
+                    AppStrings.connectionRequestWarning,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontWeight: FontWeight.w400,
@@ -344,7 +344,7 @@ class _ConnectionRequestDetailsScreenState
                             Expanded(
                               flex: 8,
                               child: Text(
-                                AppStrings.secondConnectionResquestWarning,
+                                AppStrings.secondConnectionRequestWarning,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!

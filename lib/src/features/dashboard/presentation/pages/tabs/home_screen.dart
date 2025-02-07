@@ -368,7 +368,7 @@ void _showConnectDialog(
           if (state.requestAccessToWardStatus ==
               FormzSubmissionStatus.failure) {
             ToastService.toast(
-              state.getRequestModel?.message ?? 'Something went wrong',
+              state.getWardRequestModel?.message ?? 'Something went wrong',
             );
           }
           if (state.requestAccessToWardStatus ==

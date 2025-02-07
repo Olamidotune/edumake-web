@@ -5,7 +5,7 @@ class WardMgtEvent with _$WardMgtEvent {
   const factory WardMgtEvent() = _WardMgtEvent;
   const factory WardMgtEvent.getRequest(String classId) = _GetRequest;
   const factory WardMgtEvent.getRequestSuccessful(
-    GetRequestModel getRequestModel,
+    GetWardRequestModel getRequestModel,
   ) = _GetRequestSuccessful;
   const factory WardMgtEvent.getRequestFailed(String? message) =
       _GetRequestFailed;
