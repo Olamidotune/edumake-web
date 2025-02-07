@@ -136,7 +136,6 @@ class CreateNewPassword extends HookWidget {
                           busy: state.createNewPasswordStatus ==
                               FormzSubmissionStatus.inProgress,
                           onPressed: () {
-                            debugPrint('Create Password');
                             if (formKey.currentState!.validate()) {
                               context.read<AuthBloc>().add(
                                     AuthEvent.createNewPassword(

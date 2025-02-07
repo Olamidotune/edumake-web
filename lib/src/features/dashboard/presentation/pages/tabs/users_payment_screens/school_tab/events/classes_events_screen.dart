@@ -74,6 +74,7 @@ class ClassEventsScreen extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 CustomSearchBar(
+                  isActive: false,
                   isHomePage: false,
                   hintText: 'Search for events...',
                   onSearch: () {},

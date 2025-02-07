@@ -295,7 +295,6 @@ class SignIn extends HookWidget {
           );
         });
       } else {
-        print('NAVIGATE ROLE: ${current.user?.role}');
         ToastService.toast('Sign in successful');
         Navigator.of(context).popAndPushNamed(Dashboard.routeName);
         return false;

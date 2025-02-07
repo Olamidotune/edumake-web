@@ -15,7 +15,9 @@ class AddSubjectsEvent with _$AddSubjectsEvent {
       _SubmitSubjectFailed;
 
   const factory AddSubjectsEvent.onSubjectFieldChanged(
-      String subject, int index) = _OnSubjectFieldChanged;
+    String subject,
+    int index,
+  ) = _OnSubjectFieldChanged;
 
   const factory AddSubjectsEvent.onNoteFieldChanged(String note, int index) =
       _OnNoteFieldChanged;

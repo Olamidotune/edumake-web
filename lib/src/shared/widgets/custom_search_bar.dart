@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_function_return_type
+
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +8,28 @@ import 'package:flutter_svg/svg.dart';
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
     required this.isHomePage,
+    required this.isActive,
     super.key,
     this.hintText,
     this.onSearch,
+    this.onSubmitted,
+    this.onChanged,
   });
 
   final String? hintText;
   final void Function()? onSearch;
   final bool isHomePage;
+  final void Function(String)? onSubmitted;
+  final Function(String)? onChanged;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: isHomePage ? 20 : 0),
       child: TextFormField(
+        onChanged: onChanged,
+        onFieldSubmitted: onSubmitted,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
@@ -48,10 +58,15 @@ class CustomSearchBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_forward,
-                  color: AppColors.whiteColor,
-                ),
+                icon: isActive
+                    ? const Icon(
+                        Icons.close,
+                        color: AppColors.whiteColor,
+                      )
+                    : const Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.whiteColor,
+                      ),
                 onPressed: onSearch,
               ),
             ),

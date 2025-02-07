@@ -179,9 +179,11 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
       return;
     }
 
-    emit(state.copyWith(
-      submitSubjectCSVStatus: FormzSubmissionStatus.inProgress,
-    ));
+    emit(
+      state.copyWith(
+        submitSubjectCSVStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
 
     try {
       // Convert PlatformFile to File
@@ -194,10 +196,12 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
         file,
       );
 
-      emit(state.copyWith(
-        submitSubjectCSVStatus: FormzSubmissionStatus.success,
-        hasSaved: hasSaved,
-      ));
+      emit(
+        state.copyWith(
+          submitSubjectCSVStatus: FormzSubmissionStatus.success,
+          hasSaved: hasSaved,
+        ),
+      );
 
       add(_SubmitSubjectCSVSuccessful(hasSaved));
     } catch (error) {
@@ -205,10 +209,12 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
           ? error.response?.data['message'] as String? ?? 'An error occurred'
           : 'An error occurred';
 
-      emit(state.copyWith(
-        submitSubjectCSVStatus: FormzSubmissionStatus.failure,
-        errorMessage: errorMessage,
-      ));
+      emit(
+        state.copyWith(
+          submitSubjectCSVStatus: FormzSubmissionStatus.failure,
+          errorMessage: errorMessage,
+        ),
+      );
 
       add(_SubmitSubjectCSVFailed(errorMessage));
     }
