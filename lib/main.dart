@@ -28,6 +28,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/search/search_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
@@ -131,6 +132,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AddSubjectsBloc>(
           create: (context) => AddSubjectsBloc(),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (context) => SearchBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),

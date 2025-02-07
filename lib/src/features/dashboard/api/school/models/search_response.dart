@@ -6,6 +6,7 @@ part 'search_response.g.dart';
 @JsonSerializable()
 class SearchResponse {
   SearchResponse({
+    required this.success,
     required this.message,
     required this.statusCode,
     required this.data,
@@ -14,6 +15,7 @@ class SearchResponse {
   factory SearchResponse.fromJson(Map<String, dynamic> json) =>
       _$SearchResponseFromJson(json);
 
+  final bool success;
   final String message;
   final int statusCode;
   final List<SearchResult> data;

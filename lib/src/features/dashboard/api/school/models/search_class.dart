@@ -13,6 +13,7 @@ class Class {
 
   @JsonKey(name: '_id')
   final String id;
+  @JsonKey(name: 'name')
   final String name;
 
   Map<String, dynamic> toJson() => _$ClassToJson(this);

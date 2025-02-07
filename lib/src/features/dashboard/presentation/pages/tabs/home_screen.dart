@@ -2,16 +2,19 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
+
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/search/search_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,19 +28,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  List<StudentModel> parseStudents(Map<String, dynamic> data) {
-    final studentsData = data['students'] as List<dynamic>;
-    return studentsData
-        .map(
-          (studentMap) =>
-              StudentModel.fromMap(studentMap as Map<String, dynamic>),
-        )
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final students = parseStudents(studentList);
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
@@ -119,51 +111,270 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(55.h),
-              child: CustomSearchBar(
-                isHomePage: true,
-                hintText: 'Search for students, teachers, classes...',
-                onSearch: () {
-                  debugPrint('Search');
+              child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  return CustomSearchBar(
+                    onChanged: (query) {
+                      context
+                          .read<SearchBloc>()
+                          .add(SearchEvent.onSearchQueryChanged(query));
+                      context
+                          .read<SearchBloc>()
+                          .add(const SearchEvent.fetchResult());
+                    },
+                    onSubmitted: (_) {
+                      context
+                          .read<SearchBloc>()
+                          .add(const SearchEvent.fetchResult());
+                    },
+                    isHomePage: true,
+                    hintText: 'Search for students, teachers, classes...',
+                  );
                 },
               ),
             ),
           ),
-          body: RawScrollbar(
-            controller: _scrollController,
-            thumbColor: AppColors.primaryColor.withOpacity(0.4),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(8),
-              ),
-            ),
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 5,
-            ),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                child: _buildView(students),
-              ),
-            ),
+          body: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              if (state.searchResultStatus ==
+                  FormzSubmissionStatus.inProgress) {
+                return SizedBox(
+                  height: 600,
+                  child: ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      return const CustomShimmer();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemCount: 20,
+                  ),
+                );
+              }
+              if (state.searchResultStatus == FormzSubmissionStatus.failure) {
+                return Center(
+                  child: Text(
+                    state.errorMessage ?? 'An error occurred',
+                    style: const TextStyle(
+                      color: AppColors.redColor,
+                    ),
+                  ),
+                );
+              }
+
+              if (state.searchResultStatus == FormzSubmissionStatus.success ||
+                  state.searchResult != null ||
+                  state.searchResult!.isNotEmpty) {
+                return SearchResultsList(
+                  searchResults: state.searchResponse?.data,
+                  scrollController: _scrollController,
+                );
+              }
+              return RawScrollbar(
+                controller: _scrollController,
+                thumbColor: AppColors.primaryColor.withOpacity(0.4),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                ),
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 5,
+                ),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                    child: _buildView(),
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
     );
   }
 
-  Widget _buildView(List<StudentModel> students) {
+  Widget _buildView() {
     final role = context.read<AuthBloc>().state.user?.role;
     if (role == 'parent') {
-      return ParentDashboard(
-        students: students,
-      );
+      return const ParentDashboard();
     } else if (role == 'teacher') {
       return const TeacherHomeScreen();
     } else {
       return const SchoolDashBoard();
     }
+  }
+}
+
+class SearchResultItem extends StatelessWidget {
+  const SearchResultItem({
+    required this.student,
+    required this.onTap,
+    super.key,
+  });
+
+  final SearchResult student;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSpacing.horizontalSpacing),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            AppSpacing.verticalSpaceMedium,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                color: AppColors.primaryColor.withOpacity(0.1),
+                border: Border(
+                  left: BorderSide(
+                    color: Colors.blue.shade700,
+                    width: 6,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 14.fontSize,
+                    backgroundColor: AppColors.primaryColor,
+                    child: SvgPicture.asset(
+                      'assets/svg/people.svg',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          student.studentName,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 14.fontSize,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                        Text(
+                          student.school.schoolName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.primaryTextColor
+                                      .withOpacity(0.6)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Class Label
+                  Text(student.classInfo.name,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontSize: 12.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primaryColor,
+                          )),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Update the ListView.builder in your SearchScreen
+class SearchResultsList extends StatelessWidget {
+  final List<SearchResult>? searchResults;
+  final ScrollController scrollController;
+
+  const SearchResultsList({
+    required this.searchResults,
+    required this.scrollController,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RawScrollbar(
+      controller: scrollController,
+      thumbColor: AppColors.primaryColor.withOpacity(0.4),
+      radius: const Radius.circular(8),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: ListView.separated(
+        controller: scrollController,
+        physics: const BouncingScrollPhysics(),
+        itemCount: searchResults?.length ?? 0,
+        separatorBuilder: (context, index) => AppSpacing.verticalSpaceSmall,
+        itemBuilder: (context, index) {
+          final student = searchResults![index];
+          return SearchResultItem(
+            student: student,
+            onTap: () {
+              context.read<SearchBloc>().add(
+                    SearchEvent.onSelectedResultChanged(student.studentName),
+                  );
+              Navigator.of(context).push(
+                // ignore: inference_failure_on_instance_creation
+                MaterialPageRoute(
+                  builder: (context) => StudentDetailsScreenn(
+                    studentName: student.studentName,
+                    className: student.classInfo.name,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class StudentDetailsScreenn extends StatelessWidget {
+  const StudentDetailsScreenn({
+    required this.studentName,
+    required this.className,
+    super.key,
+  });
+  final String studentName;
+  final String className;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Student Details'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Name: $studentName',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Class: $className',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
