@@ -15,5 +15,7 @@ class SearchEvent with _$SearchEvent {
   ) = _OnSelectedResultChanged;
   const factory SearchEvent.fetchResultFailed(String? message) =
       _FetchResultFailed;
+  const factory SearchEvent.cancel() = _CancelSearch;
+
   const factory SearchEvent.errorMessage(String? message) = _ErrorMessage;
 }

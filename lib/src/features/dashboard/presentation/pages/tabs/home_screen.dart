@@ -8,6 +8,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/search
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/connect_ward_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
@@ -113,22 +114,32 @@ class _HomeScreenState extends State<HomeScreen> {
               preferredSize: Size.fromHeight(55.h),
               child: BlocBuilder<SearchBloc, SearchState>(
                 builder: (context, state) {
-                  return CustomSearchBar(
-                    onChanged: (query) {
-                      context
-                          .read<SearchBloc>()
-                          .add(SearchEvent.onSearchQueryChanged(query));
-                      context
-                          .read<SearchBloc>()
-                          .add(const SearchEvent.fetchResult());
-                    },
-                    onSubmitted: (_) {
-                      context
-                          .read<SearchBloc>()
-                          .add(const SearchEvent.fetchResult());
-                    },
-                    isHomePage: true,
-                    hintText: 'Search for students, teachers, classes...',
+                  return Column(
+                    children: [
+                      CustomSearchBar(
+                        onSearch: () {
+                          context
+                              .read<SearchBloc>()
+                              .add(const SearchEvent.cancel());
+                        },
+                        isActive: state.isSearchActive,
+                        onChanged: (query) {
+                          context
+                              .read<SearchBloc>()
+                              .add(SearchEvent.onSearchQueryChanged(query));
+                          context
+                              .read<SearchBloc>()
+                              .add(const SearchEvent.fetchResult());
+                        },
+                        onSubmitted: (_) {
+                          context
+                              .read<SearchBloc>()
+                              .add(const SearchEvent.fetchResult());
+                        },
+                        isHomePage: true,
+                        hintText: 'Search for students, teachers, classes...',
+                      ),
+                    ],
                   );
                 },
               ),
@@ -162,12 +173,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
 
-              if (state.searchResultStatus == FormzSubmissionStatus.success ||
-                  state.searchResult != null ||
-                  state.searchResult!.isNotEmpty) {
-                return SearchResultsList(
-                  searchResults: state.searchResponse?.data,
-                  scrollController: _scrollController,
+              if (state.searchResultStatus == FormzSubmissionStatus.success) {
+                return Expanded(
+                  flex: 10,
+                  child: SearchResultsList(
+                    searchResults: state.searchResponse?.data,
+                    scrollController: _scrollController,
+                  ),
                 );
               }
               return RawScrollbar(
@@ -270,21 +282,24 @@ class SearchResultItem extends StatelessWidget {
                               .textTheme
                               .bodySmall!
                               .copyWith(
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.primaryTextColor
-                                      .withOpacity(0.6)),
+                                fontSize: 12.fontSize,
+                                fontWeight: FontWeight.w300,
+                                color:
+                                    AppColors.primaryTextColor.withOpacity(0.6),
+                              ),
                         ),
                       ],
                     ),
                   ),
                   // Class Label
-                  Text(student.classInfo.name,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontSize: 12.fontSize,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.primaryColor,
-                          )),
+                  Text(
+                    student.classInfo.name,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
                 ],
               ),
             ),
@@ -297,14 +312,13 @@ class SearchResultItem extends StatelessWidget {
 
 // Update the ListView.builder in your SearchScreen
 class SearchResultsList extends StatelessWidget {
-  final List<SearchResult>? searchResults;
-  final ScrollController scrollController;
-
   const SearchResultsList({
     required this.searchResults,
     required this.scrollController,
     super.key,
   });
+  final List<SearchResult>? searchResults;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -326,14 +340,12 @@ class SearchResultsList extends StatelessWidget {
               context.read<SearchBloc>().add(
                     SearchEvent.onSelectedResultChanged(student.studentName),
                   );
-              Navigator.of(context).push(
-                // ignore: inference_failure_on_instance_creation
-                MaterialPageRoute(
-                  builder: (context) => StudentDetailsScreenn(
-                    studentName: student.studentName,
-                    className: student.classInfo.name,
-                  ),
-                ),
+
+              _showConnectDialog(
+                context,
+                student.studentName,
+                student.school.schoolName,
+                student.classInfo.name,
               );
             },
           );
@@ -343,38 +355,20 @@ class SearchResultsList extends StatelessWidget {
   }
 }
 
-class StudentDetailsScreenn extends StatelessWidget {
-  const StudentDetailsScreenn({
-    required this.studentName,
-    required this.className,
-    super.key,
-  });
-  final String studentName;
-  final String className;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Student Details'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Name: $studentName',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Class: $className',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+void _showConnectDialog(
+  BuildContext context,
+  String studentName,
+  String schoolName,
+  String className,
+) async {
+  await showDialog<void>(
+    context: context,
+    builder: (context) {
+      return ConnectWardDialog(
+        studentName: studentName,
+        schoolName: schoolName,
+        className: className,
+      );
+    },
+  );
 }

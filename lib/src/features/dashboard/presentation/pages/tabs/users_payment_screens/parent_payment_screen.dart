@@ -62,6 +62,7 @@ class ParentPaymentScreen extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceMedium,
         CustomSearchBar(
+          isActive: false,
           isHomePage: false,
           hintText: AppStrings.searchPayment,
           onSearch: () {},

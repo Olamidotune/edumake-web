@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({
     required this.isHomePage,
+    required this.isActive,
     super.key,
     this.hintText,
     this.onSearch,
@@ -20,6 +21,7 @@ class CustomSearchBar extends StatelessWidget {
   final bool isHomePage;
   final void Function(String)? onSubmitted;
   final Function(String)? onChanged;
+  final bool isActive;
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +58,15 @@ class CustomSearchBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_forward,
-                  color: AppColors.whiteColor,
-                ),
+                icon: isActive
+                    ? const Icon(
+                        Icons.close,
+                        color: AppColors.whiteColor,
+                      )
+                    : const Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.whiteColor,
+                      ),
                 onPressed: onSearch,
               ),
             ),

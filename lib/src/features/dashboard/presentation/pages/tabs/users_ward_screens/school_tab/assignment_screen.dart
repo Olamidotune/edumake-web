@@ -61,7 +61,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                   ],
                 ),
                 AppSpacing.verticalSpaceMedium,
-                const CustomSearchBar(isHomePage: false),
+                const CustomSearchBar(isActive: false, isHomePage: false),
                 AppSpacing.verticalSpaceMedium,
                 Align(
                   alignment: Alignment.centerLeft,

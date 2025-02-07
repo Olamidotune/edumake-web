@@ -14,13 +14,13 @@ part 'search_state.dart';
 part 'search_bloc.freezed.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-//    GetSchoolDataBloc() : super(const GetSchoolDataState())
   SearchBloc() : super(const SearchState()) {
     on<_SearchQueryChanged>(_searchQueryChanged);
     on<_FetchResult>(_fetchResult);
     on<_FetchResultSuccessful>(_fetchResultSuccessful);
     on<_FetchResultFailed>(_fetchResultFailed);
     on<_OnSelectedResultChanged>(_onSelectedResultChanged);
+    on<_CancelSearch>(_cancelSearch);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -109,6 +109,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
   ) {
     emit(state.copyWith(selectedResult: event.selectedResult));
+  }
+
+  void _cancelSearch(_CancelSearch event, Emitter<SearchState> emit) {
+    emit(
+      state.copyWith(
+        isSearchActive: false,
+        searchQuery: const SearchFormz.pure(),
+        searchResultStatus: FormzSubmissionStatus.initial,
+        searchResponse: null,
+        selectedResult: null,
+        errorMessage: null,
+      ),
+    );
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<SearchState> emit) {
