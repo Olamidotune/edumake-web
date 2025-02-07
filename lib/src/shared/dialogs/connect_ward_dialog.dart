@@ -12,12 +12,16 @@ class ConnectWardDialog extends StatefulWidget {
     required this.studentName,
     required this.schoolName,
     required this.className,
+    required this.busy,
     super.key,
+    this.onTap,
   });
 
   final String studentName;
   final String schoolName;
   final String className;
+  final void Function()? onTap;
+  final bool busy;
 
   @override
   State<ConnectWardDialog> createState() => _ConnectWardDialogState();
@@ -101,14 +105,13 @@ class _ConnectWardDialogState extends State<ConnectWardDialog> {
               selectedRelation = newValue;
             });
           },
-          // errorText:
-          //     selectedRelation == null ? 'Please select a relation' : null,
           value: selectedRelation,
         ),
         AppSpacing.verticalSpaceLarge,
         Button(
+          busy: widget.busy,
           text: 'Connect Account',
-          onPressed: () {},
+          onPressed: widget.onTap,
         ),
         AppSpacing.verticalSpaceLarge,
       ],

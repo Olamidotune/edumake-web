@@ -4,7 +4,7 @@ import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students_datum.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/clients/get_school_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:flutter/foundation.dart';

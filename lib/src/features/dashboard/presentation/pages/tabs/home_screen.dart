@@ -4,7 +4,8 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
 
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/search/search_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
@@ -340,12 +341,12 @@ class SearchResultsList extends StatelessWidget {
               context.read<SearchBloc>().add(
                     SearchEvent.onSelectedResultChanged(student.studentName),
                   );
-
               _showConnectDialog(
                 context,
                 student.studentName,
                 student.school.schoolName,
                 student.classInfo.name,
+                student.id,
               );
             },
           );
@@ -360,14 +361,26 @@ void _showConnectDialog(
   String studentName,
   String schoolName,
   String className,
+  String studentId,
 ) async {
   await showDialog<void>(
     context: context,
     builder: (context) {
-      return ConnectWardDialog(
-        studentName: studentName,
-        schoolName: schoolName,
-        className: className,
+      return BlocBuilder<WardMgtBloc, WardMgtState>(
+        builder: (context, state) {
+          return ConnectWardDialog(
+            studentName: studentName,
+            schoolName: schoolName,
+            className: className,
+            busy: state.requestAccessToWardStatus ==
+                FormzSubmissionStatus.inProgress,
+            onTap: () {
+              context
+                  .read<WardMgtBloc>()
+                  .add(WardMgtEvent.getRequest(studentId));
+            },
+          );
+        },
       );
     },
   );

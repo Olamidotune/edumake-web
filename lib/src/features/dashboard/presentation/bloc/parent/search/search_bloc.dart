@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/clients/get_school_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
@@ -44,17 +44,21 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     if (state.searchQuery.value.isEmpty) {
-      emit(state.copyWith(
-        errorMessage: 'Please enter a search term',
-        searchResultStatus: FormzSubmissionStatus.failure,
-      ));
+      emit(
+        state.copyWith(
+          errorMessage: 'Please enter a search term',
+          searchResultStatus: FormzSubmissionStatus.failure,
+        ),
+      );
       return;
     }
 
-    emit(state.copyWith(
-      searchResultStatus: FormzSubmissionStatus.inProgress,
-      errorMessage: null,
-    ));
+    emit(
+      state.copyWith(
+        searchResultStatus: FormzSubmissionStatus.inProgress,
+        errorMessage: null,
+      ),
+    );
 
     try {
       // Fetch data from the endpoint using Retrofit
@@ -99,8 +103,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   void _fetchResultFailed(_FetchResultFailed event, Emitter<SearchState> emit) {
     emit(
       state.copyWith(
-          searchResultStatus: FormzSubmissionStatus.failure,
-          errorMessage: event.message),
+        searchResultStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
     );
   }
 
