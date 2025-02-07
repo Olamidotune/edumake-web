@@ -22,9 +22,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<GetSchoolDataBloc>()
-        .add(const GetSchoolDataEvent.fetchPaginatedClasses());
+    // context
+    //     .read<GetSchoolDataBloc>()
+    //     .add(const GetSchoolDataEvent.fetchPaginatedClasses());
   }
 
   @override
