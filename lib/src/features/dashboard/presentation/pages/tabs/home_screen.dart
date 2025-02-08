@@ -43,21 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   flex: 2,
                   child: CircleAvatar(
-                    radius: 20.width,
-                    backgroundColor: AppColors.greyColor,
-                    child: GestureDetector(
-                      onTap: () {
-                        debugPrint('${state.user?.id}');
-                      },
-                      child: Text(
-                        state.user?.fullName?.substring(0, 1) ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
+                    radius: 23.fontSize,
+                    backgroundColor: AppColors.primaryColor.withOpacity(.3),
+                    child: SvgPicture.asset(
+                      'assets/svg/parent_icon.svg',
+                      width: 20.fontSize,
+                      height: 30.fontSize,
                     ),
                   ),
                 ),

@@ -2,9 +2,11 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ParentMenuScreen extends StatelessWidget {
@@ -19,11 +21,17 @@ class ParentMenuScreen extends StatelessWidget {
         ListTile(
           contentPadding:
               EdgeInsets.symmetric(horizontal: AppSpacing.horizontalSpacing),
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
+          leading: CircleAvatar(
+            radius: 25.fontSize,
+            backgroundColor: AppColors.primaryColor.withOpacity(.3),
+            child: SvgPicture.asset(
+              'assets/svg/parent_icon.svg',
+              width: 20.fontSize,
+              height: 30.fontSize,
+            ),
           ),
           title: Text(
-            'David Egundeyi',
+            '${context.read<AuthBloc>().state.user?.fullName}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 16.fontSize,
                   fontWeight: FontWeight.w500,
@@ -31,7 +39,7 @@ class ParentMenuScreen extends StatelessWidget {
                 ),
           ), //Name of the user
           subtitle: Text(
-            'Davidegundeyi@yahoo.co.uk',
+            '${context.read<AuthBloc>().state.user?.email}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 12.fontSize,
                   fontWeight: FontWeight.w300,
