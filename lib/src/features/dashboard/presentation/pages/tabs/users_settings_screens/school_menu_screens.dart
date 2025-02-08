@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/user.dar
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
@@ -39,12 +40,18 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
         ListTile(
           contentPadding:
               EdgeInsets.symmetric(horizontal: AppSpacing.horizontalSpacing),
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
+          leading: CircleAvatar(
+            radius: 25,
+            backgroundColor: AppColors.primaryColor.withOpacity(.3),
+            child: SvgPicture.asset(
+              'assets/svg/admin.svg',
+              width: 20.fontSize,
+              height: 30.fontSize,
+            ),
           ),
           title: Text(
             // _user?.email ?? 'User',
-            '${context.read<AuthBloc>().state.user?.fullName ?? _user?.fullName}',
+            '${context.read<AuthBloc>().state.user?.fullName ?? _user?.firstName}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 16.fontSize,
                   fontWeight: FontWeight.w500,
@@ -198,9 +205,12 @@ class SchoolMenuTopContainer extends StatelessWidget {
             ),
           ),
           MenuListTile(
-            title: AppStrings.connectionResquest,
+            title: AppStrings.connectionRequest,
             icon: 'scan',
             onTap: () {
+              context
+                  .read<RequestsBloc>()
+                  .add(const RequestsEvent.getRequest());
               Navigator.of(context, rootNavigator: true).pushNamed(
                 ConnectionRequestScreen.routeName,
               );
@@ -232,7 +242,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
           MenuListTile(
             title: AppStrings.notifications,
             icon: 'notification',
-            onTap: () {},
+            onTap: () {
+              print('object');
+            },
           ),
           Padding(
             padding: EdgeInsets.symmetric(

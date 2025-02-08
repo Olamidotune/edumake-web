@@ -4,16 +4,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ward_request_model.g.dart';
 
 @JsonSerializable()
-class GetRequestModel {
-  GetRequestModel({
+class GetWardRequestModel {
+  GetWardRequestModel({
     required this.success,
     required this.message,
     required this.statusCode,
     required this.data,
   });
 
-  factory GetRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$GetRequestModelFromJson(json);
+  factory GetWardRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$GetWardRequestModelFromJson(json);
   @JsonKey(name: 'success')
   bool success;
   @JsonKey(name: 'message')
@@ -22,5 +22,5 @@ class GetRequestModel {
   int statusCode;
   Data data;
 
-  Map<String, dynamic> toJson() => _$GetRequestModelToJson(this);
+  Map<String, dynamic> toJson() => _$GetWardRequestModelToJson(this);
 }
