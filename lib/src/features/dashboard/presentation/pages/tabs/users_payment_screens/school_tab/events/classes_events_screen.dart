@@ -19,6 +19,7 @@ class ClassEventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
+    final controller = TextEditingController();
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -74,6 +75,7 @@ class ClassEventsScreen extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 CustomSearchBar(
+                  textEditingController: controller,
                   isActive: false,
                   isHomePage: false,
                   hintText: 'Search for events...',

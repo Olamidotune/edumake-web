@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
@@ -16,6 +17,7 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
     on<_GetRequest>(_getRequest);
     on<_GetRequestSuccessful>(_getRequestSuccessful);
     on<_GetRequestFailed>(_getRequestFailed);
+    on<_ErrorMessage>(_errorMessage);
   }
 
   void _getRequest(
@@ -42,7 +44,11 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
       );
     } catch (error, trace) {
       logError(error, trace);
-      add(_GetRequestFailed(error.toString()));
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_GetRequestFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _GetRequestFailed('Something went wrong.'));
+      }
     }
   }
 
@@ -53,6 +59,7 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
     emit(
       state.copyWith(
         requestAccessToWardStatus: FormzSubmissionStatus.success,
+        getWardRequestModel: event.getRequestModel,
       ),
     );
   }
@@ -66,6 +73,15 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
         requestAccessToWardStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message,
       ),
+    );
+  }
+
+  void _errorMessage(
+    _ErrorMessage event,
+    Emitter<WardMgtState> emit,
+  ) {
+    emit(
+      state.copyWith(errorMessage: event.message),
     );
   }
 }

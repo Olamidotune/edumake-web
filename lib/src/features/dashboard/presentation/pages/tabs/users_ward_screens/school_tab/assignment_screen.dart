@@ -19,6 +19,7 @@ class AssignmentScreen extends StatefulWidget {
 
 class _AssignmentScreenState extends State<AssignmentScreen> {
   final ScrollController scrollController = ScrollController();
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,11 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                   ],
                 ),
                 AppSpacing.verticalSpaceMedium,
-                const CustomSearchBar(isActive: false, isHomePage: false),
+                CustomSearchBar(
+                  textEditingController: controller,
+                  isActive: false,
+                  isHomePage: false,
+                ),
                 AppSpacing.verticalSpaceMedium,
                 Align(
                   alignment: Alignment.centerLeft,

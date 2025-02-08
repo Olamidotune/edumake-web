@@ -13,6 +13,7 @@ class ParentPaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = TextEditingController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -62,6 +63,7 @@ class ParentPaymentScreen extends StatelessWidget {
         ),
         AppSpacing.verticalSpaceMedium,
         CustomSearchBar(
+          textEditingController: controller,
           isActive: false,
           isHomePage: false,
           hintText: AppStrings.searchPayment,

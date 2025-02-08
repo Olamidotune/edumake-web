@@ -18,7 +18,7 @@ class GetWardRequestModel {
   bool success;
   @JsonKey(name: 'message')
   String message;
-  @JsonKey(name: 'statusCode')
+  @JsonKey(name: 'status')
   int statusCode;
   Data data;
 

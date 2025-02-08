@@ -10,6 +10,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/connect_ward_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
@@ -30,6 +31,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Column(
                     children: [
                       CustomSearchBar(
+                        textEditingController: _controller,
                         onSearch: () {
+                          _controller.clear();
                           context
                               .read<SearchBloc>()
                               .add(const SearchEvent.cancel());
@@ -153,11 +162,25 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               if (state.searchResultStatus == FormzSubmissionStatus.failure) {
                 return Center(
-                  child: Text(
-                    state.errorMessage ?? 'An error occurred',
-                    style: const TextStyle(
-                      color: AppColors.redColor,
-                    ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 7),
+                      Image.asset(
+                        'assets/png/empty.png',
+                        height: 150,
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      Text(
+                        'No results found.',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 14, // Assuming 20 is a valid font size
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryTextColor,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                      AppSpacing.verticalSpaceSmall,
+                    ],
                   ),
                 );
               }
@@ -225,6 +248,13 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 30.fontSize,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+    logInfo('CLEARED????');
   }
 }
 
@@ -372,10 +402,11 @@ void _showConnectDialog(
     builder: (dialogContext) {
       return BlocListener<WardMgtBloc, WardMgtState>(
         listener: (context, state) {
+          logInfo(' state.errorMessage: ${state.errorMessage}');
           if (state.requestAccessToWardStatus ==
               FormzSubmissionStatus.failure) {
             ToastService.toast(
-              state.getWardRequestModel?.message ?? 'Something went wrong.',
+              state.errorMessage ?? "Something",
               ToastType.error,
             );
           }

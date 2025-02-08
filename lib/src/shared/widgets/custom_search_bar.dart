@@ -14,6 +14,7 @@ class CustomSearchBar extends StatelessWidget {
     this.onSearch,
     this.onSubmitted,
     this.onChanged,
+    required this.textEditingController,
   });
 
   final String? hintText;
@@ -22,12 +23,13 @@ class CustomSearchBar extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final Function(String)? onChanged;
   final bool isActive;
-
+  final TextEditingController textEditingController;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: isHomePage ? 20 : 0),
       child: TextFormField(
+        controller: textEditingController,
         onChanged: onChanged,
         onFieldSubmitted: onSubmitted,
         decoration: InputDecoration(
@@ -67,7 +69,14 @@ class CustomSearchBar extends StatelessWidget {
                         Icons.arrow_forward,
                         color: AppColors.whiteColor,
                       ),
-                onPressed: onSearch,
+                //  onPressed: isActive ? onSearch : null,
+                onPressed: () {
+                  if (textEditingController.text.isEmpty || isActive == true) {
+                    if (onSearch != null) {
+                      onSearch!();
+                    }
+                  }
+                },
               ),
             ),
           ),
