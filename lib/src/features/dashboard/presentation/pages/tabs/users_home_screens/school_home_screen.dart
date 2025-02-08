@@ -146,7 +146,9 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: ListView.separated(
-                        itemCount: state.getRequestModel?.data.length ?? 0,
+                        itemCount: (state.getRequestModel?.data.length ?? 0) > 3
+                            ? 3
+                            : state.getRequestModel?.data.length ?? 0,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -156,7 +158,13 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                               Navigator.of(context, rootNavigator: true)
                                   .pushNamed(
                                 ConnectionRequestDetailsScreen.routeName,
-                                arguments: request.id,
+                                arguments: {
+                                  'requestId': request.id,
+                                  'wardClass': request.student.studentClass,
+                                  'parent': request.parent.id,
+                                  'wardName': request.student.name,
+                                  'date': request.updatedAt,
+                                },
                               );
                             },
                             child: ConnectionRequestListTile(

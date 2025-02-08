@@ -40,8 +40,14 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
         ListTile(
           contentPadding:
               EdgeInsets.symmetric(horizontal: AppSpacing.horizontalSpacing),
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
+          leading: CircleAvatar(
+            radius: 25,
+            backgroundColor: AppColors.primaryColor.withOpacity(.3),
+            child: SvgPicture.asset(
+              'assets/svg/admin.svg',
+              width: 20.fontSize,
+              height: 30.fontSize,
+            ),
           ),
           title: Text(
             // _user?.email ?? 'User',

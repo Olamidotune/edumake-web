@@ -45,11 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircleAvatar(
                     radius: 23.fontSize,
                     backgroundColor: AppColors.primaryColor.withOpacity(.3),
-                    child: SvgPicture.asset(
-                      'assets/svg/parent_icon.svg',
-                      width: 20.fontSize,
-                      height: 30.fontSize,
-                    ),
+                    child: _showPlaceHolder(),
                   ),
                 ),
                 Expanded(
@@ -208,6 +204,26 @@ class _HomeScreenState extends State<HomeScreen> {
       return const TeacherHomeScreen();
     } else {
       return const SchoolDashBoard();
+    }
+  }
+
+  Widget _showPlaceHolder() {
+    final role = context.read<AuthBloc>().state.user?.role;
+
+    if (role == 'parent') {
+      return SvgPicture.asset(
+        'assets/svg/parent_icon.svg',
+        width: 20.fontSize,
+        height: 30.fontSize,
+      );
+    } else if (role == 'teacher') {
+      return const Icon(Icons.person);
+    } else {
+      return SvgPicture.asset(
+        'assets/svg/admin.svg',
+        width: 20.fontSize,
+        height: 30.fontSize,
+      );
     }
   }
 }
