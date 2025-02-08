@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
@@ -25,6 +26,9 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
   void initState() {
     super.initState();
     context.read<RequestsBloc>().add(const RequestsEvent.getRequest());
+    context
+        .read<GetSchoolDataBloc>()
+        .add(const GetSchoolDataEvent.fetchPaginatedClasses());
   }
 
   @override
