@@ -45,7 +45,7 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
           ),
           title: Text(
             // _user?.email ?? 'User',
-            '${context.read<AuthBloc>().state.user?.fullName ?? _user?.createdAt}',
+            '${context.read<AuthBloc>().state.user?.fullName ?? _user?.firstName}',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 16.fontSize,
                   fontWeight: FontWeight.w500,

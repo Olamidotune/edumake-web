@@ -2,14 +2,18 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
+import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
 class ConnectionRequestScreen extends StatelessWidget {
@@ -139,11 +143,25 @@ class ConnectionRequestScreen extends StatelessWidget {
                             final request = state.getRequestModel!.data[index];
                             return GestureDetector(
                               onTap: () {
-                                // Navigate to the details screen and pass the request ID or other data
+                                context.read<RequestsBloc>().add(
+                                      RequestsEvent.selectedRequest(
+                                        request.student.name,
+                                      ),
+                                    );
+                                context.read<RequestsBloc>().add(
+                                      RequestsEvent.selectedRequestId(
+                                        request.id,
+                                      ),
+                                    );
                                 Navigator.of(context).pushNamed(
                                   ConnectionRequestDetailsScreen.routeName,
-                                  arguments: request
-                                      .id, // Pass the request ID or entire request object
+                                  arguments: {
+                                    'requestId': request.id,
+                                    'wardClass': request.student.studentClass,
+                                    'parent': request.parent.id,
+                                    'wardName': request.student.name,
+                                    'date': request.updatedAt,
+                                  },
                                 );
                               },
                               child: ConnectionRequestListTile(
@@ -191,8 +209,23 @@ class _ConnectionRequestDetailsScreenState
     extends State<ConnectionRequestDetailsScreen> {
   final ScrollController scrollController = ScrollController();
 
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    AuthServices().getUser().then((user) => setState(() => _user = user));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+    // ignore: unused_local_variable
+    final requestId = args['requestId'];
+    final parent = args['parent'];
+    final wardName = args['wardName'];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
@@ -219,7 +252,7 @@ class _ConnectionRequestDetailsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kamala Harris ${AppStrings.wantsToConnectAndHaveAccessTo}',
+                    "$parent ${AppStrings.wantsToConnectAndHaveAccessTo}",
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 13.fontSize,
@@ -238,11 +271,12 @@ class _ConnectionRequestDetailsScreenState
                       color: AppColors.primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const ConnectionRequestListTile(
-                      titleName: 'Donald Trump',
-                      subTitleName: 'New Delight Sec School.',
+                    child: ConnectionRequestStudentListTile(
+                      titleName: wardName.toString(),
+                      subTitleName:
+                          '${context.read<AuthBloc>().state.user?.school?.schoolName ?? _user?.school?.schoolName}',
                       date: '',
-                      className: 'JS1',
+                      className: 'Ward class',
                     ),
                   ),
                   AppSpacing.verticalSpaceMedium,
@@ -250,10 +284,9 @@ class _ConnectionRequestDetailsScreenState
                     child: CircleAvatar(
                       radius: 60,
                       backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-                      child: Icon(
-                        Icons.person,
-                        color: AppColors.primaryColor,
-                        size: 60.fontSize,
+                      child: SvgPicture.asset(
+                        'assets/svg/parent_icon.svg',
+                        height: 60.fontSize,
                       ),
                     ),
                   ),
