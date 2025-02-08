@@ -254,7 +254,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
-    logInfo('CLEARED????');
   }
 }
 
