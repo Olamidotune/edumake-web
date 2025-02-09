@@ -1,4 +1,4 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/clients/request/get_request_datum.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_datum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'get_request_model.g.dart';

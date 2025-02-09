@@ -130,7 +130,7 @@ class _ConnectionRequestDetailsScreenState
                             ),
                           ),
                           Text(
-                            'Kamala Harris',
+                            parent.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!

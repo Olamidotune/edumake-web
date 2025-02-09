@@ -13,5 +13,11 @@ class RequestsEvent with _$RequestsEvent {
       _SelectedRequest;
   const factory RequestsEvent.selectedRequestId(String? selectedRequestId) =
       _SelectedRequestId;
+  const factory RequestsEvent.acceptRequest(String? selectedRequestId) =
+      _AcceptRequest;
+  const factory RequestsEvent.rejectRequest(
+    String? selectedRequestId,
+    String rejectionReason,
+  ) = _RejectRequest;
   const factory RequestsEvent.errorMessage(String? message) = _ErrorMessage;
 }

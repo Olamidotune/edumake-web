@@ -31,7 +31,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
@@ -141,8 +141,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(),
         ),
-        BlocProvider<WardMgtBloc>(
-          create: (context) => WardMgtBloc(),
+        BlocProvider<SendRequestBloc>(
+          create: (context) => SendRequestBloc(),
         ),
         BlocProvider<GetWardsBloc>(
           create: (context) => GetWardsBloc(),

@@ -2,7 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/clients/request/get_request_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_response.dart';
 import 'package:retrofit/http.dart';
 
@@ -13,7 +13,7 @@ abstract class WardsClient {
   factory WardsClient(Dio dio, {String? baseUrl}) = _WardsClient;
   @POST('/api/v1/par/request/{studentId}')
   @FormUrlEncoded()
-  Future<GetWardRequestModel> requestAccessToWard(
+  Future<GetWardRequestModel> sendRequest(
     @Header('Authorization') String authorization,
     @Path('studentId') String studentId,
   );

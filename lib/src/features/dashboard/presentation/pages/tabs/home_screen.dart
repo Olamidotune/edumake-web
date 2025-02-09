@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
 
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
@@ -380,7 +380,7 @@ void _showConnectDialog(
   await showDialog<void>(
     context: context,
     builder: (dialogContext) {
-      return BlocListener<WardMgtBloc, WardMgtState>(
+      return BlocListener<SendRequestBloc, SendRequestState>(
         listener: (context, state) {
           logInfo(' state.errorMessage: ${state.errorMessage}');
           if (state.requestAccessToWardStatus ==
@@ -396,7 +396,7 @@ void _showConnectDialog(
             Navigator.of(dialogContext).pop();
           }
         },
-        child: BlocBuilder<WardMgtBloc, WardMgtState>(
+        child: BlocBuilder<SendRequestBloc, SendRequestState>(
           builder: (context, state) {
             return ConnectWardDialog(
               studentName: studentName,
@@ -406,8 +406,8 @@ void _showConnectDialog(
                   FormzSubmissionStatus.inProgress,
               onTap: () {
                 context
-                    .read<WardMgtBloc>()
-                    .add(WardMgtEvent.getRequest(studentId));
+                    .read<SendRequestBloc>()
+                    .add(SendRequestEvent.sendRequest(studentId));
               },
             );
           },
