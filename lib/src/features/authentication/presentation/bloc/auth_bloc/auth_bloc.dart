@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
@@ -203,9 +201,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
         add(_SignInFailed(error.response?.data['message'] as String?));
-      }
-      if (error is SocketException) {
-        add(_SignInFailed('Check your connection'));
       } else {
         add(const _SignInFailed('An unexpected error occurred'));
       }
