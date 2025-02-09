@@ -14,6 +14,7 @@ import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -161,30 +162,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (state.searchResultStatus == FormzSubmissionStatus.failure) {
-                return Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 7),
-                      Image.asset(
-                        'assets/png/empty.png',
-                        height: 150,
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      Text(
-                        'No results found.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 14, // Assuming 20 is a valid font size
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryTextColor,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                    ],
-                  ),
+                return const NoDataAvailable(
+                  message: 'No results found.',
                 );
               }
-
               if (state.searchResultStatus == FormzSubmissionStatus.success) {
                 return SearchResultsList(
                   searchResults: state.searchResponse?.data,
