@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
@@ -18,6 +20,8 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     on<_GetRequestFailed>(_getRequestFailed);
     on<_SelectedRequest>(_selectedRequest);
     on<_SelectedRequestId>(_selectedRequestId);
+    on<_AcceptRequest>(_acceptRequest);
+    on<_RejectRequest>(_rejectRequest);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -92,6 +96,23 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       state.copyWith(
         selectedRequest: event.selectedRequest,
       ),
+    );
+  }
+
+  void _acceptRequest(
+    _AcceptRequest event,
+    Emitter<RequestsState> emit,
+  ) async {
+    emit(state.copyWith(selectedRequestId: event.selectedRequestId));
+    log(event.selectedRequestId ?? 'NONE');
+  }
+
+  void _rejectRequest(
+    _RejectRequest event,
+    Emitter<RequestsState> emit,
+  ) async {
+    emit(
+      state.copyWith(selectedRequestId: event.selectedRequestId),
     );
   }
 

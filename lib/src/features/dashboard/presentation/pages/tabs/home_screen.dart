@@ -151,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return SizedBox(
                   height: 600,
                   child: ListView.separated(
+                    controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       return const CustomShimmer();
                     },

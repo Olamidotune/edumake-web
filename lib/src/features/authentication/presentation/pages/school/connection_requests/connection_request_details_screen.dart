@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/reject_connection_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -285,7 +286,13 @@ class _ConnectionRequestDetailsScreenState
                       Expanded(
                         child: Button(
                           text: AppStrings.accept,
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<RequestsBloc>().add(
+                                  RequestsEvent.acceptRequest(
+                                    requestId.toString(),
+                                  ),
+                                );
+                          },
                         ),
                       ),
                       AppSpacing.horizontalSpaceMedium,

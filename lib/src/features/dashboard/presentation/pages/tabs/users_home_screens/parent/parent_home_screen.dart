@@ -42,6 +42,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
             return SizedBox(
               height: 800,
               child: ListView.builder(
+                controller: scrollController,
                 itemBuilder: (context, index) {
                   return const CustomShimmer();
                 },

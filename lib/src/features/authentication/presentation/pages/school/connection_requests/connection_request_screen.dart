@@ -41,6 +41,7 @@ class ConnectionRequestScreen extends StatelessWidget {
                 return SizedBox(
                   height: 800,
                   child: ListView.builder(
+                    controller: scrollController,
                     itemBuilder: (context, index) {
                       return const CustomShimmer();
                     },

@@ -2,10 +2,12 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RejectConnectionScreen extends StatefulWidget {
   const RejectConnectionScreen({super.key});
@@ -50,160 +52,172 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
                 horizontal: AppSpacing.horizontalSpacing,
                 vertical: AppSpacing.verticalValueMedium,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.whyDidYouRejectTheRequest,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.secondaryTexColor,
-                        ),
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  Row(
+              child: BlocBuilder<RequestsBloc, RequestsState>(
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Checkbox(
-                        side: const BorderSide(),
-                        activeColor: AppColors.primaryColor,
-                        value: reasons[
-                            AppStrings.theAccountDoesNotMatchStudentDetails],
-                        onChanged: (bool? value) {
-                          setState(() {
-                            reasons[AppStrings
-                                    .theAccountDoesNotMatchStudentDetails] =
-                                value ?? false;
-                          });
-                        },
+                      Text(
+                        AppStrings.whyDidYouRejectTheRequest,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 24.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.secondaryTexColor,
+                            ),
                       ),
-                      Expanded(
-                        child: Text(
-                          AppStrings.theAccountDoesNotMatchStudentDetails,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      AppSpacing.verticalSpaceMedium,
+                      Row(
+                        children: [
+                          Checkbox(
+                            side: const BorderSide(),
+                            activeColor: AppColors.primaryColor,
+                            value: reasons[AppStrings
+                                .theAccountDoesNotMatchStudentDetails],
+                            onChanged: (bool? value) {
+                              setState(() {
+                                reasons[AppStrings
+                                        .theAccountDoesNotMatchStudentDetails] =
+                                    value ?? false;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              AppStrings.theAccountDoesNotMatchStudentDetails,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 13.fontSize,
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.secondaryTexColor,
                                   ),
-                          maxLines: 3,
-                          textAlign: TextAlign.justify,
-                        ),
+                              maxLines: 3,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  Row(
-                    children: [
-                      Checkbox(
-                        side: const BorderSide(),
-                        activeColor: AppColors.primaryColor,
-                        value: reasons[AppStrings
-                            .theParentDidNotVetTheAccountAskingForPermissions],
-                        onChanged: (bool? value) {
-                          setState(() {
-                            reasons[AppStrings
-                                    .theParentDidNotVetTheAccountAskingForPermissions] =
-                                value ?? false;
-                          });
-                        },
-                      ),
-                      Expanded(
-                        child: Text(
-                          AppStrings
-                              .theParentDidNotVetTheAccountAskingForPermissions,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      AppSpacing.verticalSpaceMedium,
+                      Row(
+                        children: [
+                          Checkbox(
+                            side: const BorderSide(),
+                            activeColor: AppColors.primaryColor,
+                            value: reasons[AppStrings
+                                .theParentDidNotVetTheAccountAskingForPermissions],
+                            onChanged: (bool? value) {
+                              setState(() {
+                                reasons[AppStrings
+                                        .theParentDidNotVetTheAccountAskingForPermissions] =
+                                    value ?? false;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              AppStrings
+                                  .theParentDidNotVetTheAccountAskingForPermissions,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 13.fontSize,
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.secondaryTexColor,
                                   ),
-                          maxLines: 3,
-                          textAlign: TextAlign.justify,
-                        ),
+                              maxLines: 3,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  Row(
-                    children: [
-                      Checkbox(
-                        side: const BorderSide(),
-                        activeColor: AppColors.primaryColor,
-                        value: reasons[AppStrings
-                            .theAccountNINDetailsDoesNotMatchTheAccountdetails],
-                        onChanged: (bool? value) {
-                          setState(() {
-                            reasons[AppStrings
-                                    .theAccountNINDetailsDoesNotMatchTheAccountdetails] =
-                                value ?? false;
-                          });
-                        },
-                      ),
-                      Expanded(
-                        child: Text(
-                          AppStrings
-                              .theAccountNINDetailsDoesNotMatchTheAccountdetails,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      AppSpacing.verticalSpaceMedium,
+                      Row(
+                        children: [
+                          Checkbox(
+                            side: const BorderSide(),
+                            activeColor: AppColors.primaryColor,
+                            value: reasons[AppStrings
+                                .theAccountNINDetailsDoesNotMatchTheAccountdetails],
+                            onChanged: (bool? value) {
+                              setState(() {
+                                reasons[AppStrings
+                                        .theAccountNINDetailsDoesNotMatchTheAccountdetails] =
+                                    value ?? false;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              AppStrings
+                                  .theAccountNINDetailsDoesNotMatchTheAccountdetails,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 13.fontSize,
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.secondaryTexColor,
                                   ),
-                          maxLines: 3,
-                          textAlign: TextAlign.justify,
-                        ),
+                              maxLines: 3,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  Row(
-                    children: [
-                      Checkbox(
-                        side: const BorderSide(),
-                        activeColor: AppColors.primaryColor,
-                        value: reasons[AppStrings
-                            .theAccountAlreadyHasAMaximumNumberOfConnector],
-                        onChanged: (bool? value) {
-                          setState(() {
-                            reasons[AppStrings
-                                    .theAccountAlreadyHasAMaximumNumberOfConnector] =
-                                value ?? false;
-                          });
-                        },
-                      ),
-                      Expanded(
-                        child: Text(
-                          AppStrings
-                              .theAccountAlreadyHasAMaximumNumberOfConnector,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      AppSpacing.verticalSpaceMedium,
+                      Row(
+                        children: [
+                          Checkbox(
+                            side: const BorderSide(),
+                            activeColor: AppColors.primaryColor,
+                            value: reasons[AppStrings
+                                .theAccountAlreadyHasAMaximumNumberOfConnector],
+                            onChanged: (bool? value) {
+                              setState(() {
+                                reasons[AppStrings
+                                        .theAccountAlreadyHasAMaximumNumberOfConnector] =
+                                    value ?? false;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              AppStrings
+                                  .theAccountAlreadyHasAMaximumNumberOfConnector,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 13.fontSize,
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.secondaryTexColor,
                                   ),
-                          maxLines: 3,
-                          textAlign: TextAlign.justify,
-                        ),
+                              maxLines: 3,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      AppSpacing.verticalSpaceSmall,
+                      const CustomBigTextFormField(
+                        header: AppStrings.others,
+                      ),
+                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
+                      Button(
+                        text: AppStrings.submit,
+                        onPressed: () {},
                       ),
                     ],
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  AppSpacing.verticalSpaceSmall,
-                  const CustomBigTextFormField(
-                    header: AppStrings.others,
-                  ),
-                  SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
-                  Button(
-                    text: AppStrings.submit,
-                    onPressed: () {},
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),
