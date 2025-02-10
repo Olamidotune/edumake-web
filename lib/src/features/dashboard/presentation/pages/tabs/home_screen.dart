@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (role == 'parent') {
       return SvgPicture.asset(
-        'assets/svg/parent_icon.svg',
+        'assets/svg/parent.svg',
         width: 20.fontSize,
         height: 30.fontSize,
       );
@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Icon(Icons.person);
     } else {
       return SvgPicture.asset(
-        'assets/svg/admin.svg',
+        'assets/svg/admin_icon.svg',
         width: 20.fontSize,
         height: 30.fontSize,
       );

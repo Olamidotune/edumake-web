@@ -29,7 +29,7 @@ class ConnectionRequestListTile extends StatelessWidget {
         backgroundColor: AppColors.secondaryColor.withOpacity(.3),
         child: ClipRRect(
           child: SvgPicture.asset(
-            'assets/svg/parent_icon.svg',
+            'assets/svg/parent.svg',
             height: 40,
           ),
         ),

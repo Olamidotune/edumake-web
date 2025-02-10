@@ -25,7 +25,7 @@ class ParentMenuScreen extends StatelessWidget {
             radius: 25.fontSize,
             backgroundColor: AppColors.primaryColor.withOpacity(.3),
             child: SvgPicture.asset(
-              'assets/svg/parent_icon.svg',
+              'assets/svg/parent.svg',
               width: 20.fontSize,
               height: 30.fontSize,
             ),

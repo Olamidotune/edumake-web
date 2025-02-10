@@ -44,7 +44,7 @@ class _SchoolMenuScreenState extends State<SchoolMenuScreen> {
             radius: 25,
             backgroundColor: AppColors.primaryColor.withOpacity(.3),
             child: SvgPicture.asset(
-              'assets/svg/admin.svg',
+              'assets/svg/admin_icon.svg',
               width: 20.fontSize,
               height: 30.fontSize,
             ),

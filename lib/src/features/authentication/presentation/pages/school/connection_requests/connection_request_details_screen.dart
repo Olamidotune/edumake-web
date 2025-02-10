@@ -106,7 +106,7 @@ class _ConnectionRequestDetailsScreenState
                       radius: 60,
                       backgroundColor: AppColors.primaryColor.withOpacity(0.1),
                       child: SvgPicture.asset(
-                        'assets/svg/parent_icon.svg',
+                        'assets/svg/parent.svg',
                         height: 60.fontSize,
                       ),
                     ),
