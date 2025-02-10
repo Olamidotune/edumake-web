@@ -1,5 +1,5 @@
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/data.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'ward_request_model.g.dart';
 
@@ -18,9 +18,10 @@ class GetWardRequestModel {
   bool success;
   @JsonKey(name: 'message')
   String message;
-  @JsonKey(name: 'status')
+  @JsonKey(name: 'statusCode')
   int statusCode;
-  Data data;
+  @JsonKey(name: 'data')
+  List<WardDatum> data;
 
   Map<String, dynamic> toJson() => _$GetWardRequestModelToJson(this);
 }

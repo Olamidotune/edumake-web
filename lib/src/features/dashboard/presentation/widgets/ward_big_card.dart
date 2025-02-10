@@ -43,7 +43,11 @@ class WardBigCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                child: Text(wardName[0]),
+                backgroundColor: AppColors.primaryColor,
+                radius: 20.fontSize,
+                child: SvgPicture.asset(
+                  'assets/svg/people.svg',
+                ),
               ),
               AppSpacing.horizontalSpaceMedium,
               Column(

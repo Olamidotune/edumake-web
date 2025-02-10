@@ -42,6 +42,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
             return SizedBox(
               height: 800,
               child: ListView.builder(
+                controller: scrollController,
                 itemBuilder: (context, index) {
                   return const CustomShimmer();
                 },
@@ -49,7 +50,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
               ),
             );
           }
-          if (state.searchResponse?.data.isEmpty ?? true) {
+          if (state.getWardRequestModel?.data.isEmpty ?? false) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -74,28 +75,33 @@ class _ParentDashboardState extends State<ParentDashboard> {
           }
           return Column(
             children: [
-              Text(
-                'Your Ward',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 16.fontSize,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.blackColor,
-                    ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Your Ward',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 16.fontSize,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blackColor,
+                      ),
+                ),
               ),
               AppSpacing.verticalSpaceMedium,
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: state.getWardRequestModel?.data.length ?? 0,
                 itemBuilder: (context, index) {
-                  return const YourWardCard(
-                      wardName: 'student.name,',
-                      schoolName: 'student.school,',
-                      wardClass: 'student.classLevel,',
-                      profilePic: 'student.name.substring(1),',
-                      assignmentNum: 'student.assignment,',
-                      scores: 'student.deviceToken',
-                      feesPaid: true);
+                  final wardDetails = state.getWardRequestModel?.data[index];
+                  return YourWardCard(
+                    wardName:
+                        '${state.getWardRequestModel?.data[index].wardName}',
+                    schoolName: wardDetails?.wardDatumSchool.schoolName ?? '',
+                    wardClass: wardDetails?.wardDatumClass.name ?? '',
+                    assignmentNum: '{Ward scores}',
+                    scores: 'student.deviceToken',
+                    feesPaid: true,
+                  );
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return AppSpacing.verticalSpaceMedium;

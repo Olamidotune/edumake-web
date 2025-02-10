@@ -6,7 +6,7 @@ class GetWardsEvent with _$GetWardsEvent {
   const factory GetWardsEvent.init() = _Init;
   const factory GetWardsEvent.fetchWards() = _FetchWards;
   const factory GetWardsEvent.fetchWardsSuccessful(
-    SearchResponse searchResponse,
+    GetWardRequestModel getWardResponse,
   ) = _FetchWardsSuccessful;
   const factory GetWardsEvent.fetchWardsFailed(
     String? message,

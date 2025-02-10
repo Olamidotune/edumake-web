@@ -30,6 +30,9 @@ class _ClassScreenState extends State<ClassScreen> {
   void initState() {
     super.initState();
     scrollController.addListener(_loadMoreClasses);
+    // context
+    //     .read<GetSchoolDataBloc>()
+    //     .add(const GetSchoolDataEvent.fetchPaginatedClasses());
   }
 
   @override
@@ -81,37 +84,45 @@ class _ClassScreenState extends State<ClassScreen> {
           scrollController: scrollController,
           child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
             builder: (context, state) {
-              if (state.classesData == null || state.classesData!.isEmpty) {
+              if (state.classesData?.isEmpty ?? false) {
                 return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: scrollController,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 6),
-                      Image.asset(
-                        'assets/png/empty.png',
-                        height: 150,
-                      ),
-                      Text(
-                        'No Data Available',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 20, // Assuming 20 is a valid font size
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                      Text(
-                        'Add a class or classes by clicking the + button above.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 14, // Assuming 14 is a valid font size
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.secondaryTexColor,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: AppSpacing.verticalValueSpaceLarge * 6,
+                        ),
+                        Image.asset(
+                          'assets/png/empty.png',
+                          height: 150,
+                        ),
+                        Text(
+                          'No Data Available',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize:
+                                        20, // Assuming 20 is a valid font size
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primaryTextColor,
+                                  ),
+                        ),
+                        AppSpacing.verticalSpaceSmall,
+                        Text(
+                          'Add a class or classes by clicking the + button above.',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize:
+                                        14, // Assuming 14 is a valid font size
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.secondaryTexColor,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }

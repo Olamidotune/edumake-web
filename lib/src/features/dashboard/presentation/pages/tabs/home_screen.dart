@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
 
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/parent/parent_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
@@ -14,6 +14,7 @@ import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -150,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return SizedBox(
                   height: 600,
                   child: ListView.separated(
+                    controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
                       return const CustomShimmer();
                     },
@@ -161,30 +163,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               if (state.searchResultStatus == FormzSubmissionStatus.failure) {
-                return Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: AppSpacing.verticalValueSpaceLarge * 7),
-                      Image.asset(
-                        'assets/png/empty.png',
-                        height: 150,
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      Text(
-                        'No results found.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 14, // Assuming 20 is a valid font size
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryTextColor,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                    ],
-                  ),
+                return const NoDataAvailable(
+                  height: 0,
+                  message: 'No results found.',
                 );
               }
-
               if (state.searchResultStatus == FormzSubmissionStatus.success) {
                 return SearchResultsList(
                   searchResults: state.searchResponse?.data,
@@ -399,7 +382,7 @@ void _showConnectDialog(
   await showDialog<void>(
     context: context,
     builder: (dialogContext) {
-      return BlocListener<WardMgtBloc, WardMgtState>(
+      return BlocListener<SendRequestBloc, SendRequestState>(
         listener: (context, state) {
           logInfo(' state.errorMessage: ${state.errorMessage}');
           if (state.requestAccessToWardStatus ==
@@ -415,7 +398,7 @@ void _showConnectDialog(
             Navigator.of(dialogContext).pop();
           }
         },
-        child: BlocBuilder<WardMgtBloc, WardMgtState>(
+        child: BlocBuilder<SendRequestBloc, SendRequestState>(
           builder: (context, state) {
             return ConnectWardDialog(
               studentName: studentName,
@@ -425,8 +408,8 @@ void _showConnectDialog(
                   FormzSubmissionStatus.inProgress,
               onTap: () {
                 context
-                    .read<WardMgtBloc>()
-                    .add(WardMgtEvent.getRequest(studentId));
+                    .read<SendRequestBloc>()
+                    .add(SendRequestEvent.sendRequest(studentId));
               },
             );
           },

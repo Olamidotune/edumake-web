@@ -18,7 +18,9 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/test_values.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_request_screen.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/reject_connection_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
@@ -29,7 +31,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/ward_mgt_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
@@ -46,6 +48,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/teacher_details_screen.dart';
@@ -139,8 +142,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(),
         ),
-        BlocProvider<WardMgtBloc>(
-          create: (context) => WardMgtBloc(),
+        BlocProvider<SendRequestBloc>(
+          create: (context) => SendRequestBloc(),
         ),
         BlocProvider<GetWardsBloc>(
           create: (context) => GetWardsBloc(),
@@ -271,6 +274,8 @@ class MyApp extends StatelessWidget {
                       const VerifyForgotPassword(),
                   CreateNewPassword.routeName: (context) =>
                       const CreateNewPassword(),
+                  WardSubjectScreen.routeName: (context) =>
+                      const WardSubjectScreen(),
                   Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
