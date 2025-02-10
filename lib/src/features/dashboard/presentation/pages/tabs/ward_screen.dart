@@ -57,9 +57,7 @@ class _WardScreenState extends State<WardScreen> {
   Widget _buildView(List<StudentModel> students) {
     final role = context.read<AuthBloc>().state.user?.role;
     if (role == 'parent') {
-      return ParentWardScreen(
-        students: students,
-      );
+      return const ParentWardScreen();
     } else if (role == 'teacher') {
       return const TeacherClassesScreen();
     } else {

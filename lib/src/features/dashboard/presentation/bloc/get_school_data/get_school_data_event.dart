@@ -32,6 +32,15 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   ) = _FetchStudentsSuccessful;
   const factory GetSchoolDataEvent.fetchStudentsFailed(String? message) =
       _FetchStudentsFailed;
+  //////////SUBJECTS FOR STUDENT//////////////
+  const factory GetSchoolDataEvent.fetchSubjectForStudent(String? studentId) =
+      _FetchSubjectForStudent;
+  const factory GetSchoolDataEvent.fetchSubjectForStudentSuccessful(
+    GetSubjectForStudent getSubjectForStudent,
+  ) = _FetchSubjectForStudentSuccessful;
+  const factory GetSchoolDataEvent.fetchSubjectForStudentFailed(
+    String? message,
+  ) = _FetchSubjectForStudentFailed;
   const factory GetSchoolDataEvent.errorMessage(String? message) =
       _ErrorMessage;
 }

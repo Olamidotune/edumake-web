@@ -3,7 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_response.dart';
+
 import 'package:retrofit/http.dart';
 
 part 'wards_client.g.dart';
@@ -19,7 +19,7 @@ abstract class WardsClient {
   );
 
   @GET('/api/v1/par/wards')
-  Future<SearchResponse> getWardsForParent(
+  Future<GetWardRequestModel> getWardsForParent(
     @Header('Authorization') String authorization,
   );
 
