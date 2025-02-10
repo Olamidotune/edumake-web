@@ -35,58 +35,59 @@ class ConnectionRequestScreen extends StatelessWidget {
           padding: const EdgeInsets.only(
             right: 10,
           ),
-          child: BlocBuilder<RequestsBloc, RequestsState>(
-            builder: (context, state) {
-              if (state.getRequestStatus == FormzSubmissionStatus.inProgress) {
-                return SizedBox(
-                  height: 800,
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      return const CustomShimmer();
-                    },
-                    itemCount: 10,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueMedium,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.connectionRequest,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.secondaryTexColor,
+                        ),
                   ),
-                );
-              }
-              if (state.getRequestModel?.data.length == 0) {
-                return const NoDataAvailable(
-                  message:
-                      'Your connection requests will appear here once they are available. Please check back later or contact support if you believe this is an error.',
-                );
-              }
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                controller: scrollController,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.horizontalSpacing,
-                    vertical: AppSpacing.verticalValueMedium,
+                  AppSpacing.verticalSpaceSmall,
+                  Text(
+                    AppStrings.connectionRequestWarning,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.connectionRequest,
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 24.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.secondaryTexColor,
-                                ),
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                      Text(
-                        AppStrings.connectionRequestWarning,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      Container(
+                  AppSpacing.verticalSpaceMedium,
+                  BlocBuilder<RequestsBloc, RequestsState>(
+                    builder: (context, state) {
+                      if (state.getRequestStatus ==
+                          FormzSubmissionStatus.inProgress) {
+                        return SizedBox(
+                          height: 800,
+                          child: ListView.builder(
+                            controller: scrollController,
+                            itemBuilder: (context, index) {
+                              return const CustomShimmer();
+                            },
+                            itemCount: 10,
+                          ),
+                        );
+                      }
+                      if (state.pendingRequests.isEmpty) {
+                        return const NoDataAvailable(
+                          height: 3,
+                          message:
+                              'Your connection requests will appear here once they are available. Please check back later or contact support if you believe this is an error.',
+                        );
+                      }
+                      return Container(
                         width: double.infinity,
                         padding: EdgeInsets.only(
                           top: AppSpacing.verticalValueSmall,
@@ -98,12 +99,11 @@ class ConnectionRequestScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: ListView.separated(
-                          itemCount: state.getRequestModel?.data.length ?? 0,
+                          itemCount: state.pendingRequests.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            // Get the current request from the list
-                            final request = state.getRequestModel!.data[index];
+                            final request = state.pendingRequests[index];
                             return GestureDetector(
                               onTap: () {
                                 context.read<RequestsBloc>().add(
@@ -129,12 +129,9 @@ class ConnectionRequestScreen extends StatelessWidget {
                               },
                               child: ConnectionRequestListTile(
                                 titleName: "Parent's name",
-                                subTitleName: request.student
-                                    .name, // Use actual data from the request
-                                date: request.createdAt
-                                    .toString(), // Use actual data from the request
-                                className:
-                                    'Class name', // Use actual data from the request
+                                subTitleName: request.student.name,
+                                date: request.createdAt.toString(),
+                                className: 'Class name',
                               ),
                             );
                           },
@@ -145,15 +142,23 @@ class ConnectionRequestScreen extends StatelessWidget {
                             );
                           },
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ),
-              );
-            },
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+
+
+
+
+// final isRejected = state
+//                                 .getRequestDatum?[index].status
+//                                 .contains('rejected');

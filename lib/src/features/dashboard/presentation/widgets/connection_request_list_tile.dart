@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -80,7 +81,7 @@ class ConnectionRequestListTile extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceSmall,
                 Text(
-                  date,
+                  formatLocalTime(date),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 10.fontSize,
                         color: AppColors.primaryTextColor,

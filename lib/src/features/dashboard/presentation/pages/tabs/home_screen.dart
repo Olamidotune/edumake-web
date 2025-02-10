@@ -164,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               if (state.searchResultStatus == FormzSubmissionStatus.failure) {
                 return const NoDataAvailable(
+                  height: 0,
                   message: 'No results found.',
                 );
               }

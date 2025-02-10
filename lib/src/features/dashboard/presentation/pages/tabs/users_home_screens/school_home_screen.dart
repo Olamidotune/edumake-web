@@ -10,6 +10,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/con
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -76,6 +77,17 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           ),
         ),
         AppSpacing.verticalSpaceMedium,
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            '${AppStrings.connectionRequest} (${context.read<RequestsBloc>().state.pendingRequests.length})',
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontSize: 16.fontSize,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.blackColor,
+                ),
+          ),
+        ),
         BlocBuilder<RequestsBloc, RequestsState>(
           builder: (context, state) {
             if (state.getRequestStatus == FormzSubmissionStatus.inProgress) {
@@ -86,56 +98,15 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                 ),
               );
             }
-            if (state.getRequestModel?.data == null ||
-                state.getRequestModel!.data.isEmpty) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: AppSpacing.verticalValueSpaceLarge * 8,
-                      ),
-                      Image.asset(
-                        'assets/png/empty.png',
-                        height: 150,
-                      ),
-                      Text(
-                        'No Data Available',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontSize: 20, // Assuming 20 is a valid font size
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryTextColor,
-                            ),
-                      ),
-                      AppSpacing.verticalSpaceSmall,
-                      Text(
-                        'Your connection requests will appear here once they are available. Please check back later or contact support if you believe this is an error.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 14, // Assuming 14 is a valid font size
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.secondaryTexColor,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
+            if (state.pendingRequests.isEmpty) {
+              return const NoDataAvailable(
+                height: 0,
+                message:
+                    'Your connection requests will appear here once they are available. Please check back later or contact support if you believe this is an error.',
               );
             }
             return Column(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    '${AppStrings.connectionRequest} (${context.read<RequestsBloc>().state.getRequestModel?.data.length ?? 0})',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontSize: 16.fontSize,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.blackColor,
-                        ),
-                  ),
-                ),
                 AppSpacing.verticalSpaceMedium,
                 BlocBuilder<RequestsBloc, RequestsState>(
                   builder: (context, state) {
@@ -151,9 +122,9 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: ListView.separated(
-                        itemCount: (state.getRequestModel?.data.length ?? 0) > 3
+                        itemCount: state.pendingRequests.length > 3
                             ? 3
-                            : state.getRequestModel?.data.length ?? 0,
+                            : state.pendingRequests.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -197,7 +168,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                     onTap: () => Navigator.of(context, rootNavigator: true)
                         .pushNamed(ConnectionRequestScreen.routeName),
                     child: Text(
-                      AppStrings.seeAll,
+                      state.pendingRequests.isEmpty ? '' : AppStrings.seeAll,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: AppColors.primaryColor,
                             fontSize: 16.fontSize,

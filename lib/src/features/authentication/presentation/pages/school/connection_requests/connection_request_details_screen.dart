@@ -8,11 +8,13 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class ConnectionRequestDetailsScreen extends StatefulWidget {
   const ConnectionRequestDetailsScreen({super.key});
@@ -283,24 +285,65 @@ class _ConnectionRequestDetailsScreenState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      // Accept Button with BlocConsumer
+
                       Expanded(
-                        child: Button(
-                          text: AppStrings.accept,
-                          onPressed: () {
-                            context.read<RequestsBloc>().add(
-                                  RequestsEvent.acceptRequest(
-                                    requestId.toString(),
-                                  ),
-                                );
+                        child: BlocConsumer<RequestsBloc, RequestsState>(
+                          listener: (context, state) {
+                            //Add a refresh function in bloc to refresh all pending request across board
+                            if (state.acceptRequestStatus ==
+                                FormzSubmissionStatus.success) {
+                              context.read<RequestsBloc>().add(
+                                    RequestsEvent.requestStatusChanged(
+                                      requestId.toString(),
+                                    ),
+                                  );
+                              ToastService.toast(
+                                'Request accepted successfully',
+                              );
+                            }
+                            if (state.acceptRequestStatus ==
+                                FormzSubmissionStatus.failure) {
+                              context.read<RequestsBloc>().add(
+                                    RequestsEvent.requestStatusChanged(
+                                      requestId.toString(),
+                                    ),
+                                  );
+                              ToastService.toast(
+                                'Failed to accept request',
+                                ToastType.error,
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return Button(
+                              busy: state.acceptRequestStatus ==
+                                  FormzSubmissionStatus.inProgress,
+                              text: AppStrings.accept,
+                              onPressed: () {
+                                context.read<RequestsBloc>().add(
+                                      RequestsEvent.acceptRequest(
+                                          requestId.toString()),
+                                    );
+                              },
+                            );
                           },
                         ),
                       ),
+
+                      // Spacing between buttons
                       AppSpacing.horizontalSpaceMedium,
+
+                      // Reject Button
                       Expanded(
                         child: Button(
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(RejectConnectionScreen.routeName);
+                            Navigator.of(context).pushNamed(
+                              RejectConnectionScreen.routeName,
+                              arguments: {
+                                'requestId': requestId,
+                              },
+                            );
                           },
                           text: AppStrings.reject,
                           buttonColor: Colors.white,

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 class NoDataAvailable extends StatelessWidget {
   const NoDataAvailable({
     required this.message,
+    required this.height,
     super.key,
   });
   final String message;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class NoDataAvailable extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: AppSpacing.verticalValueSpaceLarge * 8,
+              height: AppSpacing.verticalValueSpaceLarge * height,
             ),
             Image.asset(
               'assets/png/empty.png',

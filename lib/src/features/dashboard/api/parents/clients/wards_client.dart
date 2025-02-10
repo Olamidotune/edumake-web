@@ -29,4 +29,13 @@ abstract class WardsClient {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
   );
+
+  @POST('/api/v1/sch/request/{requestId}')
+  @FormUrlEncoded()
+  Future<GetRequestModel> approveRejectRequest(
+    @Header('Authorization') String authorization,
+    @Path('requestId') String requestId,
+    @Field('action') String action,
+    @Field('rejectionReason') String rejectionReason,
+  );
 }

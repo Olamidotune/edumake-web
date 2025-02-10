@@ -8,6 +8,7 @@ import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 class RejectConnectionScreen extends StatefulWidget {
   const RejectConnectionScreen({super.key});
@@ -30,6 +31,10 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+
+    final requestId = args['requestId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
@@ -212,8 +217,17 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
                       ),
                       SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
                       Button(
+                        busy: state.rejectRequestStatus ==
+                            FormzSubmissionStatus.inProgress,
                         text: AppStrings.submit,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<RequestsBloc>().add(
+                                RequestsEvent.rejectRequest(
+                                  requestId.toString(),
+                                  "This account details does not match the student's details",
+                                ),
+                              );
+                        },
                       ),
                     ],
                   );
