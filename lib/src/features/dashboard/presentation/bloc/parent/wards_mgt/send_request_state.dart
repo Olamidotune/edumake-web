@@ -1,11 +1,11 @@
-part of 'ward_mgt_bloc.dart';
+part of 'send_request_bloc.dart';
 
 @freezed
-class WardMgtState with _$WardMgtState {
-  const factory WardMgtState({
+class SendRequestState with _$SendRequestState {
+  const factory SendRequestState({
     GetWardRequestModel? getWardRequestModel,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus requestAccessToWardStatus,
     String? errorMessage,
-  }) = _WardMgtState;
+  }) = _SendRequestState;
 }

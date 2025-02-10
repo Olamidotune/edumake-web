@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/data.dart';
+
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
@@ -57,7 +59,7 @@ class GetWardsBloc extends Bloc<GetWardsEvent, GetWardsState> {
     emit(
       state.copyWith(
         getWardStatus: FormzSubmissionStatus.success,
-        searchResponse: event.searchResponse,
+        getWardRequestModel: event.getWardResponse,
         errorMessage: null,
       ),
     );

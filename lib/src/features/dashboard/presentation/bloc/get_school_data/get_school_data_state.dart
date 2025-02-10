@@ -25,6 +25,10 @@ class GetSchoolDataState with _$GetSchoolDataState {
     @Default(false) bool isStudentLoading,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchStudentsStatus,
+    //////////////////////////////////////////////
+    GetSubjectForStudent? getSubjectForStudent,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchSubjectForStudentStatus,
   }) = _GetSchoolDataState;
 
   const GetSchoolDataState._();

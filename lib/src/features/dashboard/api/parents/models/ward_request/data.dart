@@ -1,36 +1,46 @@
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_datum_class.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_datum_school.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'data.g.dart';
 
-@JsonSerializable()
-class Data {
-  Data({
-    required this.parent,
-    required this.student,
-    required this.status,
-    required this.isDeleted,
+@JsonSerializable(ignoreUnannotated: true)
+class WardDatum {
+  WardDatum({
     required this.id,
+    required this.wardDatumClass,
+    required this.wardName,
+    required this.wardDatumSchool,
+    required this.isDeleted,
+    required this.v,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
-
-  @JsonKey(name: 'parent')
-  String parent;
-  @JsonKey(name: 'student')
-  String student;
-  @JsonKey(name: 'status')
-  String status;
-  @JsonKey(name: 'isDeleted')
-  bool isDeleted;
+  factory WardDatum.fromJson(Map<String, dynamic> json) =>
+      _$WardDatumFromJson(json);
   @JsonKey(name: '_id')
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  @JsonKey(name: '__v')
-  int v;
+  final String id;
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
+  @JsonKey(name: 'class')
+  final WardDatumClass wardDatumClass;
+
+  @JsonKey(name: 'name')
+  final String wardName;
+
+  @JsonKey(name: 'school')
+  final WardDatumSchool wardDatumSchool;
+
+  @JsonKey(name: 'isDeleted')
+  final bool isDeleted;
+
+  @JsonKey(name: '__v')
+  final int v;
+
+  @JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  @JsonKey(name: 'updatedAt')
+  final DateTime updatedAt;
+  Map<String, dynamic> toJson() => _$WardDatumToJson(this);
 }

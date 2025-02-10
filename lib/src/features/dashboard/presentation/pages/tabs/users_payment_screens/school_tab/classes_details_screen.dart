@@ -50,6 +50,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                     return SizedBox(
                       height: 800,
                       child: ListView.builder(
+                        controller: scrollController,
                         itemBuilder: (context, index) {
                           return const CustomShimmer();
                         },

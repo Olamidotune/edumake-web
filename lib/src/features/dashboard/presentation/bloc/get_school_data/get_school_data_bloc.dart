@@ -4,6 +4,7 @@ import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students_datum.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
@@ -28,6 +29,9 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     on<_OnSelectedSubjectNameChanged>(_onSelectedSubjectChanged);
     on<_FetchStudents>(_fetchStudents);
     on<_FetchStudentsSuccessful>(_fetchStudentsSuccessful);
+    on<_FetchSubjectForStudent>(_fetchSubjectForStudent);
+    on<_FetchSubjectForStudentSuccessful>(_fetchSubjectForStudentSuccessful);
+    on<_FetchSubjectForStudentFailed>(_fetchSubjectForStudentFailed);
     on<_FetchStudentsFailed>(_fetchStudentsFailed);
     on<_ErrorMessage>(_errorMessage);
 
@@ -292,6 +296,66 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     emit(
       state.copyWith(
         fetchStudentsStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
+  }
+
+  void _fetchSubjectForStudent(
+    _FetchSubjectForStudent event,
+    Emitter<GetSchoolDataState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        fetchSubjectForStudentStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
+
+    try {
+      final subjects =
+          await locator<GetSchoolDataClient>().getSubjectForStudent(
+        await getAuthorization(),
+        state.selectedSubject ?? '',
+      );
+      add(_FetchSubjectForStudentSuccessful(subjects));
+    } catch (error) {
+      if (error is DioError) {
+        final message = error.response?.data?['message'];
+
+        add(
+          _FetchSubjectForStudentFailed(
+            message?.toString() ?? 'An unexpected error occurred',
+          ),
+        );
+      } else {
+        add(
+          const _FetchSubjectForStudentFailed(
+            'An unexpected error occurred',
+          ),
+        );
+      }
+    }
+  }
+
+  void _fetchSubjectForStudentSuccessful(
+    _FetchSubjectForStudentSuccessful event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectForStudentStatus: FormzSubmissionStatus.success,
+        getSubjectForStudent: event.getSubjectForStudent,
+      ),
+    );
+  }
+
+  void _fetchSubjectForStudentFailed(
+    _FetchSubjectForStudentFailed event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectForStudentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message ?? 'An error occurred',
       ),
     );

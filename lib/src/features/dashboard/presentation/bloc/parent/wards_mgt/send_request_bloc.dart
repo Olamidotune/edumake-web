@@ -8,21 +8,21 @@ import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'ward_mgt_event.dart';
-part 'ward_mgt_state.dart';
-part 'ward_mgt_bloc.freezed.dart';
+part 'send_request_event.dart';
+part 'send_request_state.dart';
+part 'send_request_bloc.freezed.dart';
 
-class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
-  WardMgtBloc() : super(const WardMgtState()) {
-    on<_GetRequest>(_getRequest);
-    on<_GetRequestSuccessful>(_getRequestSuccessful);
-    on<_GetRequestFailed>(_getRequestFailed);
+class SendRequestBloc extends Bloc<SendRequestEvent, SendRequestState> {
+  SendRequestBloc() : super(const SendRequestState()) {
+    on<_SendRequest>(_sendRequest);
+    on<_SendRequestSuccessful>(_getRequestSuccessful);
+    on<_SendRequestFailed>(_getRequestFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
-  void _getRequest(
-    _GetRequest event,
-    Emitter<WardMgtState> emit,
+  void _sendRequest(
+    _SendRequest event,
+    Emitter<SendRequestState> emit,
   ) async {
     if (state.requestAccessToWardStatus == FormzSubmissionStatus.inProgress) {
       return;
@@ -34,27 +34,27 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
     );
 
     try {
-      final request = await locator<WardsClient>().requestAccessToWard(
+      final request = await locator<WardsClient>().sendRequest(
         await getAuthorization(),
         event.classId,
       );
 
       add(
-        _GetRequestSuccessful(request),
+        _SendRequestSuccessful(request),
       );
     } catch (error, trace) {
       logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
-        add(_GetRequestFailed(error.response?.data['message'] as String?));
+        add(_SendRequestFailed(error.response?.data['message'] as String?));
       } else {
-        add(const _GetRequestFailed('Something went wrong.'));
+        add(const _SendRequestFailed('Something went wrong.'));
       }
     }
   }
 
   void _getRequestSuccessful(
-    _GetRequestSuccessful event,
-    Emitter<WardMgtState> emit,
+    _SendRequestSuccessful event,
+    Emitter<SendRequestState> emit,
   ) {
     emit(
       state.copyWith(
@@ -65,8 +65,8 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
   }
 
   void _getRequestFailed(
-    _GetRequestFailed event,
-    Emitter<WardMgtState> emit,
+    _SendRequestFailed event,
+    Emitter<SendRequestState> emit,
   ) {
     emit(
       state.copyWith(
@@ -78,7 +78,7 @@ class WardMgtBloc extends Bloc<WardMgtEvent, WardMgtState> {
 
   void _errorMessage(
     _ErrorMessage event,
-    Emitter<WardMgtState> emit,
+    Emitter<SendRequestState> emit,
   ) {
     emit(
       state.copyWith(errorMessage: event.message),

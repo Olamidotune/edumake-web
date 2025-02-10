@@ -3,10 +3,10 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/auto_scrolling_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class YourWardCard extends StatelessWidget {
   const YourWardCard({
-    required this.profilePic,
     required this.wardName,
     required this.schoolName,
     required this.wardClass,
@@ -15,19 +15,21 @@ class YourWardCard extends StatelessWidget {
     this.scores,
     super.key,
   });
-  final String profilePic;
+
   final String wardName;
   final String schoolName;
   final String wardClass;
   final String? assignmentNum;
-
   final String? scores;
   final bool feesPaid;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.horizontalSpacing,
+        vertical: AppSpacing.horizontalSpacingSmall,
+      ),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(20),
@@ -40,90 +42,83 @@ class YourWardCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: AppColors.greyColor,
-                child: Text(
-                  wardName[0],
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'HelveticaNeueRounded',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.primaryTextColor,
-                      ),
-                ),
-              ),
-              AppSpacing.horizontalSpaceMedium,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    wardName,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryTextColor,
-                        ),
-                  ),
-                  Text(
-                    '${schoolName.trim()} ($wardClass)',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.greyColor,
-                        ),
-                    maxLines: 2,
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${assignmentNum!.contains('null') ? "No new" : '$assignmentNum'} New Assignments',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.primaryColor,
-                            fontSize: 8.fontSize,
-                          ),
-                      softWrap: false,
-                    ),
-                    AppSpacing.verticalSpaceMedium,
-                    Text(
-                      feesPaid ? 'Fees Paid' : 'Fees not paid',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 8.fontSize,
-                            color: feesPaid
-                                ? AppColors.greenColor
-                                : AppColors.errorColor,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: CircleAvatar(
+          radius: 18.fontSize,
+          backgroundColor: AppColors.primaryColor,
+          child: SvgPicture.asset(
+            'assets/svg/people.svg',
           ),
-          AppSpacing.verticalSpaceMedium,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              wardName,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontFamily: 'HelveticaNeueRounded',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.primaryTextColor,
+                  ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            AppSpacing.verticalSpaceSmall,
+            Text(
+              '${schoolName.trim()} ($wardClass)',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontFamily: 'HelveticaNeueRounded',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.greyColor,
+                  ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            AppSpacing.verticalSpaceSmall,
+            Text(
+              'Last Assignment scores: ',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.primaryColor,
+                  ),
+            ),
+          ],
+        ),
+        trailing: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.4,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              AppSpacing.horizontalSpaceMedium,
               Text(
-                'Last Assignment scores: ',
+                assignmentNum?.contains('null') ?? true
+                    ? "No new Assignments"
+                    : '$assignmentNum New Assignments',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       fontWeight: FontWeight.w400,
                       color: AppColors.primaryColor,
+                      fontSize: 8.fontSize,
+                    ),
+                overflow: TextOverflow.ellipsis,
+              ),
+              AppSpacing.verticalSpaceTiny,
+              Text(
+                feesPaid ? 'Fees Paid' : 'Fees not paid',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 8.fontSize,
+                      color: feesPaid
+                          ? AppColors.greenColor
+                          : AppColors.errorColor,
                     ),
               ),
-              Expanded(
+              AppSpacing.verticalSpaceSmall,
+              SizedBox(
+                height: 12,
                 child: AutoScrollingText(
                   text:
                       'Maths: $scores%, English: $scores%, Physics: 60%, Chemistry: 50%, Biology: 40%, Geography: 30%, History: 20%, CRK: 10%',
@@ -135,8 +130,128 @@ class YourWardCard extends StatelessWidget {
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
+      // subtitle: Row(
+      //   children: [
+      //     Expanded(
+      //       flex: 3,
+      //       child: Text(
+      //         'Last Assignment scores: ',
+      //         style: Theme.of(context).textTheme.bodySmall!.copyWith(
+      //               fontWeight: FontWeight.w400,
+      //               color: AppColors.primaryColor,
+      //             ),
+      //       ),
+      //     ),
+      //     Expanded(
+      //       flex: 7,
+      //       child: AutoScrollingText(
+      //         text:
+      //             'Maths: $scores%, English: $scores%, Physics: 60%, Chemistry: 50%, Biology: 40%, Geography: 30%, History: 20%, CRK: 10%',
+      //         style: Theme.of(context).textTheme.bodySmall!.copyWith(
+      //               fontWeight: FontWeight.bold,
+      //               color: AppColors.greenColor,
+      //             ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+    
+
+    // child: Column(
+    //   children: [
+    //     Row(
+    //       children: [
+    //         CircleAvatar(
+    //           radius: 18.fontSize,
+    //           backgroundColor: AppColors.primaryColor,
+    //           child: SvgPicture.asset(
+    //             'assets/svg/people.svg',
+    //           ),
+    //         ),
+    //         AppSpacing.horizontalSpaceMedium,
+    //         Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //     Text(
+    //       wardName,
+    //       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+    //             fontFamily: 'HelveticaNeueRounded',
+    //             fontSize: 16,
+    //             fontWeight: FontWeight.w500,
+    //             color: AppColors.primaryTextColor,
+    //           ),
+    //     ),
+    //     Text(
+    //       '${schoolName.trim()} ($wardClass)',
+    //       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+    //             fontFamily: 'HelveticaNeueRounded',
+    //             fontSize: 12,
+    //             fontWeight: FontWeight.w300,
+    //             color: AppColors.greyColor,
+    //           ),
+    //       maxLines: 2,
+    //       overflow: TextOverflow.ellipsis,
+    //     ),
+    //   ],
+    // ),
+    //         Expanded(
+    // child: Column(
+    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //   children: [
+    //     Text(
+    //       '${assignmentNum!.contains('null') ? "No new" : '$assignmentNum'} New Assignments',
+    //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
+    //             fontWeight: FontWeight.w400,
+    //             color: AppColors.primaryColor,
+    //             fontSize: 8.fontSize,
+    //           ),
+    //       softWrap: false,
+    //     ),
+    //     AppSpacing.verticalSpaceMedium,
+    //     Text(
+    //       feesPaid ? 'Fees Paid' : 'Fees not paid',
+    //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
+    //             fontWeight: FontWeight.w400,
+    //             fontSize: 8.fontSize,
+    //             color: feesPaid
+    //                 ? AppColors.greenColor
+    //                 : AppColors.errorColor,
+    //           ),
+    //     ),
+    //   ],
+    // ),
+    //     ),
+    //   ],
+    // ),
+    //     AppSpacing.verticalSpaceMedium,
+    // Row(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     AppSpacing.horizontalSpaceMedium,
+    //     Text(
+    //       'Last Assignment scores: ',
+    //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
+    //             fontWeight: FontWeight.w400,
+    //             color: AppColors.primaryColor,
+    //           ),
+    //     ),
+    //     Expanded(
+    //       child: AutoScrollingText(
+    //         text:
+    //             'Maths: $scores%, English: $scores%, Physics: 60%, Chemistry: 50%, Biology: 40%, Geography: 30%, History: 20%, CRK: 10%',
+    //         style: Theme.of(context).textTheme.bodySmall!.copyWith(
+    //               fontWeight: FontWeight.bold,
+    //               color: AppColors.greenColor,
+    //             ),
+    //       ),
+    //     ),
+    //   ],
+    // ),
+    //   ],
+    // ),
+

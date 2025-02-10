@@ -13,5 +13,25 @@ class RequestsEvent with _$RequestsEvent {
       _SelectedRequest;
   const factory RequestsEvent.selectedRequestId(String? selectedRequestId) =
       _SelectedRequestId;
+  const factory RequestsEvent.acceptRequest(String selectedRequestId) =
+      _AcceptRequest;
+  const factory RequestsEvent.acceptRequestSuccessful(
+    GetRequestModel getRequestModel,
+  ) = _AcceptRequestSuccessful;
+  const factory RequestsEvent.acceptRequestFailed(
+    String message,
+  ) = _AcceptRequestFailed;
+  const factory RequestsEvent.rejectRequest(
+    String selectedRequestId,
+    String rejectionReason,
+  ) = _RejectRequest;
+  const factory RequestsEvent.rejectRequestSuccessful(
+    GetRequestModel getRequestModel,
+  ) = _RejectRequestSuccessful;
+  const factory RequestsEvent.rejectRequestFailed(
+    String message,
+  ) = _RejectRequestFailed;
+  const factory RequestsEvent.requestStatusChanged(String requestId) =
+      _RequestStatusChanged;
   const factory RequestsEvent.errorMessage(String? message) = _ErrorMessage;
 }
