@@ -60,7 +60,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   toastification: ^2.3.0
   jwt_decoder: ^2.0.1
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^9.2.4
   firebase_core: ^3.10.1
   device_info_plus: ^11.2.1
   flutter_downloader: ^1.12.0
