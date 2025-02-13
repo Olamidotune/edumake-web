@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -6,6 +8,7 @@ import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
@@ -17,17 +20,25 @@ part 'events_state.dart';
 
 class EventsBloc extends Bloc<EventsEvent, EventsState> {
   EventsBloc() : super(const EventsState()) {
-    // on<_Init>(_init);
+    on<_Init>(_init);
+
     on<_OnEventTitleChanged>(_onEventTitleChanged);
     on<_OnEventRecipients>(_onEventRecipients);
     on<_OnEventDateChanged>(_onEventDateChanged);
     on<_OnEventDetailsChanged>(_onEventDetailsChanged);
     on<_AddEvents>(_addEvents);
-
     on<_AddEventsSuccessful>(_addEventsSuccessful);
     on<_AddEventsFailed>(_addEventsFailed);
-
+    on<_FetchEvents>(_fetchEvents);
+    on<_FetchEventsSuccessful>(_fetchEventsSuccessful);
+    on<_FetchEventsFailed>(_fetchEventsFailed);
     on<_ErrorMessage>(_errorMessage);
+
+    add(const _Init());
+  }
+
+  void _init(_Init event, Emitter<EventsState> emit) {
+    add(const _FetchEvents());
   }
 
   void _onEventTitleChanged(
@@ -119,10 +130,10 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       // Handle DioError specifically
       if (error is DioError) {
         final errorMessage = error.response?.data['message'] as String?;
-        add(_AddEventsFailed(errorMessage ?? 'An unexpected error occurredss'));
+        add(_AddEventsFailed(errorMessage ?? 'An unexpected error occurred'));
       } else {
         // Handle generic errors
-        add(const _AddEventsFailed('An unexpected error occurredss'));
+        add(const _AddEventsFailed('An unexpected error occurred'));
       }
     }
   }
@@ -145,6 +156,61 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
         errorMessage: event.message,
       ),
     );
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+  ///FETCH EVENTS
+////////////////////////////////////////////////////////////////////////////////
+
+  void _fetchEvents(_FetchEvents event, Emitter<EventsState> emit) async {
+    if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(fetchEventStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final event = await locator<EventClients>().fetchEvents(
+        await getAuthorization(),
+        await getSchoolID(),
+      );
+
+      add(_FetchEventsSuccessful(event));
+    } catch (error) {
+      if (error is DioError) {
+        final message = error.response?.data?['message'];
+
+        add(
+          _FetchEventsFailed(
+            message?.toString() ?? 'An unexpected error occurred',
+          ),
+        );
+      } else {
+        add(
+          const _FetchEventsFailed(
+            'An unexpected error occurred',
+          ),
+        );
+      }
+    }
+  }
+
+  void _fetchEventsSuccessful(
+    _FetchEventsSuccessful event,
+    Emitter<EventsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchEventStatus: FormzSubmissionStatus.success,
+        eventResponse: state.eventResponse,
+      ),
+    );
+  }
+
+  void _fetchEventsFailed(_FetchEventsFailed event, Emitter<EventsState> emit) {
+    emit(state.copyWith(
+      errorMessage: state.errorMessage,
+    ));
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<EventsState> emit) {

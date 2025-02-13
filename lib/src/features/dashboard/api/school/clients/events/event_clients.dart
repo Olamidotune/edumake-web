@@ -25,7 +25,7 @@ abstract class EventClients {
 
   @GET('/api/v1/sch/events/all/{schoolId}')
   @FormUrlEncoded()
-  Future<EventResponse> getEvents(
+  Future<EventResponse> fetchEvents(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
   );

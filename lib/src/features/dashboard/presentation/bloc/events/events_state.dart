@@ -13,7 +13,13 @@ class EventsState with _$EventsState {
     List<String>? associatedEvents,
     List<String>? eventClasses,
     File? eventImage,
+////////////////////////////////////////////////////////////////////////////////
+    ///FETCH EVENTS
+////////////////////////////////////////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchEventStatus,
     String? errorMessage,
+    EventResponse? eventResponse,
   }) = _EventsState;
 
   const EventsState._();

@@ -27,6 +27,15 @@ class EventsEvent with _$EventsEvent {
   const factory EventsEvent.onEventDetailsChanged(
     String eventDetails,
   ) = _OnEventDetailsChanged;
-
+////////////////////////////////////////////////////////////////////////////////
+  ///FETCH EVENTS
+////////////////////////////////////////////////////////////////////////////////
+  const factory EventsEvent.fetchEvents() = _FetchEvents;
+  const factory EventsEvent.fetchEventsSuccessful(
+    EventResponse response,
+  ) = _FetchEventsSuccessful;
+  const factory EventsEvent.fetchEventsFailed(
+    String message,
+  ) = _FetchEventsFailed;
   const factory EventsEvent.errorMessage(String? message) = _ErrorMessage;
 }

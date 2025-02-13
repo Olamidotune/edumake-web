@@ -180,6 +180,11 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                           AppSpacing.verticalSpaceSmall,
                           GestureDetector(
                             // onTap: _pickFile,
+                            onTap: () {
+                              context
+                                  .read<EventsBloc>()
+                                  .add(const EventsEvent.fetchEvents());
+                            },
                             child: Container(
                               height: 200.height,
                               width: double.infinity,
@@ -271,7 +276,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     final picked = await showDatePicker(
       context: context,
       firstDate: DateTime(2025),
-      lastDate: DateTime(2100),
+      lastDate: DateTime(4100),
       initialDate: DateTime.now(),
     );
     if (picked != null) {
