@@ -32,6 +32,7 @@ class EventsState with _$EventsState {
     FormzSubmissionStatus fetchEventByIdStatus,
     EventIdResponse? eventIdResponse,
     EventIdData? eventIdData,
+    List<EventClass>? eventClass,
     String? errorMessage,
   }) = _EventsState;
 

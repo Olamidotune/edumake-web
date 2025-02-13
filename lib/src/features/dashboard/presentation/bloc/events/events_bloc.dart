@@ -7,6 +7,7 @@ import 'package:edumake_frontend/service_locator.dart';
 
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_class.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_response.dart';
@@ -14,6 +15,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/events
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -156,8 +158,8 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       );
 
       add(_FetchEventsSuccessful(response));
-    } catch (e) {
-      print('Error parsing response: $e');
+    } catch (error, trace) {
+      logError(error, trace);
       add(const _FetchEventsFailed('Error parsing response'));
     }
   }
@@ -186,11 +188,12 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
 
   void _fetchEventById(
       _FetchEventsById event, Emitter<EventsState> emit) async {
-    if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+    if (state.fetchEventByIdStatus == FormzSubmissionStatus.inProgress) {
       return;
     }
 
-    emit(state.copyWith(fetchEventStatus: FormzSubmissionStatus.inProgress));
+    emit(
+        state.copyWith(fetchEventByIdStatus: FormzSubmissionStatus.inProgress));
     try {
       final response = await locator<EventClients>().fetchEventByID(
         await getAuthorization(),
@@ -198,8 +201,9 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       );
 
       add(_FetchEventsSuccessfulById(response));
-    } catch (e) {
-      print('Error parsing response: $e');
+    } catch (error, trace) {
+      logError(error, trace);
+      print(error);
       add(const _FetchEventsFailedById('Error parsing response'));
     }
   }
@@ -210,9 +214,10 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
   ) {
     emit(
       state.copyWith(
-        fetchEventStatus: FormzSubmissionStatus.success,
+        fetchEventByIdStatus: FormzSubmissionStatus.success,
         eventIdResponse: event.response,
         eventIdData: event.response.data,
+        eventClass: event.response.data.classes,
       ),
     );
   }
