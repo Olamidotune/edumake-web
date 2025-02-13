@@ -7,11 +7,14 @@ import 'package:edumake_frontend/service_locator.dart';
 
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
-import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -33,6 +36,9 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     on<_FetchEvents>(_fetchEvents);
     on<_FetchEventsSuccessful>(_fetchEventsSuccessful);
     on<_FetchEventsFailed>(_fetchEventsFailed);
+    on<_FetchEventsById>(_fetchEventById);
+    on<_FetchEventsSuccessfulById>(_fetchEventByIdSuccessful);
+    on<_FetchEventsFailedById>(_fetchEventByIdFailed);
     on<_ErrorMessage>(_errorMessage);
 
     // add(const _Init());
@@ -92,34 +98,12 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
         eventTitle: state.eventTitle,
         eventRecipients: state.eventRecipients,
         eventDate: state.eventDate,
-        eventClasses: state.eventClasses,
         eventImage: state.eventImage,
       ),
     );
 
-    logInfo({
-      state.eventTitle.value.trim(),
-      ['1,2,3'],
-      state.eventDate ?? '',
-      state.eventDetails.value.trim(),
-      state.eventClasses ?? [],
-      // state.eventImage as File,
-    });
-
     try {
-      final events = await locator<EventClients>().createEvent(
-        await getAuthorization(),
-        await getSchoolID(),
-        state.eventTitle.value.trim(),
-        ['1,2,3'],
-        state.eventDate ?? '',
-        state.eventDetails.value.trim(),
-        state.eventClasses ?? [],
-        state.eventImage as File,
-      );
-
       // Emit success event
-      add(EventsEvent.addEventsSuccessful(events));
     } catch (error, trace) {
       // Log the error (if needed)
       onError(error, trace);
@@ -184,13 +168,57 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
   ) {
     emit(
       state.copyWith(
-        fetchEventStatus: FormzSubmissionStatus.success,
-        eventResponse: state.eventResponse,
-      ),
+          fetchEventStatus: FormzSubmissionStatus.success,
+          eventResponse: event.response,
+          upComingEvent: event.response.data.upcomingEvents,
+          eventData: event.response.data),
     );
   }
 
   void _fetchEventsFailed(_FetchEventsFailed event, Emitter<EventsState> emit) {
+    emit(state.copyWith(
+      errorMessage: state.errorMessage,
+    ));
+  }
+////////////////////////////////////////////////////////////////////////////////
+  ///FETCH EVENTS BY ID
+////////////////////////////////////////////////////////////////////////////////
+
+  void _fetchEventById(
+      _FetchEventsById event, Emitter<EventsState> emit) async {
+    if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(fetchEventStatus: FormzSubmissionStatus.inProgress));
+    try {
+      final response = await locator<EventClients>().fetchEventByID(
+        await getAuthorization(),
+        event.eventId,
+      );
+
+      add(_FetchEventsSuccessfulById(response));
+    } catch (e) {
+      print('Error parsing response: $e');
+      add(const _FetchEventsFailedById('Error parsing response'));
+    }
+  }
+
+  void _fetchEventByIdSuccessful(
+    _FetchEventsSuccessfulById event,
+    Emitter<EventsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchEventStatus: FormzSubmissionStatus.success,
+        eventIdResponse: event.response,
+        eventIdData: event.response.data,
+      ),
+    );
+  }
+
+  void _fetchEventByIdFailed(
+      _FetchEventsFailedById event, Emitter<EventsState> emit) {
     emit(state.copyWith(
       errorMessage: state.errorMessage,
     ));

@@ -14,9 +14,9 @@ class ClassEventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, String>;
-    final eventName = args['eventName'];
+    // final args =
+    //     ModalRoute.of(context)!.settings.arguments! as Map<String, String>;
+    // final eventName = args['eventName'];
 
     final scrollController = ScrollController();
 
@@ -42,7 +42,7 @@ class ClassEventDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    eventName!,
+                    'eventName',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 16.fontSize,
                           fontWeight: FontWeight.w700,

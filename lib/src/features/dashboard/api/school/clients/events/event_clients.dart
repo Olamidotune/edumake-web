@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
 import 'package:retrofit/http.dart';
@@ -28,5 +29,12 @@ abstract class EventClients {
   Future<EventResponse> fetchEvents(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
+  );
+
+  @GET('/api/v1/sch/events/{eventId}')
+  @FormUrlEncoded()
+  Future<EventIdResponse> fetchEventByID(
+    @Header('Authorization') String authorization,
+    @Path('eventId') String eventId,
   );
 }

@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/add_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
@@ -41,10 +42,11 @@ class ClassEventsScreen extends StatelessWidget {
               ),
             );
           }
-
-          if (state.upComingEvent?.length == 0) {
+          if (state.upComingEvent?.isEmpty ?? false) {
             return const NoDataAvailable(
-                message: 'No Events Available', height: 0);
+              message: 'No Events Available',
+              height: 0,
+            );
           }
           return CustomRawScroller(
             scrollController: scrollController,
@@ -118,30 +120,33 @@ class ClassEventsScreen extends StatelessWidget {
                     ),
                     AppSpacing.verticalSpaceMedium,
                     ListView.separated(
+                      itemCount: state.upComingEvent?.length ?? 0,
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
+                        final event = state.upComingEvent?[index];
                         return GestureDetector(
                           onTap: () {
+                            context.read<EventsBloc>().add(
+                                  EventsEvent.fetchEventsById(event?.id ?? ''),
+                                );
                             Navigator.of(context).pushNamed(
                               ClassEventDetailsScreen.routeName,
-                              arguments: {
-                                'eventName': 'State Spelling Bee for JSS1',
-                              },
+                              // arguments: {
+                              //   'eventName': 'State Spelling Bee for JSS1',
+                              // },
                             );
                           },
-                          child: const SchoolMgtUpcomingEventsContainer(
+                          child: SchoolMgtUpcomingEventsContainer(
                             previousEvents: false,
-                            title: 'State Spelling Bee for JSS1',
-                            date: '13, Feb 2023',
-                            description:
-                                'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
+                            title: event?.title ?? '',
+                            date: formatLocalTime(event?.date),
+                            description: event?.details ?? '',
                           ),
                         );
                       },
                       separatorBuilder: (context, index) {
                         return AppSpacing.verticalSpaceMedium;
                       },
-                      itemCount: 2,
-                      shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                     ),
                     AppSpacing.verticalSpaceMedium,

@@ -18,5 +18,9 @@ class EventData {
   @JsonKey(name: 'previousEvents')
   final List<dynamic> previousEvents;
 
+  void sort() {
+    upcomingEvents.sort((a, b) => a.date.compareTo(b.date));
+  }
+
   Map<String, dynamic> toJson() => _$EventDataToJson(this);
 }

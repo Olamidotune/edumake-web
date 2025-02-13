@@ -13,13 +13,25 @@ class EventsState with _$EventsState {
     List<String>? associatedEvents,
     // List<String>? eventClasses,
     File? eventImage,
+
 ////////////////////////////////////////////////////////////////////////////////
     ///FETCH EVENTS
 ////////////////////////////////////////////////////////////////////////////////
+
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchEventStatus,
     EventResponse? eventResponse,
     List<UpcomingEvent>? upComingEvent,
+    EventData? eventData,
+
+////////////////////////////////////////////////////////////////////////////////
+    ///FETCH EVENTS BY ID
+////////////////////////////////////////////////////////////////////////////////
+
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchEventByIdStatus,
+    EventIdResponse? eventIdResponse,
+    EventIdData? eventIdData,
     String? errorMessage,
   }) = _EventsState;
 

@@ -42,23 +42,29 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.fontSize,
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'HelveticaNeueRounded',
-                    ),
+              Expanded(
+                flex: 7,
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 12.fontSize,
+                        color: AppColors.blackColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'HelveticaNeueRounded',
+                      ),
+                ),
               ),
-              Text(
-                date,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.fontSize,
-                      color: AppColors.primaryTextColor,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'HelveticaNeueRounded',
-                    ),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  date,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 12.fontSize,
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'HelveticaNeueRounded',
+                      ),
+                ),
               ),
             ],
           ),
@@ -66,8 +72,8 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
           Text(
             description,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 13.fontSize,
-                  color: AppColors.primaryTextColor,
+                  fontSize: 12.fontSize,
+                  color: AppColors.primaryTextColor.withOpacity(.8),
                   fontWeight: FontWeight.w300,
                 ),
             textAlign: TextAlign.justify,

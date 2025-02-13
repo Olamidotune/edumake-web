@@ -29,7 +29,7 @@ class UpcomingEvent {
   @JsonKey(name: 'title')
   final String title;
   @JsonKey(name: 'date')
-  final DateTime date;
+  final String date;
   @JsonKey(name: 'details')
   final String details;
   @JsonKey(name: 'associatedEvents')

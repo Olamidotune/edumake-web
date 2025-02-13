@@ -22,7 +22,7 @@ class EventResponse {
   @JsonKey(name: 'data')
   final EventData data;
   @JsonKey(name: 'cursor')
-  final String cursor;
+  final String? cursor;
   @JsonKey(name: 'statusCode')
   final int statusCode;
   Map<String, dynamic> toJson() => _$EventResponseToJson(this);
