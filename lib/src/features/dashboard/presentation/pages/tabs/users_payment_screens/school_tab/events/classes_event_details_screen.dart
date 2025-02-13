@@ -101,13 +101,30 @@ class ClassEventDetailsScreen extends StatelessWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      Text(
-                        '${AppStrings.recipients}: ${state.eventClass?.map((e) => e.name).join(", ")}',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.blackColor,
+                      RichText(
+                        text: TextSpan(
+                          text: '${AppStrings.recipients}: ',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.blackColor,
+                                  ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  '${state.eventClass?.map((e) => e.name).join(", ")}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primaryColor,
+                                  ),
                             ),
+                          ],
+                        ),
                       ),
                       AppSpacing.verticalSpaceSmall,
                       const Divider(
