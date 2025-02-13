@@ -101,6 +101,21 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                             ),
                           ),
                           AppSpacing.verticalSpaceMedium,
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Recipients',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
+                                  ),
+                            ),
+                          ),
+                          AppSpacing.verticalSpaceSmall,
                           MultiClassDropdown(
                             classes: getSchoolState.classesData!,
                             onClassesSelected: (selectedClassIds) {
@@ -284,10 +299,11 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       request.fields['title'] = eventTitleController.text;
       request.fields['date'] = eventDateController.text;
       request.fields['details'] = eventDetailsController.text;
-      request.fields['classes[0]'] =
-          jsonEncode(selectedClassIds); // Just set once
+      selectedClassIds.asMap().forEach((index, classId) {
+        request.fields['classes[$index]'] = classId;
+      });
 
-      logInfo('Request fields: ${request.fields}');
+      logMessage('Request fields: ${request.fields}');
 
       if (_filePath != null) {
         request.files
@@ -401,8 +417,8 @@ class MultiClassDropdown extends StatefulWidget {
   const MultiClassDropdown({
     required this.classes,
     required this.onClassesSelected,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<Datum> classes;
   final void Function(List<String>) onClassesSelected;
@@ -412,96 +428,169 @@ class MultiClassDropdown extends StatefulWidget {
 }
 
 class _MultiClassDropdownState extends State<MultiClassDropdown> {
-  final List<String> _selectedClassIds = [];
-  final List<String> _selectedClassNames = [];
+  final Set<String> _selectedIds = {};
+
+  // Generate a consistent color based on the class name
+  Color _getChipColor(String name) {
+    final colors = [
+      Colors.blue.shade100,
+      Colors.green.shade100,
+      Colors.purple.shade100,
+      Colors.orange.shade100,
+      Colors.pink.shade100,
+      Colors.teal.shade100,
+      Colors.indigo.shade100,
+    ];
+
+    // Use the string's hashCode to pick a color
+    final colorIndex = name.hashCode.abs() % colors.length;
+    return colors[colorIndex];
+  }
+
+  // Get darker shade for the label text
+  Color _getTextColor(String name) {
+    final colors = [
+      Colors.blue.shade900,
+      Colors.green.shade900,
+      Colors.purple.shade900,
+      Colors.orange.shade900,
+      Colors.pink.shade900,
+      Colors.teal.shade900,
+      Colors.indigo.shade900,
+    ];
+
+    final colorIndex = name.hashCode.abs() % colors.length;
+    return colors[colorIndex];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              isExpanded: true,
-              hint: Text(
-                _selectedClassNames.isEmpty
-                    ? 'Select Classes'
-                    : _selectedClassNames.join(', '),
-                style: TextStyle(
-                  color: _selectedClassNames.isEmpty
-                      ? AppColors.greyColor
-                      : AppColors.blackColor,
-                  fontSize: 14,
-                ),
-                overflow: TextOverflow.ellipsis,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.greyColor.withOpacity(.1),
+        border: Border.all(
+          color: AppColors.greyColor.withOpacity(.1),
+        ),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: ExpansionTile(
+        title: Text(
+          _selectedIds.isEmpty
+              ? 'Select Recipients'
+              : '${_selectedIds.length} classes selected',
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: AppColors.primaryTextColor,
+                fontWeight: FontWeight.w300,
+                fontSize: 12.fontSize,
               ),
-              icon: const Icon(Icons.arrow_drop_down),
-              items: widget.classes.map((Datum classData) {
-                return DropdownMenuItem<String>(
-                  value: classData.id,
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: _selectedClassIds.contains(classData.id),
-                        onChanged: (bool? selected) {
-                          _updateSelection(classData);
-                        },
-                      ),
-                      Text(classData.name),
-                    ],
+        ),
+        children: [
+          Container(
+            constraints: const BoxConstraints(maxHeight: 300),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // "Select All" option
+                  ListTile(
+                    leading: Checkbox(
+                      value: _selectedIds.length == widget.classes.length,
+                      tristate: true,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value ?? false) {
+                            _selectedIds.addAll(
+                              widget.classes.map((c) => c.id),
+                            );
+                          } else {
+                            _selectedIds.clear();
+                          }
+                          widget.onClassesSelected(_selectedIds.toList());
+                        });
+                      },
+                    ),
+                    title: const Text('Select All'),
+                    onTap: () {
+                      setState(() {
+                        if (_selectedIds.length == widget.classes.length) {
+                          _selectedIds.clear();
+                        } else {
+                          _selectedIds.addAll(
+                            widget.classes.map((c) => c.id),
+                          );
+                        }
+                        widget.onClassesSelected(_selectedIds.toList());
+                      });
+                    },
                   ),
-                );
-              }).toList(),
-              onChanged: (String? value) {
-                if (value != null) {
-                  final selectedClass = widget.classes.firstWhere(
-                    (classData) => classData.id == value,
-                  );
-                  _updateSelection(selectedClass);
-                }
-              },
+                  const Divider(),
+                  // Individual class options
+                  ...widget.classes.map((classData) => ListTile(
+                        leading: Checkbox(
+                          activeColor: AppColors.primaryColor,
+                          value: _selectedIds.contains(classData.id),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (value ?? false) {
+                                _selectedIds.add(classData.id);
+                              } else {
+                                _selectedIds.remove(classData.id);
+                              }
+                              widget.onClassesSelected(_selectedIds.toList());
+                            });
+                          },
+                        ),
+                        title: Text(classData.name),
+                        onTap: () {
+                          setState(() {
+                            if (_selectedIds.contains(classData.id)) {
+                              _selectedIds.remove(classData.id);
+                            } else {
+                              _selectedIds.add(classData.id);
+                            }
+                            widget.onClassesSelected(_selectedIds.toList());
+                          });
+                        },
+                      )),
+                ],
+              ),
             ),
           ),
-        ),
-        if (_selectedClassNames.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: _selectedClassNames.map((className) {
-              return Chip(
-                label: Text(className),
-                onDeleted: () {
-                  final classData = widget.classes.firstWhere(
-                    (c) => c.name == className,
+          // Selected items chips
+          if (_selectedIds.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: _selectedIds.map((id) {
+                  final classData =
+                      widget.classes.firstWhere((c) => c.id == id);
+                  return Chip(
+                    label: Text(
+                      classData.name,
+                      style: TextStyle(
+                        color: _getTextColor(classData.name),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    backgroundColor: _getChipColor(classData.name),
+                    deleteIconColor: _getTextColor(classData.name),
+                    onDeleted: () {
+                      setState(() {
+                        _selectedIds.remove(id);
+                        widget.onClassesSelected(_selectedIds.toList());
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                   );
-                  _updateSelection(classData);
-                },
-              );
-            }).toList(),
-          ),
+                }).toList(),
+              ),
+            ),
         ],
-      ],
+      ),
     );
-  }
-
-  void _updateSelection(Datum classData) {
-    setState(() {
-      if (_selectedClassIds.contains(classData.id)) {
-        _selectedClassIds.remove(classData.id);
-        _selectedClassNames.remove(classData.name);
-      } else {
-        _selectedClassIds.add(classData.id);
-        _selectedClassNames.add(classData.name);
-      }
-      widget.onClassesSelected(_selectedClassIds);
-    });
   }
 }
