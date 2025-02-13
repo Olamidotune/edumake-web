@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -19,18 +20,13 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     PersistentTabController controller;
     controller = PersistentTabController();
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, Object? result) async {
+      onPopInvoked: (didPop) async {
         if (didPop) {
           return;
         }
@@ -167,7 +163,7 @@ Future<bool?> _showExitDialog(BuildContext context) async {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: SystemNavigator.pop,
             child: Text(
               'Yes',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(

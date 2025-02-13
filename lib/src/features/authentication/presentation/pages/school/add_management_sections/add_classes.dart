@@ -261,8 +261,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                             FormzSubmissionStatus.inProgress,
                         text: 'Save Classes',
                         onPressed: () {
-                          if (formKey.currentState!.validate() ||
-                              _csvFile != null) {
+                          if (_csvFile != null) {
                             _uploadClasses();
                           } else {
                             ToastService.toast(
