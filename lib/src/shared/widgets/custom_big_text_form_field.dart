@@ -7,9 +7,13 @@ import 'package:flutter_svg/svg.dart';
 class CustomBigTextFormField extends StatelessWidget {
   const CustomBigTextFormField({
     required this.header,
+    required this.controller,
     super.key,
+    this.validator,
   });
   final String header;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,8 @@ class CustomBigTextFormField extends StatelessWidget {
         TextFormField(
           maxLines: 10,
           cursorColor: AppColors.primaryColor,
+          controller: controller,
+          validator: validator,
           decoration: InputDecoration(
             suffixIcon: SvgPicture.asset(
               'assets/svg/edit.svg',

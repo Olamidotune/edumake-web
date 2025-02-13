@@ -242,9 +242,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
           MenuListTile(
             title: AppStrings.notifications,
             icon: 'notification',
-            onTap: () {
-              print('object');
-            },
+            onTap: () {},
           ),
           Padding(
             padding: EdgeInsets.symmetric(

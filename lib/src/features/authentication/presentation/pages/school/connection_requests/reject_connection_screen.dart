@@ -20,7 +20,8 @@ class RejectConnectionScreen extends StatefulWidget {
 }
 
 class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
-  final ScrollController scrollController = ScrollController();
+  final scrollController = ScrollController();
+  final bigTextFieldController = TextEditingController();
 
   Map<String, bool> reasons = {
     AppStrings.theAccountDoesNotMatchStudentDetails: false,
@@ -212,7 +213,8 @@ class _RejectConnectionScreenState extends State<RejectConnectionScreen> {
                       ),
                       AppSpacing.verticalSpaceMedium,
                       AppSpacing.verticalSpaceSmall,
-                      const CustomBigTextFormField(
+                      CustomBigTextFormField(
+                        controller: bigTextFieldController,
                         header: AppStrings.others,
                       ),
                       SizedBox(height: AppSpacing.verticalValueSpaceLarge * 3),
