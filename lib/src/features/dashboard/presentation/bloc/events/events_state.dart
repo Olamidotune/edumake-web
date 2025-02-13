@@ -11,15 +11,16 @@ class EventsState with _$EventsState {
     String? eventRecipients,
     String? eventDate,
     List<String>? associatedEvents,
-    List<String>? eventClasses,
+    // List<String>? eventClasses,
     File? eventImage,
 ////////////////////////////////////////////////////////////////////////////////
     ///FETCH EVENTS
 ////////////////////////////////////////////////////////////////////////////////
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchEventStatus,
-    String? errorMessage,
     EventResponse? eventResponse,
+    List<UpcomingEvent>? upComingEvent,
+    String? errorMessage,
   }) = _EventsState;
 
   const EventsState._();

@@ -13,11 +13,13 @@ class EventCreatedBy {
 
   factory EventCreatedBy.fromJson(Map<String, dynamic> json) =>
       _$EventCreatedByFromJson(json);
+  @JsonKey(name: '_id')
   final String id;
+  @JsonKey(name: 'role')
   final String role;
-  @JsonKey(name: 'first_name')
+  @JsonKey(name: 'firstName')
   final String firstName;
-  @JsonKey(name: 'last_name')
+  @JsonKey(name: 'lastName')
   final String lastName;
   Map<String, dynamic> toJson() => _$EventCreatedByToJson(this);
 }

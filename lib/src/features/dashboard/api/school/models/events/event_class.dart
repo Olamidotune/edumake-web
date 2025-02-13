@@ -11,7 +11,10 @@ class EventClass {
 
   factory EventClass.fromJson(Map<String, dynamic> json) =>
       _$EventClassFromJson(json);
+
+  @JsonKey(name: '_id')
   final String id;
+  @JsonKey(name: 'name')
   final String name;
   Map<String, dynamic> toJson() => _$EventClassToJson(this);
 }

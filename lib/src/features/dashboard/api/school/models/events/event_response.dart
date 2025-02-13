@@ -15,10 +15,15 @@ class EventResponse {
 
   factory EventResponse.fromJson(Map<String, dynamic> json) =>
       _$EventResponseFromJson(json);
+  @JsonKey(name: 'success')
   final bool success;
+  @JsonKey(name: 'message')
   final String message;
+  @JsonKey(name: 'data')
   final EventData data;
+  @JsonKey(name: 'cursor')
   final String cursor;
+  @JsonKey(name: 'statusCode')
   final int statusCode;
   Map<String, dynamic> toJson() => _$EventResponseToJson(this);
 }

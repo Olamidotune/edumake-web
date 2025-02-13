@@ -13,10 +13,10 @@ class EventData {
   factory EventData.fromJson(Map<String, dynamic> json) =>
       _$EventDataFromJson(json);
 
-  @JsonKey(name: 'upcoming_events')
+  @JsonKey(name: 'upcomingEvents')
   final List<UpcomingEvent> upcomingEvents;
-
-  @JsonKey(name: 'previous_events')
+  @JsonKey(name: 'previousEvents')
   final List<dynamic> previousEvents;
+
   Map<String, dynamic> toJson() => _$EventDataToJson(this);
 }

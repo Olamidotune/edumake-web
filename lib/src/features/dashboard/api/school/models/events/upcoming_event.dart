@@ -24,23 +24,29 @@ class UpcomingEvent {
 
   factory UpcomingEvent.fromJson(Map<String, dynamic> json) =>
       _$UpcomingEventFromJson(json);
+  @JsonKey(name: '_id')
   final String id;
+  @JsonKey(name: 'title')
   final String title;
+  @JsonKey(name: 'date')
   final DateTime date;
+  @JsonKey(name: 'details')
   final String details;
-  @JsonKey(name: 'associated_events')
+  @JsonKey(name: 'associatedEvents')
   final List<dynamic> associatedEvents;
+  @JsonKey(name: 'classes')
   final List<EventClass> classes;
+  @JsonKey(name: 'school')
   final String school;
-  @JsonKey(name: 'image_url')
+  @JsonKey(name: 'imageUrl')
   final String imageUrl;
-  @JsonKey(name: 'created_by')
+  @JsonKey(name: 'createdBy')
   final EventCreatedBy createdBy;
-  @JsonKey(name: 'is_deleted')
+  @JsonKey(name: 'isDeleted')
   final bool isDeleted;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'createdAt')
   final DateTime createdAt;
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
   @JsonKey(name: '__v')
   final int v;

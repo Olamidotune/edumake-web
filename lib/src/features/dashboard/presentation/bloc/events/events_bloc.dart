@@ -9,6 +9,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
@@ -20,7 +21,7 @@ part 'events_state.dart';
 
 class EventsBloc extends Bloc<EventsEvent, EventsState> {
   EventsBloc() : super(const EventsState()) {
-    on<_Init>(_init);
+    // on<_Init>(_init);
 
     on<_OnEventTitleChanged>(_onEventTitleChanged);
     on<_OnEventRecipients>(_onEventRecipients);
@@ -34,11 +35,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     on<_FetchEventsFailed>(_fetchEventsFailed);
     on<_ErrorMessage>(_errorMessage);
 
-    add(const _Init());
-  }
-
-  void _init(_Init event, Emitter<EventsState> emit) {
-    add(const _FetchEvents());
+    // add(const _Init());
   }
 
   void _onEventTitleChanged(
@@ -168,30 +165,16 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     }
 
     emit(state.copyWith(fetchEventStatus: FormzSubmissionStatus.inProgress));
-
     try {
-      final event = await locator<EventClients>().fetchEvents(
+      final response = await locator<EventClients>().fetchEvents(
         await getAuthorization(),
         await getSchoolID(),
       );
 
-      add(_FetchEventsSuccessful(event));
-    } catch (error) {
-      if (error is DioError) {
-        final message = error.response?.data?['message'];
-
-        add(
-          _FetchEventsFailed(
-            message?.toString() ?? 'An unexpected error occurred',
-          ),
-        );
-      } else {
-        add(
-          const _FetchEventsFailed(
-            'An unexpected error occurred',
-          ),
-        );
-      }
+      add(_FetchEventsSuccessful(response));
+    } catch (e) {
+      print('Error parsing response: $e');
+      add(const _FetchEventsFailed('Error parsing response'));
     }
   }
 

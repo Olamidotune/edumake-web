@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
@@ -16,6 +16,7 @@ import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
+import 'package:edumake_frontend/src/shared/widgets/multiclass_drop_down.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
 
   String? _filePath;
   List<String>? selectedClassId;
+  List<String>? selectedEventId;
 
   bool _isUploading = false;
 
@@ -157,14 +159,15 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                           ),
                           AppSpacing.verticalSpaceMedium,
                           CustomBigTextFormField(
-                              header: AppStrings.eventsDetails,
-                              controller: eventDetailsController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please input an event details';
-                                }
-                                return null;
-                              }),
+                            header: AppStrings.eventsDetails,
+                            controller: eventDetailsController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please input an event details';
+                              }
+                              return null;
+                            },
+                          ),
                           AppSpacing.verticalSpaceMedium,
                           Text(
                             '${AppStrings.associatedEvent} (${AppStrings.optional})',
@@ -176,6 +179,19 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.blackColor,
                                 ),
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          BlocBuilder<EventsBloc, EventsState>(
+                            builder: (context, state) {
+                              return AssociatedEventsDropDown(
+                                events: state.upComingEvent ?? [],
+                                onEventSelected: (selectedEventsId) {
+                                  setState(() {
+                                    selectedEventId = selectedEventsId;
+                                  });
+                                },
+                              );
+                            },
                           ),
                           AppSpacing.verticalSpaceSmall,
                           GestureDetector(
@@ -418,21 +434,21 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   //   }
 }
 
-class MultiClassDropdown extends StatefulWidget {
-  const MultiClassDropdown({
-    required this.classes,
-    required this.onClassesSelected,
+class AssociatedEventsDropDown extends StatefulWidget {
+  const AssociatedEventsDropDown({
+    required this.events,
+    required this.onEventSelected,
     super.key,
   });
 
-  final List<Datum> classes;
-  final void Function(List<String>) onClassesSelected;
+  final List<UpcomingEvent> events;
+  final void Function(List<String>) onEventSelected;
 
   @override
-  State<MultiClassDropdown> createState() => _MultiClassDropdownState();
+  State<AssociatedEventsDropDown> createState() => _AssociatedEventsDropDown();
 }
 
-class _MultiClassDropdownState extends State<MultiClassDropdown> {
+class _AssociatedEventsDropDown extends State<AssociatedEventsDropDown> {
   final Set<String> _selectedIds = {};
 
   // Generate a consistent color based on the class name
@@ -481,8 +497,8 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
       child: ExpansionTile(
         title: Text(
           _selectedIds.isEmpty
-              ? 'Select Recipients'
-              : '${_selectedIds.length} classes selected',
+              ? 'Select Associated Events'
+              : '${_selectedIds.length} Selected Events',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: AppColors.primaryTextColor,
                 fontWeight: FontWeight.w300,
@@ -498,64 +514,66 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                   // "Select All" option
                   ListTile(
                     leading: Checkbox(
-                      value: _selectedIds.length == widget.classes.length,
+                      value: _selectedIds.length == widget.events.length,
                       tristate: true,
                       onChanged: (bool? value) {
                         setState(() {
                           if (value ?? false) {
                             _selectedIds.addAll(
-                              widget.classes.map((c) => c.id),
+                              widget.events.map((event) => event.id),
                             );
                           } else {
                             _selectedIds.clear();
                           }
-                          widget.onClassesSelected(_selectedIds.toList());
+                          widget.onEventSelected(_selectedIds.toList());
                         });
                       },
                     ),
                     title: const Text('Select All'),
                     onTap: () {
                       setState(() {
-                        if (_selectedIds.length == widget.classes.length) {
+                        if (_selectedIds.length == widget.events.length) {
                           _selectedIds.clear();
                         } else {
                           _selectedIds.addAll(
-                            widget.classes.map((c) => c.id),
+                            widget.events.map((event) => event.id),
                           );
                         }
-                        widget.onClassesSelected(_selectedIds.toList());
+                        widget.onEventSelected(_selectedIds.toList());
                       });
                     },
                   ),
                   const Divider(),
                   // Individual class options
-                  ...widget.classes.map((classData) => ListTile(
-                        leading: Checkbox(
-                          activeColor: AppColors.primaryColor,
-                          value: _selectedIds.contains(classData.id),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              if (value ?? false) {
-                                _selectedIds.add(classData.id);
-                              } else {
-                                _selectedIds.remove(classData.id);
-                              }
-                              widget.onClassesSelected(_selectedIds.toList());
-                            });
-                          },
-                        ),
-                        title: Text(classData.name),
-                        onTap: () {
+                  ...widget.events.map(
+                    (eventData) => ListTile(
+                      leading: Checkbox(
+                        activeColor: AppColors.primaryColor,
+                        value: _selectedIds.contains(eventData.id),
+                        onChanged: (bool? value) {
                           setState(() {
-                            if (_selectedIds.contains(classData.id)) {
-                              _selectedIds.remove(classData.id);
+                            if (value ?? false) {
+                              _selectedIds.add(eventData.id);
                             } else {
-                              _selectedIds.add(classData.id);
+                              _selectedIds.remove(eventData.id);
                             }
-                            widget.onClassesSelected(_selectedIds.toList());
+                            widget.onEventSelected(_selectedIds.toList());
                           });
                         },
-                      )),
+                      ),
+                      title: Text(eventData.title),
+                      onTap: () {
+                        setState(() {
+                          if (_selectedIds.contains(eventData.id)) {
+                            _selectedIds.remove(eventData.id);
+                          } else {
+                            _selectedIds.add(eventData.id);
+                          }
+                          widget.onEventSelected(_selectedIds.toList());
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -568,22 +586,21 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                 spacing: 8,
                 runSpacing: 4,
                 children: _selectedIds.map((id) {
-                  final classData =
-                      widget.classes.firstWhere((c) => c.id == id);
+                  final eventData = widget.events.firstWhere((e) => e.id == id);
                   return Chip(
                     label: Text(
-                      classData.name,
+                      eventData.title,
                       style: TextStyle(
-                        color: _getTextColor(classData.name),
+                        color: _getTextColor(eventData.title),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    backgroundColor: _getChipColor(classData.name),
-                    deleteIconColor: _getTextColor(classData.name),
+                    backgroundColor: _getChipColor(eventData.title),
+                    deleteIconColor: _getTextColor(eventData.title),
                     onDeleted: () {
                       setState(() {
                         _selectedIds.remove(id);
-                        widget.onClassesSelected(_selectedIds.toList());
+                        widget.onEventSelected(_selectedIds.toList());
                       });
                     },
                     shape: RoundedRectangleBorder(
