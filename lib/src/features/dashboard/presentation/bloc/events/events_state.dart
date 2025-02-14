@@ -22,6 +22,7 @@ class EventsState with _$EventsState {
     FormzSubmissionStatus fetchEventStatus,
     EventResponse? eventResponse,
     List<UpcomingEvent>? upComingEvent,
+    List<PreviousEvent>? previousEvent,
     EventData? eventData,
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/previous_event.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,7 +17,7 @@ class EventData {
   @JsonKey(name: 'upcomingEvents')
   final List<UpcomingEvent> upcomingEvents;
   @JsonKey(name: 'previousEvents')
-  final List<dynamic> previousEvents;
+  final List<PreviousEvent> previousEvents;
 
   void sort() {
     upcomingEvents.sort((a, b) => a.date.compareTo(b.date));

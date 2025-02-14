@@ -159,23 +159,31 @@ class ClassEventsScreen extends StatelessWidget {
                           ),
                     ),
                     AppSpacing.verticalSpaceMedium,
-                    ListView.separated(
-                      itemBuilder: (context, index) {
-                        return const SchoolMgtUpcomingEventsContainer(
-                          previousEvents: true,
-                          title: 'State Spelling Bee for JSS1',
-                          date: '13, Feb 2023',
-                          description:
-                              'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return AppSpacing.verticalSpaceSmall;
-                      },
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                    ),
+
+                    ///////////////////////////////////////////////
+                    if (state.previousEvent?.isEmpty ?? false)
+                      const NoDataAvailable(
+                        message: 'No Events Available',
+                        height: 0,
+                      )
+                    else
+                      ListView.separated(
+                        itemCount: state.previousEvent?.length ?? 0,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final event = state.previousEvent?[index];
+                          return SchoolMgtUpcomingEventsContainer(
+                            previousEvents: true,
+                            title: event?.title ?? '',
+                            date: formatLocalTime(event?.date),
+                            description: event?.details ?? '',
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return AppSpacing.verticalSpaceMedium;
+                        },
+                        physics: const NeverScrollableScrollPhysics(),
+                      ),
                   ],
                 ),
               ),

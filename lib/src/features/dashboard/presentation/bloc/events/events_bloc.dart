@@ -13,6 +13,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/events
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_id/event_id_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/event_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/previous_event.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/events/upcoming_event.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
@@ -176,6 +177,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
           fetchEventStatus: FormzSubmissionStatus.success,
           eventResponse: event.response,
           upComingEvent: event.response.data.upcomingEvents,
+          previousEvent: event.response.data.previousEvents,
           eventData: event.response.data),
     );
   }
