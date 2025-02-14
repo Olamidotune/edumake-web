@@ -31,7 +31,7 @@ class EventsEvent with _$EventsEvent {
 ////////////////////////////////////////////////////////////////////////////////
   ///FETCH EVENTS
 ////////////////////////////////////////////////////////////////////////////////
-  const factory EventsEvent.fetchEvents() = _FetchEvents;
+  const factory EventsEvent.fetchEvents(String? schoolId) = _FetchEvents;
   const factory EventsEvent.fetchEventsSuccessful(
     EventResponse response,
   ) = _FetchEventsSuccessful;

@@ -154,11 +154,15 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       return;
     }
 
-    emit(state.copyWith(fetchEventStatus: FormzSubmissionStatus.inProgress));
+    emit(
+      state.copyWith(
+        fetchEventStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
     try {
       final response = await locator<EventClients>().fetchEvents(
         await getAuthorization(),
-        await getSchoolID(),
+        event.schoolId ?? await getSchoolID(),
       );
 
       add(_FetchEventsSuccessful(response));

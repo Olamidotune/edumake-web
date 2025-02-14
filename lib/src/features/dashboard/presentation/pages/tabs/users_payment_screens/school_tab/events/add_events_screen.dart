@@ -17,12 +17,12 @@ import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.d
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/multiclass_drop_down.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class AddEventsScreen extends StatefulWidget {
   const AddEventsScreen({super.key});
@@ -44,6 +44,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String? _filePath;
+  final ImagePicker _picker = ImagePicker();
   List<String>? selectedClassId;
   List<String>? selectedEventId;
 
@@ -228,12 +229,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                           ),
                           AppSpacing.verticalSpaceSmall,
                           GestureDetector(
-                            // onTap: _pickFile,
-                            onTap: () {
-                              context
-                                  .read<EventsBloc>()
-                                  .add(const EventsEvent.fetchEvents());
-                            },
+                            onTap: pickImage,
                             child: Container(
                               height: 200.height,
                               width: double.infinity,
@@ -309,18 +305,10 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   }
 
   // ignore: unused_element
-  Future<void> _pickFile() async {
-    // Specify the type of files to pick (images and videos)
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
-
-    if (result != null) {
-      setState(() {
-        _filePath = result.files.single.path;
-      });
-    } else {
-      print('No file selected.');
+  Future<void> pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _filePath = image.path;
     }
   }
 

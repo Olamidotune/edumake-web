@@ -34,7 +34,11 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
     context
         .read<GetSchoolDataBloc>()
         .add(const GetSchoolDataEvent.fetchPaginatedClasses());
-    context.read<EventsBloc>().add(const EventsEvent.fetchEvents());
+    context.read<EventsBloc>().add(
+          const EventsEvent.fetchEvents(
+            null,
+          ),
+        );
   }
 
   @override
