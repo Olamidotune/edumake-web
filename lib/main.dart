@@ -283,6 +283,7 @@ class MyApp extends StatelessWidget {
                       const CreateNewPassword(),
                   WardSubjectScreen.routeName: (context) =>
                       const WardSubjectScreen(),
+                  PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
                   Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
