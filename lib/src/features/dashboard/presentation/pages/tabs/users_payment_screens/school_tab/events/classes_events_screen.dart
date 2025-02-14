@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/add_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
@@ -71,33 +72,42 @@ class ClassEventsScreen extends StatelessWidget {
                                   ),
                         ),
                         AppSpacing.horizontalSpaceSmall,
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              AddEventsScreen.routeName,
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/svg/plus1.svg',
-                                color: AppColors.primaryColor,
-                              ),
-                              AppSpacing.horizontalSpaceSmall,
-                              Text(
-                                AppStrings.addEvents,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontSize: 14.fontSize,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.primaryColor,
-                                    ),
-                              ),
-                            ],
+                        if (context
+                                .read<AuthBloc>()
+                                .state
+                                .user
+                                ?.role
+                                ?.contains('parent') ??
+                            true)
+                          const SizedBox.shrink()
+                        else
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                AddEventsScreen.routeName,
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/svg/plus1.svg',
+                                  color: AppColors.primaryColor,
+                                ),
+                                AppSpacing.horizontalSpaceSmall,
+                                Text(
+                                  AppStrings.addEvents,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: 14.fontSize,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                       ],
                     ),
                     AppSpacing.verticalSpaceMedium,

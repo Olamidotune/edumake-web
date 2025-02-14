@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -105,31 +106,42 @@ class ClassEventDetailsScreen extends StatelessWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      RichText(
-                        text: TextSpan(
-                          text: '${AppStrings.recipients}: ',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.blackColor,
-                                  ),
-                          children: [
-                            TextSpan(
-                              text:
-                                  '${state.eventClass?.map((e) => e.name).join(", ")}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryColor,
-                                  ),
-                            ),
-                          ],
+                      if (context
+                              .read<AuthBloc>()
+                              .state
+                              .user
+                              ?.role
+                              ?.contains('parent') ??
+                          true)
+                        const SizedBox.shrink()
+                      else
+                        RichText(
+                          text: TextSpan(
+                            text: '${AppStrings.recipients}: ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.blackColor,
+                                ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    '${state.eventClass?.map((e) => e.name).join(", ")}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: 12.fontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primaryColor,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       AppSpacing.verticalSpaceSmall,
                       const Divider(
                         thickness: 2,
@@ -145,58 +157,76 @@ class ClassEventDetailsScreen extends StatelessWidget {
                         textAlign: TextAlign.justify,
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      Button(
-                        text: 'Edit Event',
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            EditEventScreen.routeName,
-                          );
-                        },
-                        buttonColor: Colors.white,
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      BlocConsumer<EventsBloc, EventsState>(
-                        listener: (context, state) {
-                          if (state.deleteEventStatus ==
-                              FormzSubmissionStatus.success) {
-                            ToastService.toast('Event Deleted Successfully');
-                            context.read<EventsBloc>().add(
-                                  EventsEvent.deleteEvent(
-                                    state.eventIdData?.id ?? '',
-                                  ),
-                                );
-                            Navigator.pop(context);
-                          } else if (state.deleteEventStatus ==
-                              FormzSubmissionStatus.failure) {
-                            ToastService.toast(
-                              state.errorMessage ?? 'Something went wrong',
-                              ToastType.error,
+                      if (context
+                              .read<AuthBloc>()
+                              .state
+                              .user
+                              ?.role
+                              ?.contains('parent') ??
+                          true)
+                        const SizedBox.shrink()
+                      else
+                        Button(
+                          text: 'Edit Event',
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              EditEventScreen.routeName,
                             );
-                            context.read<EventsBloc>().add(
-                                  EventsEvent.deleteEvent(
-                                    state.eventIdData?.id ?? '',
-                                  ),
-                                );
-                            Navigator.pop(context);
-                          }
-                        },
-                        builder: (context, state) {
-                          return Button(
-                            busy: state.deleteEventStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            deleteButton: true,
-                            text: 'Delete Event',
-                            onPressed: () {
+                          },
+                          buttonColor: Colors.white,
+                        ),
+                      AppSpacing.verticalSpaceMedium,
+                      if (context
+                              .read<AuthBloc>()
+                              .state
+                              .user
+                              ?.role
+                              ?.contains('parent') ??
+                          true)
+                        const SizedBox.shrink()
+                      else
+                        BlocConsumer<EventsBloc, EventsState>(
+                          listener: (context, state) {
+                            if (state.deleteEventStatus ==
+                                FormzSubmissionStatus.success) {
+                              ToastService.toast('Event Deleted Successfully');
                               context.read<EventsBloc>().add(
                                     EventsEvent.deleteEvent(
                                       state.eventIdData?.id ?? '',
                                     ),
                                   );
-                            },
-                            buttonColor: Colors.white,
-                          );
-                        },
-                      ),
+                              Navigator.pop(context);
+                            } else if (state.deleteEventStatus ==
+                                FormzSubmissionStatus.failure) {
+                              ToastService.toast(
+                                state.errorMessage ?? 'Something went wrong',
+                                ToastType.error,
+                              );
+                              context.read<EventsBloc>().add(
+                                    EventsEvent.deleteEvent(
+                                      state.eventIdData?.id ?? '',
+                                    ),
+                                  );
+                              Navigator.pop(context);
+                            }
+                          },
+                          builder: (context, state) {
+                            return Button(
+                              busy: state.deleteEventStatus ==
+                                  FormzSubmissionStatus.inProgress,
+                              deleteButton: true,
+                              text: 'Delete Event',
+                              onPressed: () {
+                                context.read<EventsBloc>().add(
+                                      EventsEvent.deleteEvent(
+                                        state.eventIdData?.id ?? '',
+                                      ),
+                                    );
+                              },
+                              buttonColor: Colors.white,
+                            );
+                          },
+                        ),
                     ],
                   ),
                 ),
