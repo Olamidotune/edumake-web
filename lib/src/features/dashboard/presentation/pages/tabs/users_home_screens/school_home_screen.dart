@@ -2,10 +2,13 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
@@ -31,6 +34,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
     context
         .read<GetSchoolDataBloc>()
         .add(const GetSchoolDataEvent.fetchPaginatedClasses());
+    context.read<EventsBloc>().add(const EventsEvent.fetchEvents());
   }
 
   @override
@@ -194,24 +198,51 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           ),
         ),
         AppSpacing.verticalSpaceMedium,
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (BuildContext context, int index) {
-            return AppSpacing.verticalSpaceMedium;
-          },
-          itemBuilder: (BuildContext context, int index) {
-            return const SchoolMgtUpcomingEventsContainer(
-              previousEvents: false,
-              title: 'State Spelling Bee for SS2',
-              date: '13 Feb 2023',
-              description:
-                  'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-              recipients: '${AppStrings.recipients}: ',
-              recipientsList: 'Kamala Harris, Donald Trump, Joe Biden',
+        ///////
+        BlocBuilder<EventsBloc, EventsState>(
+          builder: (context, state) {
+            if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+              return const Center(
+                child: SpinKitPulsingGrid(
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
+              );
+            }
+            if (state.upComingEvent?.isEmpty ?? false) {
+              return const NoDataAvailable(
+                message: 'No Events Available',
+                height: 0,
+              );
+            }
+            return ListView.separated(
+              itemCount: state.upComingEvent?.length ?? 0,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final event = state.upComingEvent?[index];
+                return GestureDetector(
+                  onTap: () {
+                    context.read<EventsBloc>().add(
+                          EventsEvent.fetchEventsById(event?.id ?? ''),
+                        );
+                    Navigator.of(context, rootNavigator: true).pushNamed(
+                      ClassEventDetailsScreen.routeName,
+                    );
+                  },
+                  child: SchoolMgtUpcomingEventsContainer(
+                    previousEvents: false,
+                    title: event?.title ?? '',
+                    date: formatLocalTime(event?.date),
+                    description: event?.details ?? '',
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return AppSpacing.verticalSpaceMedium;
+              },
+              physics: const NeverScrollableScrollPhysics(),
             );
           },
-          itemCount: 3,
         ),
         AppSpacing.verticalSpaceHuge,
         Align(

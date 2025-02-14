@@ -131,9 +131,6 @@ class ClassEventsScreen extends StatelessWidget {
                                 );
                             Navigator.of(context).pushNamed(
                               ClassEventDetailsScreen.routeName,
-                              // arguments: {
-                              //   'eventName': 'State Spelling Bee for JSS1',
-                              // },
                             );
                           },
                           child: SchoolMgtUpcomingEventsContainer(
