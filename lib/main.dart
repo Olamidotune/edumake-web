@@ -50,6 +50,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/support.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
@@ -288,6 +289,7 @@ class MyApp extends StatelessWidget {
                   PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
                   TermsAndConditions.routeName: (context) =>
                       const TermsAndConditions(),
+                  Support.routeName: (context) => const Support(),
                   Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),

@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/support.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
@@ -63,7 +64,10 @@ class ParentMenuScreen extends StatelessWidget {
               MenuListTile(
                 title: AppStrings.support,
                 icon: 'shield_done',
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed(Support.routeName);
+                },
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -149,11 +153,6 @@ class _ParentMenuTopContainer extends StatelessWidget {
             title: AppStrings.events,
             icon: 'ticket',
             onTap: () {
-              // context.read<EventsBloc>().add(
-              //     const EventsEvent.fetchEvents(
-              //       null,
-              //     ),
-              //   );
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(ClassEventsScreen.routeName);
             },
