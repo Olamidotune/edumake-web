@@ -163,9 +163,7 @@ class ClassEventDetailsScreen extends StatelessWidget {
                                     state.eventIdData?.id ?? '',
                                   ),
                                 );
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.pop(context);
-                            });
+                            Navigator.pop(context);
                           } else if (state.deleteEventStatus ==
                               FormzSubmissionStatus.failure) {
                             ToastService.toast(
@@ -177,9 +175,7 @@ class ClassEventDetailsScreen extends StatelessWidget {
                                     state.eventIdData?.id ?? '',
                                   ),
                                 );
-                            Future.delayed(const Duration(seconds: 2), () {
-                              Navigator.pop(context);
-                            });
+                            Navigator.pop(context);
                           }
                         },
                         builder: (context, state) {

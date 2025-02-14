@@ -181,6 +181,23 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                                 ),
                           ),
                           AppSpacing.verticalSpaceMedium,
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Recipients',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
+                                  ),
+                            ),
+                          ),
+                          AppSpacing.verticalSpaceSmall,
+
+                          /////
                           BlocBuilder<EventsBloc, EventsState>(
                             builder: (context, state) {
                               return AssociatedEventsDropDown(
@@ -192,6 +209,22 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                                 },
                               );
                             },
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          AppSpacing.verticalSpaceMedium,
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Event Image',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
+                                  ),
+                            ),
                           ),
                           AppSpacing.verticalSpaceSmall,
                           GestureDetector(
@@ -250,7 +283,10 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                                 setState(() {
                                   _isUploading = true;
                                 });
-                                await _addEvent(selectedClassId ?? []);
+                                await _addEvent(
+                                  selectedClassId ?? [],
+                                  selectedEventId ?? [],
+                                );
                                 setState(() {
                                   _isUploading = false;
                                 });
@@ -302,7 +338,8 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     }
   }
 
-  Future<void> _addEvent(List<String> selectedClassIds) async {
+  Future<void> _addEvent(
+      List<String> selectedClassIds, List<String> associatedEvents) async {
     final schoolId = await getSchoolID();
     final token = await getAuthorization();
     final baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
@@ -318,6 +355,9 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       });
 
       request.fields['title'] = eventTitleController.text;
+      associatedEvents.asMap().forEach((index, eventId) {
+        request.fields['associatedEvents[$index]'] = eventId;
+      });
       request.fields['date'] = eventDateController.text;
       request.fields['details'] = eventDetailsController.text;
       selectedClassIds.asMap().forEach((index, classId) {
