@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/api/clients/authent
 import 'package:edumake_frontend/src/features/authentication/api/clients/csv_upload.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/school_data_upload.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/response_logger.dart';
@@ -46,6 +47,12 @@ Future<void> setupLocator() async {
       )
       ..registerFactory<WardsClient>(
         () => WardsClient(dio, baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? ''),
+      )
+      ..registerFactory<EventClients>(
+        () => EventClients(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -75,6 +82,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<WardsClient>(
         WardsClient(dio, baseUrl: dotenv.env[EnvKeys.apiBaseUrl]),
+      )
+      ..registerSingleton<EventClients>(
+        EventClients(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   }
 

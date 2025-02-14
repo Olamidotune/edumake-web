@@ -10,7 +10,6 @@ String formatLocalTime(String? timestamp) {
   if (timestamp == null || timestamp.isEmpty) {
     return '';
   }
-
   try {
     final utcTime = DateTime.parse(timestamp);
     final localTime = utcTime.toLocal();

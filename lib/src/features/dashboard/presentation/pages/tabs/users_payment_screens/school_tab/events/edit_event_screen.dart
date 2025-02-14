@@ -1,11 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
-import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -16,15 +16,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
 
-class ClassEventDetailsScreen extends StatelessWidget {
-  const ClassEventDetailsScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  const EditEventScreen({super.key});
 
-  static const String routeName = '/class-event-details';
+  static const String routeName = 'edit_event_screen';
+
+  @override
+  _EditEventScreenState createState() => _EditEventScreenState();
+}
+
+class _EditEventScreenState extends State<EditEventScreen> {
+  TextEditingController _detailsController = TextEditingController();
+  TextEditingController eventDateController = TextEditingController();
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    final eventDetails =
+        context.read<EventsBloc>().state.eventIdData?.details ?? '';
+    _detailsController = TextEditingController(text: eventDetails);
+  }
+
+  @override
+  void dispose() {
+    _detailsController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<EventsBloc, EventsState>(
@@ -94,13 +115,21 @@ class ClassEventDetailsScreen extends StatelessWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      Text(
-                        state.eventIdData?.createdAt ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Text(
+                          eventDateController.value.text.isEmpty
+                              ? state.eventIdData?.createdAt ?? ''
+                              : eventDateController.value.text,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.blackColor,
+                                  ),
+                        ),
                       ),
                       AppSpacing.verticalSpaceSmall,
                       RichText(
@@ -133,67 +162,33 @@ class ClassEventDetailsScreen extends StatelessWidget {
                         thickness: 2,
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      Text(
-                        state.eventIdData?.details ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryTextColor,
-                            ),
-                        textAlign: TextAlign.justify,
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      Button(
-                        text: 'Edit Event',
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            EditEventScreen.routeName,
-                          );
-                        },
-                        buttonColor: Colors.white,
-                      ),
-                      AppSpacing.verticalSpaceMedium,
-                      BlocConsumer<EventsBloc, EventsState>(
-                        listener: (context, state) {
-                          if (state.deleteEventStatus ==
-                              FormzSubmissionStatus.success) {
-                            ToastService.toast('Event Deleted Successfully');
-                            context.read<EventsBloc>().add(
-                                  EventsEvent.deleteEvent(
-                                    state.eventIdData?.id ?? '',
-                                  ),
-                                );
-                            Navigator.pop(context);
-                          } else if (state.deleteEventStatus ==
-                              FormzSubmissionStatus.failure) {
-                            ToastService.toast(
-                              state.errorMessage ?? 'Something went wrong',
-                              ToastType.error,
-                            );
-                            context.read<EventsBloc>().add(
-                                  EventsEvent.deleteEvent(
-                                    state.eventIdData?.id ?? '',
-                                  ),
-                                );
-                            Navigator.pop(context);
-                          }
-                        },
-                        builder: (context, state) {
-                          return Button(
-                            busy: state.deleteEventStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            deleteButton: true,
-                            text: 'Delete Event',
-                            onPressed: () {
-                              context.read<EventsBloc>().add(
-                                    EventsEvent.deleteEvent(
-                                      state.eventIdData?.id ?? '',
+                      Column(
+                        children: [
+                          TextField(
+                            autocorrect: false,
+                            cursorColor: AppColors.primaryColor,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: AppColors.primaryTextColor,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12.fontSize,
                                     ),
-                                  );
-                            },
-                            buttonColor: Colors.white,
-                          );
-                        },
+                            controller: _detailsController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: AppColors.greyColor.withOpacity(0.1),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            maxLines: null,
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          Button(
+                            text: 'Save and Post',
+                            onPressed: () {},
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -203,6 +198,46 @@ class ClassEventDetailsScreen extends StatelessWidget {
           );
         },
       ),
+
+      //  Padding(
+      //   padding: const EdgeInsets.all(16.0),
+      //   child: Column(
+      //     children: [
+      //       TextField(
+      //         controller: _detailsController,
+      //         decoration: const InputDecoration(
+      //           labelText: 'Event Details',
+      //           border: OutlineInputBorder(),
+      //         ),
+      //         maxLines: null,
+      //       ),
+      //       SizedBox(height: 20),
+      //       ElevatedButton(
+      //         onPressed: () {
+      //           // Handle save action
+      //           final updatedDetails = _detailsController.text;
+      //           // Dispatch an event to update the event details
+      //           // context.read<EventsBloc>().add(UpdateEventDetailsEvent(updatedDetails));
+      //         },
+      //         child: Text('Save'),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(4100),
+      initialDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        eventDateController.text = picked.toString().split(' ')[0];
+      });
+    }
   }
 }
