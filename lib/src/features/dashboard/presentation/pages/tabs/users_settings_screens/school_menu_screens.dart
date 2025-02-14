@@ -300,7 +300,11 @@ class SchoolMenuTopContainer extends StatelessWidget {
             title: AppStrings.events,
             icon: 'ticket',
             onTap: () {
-              context.read<EventsBloc>().add(const EventsEvent.fetchEvents());
+              context.read<EventsBloc>().add(
+                    const EventsEvent.fetchEvents(
+                      null,
+                    ),
+                  );
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(ClassEventsScreen.routeName);
             },

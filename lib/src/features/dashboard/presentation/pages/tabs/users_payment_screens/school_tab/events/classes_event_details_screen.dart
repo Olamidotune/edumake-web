@@ -42,9 +42,11 @@ class ClassEventDetailsScreen extends StatelessWidget {
             );
           }
           if (state.fetchEventByIdStatus == FormzSubmissionStatus.failure) {
-            return const NoDataAvailable(
-              message: 'Something went wrong',
-              height: .7,
+            return const Center(
+              child: NoDataAvailable(
+                message: 'Something went wrong',
+                height: .7,
+              ),
             );
           }
           return SafeArea(

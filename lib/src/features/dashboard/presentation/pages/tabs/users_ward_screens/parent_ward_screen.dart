@@ -2,8 +2,10 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -20,6 +22,7 @@ class ParentWardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
+
     return BlocBuilder<GetWardsBloc, GetWardsState>(
       builder: (context, state) {
         if (state.getWardStatus == FormzSubmissionStatus.inProgress) {
@@ -61,7 +64,7 @@ class ParentWardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${AppStrings.yourWards} (3)',
+              '${AppStrings.yourWards} (${state.getWardRequestModel?.data.length ?? 0})',
               style: Theme.of(context).textTheme.displayMedium,
             ),
             AppSpacing.verticalSpaceMedium,
@@ -83,9 +86,7 @@ class ParentWardScreen extends StatelessWidget {
                             wardDetails?.id,
                           ),
                         );
-                    print(
-                      wardDetails?.id,
-                    );
+
                     Navigator.of(context, rootNavigator: true).pushNamed(
                       WardDetailScreen.routeName,
                       arguments: {
@@ -134,6 +135,14 @@ class WardDetailScreen extends StatelessWidget {
     final wardId = args['wardId'];
 
     final scrollController = ScrollController();
+    final parentSchoolId = context
+        .read<GetWardsBloc>()
+        .state
+        .getWardRequestModel
+        ?.data
+        .first
+        .wardDatumSchool
+        .id;
 
     return Scaffold(
       body: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
@@ -213,7 +222,16 @@ class WardDetailScreen extends StatelessWidget {
                         AppStrings.schoolEvents,
                         'document',
                         '',
-                        () {},
+                        () {
+                          print(parentSchoolId);
+                          context.read<EventsBloc>().add(
+                                EventsEvent.fetchEvents(
+                                  parentSchoolId.toString(),
+                                ),
+                              );
+                          Navigator.of(context)
+                              .pushNamed(ClassEventsScreen.routeName);
+                        },
                       ),
                       AppSpacing.verticalSpaceSmall,
                       _WardDetailsButton(
