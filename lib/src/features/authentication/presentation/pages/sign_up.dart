@@ -6,6 +6,8 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -200,10 +202,11 @@ class SignUpScreen extends HookWidget {
                                     TextSpan(
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          // navigate to privacy policy
+                                          Navigator.of(context).pushNamed(
+                                            PrivacyPolicy.routeName,
+                                          );
                                         },
-                                      text:
-                                          ' the privacy policy and terms of service ',
+                                      text: ' the privacy policy ',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -215,7 +218,9 @@ class SignUpScreen extends HookWidget {
                                           ),
                                     ),
                                     TextSpan(
-                                      text: 'of Edu-Make',
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {},
+                                      text: 'and',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
@@ -223,7 +228,37 @@ class SignUpScreen extends HookWidget {
                                             fontFamily: 'HelveticaNeueRounded',
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
-                                            color: AppColors.primaryTextColor,
+                                            color: AppColors.blackColor,
+                                          ),
+                                    ),
+                                    TextSpan(
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.of(context).pushNamed(
+                                            TermsAndConditions.routeName,
+                                          );
+                                        },
+                                      text: ' terms of service ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontFamily: 'HelveticaNeueRounded',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                    ),
+                                    TextSpan(
+                                      text: ' of Edu-Make',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontFamily: 'HelveticaNeueRounded',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w300,
+                                            color: AppColors.blackColor,
                                           ),
                                     ),
                                   ],
