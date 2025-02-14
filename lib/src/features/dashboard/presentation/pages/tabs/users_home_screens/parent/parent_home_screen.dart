@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
@@ -7,6 +8,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
@@ -18,6 +20,7 @@ import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
 
 class ParentDashboard extends StatefulWidget {
@@ -216,11 +219,29 @@ class _ParentDashboardState extends State<ParentDashboard> {
                             children: [
                               Expanded(
                                 flex: 7,
-                                child: Image.asset(
-                                  'assets/png/girl running.png',
-                                  height: 110.h,
-                                  width: double.infinity,
-                                ),
+                                child: state.eventIdData?.imageUrl == null ||
+                                        state.eventIdData!.imageUrl.isEmpty
+                                    ? Container(
+                                        margin:
+                                            const EdgeInsets.only(bottom: 20),
+                                        width: double.infinity,
+                                        height: 250,
+                                        child: Image.asset(
+                                          'assets/png/event.png',
+                                        ),
+                                      )
+                                    : CachedNetworkImage(
+                                        imageUrl: state.eventIdData!.imageUrl,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                          child: SpinKitPulsingGrid(
+                                            color: AppColors.primaryColor,
+                                            size: 30,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset('assets/png/event.png'),
+                                      ),
                               ),
                               AppSpacing.verticalSpaceMedium,
                               Expanded(

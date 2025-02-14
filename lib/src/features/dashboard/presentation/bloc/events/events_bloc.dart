@@ -235,6 +235,7 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       _FetchEventsFailedById event, Emitter<EventsState> emit) {
     emit(state.copyWith(
       errorMessage: state.errorMessage,
+      fetchEventByIdStatus: FormzSubmissionStatus.failure,
     ));
   }
 
