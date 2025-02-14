@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -145,17 +146,58 @@ class ClassEventDetailsScreen extends StatelessWidget {
                       Button(
                         text: 'Edit Event',
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(EditEventScreen.routeName);
+                          Navigator.of(context).pushNamed(
+                            EditEventScreen.routeName,
+                          );
                         },
                         buttonColor: Colors.white,
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      Button(
-                        deleteButton: true,
-                        text: 'Delete Event',
-                        onPressed: () {},
-                        buttonColor: Colors.white,
+                      BlocConsumer<EventsBloc, EventsState>(
+                        listener: (context, state) {
+                          if (state.deleteEventStatus ==
+                              FormzSubmissionStatus.success) {
+                            ToastService.toast('Event Deleted Successfully');
+                            context.read<EventsBloc>().add(
+                                  EventsEvent.deleteEvent(
+                                    state.eventIdData?.id ?? '',
+                                  ),
+                                );
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Navigator.pop(context);
+                            });
+                          } else if (state.deleteEventStatus ==
+                              FormzSubmissionStatus.failure) {
+                            ToastService.toast(
+                              state.errorMessage ?? 'Something went wrong',
+                              ToastType.error,
+                            );
+                            context.read<EventsBloc>().add(
+                                  EventsEvent.deleteEvent(
+                                    state.eventIdData?.id ?? '',
+                                  ),
+                                );
+                            Future.delayed(const Duration(seconds: 2), () {
+                              Navigator.pop(context);
+                            });
+                          }
+                        },
+                        builder: (context, state) {
+                          return Button(
+                            busy: state.deleteEventStatus ==
+                                FormzSubmissionStatus.inProgress,
+                            deleteButton: true,
+                            text: 'Delete Event',
+                            onPressed: () {
+                              context.read<EventsBloc>().add(
+                                    EventsEvent.deleteEvent(
+                                      state.eventIdData?.id ?? '',
+                                    ),
+                                  );
+                            },
+                            buttonColor: Colors.white,
+                          );
+                        },
                       ),
                     ],
                   ),

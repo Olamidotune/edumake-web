@@ -37,4 +37,19 @@ abstract class EventClients {
     @Header('Authorization') String authorization,
     @Path('eventId') String eventId,
   );
+
+  @PUT('/api/v1/sch/events/{schoolId}/{eventId}')
+  @FormUrlEncoded()
+  Future<EventIdResponse> editEvents(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Path('eventId') String eventId,
+  );
+
+  @DELETE('/api/v1/sch/events/{schoolId}/{eventId}')
+  Future<void> deleteEvent(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Path('eventId') String eventId,
+  );
 }

@@ -42,6 +42,9 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     on<_FetchEventsSuccessfulById>(_fetchEventByIdSuccessful);
     on<_FetchEventsFailedById>(_fetchEventByIdFailed);
     on<_ErrorMessage>(_errorMessage);
+    on<_DeleteEvent>(_deleteEvent);
+    on<_DeleteEventSuccessful>(_deleteEventSuccessful);
+    on<_DeleteEventFailed>(_deleteEventFailed);
 
     // add(const _Init());
   }
@@ -227,6 +230,48 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     emit(state.copyWith(
       errorMessage: state.errorMessage,
     ));
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+  ///DELETE EVENTS
+////////////////////////////////////////////////////////////////////////////////
+
+  void _deleteEvent(_DeleteEvent event, Emitter<EventsState> emit) async {
+    if (state.deleteEventStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(deleteEventStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      await locator<EventClients>().deleteEvent(
+          await getAuthorization(), await getSchoolID(), event.eventId);
+
+      add(const _DeleteEventSuccessful('Event Deleted Successfully'));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(const _DeleteEventFailed('Error Deleting Event'));
+    }
+  }
+
+  void _deleteEventSuccessful(
+    _DeleteEventSuccessful event,
+    Emitter<EventsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        deleteEventStatus: FormzSubmissionStatus.success,
+      ),
+    );
+  }
+
+  void _deleteEventFailed(_DeleteEventFailed event, Emitter<EventsState> emit) {
+    emit(
+      state.copyWith(
+        deleteEventStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
+    );
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<EventsState> emit) {

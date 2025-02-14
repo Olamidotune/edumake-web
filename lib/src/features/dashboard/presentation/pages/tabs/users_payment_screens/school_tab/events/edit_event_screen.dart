@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
@@ -26,6 +27,7 @@ class EditEventScreen extends StatefulWidget {
 
 class _EditEventScreenState extends State<EditEventScreen> {
   TextEditingController _detailsController = TextEditingController();
+  TextEditingController eventDateController = TextEditingController();
   ScrollController scrollController = ScrollController();
 
   @override
@@ -45,9 +47,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit Event'),
-      ),
+      appBar: const CustomAppBar(),
       body: BlocBuilder<EventsBloc, EventsState>(
         builder: (context, state) {
           if (state.fetchEventByIdStatus == FormzSubmissionStatus.inProgress) {
@@ -115,13 +115,21 @@ class _EditEventScreenState extends State<EditEventScreen> {
                             ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      Text(
-                        state.eventIdData?.createdAt ?? '',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blackColor,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Text(
+                          eventDateController.value.text.isEmpty
+                              ? state.eventIdData?.createdAt ?? ''
+                              : eventDateController.value.text,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.blackColor,
+                                  ),
+                        ),
                       ),
                       AppSpacing.verticalSpaceSmall,
                       RichText(
@@ -157,6 +165,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                       Column(
                         children: [
                           TextField(
+                            autocorrect: false,
                             cursorColor: AppColors.primaryColor,
                             style:
                                 Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -216,5 +225,19 @@ class _EditEventScreenState extends State<EditEventScreen> {
       //   ),
       // ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(4100),
+      initialDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        eventDateController.text = picked.toString().split(' ')[0];
+      });
+    }
   }
 }

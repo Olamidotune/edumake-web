@@ -33,6 +33,13 @@ class EventsState with _$EventsState {
     EventIdResponse? eventIdResponse,
     EventIdData? eventIdData,
     List<EventClass>? eventClass,
+
+////////////////////////////////////////////////////////////////////////////////
+    ///DELETE EVENTS
+////////////////////////////////////////////////////////////////////////////////
+
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus deleteEventStatus,
     String? errorMessage,
   }) = _EventsState;
 
