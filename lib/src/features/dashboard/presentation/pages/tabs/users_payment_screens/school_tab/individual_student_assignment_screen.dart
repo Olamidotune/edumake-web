@@ -8,6 +8,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -79,9 +80,19 @@ class _IndividualStudentAssignmentScreenState
                       );
                     }
 
+                    if (state.fetchSubjectStatus ==
+                        FormzSubmissionStatus.failure) {
+                      return const NoDataAvailable(
+                        message:
+                            'Something went wrong. Try again or contact support.',
+                        height: 8,
+                      );
+                    }
+
                     // Show empty state if no data is available
                     if (state.subjectData == null ||
                         state.subjectData!.isEmpty) {
+                      // Show empty state UI
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -118,7 +129,6 @@ class _IndividualStudentAssignmentScreenState
                         ],
                       );
                     }
-
                     // Show the list of subjects
                     return SizedBox(
                       height: MediaQuery.of(context).size.height <

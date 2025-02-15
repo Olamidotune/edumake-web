@@ -24,6 +24,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
   @override
   Widget build(BuildContext context) {
     final args =
+        // ignore: cast_nullable_to_non_nullable
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final schoolName = args['schoolName'];
     final classNameKey = args['className'];
