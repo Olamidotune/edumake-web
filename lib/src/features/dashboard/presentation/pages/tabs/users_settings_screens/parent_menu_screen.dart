@@ -132,6 +132,7 @@ class ParentMenuScreen extends StatelessWidget {
             trailing: SvgPicture.asset('assets/svg/arrow_right.svg'),
           ),
         ),
+        AppSpacing.verticalSpaceLarge,
       ],
     );
   }
