@@ -154,8 +154,8 @@ class SendComplaintScreen extends StatelessWidget {
                 SizedBox(
                   height:
                       MediaQuery.of(context).size.height < kMinSupportedHeight
-                          ? .6.height
-                          : 400.height,
+                          ? 130.height
+                          : 180.height,
                 ),
                 Button(
                   text: 'Send',
