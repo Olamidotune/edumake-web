@@ -293,6 +293,8 @@ class MyApp extends StatelessWidget {
                   Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
+                  SendComplaintScreen.routeName: (context) =>
+                      const SendComplaintScreen(),
                   WardScreen.routeName: (context) => const WardScreen(),
                   DynamicTextFieldList.routeName: (context) =>
                       const DynamicTextFieldList(),

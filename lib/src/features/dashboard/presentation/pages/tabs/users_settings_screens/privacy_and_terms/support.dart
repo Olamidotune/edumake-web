@@ -1,8 +1,11 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,9 +51,12 @@ class Support extends StatelessWidget {
                 AppSpacing.verticalSpaceMedium,
                 _SupportListTile(
                   icon: 'send',
-                  title: 'Chat with School Admin',
-                  onTap: () {},
-                )
+                  title: 'Send a complain/Report',
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(SendComplaintScreen.routeName);
+                  },
+                ),
               ],
             ),
           ),
@@ -92,6 +98,72 @@ class _SupportListTile extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 color: AppColors.secondaryTexColor,
               ),
+        ),
+      ),
+    );
+  }
+}
+
+class SendComplaintScreen extends StatelessWidget {
+  const SendComplaintScreen({super.key});
+
+  static const String routeName = 'send_complaint_screen';
+
+  @override
+  Widget build(BuildContext context) {
+    final complainController = TextEditingController();
+    final scrollerController = ScrollController();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: CustomRawScroller(
+        scrollController: scrollerController,
+        child: Padding(
+          padding: EdgeInsets.all(
+            AppSpacing.horizontalSpacingMedium,
+          ),
+          child: SingleChildScrollView(
+            controller: scrollerController,
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Send a Complaint/\nReport',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                Text(
+                  'Feel free to report any misconduct or lay a complaint where you see any.',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.primaryTextColor,
+                      ),
+                ),
+                AppSpacing.verticalSpaceMedium,
+                CustomBigTextFormField(
+                  header: 'Note',
+                  controller: complainController,
+                ),
+                SizedBox(
+                  height:
+                      MediaQuery.of(context).size.height < kMinSupportedHeight
+                          ? 130.height
+                          : 180.height,
+                ),
+                Button(
+                  text: 'Send',
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
