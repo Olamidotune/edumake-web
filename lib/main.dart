@@ -291,6 +291,8 @@ class MyApp extends StatelessWidget {
                       const TermsAndConditions(),
                   Support.routeName: (context) => const Support(),
                   Dashboard.routeName: (context) => const Dashboard(),
+                  TestResultsScreen.routeName: (context) =>
+                      const TestResultsScreen(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
                   SendComplaintScreen.routeName: (context) =>

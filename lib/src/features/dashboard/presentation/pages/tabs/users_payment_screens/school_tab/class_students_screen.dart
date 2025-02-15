@@ -26,12 +26,14 @@ class ClassStudentsScreen extends StatelessWidget {
     final className = args['className'];
 
     final scrollController = ScrollController();
+    final outerScrollController = ScrollController();
+    final listScrollController = ScrollController();
 
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
         child: CustomRawScroller(
-          scrollController: scrollController,
+          scrollController: outerScrollController,
           child: Padding(
             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
             child: SingleChildScrollView(
@@ -81,6 +83,7 @@ class ClassStudentsScreen extends StatelessWidget {
                           final students =
                               schoolDataState.getStudentsDatum ?? [];
                           return ListView.separated(
+                            controller: listScrollController,
                             itemCount: students.length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
