@@ -162,8 +162,6 @@ class _ClassScreenState extends State<ClassScreen> {
                     final classData = state.classes[index];
                     return GestureDetector(
                       onTap: () {
-                        //this is the class ID
-                        // debugPrint('${classData.id}');
                         context.read<GetSchoolDataBloc>().add(
                               GetSchoolDataEvent.fetchStudents(
                                 classData.id,

@@ -24,6 +24,7 @@ class ClassStudentsScreen extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     final className = args['className'];
+    final classId = args['classId'];
 
     final scrollController = ScrollController();
     final outerScrollController = ScrollController();
@@ -137,8 +138,7 @@ class ClassStudentsScreen extends StatelessWidget {
                                             .textTheme
                                             .bodyMedium!
                                             .copyWith(
-                                              fontSize:
-                                                  14, // Assuming 14 is a valid font size
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                               color:
                                                   AppColors.secondaryTexColor,
@@ -156,6 +156,8 @@ class ClassStudentsScreen extends StatelessWidget {
                                     arguments: {
                                       'className': className,
                                       'studentName': student.name,
+                                      'classId': classId,
+                                      'studentId': student.id,
                                       'schoolName': context
                                           .read<AuthBloc>()
                                           .state

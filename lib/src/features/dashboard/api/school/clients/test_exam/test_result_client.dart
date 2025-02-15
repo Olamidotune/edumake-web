@@ -11,7 +11,7 @@ abstract class TestResultClient {
   factory TestResultClient(Dio dio, {String baseUrl}) = _TestResultClient;
 
   @POST('/api/v1/sch/test/{schoolId}')
-  Future<TestResult> getClasses(
+  Future<TestResult> addTestResult(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Body() Map<String, dynamic> body,

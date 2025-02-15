@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
@@ -17,6 +18,11 @@ class TestResultsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
     final searchController = TextEditingController();
+
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+
+    final classId = args['classId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -42,7 +48,10 @@ class TestResultsScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(AddTestResultsScreen.routeName);
+                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(

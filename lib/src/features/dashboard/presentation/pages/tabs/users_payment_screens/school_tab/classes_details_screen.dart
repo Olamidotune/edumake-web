@@ -91,6 +91,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                               arguments: {
                                 'className': className,
                                 'studentCount': className,
+                                'classId': classId,
                               },
                             );
                           } else {

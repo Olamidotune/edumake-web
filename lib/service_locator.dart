@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/api/clients/school_
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/response_logger.dart';
 import 'package:flutter/foundation.dart';
@@ -53,6 +54,12 @@ Future<void> setupLocator() async {
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),
+      )
+      ..registerFactory<TestResultClient>(
+        () => TestResultClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -85,6 +92,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<EventClients>(
         EventClients(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<TestResultClient>(
+        TestResultClient(
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),

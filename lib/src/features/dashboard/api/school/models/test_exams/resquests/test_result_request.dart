@@ -32,6 +32,6 @@ class Grade {
 
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
   final String studentId;
-  final int grade;
+  final double grade;
   Map<String, dynamic> toJson() => _$GradeToJson(this);
 }

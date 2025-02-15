@@ -24,6 +24,8 @@ class StudentDetailsScreen extends StatelessWidget {
     final studentName = args['studentName'];
     final className = args['className'];
     final schoolName = args['schoolName'];
+    final studentId = args['studentId'];
+    final classId = args['classId'];
 
     final scrollController = ScrollController();
     return Scaffold(
@@ -129,8 +131,13 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.test,
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(TestResultsScreen.routeName);
+                      Navigator.of(context).pushNamed(
+                        TestResultsScreen.routeName,
+                        arguments: {
+                          'classId': classId,
+                          'studentId': studentId,
+                        },
+                      );
                     },
                   ),
                   AppSpacing.verticalSpaceMedium,
