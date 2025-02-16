@@ -4,7 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_kyc/school_kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/widgets/school_drop_down_form.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
-import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
+import 'package:edumake_frontend/src/shared/services/persistence_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _animation = Tween<double>(begin: 0.5, end: 1.2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.decelerate),
+      CurvedAnimation(parent: _controller, curve: Curves.slowMiddle),
     );
     await _controller.forward();
 
@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
         child: ScaleTransition(
           scale: _animation,
           child: Image.asset(
-            'assets/png/app_logo.png',
+            'assets/png/logo.png',
             height: 250,
           ),
         ),
