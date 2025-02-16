@@ -38,8 +38,6 @@ class NotificationService {
     } catch (e) {
       logInfo('Error getting FCM token: $e');
       // Optionally, you can add retry logic or default behaviors here.
-      final token = await messaging.getToken();
-      logInfo('Getting FCM Token Failed, Trying Again: $token');
     }
   }
 
