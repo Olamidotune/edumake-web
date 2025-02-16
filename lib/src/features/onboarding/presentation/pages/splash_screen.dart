@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _animation = Tween<double>(begin: 0.5, end: 1.2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.slowMiddle),
+      CurvedAnimation(parent: _controller, curve: Curves.bounceInOut),
     );
     await _controller.forward();
 
