@@ -25,7 +25,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscripton.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
@@ -66,7 +66,8 @@ import 'package:edumake_frontend/src/features/onboarding/presentation/pages/spla
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/teachers/teachers_onboarding.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/locale_service.dart';
-import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
+import 'package:edumake_frontend/src/shared/services/notification_service.dart';
+import 'package:edumake_frontend/src/shared/services/persistence_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -81,11 +82,8 @@ import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService.instance.initialize();
   final prefs = await SharedPreferences.getInstance();
   final userRole = await UserRoleHelper.getUserRole();
 
@@ -94,8 +92,6 @@ void main() async {
 
   // Initializing singleton instance.
   AuthServices();
-
-  // final User? user = await AuthServices().getUser();
 
   final hasAuthenticatedBefore =
       await PersistenceServices().getHasAuthenticatedBefore();

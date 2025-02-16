@@ -7,7 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/user.dar
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
-import 'package:edumake_frontend/src/shared/services/presistence_services.dart';
+import 'package:edumake_frontend/src/shared/services/persistence_services.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
