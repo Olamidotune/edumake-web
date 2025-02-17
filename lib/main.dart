@@ -35,6 +35,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
@@ -48,6 +49,8 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/support.dart';
@@ -154,6 +157,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<EventsBloc>(
           create: (context) => EventsBloc(),
+        ),
+        BlocProvider<TestBloc>(
+          create: (context) => TestBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
@@ -283,6 +289,10 @@ class MyApp extends StatelessWidget {
                   WardSubjectScreen.routeName: (context) =>
                       const WardSubjectScreen(),
                   PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
+                  TestResultsScreen.routeName: (context) =>
+                      const TestResultsScreen(),
+                  AddTestResultsScreen.routeName: (context) =>
+                      const AddTestResultsScreen(),
                   TermsAndConditions.routeName: (context) =>
                       const TermsAndConditions(),
                   Support.routeName: (context) => const Support(),

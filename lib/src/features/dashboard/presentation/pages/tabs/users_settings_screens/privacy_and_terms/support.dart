@@ -160,7 +160,7 @@ class SendComplaintScreen extends StatelessWidget {
                 Button(
                   text: 'Send',
                   onPressed: () {},
-                )
+                ),
               ],
             ),
           ),

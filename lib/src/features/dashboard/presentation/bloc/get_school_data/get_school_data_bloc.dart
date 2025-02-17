@@ -31,6 +31,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     on<_FetchStudentsSuccessful>(_fetchStudentsSuccessful);
     on<_FetchSubjectForStudent>(_fetchSubjectForStudent);
     on<_FetchSubjectForStudentSuccessful>(_fetchSubjectForStudentSuccessful);
+    on<_OnSelectedStudentId>(_onSelectedStudentId);
     on<_FetchSubjectForStudentFailed>(_fetchSubjectForStudentFailed);
     on<_FetchStudentsFailed>(_fetchStudentsFailed);
     on<_ErrorMessage>(_errorMessage);
@@ -301,6 +302,15 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     );
   }
 
+  void _onSelectedStudentId(
+    _OnSelectedStudentId event,
+    Emitter<GetSchoolDataState> emit,
+  ) {
+    emit(
+      state.copyWith(selectedStudentId: event.onSelectedStudentId),
+    );
+  }
+
   void _fetchSubjectForStudent(
     _FetchSubjectForStudent event,
     Emitter<GetSchoolDataState> emit,
@@ -315,7 +325,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
       final subjects =
           await locator<GetSchoolDataClient>().getSubjectForStudent(
         await getAuthorization(),
-        state.selectedSubject ?? '',
+        state.selectedSubject ?? state.selectedStudentId,
       );
       add(_FetchSubjectForStudentSuccessful(subjects));
     } catch (error) {

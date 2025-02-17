@@ -5,13 +5,11 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
-import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -60,13 +58,8 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                       ),
                     );
                   }
-                  if (state.fetchStudentsStatus ==
-                      FormzSubmissionStatus.failure) {
-                    return const NoDataAvailable(
-                      message:
-                          'Something went wrong. Try again or contact support.',
-                      height: 8,
-                    );
+                  if (state.classesData?.length == 0) {
+                    return const Text('Something is wrong');
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +77,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         isProfilePictureEnabled: false,
                         title: AppStrings.students,
                         trailing:
-                            '${state.getStudentsDatum?.length ?? 0} ${state.getStudentsDatum?.length == 1 ? "Student" : "Students"}',
+                            '${state.getStudentsDatum?.length ?? 0} Students',
                         onTap: () {
                           context.read<GetSchoolDataBloc>().add(
                                 GetSchoolDataEvent.fetchStudents(
@@ -98,6 +91,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                               arguments: {
                                 'className': className,
                                 'studentCount': className,
+                                'classId': classId,
                               },
                             );
                           } else {
@@ -108,16 +102,16 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      ClassesListTileContainer(
-                        onTap: () => Navigator.of(context).pushNamed(
-                          //Add Admin Assignment Screen
-                          AssignmentScreen.routeName,
-                          arguments: {
-                            'studentName': '',
-                            'className': className,
-                            'schoolName': '',
-                          },
-                        ),
+                      const ClassesListTileContainer(
+                        // onTap: () => Navigator.of(context).pushNamed(
+                        //   //
+                        //   AssignmentScreen.routeName,
+                        //   arguments: {
+                        //     // 'studentName': studentName,
+                        //     'className': className,
+                        //     // 'schoolName': schoolName,
+                        //   },
+                        // ),
                         title: AppStrings.assignments,
                         isProfilePictureEnabled: false,
                       ),

@@ -170,22 +170,12 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                             },
                           ),
                           AppSpacing.verticalSpaceMedium,
-                          Text(
-                            '${AppStrings.associatedEvent} (${AppStrings.optional})',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.blackColor,
-                                ),
-                          ),
+
                           AppSpacing.verticalSpaceMedium,
                           Align(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              'Recipients',
+                              AppStrings.associatedEventOptional,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
