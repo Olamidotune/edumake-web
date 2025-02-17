@@ -293,14 +293,14 @@ class MyApp extends StatelessWidget {
                   WardSubjectScreen.routeName: (context) =>
                       const WardSubjectScreen(),
                   PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
-                  TermsAndConditions.routeName: (context) =>
-                      const TermsAndConditions(),
-                  Support.routeName: (context) => const Support(),
-                  Dashboard.routeName: (context) => const Dashboard(),
                   TestResultsScreen.routeName: (context) =>
                       const TestResultsScreen(),
                   AddTestResultsScreen.routeName: (context) =>
                       const AddTestResultsScreen(),
+                  TermsAndConditions.routeName: (context) =>
+                      const TermsAndConditions(),
+                  Support.routeName: (context) => const Support(),
+                  Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
                   HomeScreen.routeName: (context) => const HomeScreen(),
                   SendComplaintScreen.routeName: (context) =>

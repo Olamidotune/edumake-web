@@ -2,7 +2,10 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_grade_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 
@@ -60,7 +63,24 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                   ),
                 ),
                 AppSpacing.verticalSpaceMedium,
-                BlocBuilder<TestBloc, TestState>(
+                BlocConsumer<TestBloc, TestState>(
+                  listener: (context, state) {
+                    if (state.addTestResultStatus ==
+                        FormzSubmissionStatus.success) {
+                      ToastService.toast(
+                        'Result saved successfully',
+                      );
+                      Navigator.pop(context);
+                    }
+
+                    if (state.addTestResultStatus ==
+                        FormzSubmissionStatus.failure) {
+                      ToastService.toast(
+                        'Failed to add result',
+                        ToastType.error,
+                      );
+                    }
+                  },
                   builder: (context, state) {
                     return Form(
                       key: formKey,
@@ -68,8 +88,8 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                         children: [
                           CustomTextFormField(
                             title: 'Title',
-                            controller: gradeController,
-                            focusNode: gradeFocusNode,
+                            controller: titleController,
+                            focusNode: titleFocusNode,
                             onChanged: (value) {
                               context
                                   .read<TestBloc>()
@@ -109,13 +129,8 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                           AppSpacing.verticalSpaceMedium,
                           CustomTextFormField(
                             title: 'Grade',
-                            controller: titleController,
-                            focusNode: titleFocusNode,
-                            // onChanged: (value) {
-                            //    context.read<TestBloc>().add(
-                            //         TestEvent.gradeChanged(value),
-                            //       );
-                            // },
+                            controller: gradeController,
+                            focusNode: gradeFocusNode,
                             hintText: 'Enter Score',
                             keyboardType: TextInputType.number,
                           ),
@@ -124,7 +139,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             height: MediaQuery.of(context).size.height <
                                     kMinSupportedHeight
                                 ? 130.height
-                                : 180.height,
+                                : 240.height,
                           ),
                           Button(
                             busy: state.addTestResultStatus ==
@@ -132,12 +147,20 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             text: 'Save',
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
+                                final result = TestResultRequest(
+                                  classId: '67994daa70cb1409e17f1c63',
+                                  title: titleController.value.text.trim(),
+                                  subjectId: '679c3bb5612df077b49947f1',
+                                  dateWritten: dateController.value.text,
+                                  grades: [
+                                    Grade(
+                                      grade: 66,
+                                      studentId: '679f8d8a0d7b34ddc134ebd8',
+                                    ),
+                                  ],
+                                );
                                 context.read<TestBloc>().add(
-                                      TestEvent.addTestResult(
-                                          '679c3bb5612df077b49947f1',
-                                          '67994daa70cb1409e17f1c63',
-                                          dateController.value.text,
-                                          '679f8d8a0d7b34ddc134ebda'),
+                                      TestEvent.addTestResult(result),
                                     );
                               }
                             },

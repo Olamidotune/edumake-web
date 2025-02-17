@@ -1,7 +1,8 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:dio/dio.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_result_model.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'test_result_client.g.dart';
@@ -11,9 +12,10 @@ abstract class TestResultClient {
   factory TestResultClient(Dio dio, {String baseUrl}) = _TestResultClient;
 
   @POST('/api/v1/sch/test/{schoolId}')
-  Future<TestResult> addTestResult(
+  @FormUrlEncoded()
+  Future<TestResponse> addTestResult(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
-    @Body() Map<String, dynamic> body,
+    @Body() TestResultRequest body,
   );
 }

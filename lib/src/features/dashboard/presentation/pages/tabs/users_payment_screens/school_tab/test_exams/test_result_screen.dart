@@ -28,7 +28,7 @@ class TestResultsScreen extends StatelessWidget {
       body: CustomRawScroller(
         scrollController: scrollController,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),

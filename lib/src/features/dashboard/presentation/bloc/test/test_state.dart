@@ -13,6 +13,7 @@ class TestState with _$TestState {
     String? studentId,
     List<Grade>? grades,
     double? testGrade,
+    String? errorMessage,
   }) = _TestState;
 }
 

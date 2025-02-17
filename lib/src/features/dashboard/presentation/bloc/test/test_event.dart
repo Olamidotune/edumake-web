@@ -9,13 +9,10 @@ class TestEvent with _$TestEvent {
   const factory TestEvent.gradeChanged(double grade) = _GradeChanged;
   const factory TestEvent.dateChanged(String date) = _DateChanged;
   const factory TestEvent.addTestResult(
-    String subjectId,
-    String classId,
-    String dateWritten,
-    String studentId,
+    TestResultRequest testResultRequest,
   ) = _AddTestResult;
   const factory TestEvent.addTestResultSuccessful(
-    Future<TestResult> testResult,
+    TestResponse result,
   ) = _AddTestResultSuccessful;
   const factory TestEvent.addTestResultFailed(
     String? message,
