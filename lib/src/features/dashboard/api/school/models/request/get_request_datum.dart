@@ -17,6 +17,10 @@ class GetRequestDatum {
     required this.updatedAt,
     required this.v,
   });
+
+  factory GetRequestDatum.fromJson(Map<String, dynamic> json) =>
+      _$GetRequestDatumFromJson(json);
+
   @JsonKey(name: '_id')
   final String id;
 
@@ -43,8 +47,5 @@ class GetRequestDatum {
 
   @JsonKey(name: '__v')
   final int v;
-
-  factory GetRequestDatum.fromJson(Map<String, dynamic> json) =>
-      _$GetRequestDatumFromJson(json);
   Map<String, dynamic> toJson() => _$GetRequestDatumToJson(this);
 }

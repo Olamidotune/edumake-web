@@ -48,7 +48,11 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       final requests = await locator<WardsClient>()
           .getAllRequests(await getAuthorization(), await getSchoolID());
 
-      add(_GetRequestSuccessful(requests));
+      add(
+        _GetRequestSuccessful(
+          requests,
+        ),
+      );
     } catch (error, trace) {
       onError(error, trace);
       add(
@@ -66,6 +70,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     emit(
       state.copyWith(
         getRequestModel: event.getRequestModel,
+        getRequestDatum: event.getRequestModel.data,
         getRequestStatus: FormzSubmissionStatus.success,
         errorMessage: null,
       ),
@@ -243,9 +248,11 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
         ));
       }
     } catch (e) {
-      emit(state.copyWith(
-        errorMessage: 'Failed to update request status',
-      ));
+      emit(
+        state.copyWith(
+          errorMessage: 'Failed to update request status',
+        ),
+      );
     }
   }
 
