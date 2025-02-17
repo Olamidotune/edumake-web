@@ -296,7 +296,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
 
   // ignore: unused_element
   Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       _filePath = image.path;
     }

@@ -188,7 +188,6 @@ class AddSubjectsBloc extends Bloc<AddSubjectsEvent, AddSubjectsState> {
     try {
       // Convert PlatformFile to File
       final file = File(event.file.path!);
-      print(file);
 
       final hasSaved = await locator<SchoolDataUpload>().addSubjectCSV(
         await getAuthorization(),

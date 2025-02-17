@@ -226,7 +226,6 @@ class WardDetailScreen extends StatelessWidget {
                         'document',
                         '',
                         () {
-                          print(parentSchoolId);
                           context.read<EventsBloc>().add(
                                 EventsEvent.fetchEvents(
                                   parentSchoolId.toString(),

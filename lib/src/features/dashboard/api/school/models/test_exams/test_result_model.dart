@@ -46,19 +46,3 @@ class TestResult {
 
   Map<String, dynamic> toJson() => _$TestResultToJson(this);
 }
-
-
-
-
-
-//  "url": "https://edumake-backend.onrender.com/api/v1/sch/test/67991ea0c1bc2dd292b374b1",
-//  "method": "POST",
-//  "payload": {
-//    "title": "Testing New Model",
-//    "subjectId": "679c3bb5612df077b49947f1",
-//    "classId": "67994daa70cb1409e17f1c63",
-//    "dateWritten": "2025-02-18",
-//    "grades": [
-//      "Instance of 'Grade'"
-//    ]
-//  }

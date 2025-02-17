@@ -5,6 +5,15 @@ part 'get_subject_for_student.g.dart';
 
 @JsonSerializable()
 class GetSubjectForStudent {
+  GetSubjectForStudent({
+    required this.success,
+    required this.message,
+    required this.statusCode,
+    required this.data,
+  });
+
+  factory GetSubjectForStudent.fromJson(Map<String, dynamic> json) =>
+      _$GetSubjectForStudentFromJson(json);
   @JsonKey(name: 'success')
   bool success;
 
@@ -16,15 +25,5 @@ class GetSubjectForStudent {
 
   @JsonKey(name: 'data')
   List<GetSubjectForStudentDatum> data;
-
-  GetSubjectForStudent({
-    required this.success,
-    required this.message,
-    required this.statusCode,
-    required this.data,
-  });
-
-  factory GetSubjectForStudent.fromJson(Map<String, dynamic> json) =>
-      _$GetSubjectForStudentFromJson(json);
   Map<String, dynamic> toJson() => _$GetSubjectForStudentToJson(this);
 }
