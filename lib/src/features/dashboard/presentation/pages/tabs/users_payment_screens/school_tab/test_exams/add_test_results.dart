@@ -36,8 +36,14 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
   final gradeFocusNode = FocusNode();
 
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+
+    final classId = args['classId'];
+    final studentId = args['studentId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -95,6 +101,12 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                   .read<TestBloc>()
                                   .add(TestEvent.titleChanged(value));
                             },
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Title is required';
+                              }
+                              return null;
+                            },
                             hintText: 'Enter Title',
                             keyboardType: TextInputType.text,
                           ),
@@ -131,6 +143,12 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             title: 'Grade',
                             controller: gradeController,
                             focusNode: gradeFocusNode,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Grade is required';
+                              }
+                              return null;
+                            },
                             hintText: 'Enter Score',
                             keyboardType: TextInputType.number,
                           ),
@@ -147,21 +165,32 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             text: 'Save',
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
+                                final gradeValue =
+                                    double.tryParse(gradeController.text);
+                                if (gradeValue == null) {
+                                  ToastService.toast(
+                                    'Invalid grade input. Please enter a valid number.',
+                                    ToastType.error,
+                                  );
+                                  return;
+                                }
+
                                 final result = TestResultRequest(
-                                  classId: '67994daa70cb1409e17f1c63',
+                                  classId: classId.toString(),
                                   title: titleController.value.text.trim(),
                                   subjectId: '679c3bb5612df077b49947f1',
                                   dateWritten: dateController.value.text,
                                   grades: [
                                     Grade(
-                                      grade: 66,
-                                      studentId: '679f8d8a0d7b34ddc134ebd8',
+                                      grade: gradeValue,
+                                      studentId: studentId.toString(),
                                     ),
                                   ],
                                 );
-                                context.read<TestBloc>().add(
-                                      TestEvent.addTestResult(result),
-                                    );
+
+                                context
+                                    .read<TestBloc>()
+                                    .add(TestEvent.addTestResult(result));
                               }
                             },
                           ),

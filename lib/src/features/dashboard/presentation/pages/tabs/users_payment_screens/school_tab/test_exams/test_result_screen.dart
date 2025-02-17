@@ -23,6 +23,7 @@ class TestResultsScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
 
     final classId = args['classId'];
+    final studentId = args['studentId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -48,10 +49,6 @@ class TestResultsScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(AddTestResultsScreen.routeName);
-                      },
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -72,6 +69,15 @@ class TestResultsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          AddTestResultsScreen.routeName,
+                          arguments: {
+                            'classId': classId,
+                            'studentId': studentId,
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
