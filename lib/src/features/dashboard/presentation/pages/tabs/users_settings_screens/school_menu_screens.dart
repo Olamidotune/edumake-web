@@ -7,7 +7,6 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
@@ -217,9 +216,6 @@ class SchoolMenuTopContainer extends StatelessWidget {
             title: AppStrings.connectionRequest,
             icon: 'scan',
             onTap: () {
-              context
-                  .read<RequestsBloc>()
-                  .add(const RequestsEvent.getRequest());
               Navigator.of(context, rootNavigator: true).pushNamed(
                 ConnectionRequestScreen.routeName,
               );

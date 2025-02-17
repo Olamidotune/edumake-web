@@ -87,13 +87,17 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
         AppSpacing.verticalSpaceMedium,
         Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            '${AppStrings.connectionRequest} (${context.read<RequestsBloc>().state.pendingRequests.length})',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.blackColor,
-                ),
+          child: BlocBuilder<RequestsBloc, RequestsState>(
+            builder: (context, state) {
+              return Text(
+                '${AppStrings.connectionRequest} (${context.read<RequestsBloc>().state.pendingRequests.length})',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 16.fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.blackColor,
+                    ),
+              );
+            },
           ),
         ),
         BlocBuilder<RequestsBloc, RequestsState>(
@@ -136,7 +140,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          final request = state.getRequestModel!.data[index];
+                          final request = state.pendingRequests[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context, rootNavigator: true)
@@ -145,9 +149,12 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                                 arguments: {
                                   'requestId': request.id,
                                   'wardClass': request.student.studentClass,
-                                  'parent': request.parent.id,
+                                  'parent': request.parent.fullName,
                                   'wardName': request.student.name,
                                   'date': request.updatedAt,
+                                  'parentNIN': request.parent.parentIdNumber,
+                                  'parentPhoneNumber':
+                                      request.parent.parentPhoneNumber,
                                 },
                               );
                             },

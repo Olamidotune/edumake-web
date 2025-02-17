@@ -46,6 +46,8 @@ class _ConnectionRequestDetailsScreenState
     final requestId = args['requestId'];
     final parent = args['parent'];
     final wardName = args['wardName'];
+    final parentNIN = args['parentNIN'];
+    final parentPhoneNumber = args['parentPhoneNumber'];
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -72,8 +74,9 @@ class _ConnectionRequestDetailsScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  //
                   Text(
-                    "$parent ${AppStrings.wantsToConnectAndHaveAccessTo}",
+                    '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
                           fontSize: 13.fontSize,
@@ -166,7 +169,7 @@ class _ConnectionRequestDetailsScreenState
                             ),
                           ),
                           Text(
-                            '07080787201',
+                            '$parentPhoneNumber',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -199,7 +202,7 @@ class _ConnectionRequestDetailsScreenState
                             ),
                           ),
                           Text(
-                            '12345678901',
+                            '$parentNIN',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -330,10 +333,7 @@ class _ConnectionRequestDetailsScreenState
                           },
                         ),
                       ),
-
-                      // Spacing between buttons
                       AppSpacing.horizontalSpaceMedium,
-
                       // Reject Button
                       Expanded(
                         child: Button(

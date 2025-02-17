@@ -9,7 +9,7 @@ import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -46,20 +46,13 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
               child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
                 builder: (context, state) {
                   if (state.fetchStudentsStatus ==
-                      FormzSubmissionStatus.inProgress) {
-                    return SizedBox(
-                      height: 800,
-                      child: ListView.builder(
-                        controller: scrollController,
-                        itemBuilder: (context, index) {
-                          return const CustomShimmer();
-                        },
-                        itemCount: 10,
+                      FormzSubmissionStatus.failure) {
+                    return Center(
+                      child: NoDataAvailable(
+                        message: 'Something Went Wrong',
+                        height: 5.height,
                       ),
                     );
-                  }
-                  if (state.classesData?.length == 0) {
-                    return const Text('Something is wrong');
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,14 +69,11 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                       ClassesListTileContainer(
                         isProfilePictureEnabled: false,
                         title: AppStrings.students,
-                        trailing:
-                            '${state.getStudentsDatum?.length ?? 0} Students',
+                        trailing: state.fetchStudentsStatus ==
+                                FormzSubmissionStatus.inProgress
+                            ? 'Loading...'
+                            : '${state.getStudentsDatum?.length ?? 0} ${state.getStudentsDatum?.length == 1 ? 'Student' : 'Students'}',
                         onTap: () {
-                          context.read<GetSchoolDataBloc>().add(
-                                GetSchoolDataEvent.fetchStudents(
-                                  classId.toString(),
-                                ),
-                              );
                           if (state.getStudentsDatum != null &&
                               state.getStudentsDatum!.isNotEmpty) {
                             Navigator.of(context).pushNamed(

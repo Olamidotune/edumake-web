@@ -121,14 +121,17 @@ class ConnectionRequestScreen extends StatelessWidget {
                                   arguments: {
                                     'requestId': request.id,
                                     'wardClass': request.student.studentClass,
-                                    'parent': request.parent.id,
+                                    'parent': request.parent.fullName,
                                     'wardName': request.student.name,
                                     'date': request.updatedAt,
+                                    'parentNIN': request.parent.parentIdNumber,
+                                    'parentPhoneNumber':
+                                        request.parent.parentPhoneNumber,
                                   },
                                 );
                               },
                               child: ConnectionRequestListTile(
-                                titleName: "Parent's name",
+                                titleName: request.parent.fullName ?? '',
                                 subTitleName: request.student.name,
                                 date: request.createdAt.toString(),
                                 className: 'Class name',
