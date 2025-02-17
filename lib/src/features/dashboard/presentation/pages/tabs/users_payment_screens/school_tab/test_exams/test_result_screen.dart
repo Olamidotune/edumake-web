@@ -87,8 +87,8 @@ class TestResultsScreen extends StatelessWidget {
                     isActive: false,
                     textEditingController: searchController),
                 const SizedBox(height: 24),
-                const Text(
-                  'New',
+                Text(
+                  'New ${studentId.toString()}',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

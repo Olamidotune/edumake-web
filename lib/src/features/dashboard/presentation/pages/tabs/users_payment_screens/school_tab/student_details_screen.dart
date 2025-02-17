@@ -131,6 +131,17 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.test,
                     onTap: () {
+                      context.read<GetSchoolDataBloc>().add(
+                            GetSchoolDataEvent.onSelectedStudentId(
+                              studentId.toString(),
+                            ),
+                          );
+
+                      context.read<GetSchoolDataBloc>().add(
+                            GetSchoolDataEvent.fetchSubjectForStudent(
+                              studentId.toString(),
+                            ),
+                          );
                       Navigator.of(context).pushNamed(
                         TestResultsScreen.routeName,
                         arguments: {

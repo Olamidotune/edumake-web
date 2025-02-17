@@ -75,7 +75,9 @@ class ParentWardScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final wardDetails = state.getWardRequestModel?.data[index];
                 return GestureDetector(
+                  //calling it here
                   onTap: () {
+                    //calling it here
                     context.read<GetSchoolDataBloc>().add(
                           GetSchoolDataEvent.fetchSubjectForStudent(
                             wardDetails?.id,
@@ -176,6 +178,7 @@ class WardDetailScreen extends StatelessWidget {
                         state.fetchSubjectForStudentStatus ==
                                 FormzSubmissionStatus.inProgress
                             ? 'Loading...'
+                            //
                             : state.getSubjectForStudent?.data.length
                                     .toString() ??
                                 '',

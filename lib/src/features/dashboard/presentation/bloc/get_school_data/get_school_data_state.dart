@@ -19,6 +19,7 @@ class GetSchoolDataState with _$GetSchoolDataState {
     @Default([]) List<Datum> subjects,
     @Default(false) bool isSubjectLoading,
     String? selectedSubject,
+    String? selectedStudentId,
     //////////////////////////////////////////////
     GetStudentsModel? getStudentsModel,
     List<GetStudentsDatum>? getStudentsDatum,

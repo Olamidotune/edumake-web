@@ -58,7 +58,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                       ),
                     );
                   }
-                  if (state.classesData == null) {
+                  if (state.classesData?.length == 0) {
                     return const Text('Something is wrong');
                   }
                   return Column(

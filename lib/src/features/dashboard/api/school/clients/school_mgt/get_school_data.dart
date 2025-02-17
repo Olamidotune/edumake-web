@@ -41,7 +41,7 @@ abstract class GetSchoolDataClient {
   @FormUrlEncoded()
   Future<GetSubjectForStudent> getSubjectForStudent(
     @Header('Authorization') String authorization,
-    @Path('classId') String classId,
+    @Path('classId') String? classId,
   );
 
   //////////////////////////////////////////////////////////////////////////////
