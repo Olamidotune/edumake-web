@@ -259,7 +259,7 @@ class _LectureTimeTableScreenState extends State<LectureTimeTableScreen> {
       });
       request.files.add(
         await http.MultipartFile.fromPath(
-          'classTimetable', // The key your backend expects
+          'classTimetable',
           _selectedImage!.path,
           filename: basename(_selectedImage!.path),
           contentType: MediaType(
@@ -278,9 +278,6 @@ class _LectureTimeTableScreenState extends State<LectureTimeTableScreen> {
       final responseJson = jsonDecode(responseBody);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // final successMessage = responseJson['message'];
-        // logInfo(responseBody);
-        // ToastService.toast(successMessage.toString());
         final successMessage = responseJson['message'];
         logInfo(responseBody);
         ToastService.toast(successMessage.toString());
