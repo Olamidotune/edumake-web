@@ -159,10 +159,10 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                               );
                             },
                             child: ConnectionRequestListTile(
-                              titleName: "Parent's name",
+                              titleName: request.parent.fullName.toString(),
                               subTitleName: request.student.name,
                               date: request.createdAt.toString(),
-                              className: 'Class name',
+                              className: request.student.studentClass,
                             ),
                           );
                         },
