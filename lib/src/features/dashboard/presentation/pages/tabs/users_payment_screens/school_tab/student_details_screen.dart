@@ -136,7 +136,6 @@ class StudentDetailsScreen extends StatelessWidget {
                               studentId.toString(),
                             ),
                           );
-
                       context.read<GetSchoolDataBloc>().add(
                             GetSchoolDataEvent.fetchSubjectForStudent(
                               studentId.toString(),

@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/classes_details_screen.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
@@ -82,114 +83,128 @@ class _ClassScreenState extends State<ClassScreen> {
         // Classes
         CustomRawScroller(
           scrollController: scrollController,
-          child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
-            builder: (context, state) {
-              if (state.classesData?.isEmpty ?? false) {
-                return SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: scrollController,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: AppSpacing.verticalValueSpaceLarge * 6,
-                        ),
-                        Image.asset(
-                          'assets/png/empty.png',
-                          height: 150,
-                        ),
-                        Text(
-                          'No Data Available',
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize:
-                                        20, // Assuming 20 is a valid font size
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryTextColor,
-                                  ),
-                        ),
-                        AppSpacing.verticalSpaceSmall,
-                        Text(
-                          'Add a class or classes by clicking the + button above.',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize:
-                                        14, // Assuming 14 is a valid font size
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.secondaryTexColor,
-                                  ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return SizedBox(
-                height: MediaQuery.of(context).size.height < kMinSupportedHeight
-                    ? 450.height
-                    : 510.height,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: state.classes.length +
-                      (state.fetchClassesStatus ==
-                              FormzSubmissionStatus.inProgress
-                          ? 1
-                          : 0),
-                  controller: scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  separatorBuilder: (context, index) {
-                    return AppSpacing.verticalSpaceMedium;
-                  },
-                  itemBuilder: (context, index) {
-                    // Check if this is the last item and we're loading
-                    if (index == state.classes.length &&
-                        state.fetchClassesStatus ==
-                            FormzSubmissionStatus.inProgress) {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(16),
-                          child: SpinKitPulsingGrid(
-                            color: AppColors.primaryColor,
-                            size: 30,
-                          ),
-                        ),
-                      );
-                    }
-
-                    // Now we know index is within bounds of classesData
-                    final classData = state.classes[index];
-                    return GestureDetector(
-                      onTap: () {
-                        context.read<GetSchoolDataBloc>().add(
-                              GetSchoolDataEvent.fetchStudents(
-                                classData.id,
-                              ),
-                            );
-                        context.read<GetSchoolDataBloc>().add(
-                              GetSchoolDataEvent.onSelectedClassNameChanged(
-                                classData.name,
-                              ),
-                            );
-                        Navigator.of(context, rootNavigator: true).pushNamed(
-                          ClassDetailsScreen.routeName,
-                          arguments: {
-                            'className': classData.name,
-                            'classId': classData.id,
-                            'studentCount': state.getStudentsDatum?.length ?? 0,
-                          },
-                        );
-                      },
-                      child: ClassesListTileContainer(
-                        isProfilePictureEnabled: false,
-                        title: classData.name.toUpperCase(),
-                      ),
-                    );
-                  },
-                ),
+          child: BlocListener<GetSchoolDataBloc, GetSchoolDataState>(
+            listenWhen: (previous, current) =>
+                previous.fetchClassesStatus != current.fetchClassesStatus &&
+                current.fetchClassesStatus == FormzSubmissionStatus.failure,
+            listener: (context, state) {
+              ToastService.toast(
+                'Failed to fetch classes',
+                ToastType.error,
               );
             },
+            child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+              builder: (context, state) {
+                if (state.classesData?.isEmpty ?? false) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: scrollController,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: AppSpacing.verticalValueSpaceLarge * 6,
+                          ),
+                          Image.asset(
+                            'assets/png/empty.png',
+                            height: 150,
+                          ),
+                          Text(
+                            'No Data Available',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize:
+                                          20, // Assuming 20 is a valid font size
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primaryTextColor,
+                                    ),
+                          ),
+                          AppSpacing.verticalSpaceSmall,
+                          Text(
+                            'Add a class or classes by clicking the + button above.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontSize:
+                                      14, // Assuming 14 is a valid font size
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.secondaryTexColor,
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return SizedBox(
+                  height:
+                      MediaQuery.of(context).size.height < kMinSupportedHeight
+                          ? 450.height
+                          : 510.height,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: state.classes.length +
+                        (state.fetchClassesStatus ==
+                                FormzSubmissionStatus.inProgress
+                            ? 1
+                            : 0),
+                    controller: scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemBuilder: (context, index) {
+                      // Check if this is the last item and we're loading
+                      if (index == state.classes.length &&
+                          state.fetchClassesStatus ==
+                              FormzSubmissionStatus.inProgress) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16),
+                            child: SpinKitPulsingGrid(
+                              color: AppColors.primaryColor,
+                              size: 30,
+                            ),
+                          ),
+                        );
+                      }
+                      // Now we know index is within bounds of classesData
+                      final classData = state.classes[index];
+                      return GestureDetector(
+                        onTap: () {
+                          context.read<GetSchoolDataBloc>().add(
+                                GetSchoolDataEvent.fetchStudents(
+                                  classData.id,
+                                ),
+                              );
+                          context.read<GetSchoolDataBloc>().add(
+                                GetSchoolDataEvent.onSelectedClassNameChanged(
+                                  classData.name,
+                                ),
+                              );
+                          Navigator.of(context, rootNavigator: true).pushNamed(
+                            ClassDetailsScreen.routeName,
+                            arguments: {
+                              'className': classData.name,
+                              'classId': classData.id,
+                              'studentCount':
+                                  state.getStudentsDatum?.length ?? 0,
+                            },
+                          );
+                        },
+                        child: ClassesListTileContainer(
+                          isProfilePictureEnabled: false,
+                          title: classData.name.toUpperCase(),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

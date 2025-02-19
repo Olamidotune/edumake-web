@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_grade_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -11,6 +12,7 @@ import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +43,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-
+    final testState = context.read<TestBloc>().state;
     final classId = args['classId'];
     final studentId = args['studentId'];
     return Scaffold(
@@ -70,8 +72,8 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 BlocConsumer<TestBloc, TestState>(
-                  listener: (context, state) {
-                    if (state.addTestResultStatus ==
+                  listener: (context, testState) {
+                    if (testState.addTestResultStatus ==
                         FormzSubmissionStatus.success) {
                       ToastService.toast(
                         'Result saved successfully',
@@ -79,7 +81,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                       Navigator.pop(context);
                     }
 
-                    if (state.addTestResultStatus ==
+                    if (testState.addTestResultStatus ==
                         FormzSubmissionStatus.failure) {
                       ToastService.toast(
                         'Failed to add result',
@@ -90,111 +92,123 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                   builder: (context, state) {
                     return Form(
                       key: formKey,
-                      child: Column(
-                        children: [
-                          CustomTextFormField(
-                            title: 'Title',
-                            controller: titleController,
-                            focusNode: titleFocusNode,
-                            onChanged: (value) {
-                              context
-                                  .read<TestBloc>()
-                                  .add(TestEvent.titleChanged(value));
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Title is required';
-                              }
-                              return null;
-                            },
-                            hintText: 'Enter Title',
-                            keyboardType: TextInputType.text,
-                          ),
-                          AppSpacing.verticalSpaceMedium,
-                          CustomTextFormField(
-                            title: 'Date Written',
-                            controller: dateController,
-                            focusNode: dateFocusNode,
-                            hintText: 'Test Date',
-                            keyboardType: TextInputType.text,
-                            customFilled: true,
-                            readOnly: true,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please select a date for the event.';
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              context.read<TestBloc>().add(
-                                    TestEvent.dateChanged(value),
-                                  );
-                            },
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            editIcon: SvgPicture.asset(
-                              'assets/svg/calendar.svg',
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          AppSpacing.verticalSpaceMedium,
-                          CustomTextFormField(
-                            title: 'Grade',
-                            controller: gradeController,
-                            focusNode: gradeFocusNode,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Grade is required';
-                              }
-                              return null;
-                            },
-                            hintText: 'Enter Score',
-                            keyboardType: TextInputType.number,
-                          ),
-                          AppSpacing.verticalSpaceMedium,
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height <
-                                    kMinSupportedHeight
-                                ? 130.height
-                                : 240.height,
-                          ),
-                          Button(
-                            busy: state.addTestResultStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            text: 'Save',
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                final gradeValue =
-                                    double.tryParse(gradeController.text);
-                                if (gradeValue == null) {
-                                  ToastService.toast(
-                                    'Invalid grade input. Please enter a valid number.',
-                                    ToastType.error,
-                                  );
-                                  return;
-                                }
+                      child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                        builder: (context, getSchoolDataState) {
+                          if (getSchoolDataState
+                                  .getSubjectForStudent?.data.isEmpty ??
+                              true) {
+                            return const NoDataAvailable(
+                                message:
+                                    'No subject(s) available for this student. Add subject for the student and try again.',
+                                height: 5);
+                          }
+                          return Column(
+                            children: [
+                              CustomTextFormField(
+                                title: 'Title',
+                                controller: titleController,
+                                focusNode: titleFocusNode,
+                                onChanged: (value) {
+                                  context
+                                      .read<TestBloc>()
+                                      .add(TestEvent.titleChanged(value));
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Title is required';
+                                  }
+                                  return null;
+                                },
+                                hintText: 'Enter Title',
+                                keyboardType: TextInputType.text,
+                              ),
+                              AppSpacing.verticalSpaceMedium,
+                              CustomTextFormField(
+                                title: 'Date Written',
+                                controller: dateController,
+                                focusNode: dateFocusNode,
+                                hintText: 'Test Date',
+                                keyboardType: TextInputType.text,
+                                customFilled: true,
+                                readOnly: true,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please select a date for the event.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  context.read<TestBloc>().add(
+                                        TestEvent.dateChanged(value),
+                                      );
+                                },
+                                onTap: () {
+                                  _selectDate(context);
+                                },
+                                editIcon: SvgPicture.asset(
+                                  'assets/svg/calendar.svg',
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                              AppSpacing.verticalSpaceMedium,
+                              CustomTextFormField(
+                                title: 'Grade',
+                                controller: gradeController,
+                                focusNode: gradeFocusNode,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Grade is required';
+                                  }
+                                  return null;
+                                },
+                                hintText: 'Enter Score',
+                                keyboardType: TextInputType.number,
+                              ),
+                              AppSpacing.verticalSpaceMedium,
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height <
+                                        kMinSupportedHeight
+                                    ? 130.height
+                                    : 240.height,
+                              ),
+                              Button(
+                                busy: testState.addTestResultStatus ==
+                                    FormzSubmissionStatus.inProgress,
+                                text: 'Save',
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    final gradeValue =
+                                        double.tryParse(gradeController.text);
+                                    if (gradeValue == null) {
+                                      ToastService.toast(
+                                        'Invalid grade input. Please enter a valid number.',
+                                        ToastType.error,
+                                      );
+                                      return;
+                                    }
 
-                                final result = TestResultRequest(
-                                  classId: classId.toString(),
-                                  title: titleController.value.text.trim(),
-                                  subjectId: '679c3bb5612df077b49947f1',
-                                  dateWritten: dateController.value.text,
-                                  grades: [
-                                    Grade(
-                                      grade: gradeValue,
-                                      studentId: studentId.toString(),
-                                    ),
-                                  ],
-                                );
+                                    final result = TestResultRequest(
+                                      classId: classId.toString(),
+                                      title: titleController.value.text.trim(),
+                                      subjectId: '679c3bb5612df077b49947f1',
+                                      dateWritten: dateController.value.text,
+                                      grades: [
+                                        Grade(
+                                          grade: gradeValue,
+                                          studentId: studentId.toString(),
+                                        ),
+                                      ],
+                                    );
 
-                                context
-                                    .read<TestBloc>()
-                                    .add(TestEvent.addTestResult(result));
-                              }
-                            },
-                          ),
-                        ],
+                                    context
+                                        .read<TestBloc>()
+                                        .add(TestEvent.addTestResult(result));
+                                  }
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     );
                   },
