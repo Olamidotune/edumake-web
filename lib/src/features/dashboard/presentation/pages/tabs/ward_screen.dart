@@ -1,8 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_list.dart';
-import 'package:edumake_frontend/src/features/dashboard/data/model/students/student_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_ward_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/school_teacher_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/teacher_classes_screen.dart';
@@ -23,7 +21,6 @@ class _WardScreenState extends State<WardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final students = parseStudents(studentList);
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -46,7 +43,7 @@ class _WardScreenState extends State<WardScreen> {
             physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-              child: _buildView(students),
+              child: _buildView(),
             ),
           ),
         ),
@@ -54,7 +51,7 @@ class _WardScreenState extends State<WardScreen> {
     );
   }
 
-  Widget _buildView(List<StudentModel> students) {
+  Widget _buildView() {
     final role = context.read<AuthBloc>().state.user?.role;
     if (role == 'parent') {
       return const ParentWardScreen();
