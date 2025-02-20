@@ -1,6 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
 import 'package:retrofit/http.dart';
@@ -17,5 +18,15 @@ abstract class TestResultClient {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Body() TestResultRequest body,
+  );
+
+  @GET(
+      '/api/v1/sch/test/all/{schoolId}?studentId={studentId}&classId={classId}&subjectId={subjectId}')
+  Future<FetchTestResponse> fetchTestResults(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Query('studentId') String studentId,
+    @Query('classId') String classId,
+    @Query('subjectId') String subjectId,
   );
 }

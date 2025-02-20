@@ -3,6 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_grade_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
@@ -24,6 +26,9 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     on<_AddTestResult>(_addTestResult);
     on<_AddTestResultSuccessful>(_addTestResultSuccessful);
     on<_AddTestResultFailed>(_addTestResultFailed);
+    on<_FetchTestResults>(_fetchTestResults);
+    on<_FetchTestResultsSuccessful>(_fetchTestResultsSuccessful);
+    on<_FetchTestResultsFailed>(_fetchTestResultsFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -71,36 +76,6 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     }
   }
 
-//   void _addTestResult(
-//   _AddTestResult event,
-//   Emitter<TestState> emit,
-// ) async {
-  // if (state.addTestResultStatus == FormzSubmissionStatus.inProgress) {
-  //   return;
-  // }
-
-  // emit(state.copyWith(addTestResultStatus: FormzSubmissionStatus.inProgress));
-
-  // try {
-  //   final testResults = await locator<TestResultClient>().addTestResult(
-  //     await getAuthorization(),
-  //     await getSchoolID(),
-  //     event.testResultRequest,
-  //   );
-
-//     emit(state.copyWith(
-//       addTestResultStatus: FormzSubmissionStatus.success,
-//       errorMessage: null,
-//     ));
-//   } catch (error, trace) {
-//     onError(error, trace);
-//     emit(state.copyWith(
-//       addTestResultStatus: FormzSubmissionStatus.failure,
-//       errorMessage: error.toString(),
-//     ));
-//   }
-// }
-
   void _addTestResultSuccessful(
     _AddTestResultSuccessful event,
     Emitter<TestState> emit,
@@ -120,6 +95,65 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     emit(
       state.copyWith(
         addTestResultStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
+    );
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  /// Fetch Test Results
+  ///////////////////////////////////////////////////////////////////////
+  ///
+
+  void _fetchTestResults(
+    _FetchTestResults event,
+    Emitter<TestState> emit,
+  ) async {
+    if (state.fetchTestResultsStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(fetchTestResultsStatus: FormzSubmissionStatus.inProgress),
+    );
+
+    try {
+      final testResults = await locator<TestResultClient>().fetchTestResults(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.studentId,
+        event.classId,
+        event.subjectId,
+      );
+
+      add(_FetchTestResultsSuccessful(testResults));
+    } catch (error, trace) {
+      onError(error, trace);
+      add(_FetchTestResultsFailed(error.toString()));
+    }
+  }
+
+  void _fetchTestResultsSuccessful(
+    _FetchTestResultsSuccessful event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchTestResultsStatus: FormzSubmissionStatus.success,
+        fetchTestResponse: event.fetchTestResponse,
+        fetchTestResultsData: event.fetchTestResponse.data,
+        errorMessage: null,
+      ),
+    );
+  }
+
+  void _fetchTestResultsFailed(
+    _FetchTestResultsFailed event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchTestResultsStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message,
       ),
     );
