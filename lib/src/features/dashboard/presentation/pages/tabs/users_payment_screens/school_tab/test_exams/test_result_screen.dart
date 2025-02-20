@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_is_empty
+
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
@@ -22,10 +24,18 @@ class TestResultsScreen extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
 
+    final studentName = args['studentName'];
+    final className = args['className'];
+    final schoolName = args['schoolName'];
     final classId = args['classId'];
     final studentId = args['studentId'];
+    final subjectId = args['subjectId'];
+
     return Scaffold(
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(
+        title: '$studentName',
+        subtitle: '$schoolName. ($className)',
+      ),
       body: CustomRawScroller(
         scrollController: scrollController,
         child: Padding(
@@ -36,13 +46,14 @@ class TestResultsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppSpacing.verticalSpaceMedium,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       AppStrings.test,
                       style: TextStyle(
-                        fontSize: 24.fontSize,
+                        fontSize: 20.fontSize,
                         fontWeight: FontWeight.w400,
                         color: AppColors.blackColor,
                         overflow: TextOverflow.ellipsis,
@@ -75,6 +86,7 @@ class TestResultsScreen extends StatelessWidget {
                           arguments: {
                             'classId': classId,
                             'studentId': studentId,
+                            'subjectId': subjectId,
                           },
                         );
                       },
@@ -83,9 +95,10 @@ class TestResultsScreen extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceMedium,
                 CustomSearchBar(
-                    isHomePage: false,
-                    isActive: false,
-                    textEditingController: searchController),
+                  isHomePage: false,
+                  isActive: false,
+                  textEditingController: searchController,
+                ),
                 const SizedBox(height: 24),
                 Text(
                   'New',

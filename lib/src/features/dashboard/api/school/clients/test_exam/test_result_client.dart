@@ -20,8 +20,7 @@ abstract class TestResultClient {
     @Body() TestResultRequest body,
   );
 
-  @GET(
-      '/api/v1/sch/test/all/{schoolId}?studentId={studentId}&classId={classId}&subjectId={subjectId}')
+  @GET('/api/v1/sch/test/all/{schoolId}')
   Future<FetchTestResponse> fetchTestResults(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,

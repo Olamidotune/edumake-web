@@ -44,6 +44,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
 
     final classId = args['classId'];
     final studentId = args['studentId'];
+    final subjectId = args['subjectId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -178,7 +179,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                 final result = TestResultRequest(
                                   classId: classId.toString(),
                                   title: titleController.value.text.trim(),
-                                  subjectId: '679c3bb5612df077b49947f1',
+                                  subjectId: subjectId.toString(),
                                   dateWritten: dateController.value.text,
                                   grades: [
                                     Grade(
