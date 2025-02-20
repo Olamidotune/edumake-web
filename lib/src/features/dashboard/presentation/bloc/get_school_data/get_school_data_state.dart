@@ -28,6 +28,7 @@ class GetSchoolDataState with _$GetSchoolDataState {
     FormzSubmissionStatus fetchStudentsStatus,
     //////////////////////////////////////////////
     GetSubjectForStudent? getSubjectForStudent,
+    List<GetSubjectForStudentDatum>? getSubjectForStudentDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchSubjectForStudentStatus,
   }) = _GetSchoolDataState;

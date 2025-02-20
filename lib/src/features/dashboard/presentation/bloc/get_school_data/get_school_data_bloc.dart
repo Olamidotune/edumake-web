@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/school_m
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_classes/get_students_datum.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
@@ -354,6 +355,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     emit(
       state.copyWith(
         fetchSubjectForStudentStatus: FormzSubmissionStatus.success,
+        getSubjectForStudentDatum: event.getSubjectForStudent.data,
         getSubjectForStudent: event.getSubjectForStudent,
       ),
     );

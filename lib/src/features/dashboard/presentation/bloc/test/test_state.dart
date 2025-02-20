@@ -13,6 +13,16 @@ class TestState with _$TestState {
     String? studentId,
     List<Grade>? grades,
     double? testGrade,
+
+//==============================================================================
+// FORMZ -  FETCH TEST RESULTS
+//==============================================================================
+
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchTestResultsStatus,
+    FetchTestResponse? fetchTestResponse,
+    List<FetchTestResponseDatum>? fetchTestResultsData,
+    List<FetchTestResponseGrade>? fetchTestResultsGrades,
     String? errorMessage,
   }) = _TestState;
 }

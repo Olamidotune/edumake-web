@@ -2,8 +2,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_grade_request.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_grade_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -46,6 +46,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
     final testState = context.read<TestBloc>().state;
     final classId = args['classId'];
     final studentId = args['studentId'];
+    final subjectId = args['subjectId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -190,7 +191,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                     final result = TestResultRequest(
                                       classId: classId.toString(),
                                       title: titleController.value.text.trim(),
-                                      subjectId: '679c3bb5612df077b49947f1',
+                                      subjectId: subjectId.toString(),
                                       dateWritten: dateController.value.text,
                                       grades: [
                                         Grade(

@@ -29,15 +29,11 @@ class NotificationService {
     await _requestPermission();
     await _setUpMessageHandlers();
 
-    // final token = await messaging.getToken();
-    // logInfo('FCM Token: $token');
-
     try {
       final token = await messaging.getToken();
       logInfo('FCM Token: $token');
     } catch (e) {
       logInfo('Error getting FCM token: $e');
-      // Optionally, you can add retry logic or default behaviors here.
     }
   }
 
