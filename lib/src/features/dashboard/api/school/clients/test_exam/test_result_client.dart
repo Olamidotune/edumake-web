@@ -1,7 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:dio/dio.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/resquests/test_result_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
 import 'package:retrofit/http.dart';
 
