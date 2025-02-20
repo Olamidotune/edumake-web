@@ -1,6 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
@@ -44,22 +43,6 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '$studentId, ${studentId}, ${classId}.',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 24.fontSize,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blackColor,
-                    ),
-              ),
-              Text(
-                AppStrings.subjectCourses,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 24.fontSize,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.primaryColor,
-                    ),
-              ),
               RichText(
                 text: TextSpan(
                   text: 'These are the subjects/courses available for ',
@@ -140,10 +123,6 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                       subjectData?.id ?? '',
                                     ),
                                   );
-                              debugPrint('Dispatching event with:');
-                              debugPrint('Student ID: $studentId');
-                              debugPrint('Class ID: $classId');
-                              debugPrint('Subject ID: ${subjectData?.id}');
                               context.read<GetSchoolDataBloc>().add(
                                     GetSchoolDataEvent
                                         .onSelectedSubjectNameChanged(
@@ -160,6 +139,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                   'className': className,
                                   'schoolName': schoolName,
                                   'classId': classId,
+                                  'studentId': studentId,
                                   'subjectName': subjectData?.name,
                                   'subjectId': subjectData?.id,
                                 },

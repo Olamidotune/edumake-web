@@ -34,7 +34,7 @@ class FetchTestResponseDatum {
   final FetchTestResponseSubject testResponseSubject;
 
   @JsonKey(name: 'dateWritten')
-  final DateTime dateWritten;
+  final String dateWritten;
 
   @JsonKey(name: 'classId')
   final FetchTestResponseSubject classId;

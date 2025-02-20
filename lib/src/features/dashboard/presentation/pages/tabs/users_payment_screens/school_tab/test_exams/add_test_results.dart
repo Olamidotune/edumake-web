@@ -175,7 +175,6 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                   );
                                   return;
                                 }
-
                                 final result = TestResultRequest(
                                   classId: classId.toString(),
                                   title: titleController.value.text.trim(),

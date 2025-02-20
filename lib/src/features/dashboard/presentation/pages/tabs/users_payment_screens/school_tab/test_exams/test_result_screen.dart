@@ -1,15 +1,21 @@
-// ignore_for_file: prefer_is_empty
+// ignore_for_file: prefer_is_empty, use_if_null_to_convert_nulls_to_bools
 
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class TestResultsScreen extends StatelessWidget {
   const TestResultsScreen({Key? key}) : super(key: key);
@@ -43,157 +49,236 @@ class TestResultsScreen extends StatelessWidget {
           child: SingleChildScrollView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppSpacing.verticalSpaceMedium,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: BlocBuilder<TestBloc, TestState>(
+              builder: (context, state) {
+                if (state.fetchTestResultsStatus ==
+                    FormzSubmissionStatus.inProgress) {
+                  return SizedBox(
+                    height: 800,
+                    child: ListView.builder(
+                      controller: scrollController,
+                      itemBuilder: (context, index) {
+                        return const CustomShimmer();
+                      },
+                      itemCount: 10,
+                    ),
+                  );
+                }
+                if (state.fetchTestResultsStatus ==
+                        FormzSubmissionStatus.success &&
+                    state.fetchTestResultsData?.length == 0) {
+                  return const NoDataAvailable(
+                    message: 'No tests available for this subject',
+                    height: 7,
+                  );
+                }
+
+                if (state.fetchTestResultsStatus ==
+                    FormzSubmissionStatus.failure) {
+                  return const NoDataAvailable(
+                    message: 'Something went wrong',
+                    height: 7,
+                  );
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    AppSpacing.verticalSpaceMedium,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppStrings.test,
+                          style: TextStyle(
+                            fontSize: 20.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.blackColor,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        GestureDetector(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg/plus1.svg',
+                                color: AppColors.primaryColor,
+                              ),
+                              AppSpacing.horizontalSpaceSmall,
+                              Text(
+                                AppStrings.addTestResults,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: 14.fontSize,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.primaryColor,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              AddTestResultsScreen.routeName,
+                              arguments: {
+                                'classId': classId,
+                                'studentId': studentId,
+                                'subjectId': subjectId,
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    AppSpacing.verticalSpaceMedium,
+                    CustomSearchBar(
+                      isHomePage: false,
+                      isActive: false,
+                      textEditingController: searchController,
+                    ),
+                    const SizedBox(height: 24),
                     Text(
-                      AppStrings.test,
+                      'New',
                       style: TextStyle(
-                        fontSize: 20.fontSize,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.blackColor,
-                        overflow: TextOverflow.ellipsis,
+                        fontSize: 18.fontSize,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    GestureDetector(
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/plus1.svg',
-                            color: AppColors.primaryColor,
-                          ),
-                          AppSpacing.horizontalSpaceSmall,
-                          Text(
-                            AppStrings.addTestResults,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize: 14.fontSize,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryColor,
-                                ),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AddTestResultsScreen.routeName,
-                          arguments: {
-                            'classId': classId,
-                            'studentId': studentId,
-                            'subjectId': subjectId,
-                          },
+                    AppSpacing.verticalSpaceMedium,
+                    ListView.separated(
+                      itemCount: state.fetchTestResultsData?.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final testResults = state.fetchTestResultsData?[index];
+                        // Get the first grade (or you might want to handle multiple grades differently)
+                        final testGrade =
+                            testResults?.testResponseGrades.isNotEmpty == true
+                                ? testResults?.testResponseGrades[0]
+                                : null;
+                        return TestResultTitle(
+                          date: formatLocalTime(testResults?.dateWritten ?? ''),
+                          title: testResults?.title ?? '',
+                          grade: testGrade?.grade ?? 0,
                         );
                       },
+                      separatorBuilder: (context, index) {
+                        return AppSpacing.verticalSpaceMedium;
+                      },
                     ),
+                    const Text(
+                      'Previous',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                   ],
-                ),
-                AppSpacing.verticalSpaceMedium,
-                CustomSearchBar(
-                  isHomePage: false,
-                  isActive: false,
-                  textEditingController: searchController,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  'New',
-                  style: TextStyle(
-                    fontSize: 18.fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _buildTestItem(
-                  'Second Continuous Term Assessment',
-                  '13th Feb, 2024',
-                  '100%',
-                ),
-                _buildTestItem(
-                  'First Continuous Term Assessment',
-                  '13th Feb, 2024',
-                  '100%',
-                ),
-
-                const SizedBox(height: 24),
-
-                // Previous Section
-                const Text(
-                  'Previous',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _buildTestItem(
-                  'Second Continuous Term Assessment',
-                  '13th Feb, 2024',
-                  '100%',
-                ),
-                _buildTestItem(
-                  'First Continuous Term Assessment',
-                  '13th Feb, 2024',
-                  '100%',
-                ),
-              ],
+                );
+              },
             ),
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildTestItem(String title, String date, String grade) {
+class TestResultTitle extends StatelessWidget {
+  const TestResultTitle({
+    required this.title,
+    required this.date,
+    required this.grade,
+    super.key,
+  });
+
+  final String title;
+  final String date;
+  final double grade;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: AppColors.primaryColor.withOpacity(.1),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 14.fontSize,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.blackColor,
+                        ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'Date written: $date',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
-                  ),
+                SvgPicture.asset(
+                  'assets/svg/edit.svg',
+                  height: 18.fontSize,
                 ),
               ],
             ),
-          ),
-          Row(
-            children: [
-              Text(
-                'Grade: $grade',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 14,
-                ),
+            AppSpacing.verticalSpaceMedium,
+          ],
+        ),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: 'Date Written: ',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.fontSize,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.greyColor,
+                    ),
+                children: [
+                  TextSpan(
+                    text: date,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blackColor,
+                        ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Icon(Icons.edit, color: Colors.grey[400], size: 20),
-            ],
-          ),
-        ],
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'Grade: ',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 12.fontSize,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.greyColor,
+                    ),
+                children: [
+                  TextSpan(
+                    text: '$grade',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: grade >= 50
+                              ? AppColors.greenColor
+                              : AppColors.redColor,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

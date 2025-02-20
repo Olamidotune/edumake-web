@@ -46,15 +46,6 @@ class StudentDetailsScreen extends StatelessWidget {
                   Center(
                     child: Column(
                       children: [
-                        Text(
-                          '$studentId',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontSize: 24.fontSize,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.blackColor,
-                                  ),
-                        ),
                         CircleAvatar(
                           backgroundColor: AppColors.primaryColor,
                           radius: 50,
@@ -160,11 +151,11 @@ class StudentDetailsScreen extends StatelessWidget {
                       Navigator.of(context).pushNamed(
                         IndividualStudentSubjectScreen.routeName,
                         arguments: {
-                          'studentName': studentName,
-                          'className': className,
-                          'schoolName': schoolName,
-                          'classId': classId,
-                          'studentId': studentId,
+                          'studentName': studentName.toString(),
+                          'className': className.toString(),
+                          'schoolName': schoolName.toString(),
+                          'classId': classId.toString(),
+                          'studentId': studentId.toString(),
                         },
                       );
                     },

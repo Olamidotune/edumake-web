@@ -22,6 +22,7 @@ class TestState with _$TestState {
     FormzSubmissionStatus fetchTestResultsStatus,
     FetchTestResponse? fetchTestResponse,
     List<FetchTestResponseDatum>? fetchTestResultsData,
+    List<FetchTestResponseGrade>? fetchTestResultsGrades,
     String? errorMessage,
   }) = _TestState;
 }
