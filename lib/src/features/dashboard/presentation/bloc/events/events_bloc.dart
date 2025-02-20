@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
@@ -212,7 +210,6 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       add(_FetchEventsSuccessfulById(response));
     } catch (error, trace) {
       logError(error, trace);
-      print(error);
       add(const _FetchEventsFailedById('Error parsing response'));
     }
   }

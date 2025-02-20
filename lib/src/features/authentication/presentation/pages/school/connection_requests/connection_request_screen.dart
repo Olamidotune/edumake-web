@@ -157,11 +157,3 @@ class ConnectionRequestScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-// final isRejected = state
-//                                 .getRequestDatum?[index].status
-//                                 .contains('rejected');

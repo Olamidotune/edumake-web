@@ -1,5 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class NoDataAvailable extends StatelessWidget {
@@ -26,9 +27,9 @@ class NoDataAvailable extends StatelessWidget {
               height: 150,
             ),
             Text(
-              'No Data Available',
+              'Oops!...No Data Available',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 20, // Assuming 20 is a valid font size
+                    fontSize: 18.fontSize,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryTextColor,
                   ),
@@ -37,7 +38,7 @@ class NoDataAvailable extends StatelessWidget {
             Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 14, // Assuming 14 is a valid font size
+                    fontSize: 13.fontSize,
                     fontWeight: FontWeight.w400,
                     color: AppColors.secondaryTexColor,
                   ),

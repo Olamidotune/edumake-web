@@ -50,8 +50,6 @@ class UserRoleHelper {
   static Future<UserRole?> getUserRole() async {
     final prefs = await SharedPreferences.getInstance();
     final roleString = prefs.getString(_roleKey);
-    logInfo('Retrieved role string: $roleString');
-
     if (roleString == null) return null;
 
     return _stringToRole(roleString);

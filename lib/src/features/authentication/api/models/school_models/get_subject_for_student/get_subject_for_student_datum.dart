@@ -4,6 +4,20 @@ part 'get_subject_for_student_datum.g.dart';
 
 @JsonSerializable()
 class GetSubjectForStudentDatum {
+  GetSubjectForStudentDatum({
+    required this.id,
+    required this.classes,
+    required this.name,
+    required this.slug,
+    required this.school,
+    required this.isDeleted,
+    required this.v,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory GetSubjectForStudentDatum.fromJson(Map<String, dynamic> json) =>
+      _$GetSubjectForStudentDatumFromJson(json);
   @JsonKey(name: '_id')
   String id;
 
@@ -30,20 +44,5 @@ class GetSubjectForStudentDatum {
 
   @JsonKey(name: 'updatedAt')
   DateTime updatedAt;
-
-  GetSubjectForStudentDatum({
-    required this.id,
-    required this.classes,
-    required this.name,
-    required this.slug,
-    required this.school,
-    required this.isDeleted,
-    required this.v,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory GetSubjectForStudentDatum.fromJson(Map<String, dynamic> json) =>
-      _$GetSubjectForStudentDatumFromJson(json);
   Map<String, dynamic> toJson() => _$GetSubjectForStudentDatumToJson(this);
 }

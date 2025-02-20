@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -139,9 +140,13 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         title: AppStrings.payments,
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      const ClassesListTileContainer(
+                      ClassesListTileContainer(
                         title: AppStrings.lectureTimeTable,
                         isProfilePictureEnabled: false,
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(LectureTimeTableScreen.routeName);
+                        },
                       ),
                       AppSpacing.verticalSpaceMedium,
                       const ClassesListTileContainer(

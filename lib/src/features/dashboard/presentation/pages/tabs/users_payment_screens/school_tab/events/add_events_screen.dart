@@ -22,7 +22,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddEventsScreen extends StatefulWidget {
   const AddEventsScreen({super.key});
@@ -43,14 +46,12 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   final eventDateFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
-  String? _filePath;
-  final ImagePicker _picker = ImagePicker();
   List<String>? selectedClassId;
   List<String>? selectedEventId;
 
   bool _isUploading = false;
 
-  File? _imageFile;
+  File? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,7 +220,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                           ),
                           AppSpacing.verticalSpaceSmall,
                           GestureDetector(
-                            onTap: pickImage,
+                            onTap: _pickImageFromGallery,
                             child: Container(
                               height: 200.height,
                               width: double.infinity,
@@ -229,10 +230,10 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
-                                child: _imageFile != null
+                                child: _selectedImage != null
                                     ? Image.file(
                                         fit: BoxFit.fill,
-                                        File(_imageFile?.path ?? ''),
+                                        File(_selectedImage?.path ?? ''),
                                       )
                                     : Column(
                                         mainAxisAlignment:
@@ -270,6 +271,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
                                   _isUploading = true;
                                 });
                                 await _addEvent(
+                                  context,
                                   selectedClassId ?? [],
                                   selectedEventId ?? [],
                                 );
@@ -294,12 +296,32 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     );
   }
 
-  // ignore: unused_element
-  Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      _filePath = image.path;
+  Future<void> _pickImageFromGallery() async {
+    final storageStatus = await Permission.storage.request();
+    if (storageStatus.isDenied) {
+      ToastService.toast(
+        'Camera permission is required to upload an image.',
+        ToastType.error,
+      );
+      return;
     }
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (returnedImage == null) {
+      ToastService.toast(
+        'No Image Was Selected',
+        ToastType.error,
+      );
+      return;
+    }
+
+    setState(() {
+      _selectedImage = File(returnedImage.path);
+      ToastService.toast(
+        'Image Selected Successfully',
+      );
+    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -316,8 +338,8 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     }
   }
 
-  Future<void> _addEvent(
-      List<String> selectedClassIds, List<String> associatedEvents) async {
+  Future<void> _addEvent(BuildContext context, List<String> selectedClassIds,
+      List<String> associatedEvents) async {
     final schoolId = await getSchoolID();
     final token = await getAuthorization();
     final baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
@@ -341,13 +363,19 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       selectedClassIds.asMap().forEach((index, classId) {
         request.fields['classes[$index]'] = classId;
       });
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'eventImage',
+          _selectedImage!.path,
+          filename: basename(_selectedImage!.path),
+          contentType: MediaType(
+            'image',
+            'jpeg',
+          ),
+        ),
+      );
 
-      logMessage('Request fields: ${request.fields}');
-
-      if (_filePath != null) {
-        request.files
-            .add(await http.MultipartFile.fromPath('eventImage', _filePath!));
-      }
+      logInfo('Request fields: ${request.fields}');
 
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
@@ -359,7 +387,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
         final successMessage = responseJson['message'];
         logInfo(responseBody);
         ToastService.toast(successMessage.toString());
-        Navigator.pop(context);
+        Navigator.of(context).pop();
       } else {
         final errorMessage =
             responseJson['message'] ?? 'An unknown error occurred';
