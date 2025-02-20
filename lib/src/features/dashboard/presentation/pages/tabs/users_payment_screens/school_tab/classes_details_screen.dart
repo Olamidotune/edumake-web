@@ -88,6 +88,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                           } else {
                             ToastService.toast(
                               'There are no students in $className',
+                              ToastType.info,
                             );
                           }
                         },
