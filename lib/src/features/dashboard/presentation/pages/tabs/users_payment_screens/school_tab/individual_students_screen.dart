@@ -28,6 +28,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
     final schoolName = args['schoolName'];
     final classId = args['classId'];
     final studentId = args['studentId'];
+    final source = args['source'];
 
     final scrollController = ScrollController();
 
@@ -59,7 +60,8 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: ' Tap on any to view, edit or add test results.',
+                      text:
+                          ' Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
                       style: TextStyle(
                         fontSize: 14.fontSize,
                         color: AppColors.blackColor,

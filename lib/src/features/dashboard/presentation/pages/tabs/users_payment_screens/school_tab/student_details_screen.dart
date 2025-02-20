@@ -155,6 +155,7 @@ class StudentDetailsScreen extends StatelessWidget {
                           'schoolName': schoolName.toString(),
                           'classId': classId.toString(),
                           'studentId': studentId.toString(),
+                          'source': 'test',
                         },
                       );
                     },
@@ -162,7 +163,30 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.exam,
-                    onTap: () {},
+                    onTap: () {
+                      context.read<GetSchoolDataBloc>().add(
+                            const GetSchoolDataEvent
+                                .onSelectedSubjectNameChanged(
+                              null,
+                            ), // Reset subject name
+                          );
+                      context.read<GetSchoolDataBloc>().add(
+                            GetSchoolDataEvent.onSelectedStudentId(
+                              studentId.toString(),
+                            ),
+                          );
+                      Navigator.of(context).pushNamed(
+                        IndividualStudentSubjectScreen.routeName,
+                        arguments: {
+                          'studentName': studentName.toString(),
+                          'className': className.toString(),
+                          'schoolName': schoolName.toString(),
+                          'classId': classId.toString(),
+                          'studentId': studentId.toString(),
+                          'source': 'exam',
+                        },
+                      );
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
