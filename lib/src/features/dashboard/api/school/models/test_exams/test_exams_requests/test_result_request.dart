@@ -1,4 +1,4 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_resquests/test_result_grade_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_requests/test_result_grade_request.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'test_result_request.g.dart';
