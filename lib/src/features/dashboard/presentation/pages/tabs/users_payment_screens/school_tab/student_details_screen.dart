@@ -170,8 +170,14 @@ class StudentDetailsScreen extends StatelessWidget {
                               null,
                             ), // Reset subject name
                           );
+
                       context.read<GetSchoolDataBloc>().add(
                             GetSchoolDataEvent.onSelectedStudentId(
+                              studentId.toString(),
+                            ),
+                          );
+                      context.read<GetSchoolDataBloc>().add(
+                            GetSchoolDataEvent.fetchSubjectForStudent(
                               studentId.toString(),
                             ),
                           );

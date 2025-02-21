@@ -19,6 +19,22 @@ class TestEvent with _$TestEvent {
   ) = _AddTestResultFailed;
 
   ////////////////////////////////////////////////////////////////////
+  /// Add Exam Results
+  //////////////////////////////////////////////////////////////////////
+
+  const factory TestEvent.addExamResult(
+    TestResultRequest examResultRequest,
+  ) = _AddExamResult;
+
+  const factory TestEvent.addExamResultSuccessful(
+    TestResponse examResultResponse,
+  ) = _AddExamResultSuccessful;
+
+  const factory TestEvent.addExamResultFailed(
+    String? message,
+  ) = _AddExamResultFailed;
+
+  ////////////////////////////////////////////////////////////////////
   /// Fetch Test Results
   //////////////////////////////////////////////////////////////////////
   const factory TestEvent.fetchTestResults(
@@ -32,6 +48,23 @@ class TestEvent with _$TestEvent {
   const factory TestEvent.fetchTestResultsFailed(
     String? message,
   ) = _FetchTestResultsFailed;
+
+  ////////////////////////////////////////////////////////////////////
+  /// Fetch Exam Results
+  //////////////////////////////////////////////////////////////////////
+  const factory TestEvent.fetchExamResults(
+    String studentId,
+    String classId,
+    String subjectId,
+  ) = _FetchExamResults;
+
+  const factory TestEvent.fetchExamResultsSuccessful(
+    FetchExamResponse fetchExamResultResponse,
+  ) = _FetchExamResultsSuccessful;
+
+  const factory TestEvent.fetchExamResultsFailed(
+    String? message,
+  ) = _FetchExamResultsFailed;
 
   const factory TestEvent.errorMessage(String? message) = _ErrorMessage;
 }

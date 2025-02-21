@@ -15,14 +15,35 @@ class TestState with _$TestState {
     double? testGrade,
 
 //==============================================================================
-// FORMZ -  FETCH TEST RESULTS
+// ADD EXAM RESULTS
 //==============================================================================
-
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus addExamResultStatus,
+    @Default(ExamTitleFormz.pure()) ExamTitleFormz examTitle,
+    //Using 'TestResult' cause the example request format is same with test.
+    TestResult? examResultModel,
+    String? examId,
+    String? examDate,
+    String? examStudentId,
+    List<Grade>? examGrades,
+    double? examGrade,
+//==============================================================================
+// FETCH TEST RESULTS
+//==============================================================================
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchTestResultsStatus,
     FetchTestResponse? fetchTestResponse,
     List<FetchTestResponseDatum>? fetchTestResultsData,
     List<FetchTestResponseGrade>? fetchTestResultsGrades,
+
+//==============================================================================
+// FORMZ -  FETCH EXAM RESULTS
+//==============================================================================
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchExamResultsStatus,
+    FetchExamResponse? fetchExamResponse,
+    List<FetchExamResponseDatum>? fetchExamResultsData,
+    List<FetchExamResponseGrade>? fetchExamResultsGrades,
     String? errorMessage,
   }) = _TestState;
 }
@@ -57,6 +78,22 @@ class TestGradeFormz extends FormzInput<double, ValidationError> {
   @override
   ValidationError? validator(double? value) {
     if (value == null) return ValidationError.empty;
+    return null;
+  }
+}
+
+class ExamTitleFormz extends FormzInput<String, ValidationError> {
+  const ExamTitleFormz.pure([String value = '']) : super.pure(value);
+  const ExamTitleFormz.dirty([String value = '']) : super.dirty(value);
+
+  @override
+  ValidationError? validator(String? value) {
+    if (value == null || value.isEmpty) return ValidationError.empty;
+
+    if (value.length < 6) {
+      return ValidationError.short;
+    }
+
     return null;
   }
 }

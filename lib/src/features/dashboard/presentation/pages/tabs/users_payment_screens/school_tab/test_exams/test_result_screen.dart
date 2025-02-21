@@ -36,6 +36,7 @@ class TestResultsScreen extends StatelessWidget {
     final classId = args['classId'];
     final studentId = args['studentId'];
     final subjectId = args['subjectId'];
+    final source = args['source'];
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -67,8 +68,9 @@ class TestResultsScreen extends StatelessWidget {
                 if (state.fetchTestResultsStatus ==
                         FormzSubmissionStatus.success &&
                     state.fetchTestResultsData?.length == 0) {
-                  return const NoDataAvailable(
-                    message: 'No tests available for this subject',
+                  return NoDataAvailable(
+                    message:
+                        'No ${source == 'test' ? 'tests' : 'exams'} available for this subject',
                     height: 7,
                   );
                 }
@@ -89,7 +91,7 @@ class TestResultsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          AppStrings.test,
+                          source == 'test' ? AppStrings.test : AppStrings.exam,
                           style: TextStyle(
                             fontSize: 20.fontSize,
                             fontWeight: FontWeight.w400,
@@ -106,7 +108,9 @@ class TestResultsScreen extends StatelessWidget {
                               ),
                               AppSpacing.horizontalSpaceSmall,
                               Text(
-                                AppStrings.addTestResults,
+                                source == 'test'
+                                    ? AppStrings.addTestResults
+                                    : AppStrings.addExamResults,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!

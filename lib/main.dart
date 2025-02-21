@@ -51,7 +51,9 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
@@ -293,8 +295,12 @@ class MyApp extends StatelessWidget {
                   PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
                   TestResultsScreen.routeName: (context) =>
                       const TestResultsScreen(),
+                  ExamResultScreen.routeName: (context) =>
+                      const ExamResultScreen(),
                   AddTestResultsScreen.routeName: (context) =>
                       const AddTestResultsScreen(),
+                  AddExamResultsScreen.routeName: (context) =>
+                      const AddExamResultsScreen(),
                   LectureTimeTableScreen.routeName: (context) =>
                       const LectureTimeTableScreen(),
                   IndividualStudentSubjectScreen.routeName: (context) =>
