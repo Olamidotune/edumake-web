@@ -121,10 +121,7 @@ class ExamResultScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.fetchExamResultsStatus ==
-                                FormzSubmissionStatus.success &&
-                            state.fetchExamResultsData?.length == 0 ||
-                        state.fetchExamResultsData == null) {
+                    if (state.fetchExamResultsData?.isEmpty ?? true) {
                       return const NoDataAvailable(
                         message: 'No exams available for this subject',
                         height: 7,

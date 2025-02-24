@@ -121,9 +121,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                             onTap: () {
                               source == 'test'
                                   ? context.read<TestBloc>().add(
-                                        TestEvent.fetchTestResults(
-                                          studentId.toString(),
-                                          classId.toString(),
+                                        TestEvent.fetchSubjectTestResults(
                                           subjectData?.id ?? '',
                                         ),
                                       )

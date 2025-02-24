@@ -33,7 +33,7 @@ class FetchSubjectTestResultDatum {
   final FetchSubjectTestResultClassId subject;
 
   @JsonKey(name: 'dateWritten')
-  final DateTime dateWritten;
+  final String dateWritten;
 
   @JsonKey(name: 'classId')
   final FetchSubjectTestResultClassId classId;
@@ -51,7 +51,7 @@ class FetchSubjectTestResultDatum {
   final bool isDeleted;
 
   @JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final String createdAt;
 
   @JsonKey(name: 'updatedAt')
   final DateTime updatedAt;

@@ -52,7 +52,7 @@ class TestResultsScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             child: BlocBuilder<TestBloc, TestState>(
               builder: (context, state) {
-                if (state.fetchTestResultsStatus ==
+                if (state.fetchSubjectTestResultsStatus ==
                     FormzSubmissionStatus.inProgress) {
                   return SizedBox(
                     height: 800,
@@ -65,17 +65,14 @@ class TestResultsScreen extends StatelessWidget {
                     ),
                   );
                 }
-                if (state.fetchTestResultsStatus ==
-                        FormzSubmissionStatus.success &&
-                    state.fetchTestResultsData?.length == 0) {
+                if (state.fetchSubjectTestResultsData?.isEmpty ?? true) {
                   return NoDataAvailable(
                     message:
                         'No ${source == 'test' ? 'tests' : 'exams'} available for this subject',
                     height: 7,
                   );
                 }
-
-                if (state.fetchTestResultsStatus ==
+                if (state.fetchSubjectTestResultsStatus ==
                     FormzSubmissionStatus.failure) {
                   return const NoDataAvailable(
                     message: 'Something went wrong',
@@ -151,16 +148,16 @@ class TestResultsScreen extends StatelessWidget {
                     ),
                     AppSpacing.verticalSpaceMedium,
                     ListView.separated(
-                      itemCount: state.fetchTestResultsData?.length ?? 0,
+                      itemCount: state.fetchSubjectTestResultsData?.length ?? 0,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        final testResults = state.fetchTestResultsData?[index];
+                        final testResults =
+                            state.fetchSubjectTestResultsData?[index];
                         // Get the first grade (or you might want to handle multiple grades differently)
-                        final testGrade =
-                            testResults?.testResponseGrades.isNotEmpty == true
-                                ? testResults?.testResponseGrades[0]
-                                : null;
+                        final testGrade = testResults?.grades.isNotEmpty == true
+                            ? testResults?.grades[0]
+                            : null;
                         return TestResultTitle(
                           date: formatLocalTime(testResults?.dateWritten ?? ''),
                           title: testResults?.title ?? '',

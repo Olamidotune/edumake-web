@@ -66,5 +66,21 @@ class TestEvent with _$TestEvent {
     String? message,
   ) = _FetchExamResultsFailed;
 
+////////////////////////////////////////////////////////////////////
+  /// Fetch Subject Test Results
+//////////////////////////////////////////////////////////////////////
+
+  const factory TestEvent.fetchSubjectTestResults(
+    String subjectId,
+  ) = _FetchSubjectTestResults;
+
+  const factory TestEvent.fetchSubjectTestResultsSuccessful(
+    FetchSubjectTestResult fetchSubjectTestResult,
+  ) = _FetchSubjectTestResultsSuccessful;
+
+  const factory TestEvent.fetchSubjectTestResultsFailed(
+    String? message,
+  ) = _FetchSubjectTestResultsFailed;
+
   const factory TestEvent.errorMessage(String? message) = _ErrorMessage;
 }

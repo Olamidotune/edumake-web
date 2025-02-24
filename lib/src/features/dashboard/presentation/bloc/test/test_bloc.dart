@@ -5,6 +5,8 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_grade.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_by_subject/fetch_subject_test_result.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_by_subject/fetch_subject_test_result_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response_grade.dart';
@@ -38,6 +40,9 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     on<_FetchExamResults>(_fetchExamResults);
     on<_FetchExamResultsSuccessful>(_fetchExamResultsSuccessful);
     on<_FetchExamResultsFailed>(_fetchExamResultsFailed);
+    on<_FetchSubjectTestResults>(_fetchSubjectTestResults);
+    on<_FetchSubjectTestResultsSuccessful>(_fetchSubjectTestResultsSuccessful);
+    on<_FetchSubjectTestResultsFailed>(_fetchSubjectTestResultsFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -271,6 +276,65 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     emit(
       state.copyWith(
         fetchExamResultsStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
+    );
+  }
+
+////////////////////////////////////////////////////////////////////
+  /// Fetch Subject Test Results
+////////////////////////////////////////////////////////////////////
+
+  void _fetchSubjectTestResults(
+    _FetchSubjectTestResults event,
+    Emitter<TestState> emit,
+  ) async {
+    if (state.fetchSubjectTestResultsStatus ==
+        FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+          fetchSubjectTestResultsStatus: FormzSubmissionStatus.inProgress),
+    );
+
+    try {
+      final subjectTestResults =
+          await locator<TestResultClient>().fetchSubjectTestResult(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.subjectId,
+      );
+
+      add(_FetchSubjectTestResultsSuccessful(subjectTestResults));
+    } catch (error, trace) {
+      onError(error, trace);
+      add(_FetchSubjectTestResultsFailed(error.toString()));
+    }
+  }
+
+  void _fetchSubjectTestResultsSuccessful(
+    _FetchSubjectTestResultsSuccessful event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectTestResultsStatus: FormzSubmissionStatus.success,
+        fetchSubjectTestResult: event.fetchSubjectTestResult,
+        fetchSubjectTestResultsData: event.fetchSubjectTestResult.data,
+        errorMessage: null,
+      ),
+    );
+  }
+
+  void _fetchSubjectTestResultsFailed(
+    _FetchSubjectTestResultsFailed event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectTestResultsStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message,
       ),
     );

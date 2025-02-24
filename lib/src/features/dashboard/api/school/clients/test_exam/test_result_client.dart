@@ -2,6 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_by_subject/fetch_subject_test_result.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_requests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
@@ -48,7 +49,7 @@ abstract class TestResultClient {
   );
 
   @GET('/api/v1/sch/test/all/{schoolId}')
-  Future<FetchTestResponse> fetchSubjectTestResult(
+  Future<FetchSubjectTestResult> fetchSubjectTestResult(
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Query('subjectId') String subjectId,

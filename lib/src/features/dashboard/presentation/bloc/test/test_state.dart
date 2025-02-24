@@ -1,5 +1,7 @@
 part of 'test_bloc.dart';
 
+// fetchExamResults
+
 @freezed
 class TestState with _$TestState {
   const factory TestState({
@@ -37,13 +39,22 @@ class TestState with _$TestState {
     List<FetchTestResponseGrade>? fetchTestResultsGrades,
 
 //==============================================================================
-// FORMZ -  FETCH EXAM RESULTS
+// FETCH EXAM RESULTS
 //==============================================================================
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchExamResultsStatus,
     FetchExamResponse? fetchExamResponse,
     List<FetchExamResponseDatum>? fetchExamResultsData,
     List<FetchExamResponseGrade>? fetchExamResultsGrades,
+
+//==============================================================================
+// FETCH SUBJECT TEST RESULTS
+//==============================================================================
+
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchSubjectTestResultsStatus,
+    FetchSubjectTestResult? fetchSubjectTestResult,
+    List<FetchSubjectTestResultDatum>? fetchSubjectTestResultsData,
     String? errorMessage,
   }) = _TestState;
 }

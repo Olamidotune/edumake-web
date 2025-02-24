@@ -12,7 +12,7 @@ class FetchSubjectTestResultGrade {
   factory FetchSubjectTestResultGrade.fromJson(Map<String, dynamic> json) =>
       _$FetchSubjectTestResultGradeFromJson(json);
   @JsonKey(name: 'grade')
-  final int grade;
+  final double grade;
 
   @JsonKey(name: '_id')
   final String id;
