@@ -6,12 +6,12 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
+import 'package:edumake_frontend/src/shared/widgets/test_result_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -188,101 +188,3 @@ class ExamResultScreen extends StatelessWidget {
     );
   }
 }
-
-// class TestResultTitle extends StatelessWidget {
-//   const TestResultTitle({
-//     required this.title,
-//     required this.date,
-//     required this.grade,
-//     super.key,
-//   });
-
-//   final String title;
-//   final String date;
-//   final double grade;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: AppColors.primaryColor.withOpacity(.1),
-//         borderRadius: BorderRadius.circular(8),
-//       ),
-//       child: ListTile(
-//         contentPadding: EdgeInsets.zero,
-//         title: Column(
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Expanded(
-//                   child: Text(
-//                     title,
-//                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                           fontSize: 14.fontSize,
-//                           fontWeight: FontWeight.w500,
-//                           color: AppColors.blackColor,
-//                         ),
-//                   ),
-//                 ),
-//                 SvgPicture.asset(
-//                   'assets/svg/edit.svg',
-//                   height: 18.fontSize,
-//                 ),
-//               ],
-//             ),
-//             AppSpacing.verticalSpaceMedium,
-//           ],
-//         ),
-//         subtitle: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             RichText(
-//               text: TextSpan(
-//                 text: 'Date Written: ',
-//                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                       fontSize: 12.fontSize,
-//                       fontWeight: FontWeight.w400,
-//                       color: AppColors.greyColor,
-//                     ),
-//                 children: [
-//                   TextSpan(
-//                     text: date,
-//                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                           fontSize: 12.fontSize,
-//                           fontWeight: FontWeight.w400,
-//                           color: AppColors.blackColor,
-//                         ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             RichText(
-//               text: TextSpan(
-//                 text: 'Grade: ',
-//                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                       fontSize: 12.fontSize,
-//                       fontWeight: FontWeight.w400,
-//                       color: AppColors.greyColor,
-//                     ),
-//                 children: [
-//                   TextSpan(
-//                     text: '$grade',
-//                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-//                           fontSize: 12.fontSize,
-//                           fontWeight: FontWeight.w400,
-//                           color: grade >= 50
-//                               ? AppColors.greenColor
-//                               : AppColors.redColor,
-//                         ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

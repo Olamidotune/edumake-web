@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_by_subject/fetch_subject_exam_result.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_by_subject/fetch_subject_exam_result_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_grade.dart';
@@ -43,6 +45,9 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     on<_FetchSubjectTestResults>(_fetchSubjectTestResults);
     on<_FetchSubjectTestResultsSuccessful>(_fetchSubjectTestResultsSuccessful);
     on<_FetchSubjectTestResultsFailed>(_fetchSubjectTestResultsFailed);
+    on<_FetchSubjectExamResults>(_fetchSubjectExamResults);
+    on<_FetchSubjectExamResultsSuccessful>(_fetchSubjectExamResultsSuccessful);
+    on<_FetchSubjectExamResultsFailed>(_fetchSubjectExamResultsFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -335,6 +340,65 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     emit(
       state.copyWith(
         fetchSubjectTestResultsStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
+    );
+  }
+
+////////////////////////////////////////////////////////////////////
+  /// Fetch Subject Test Results
+////////////////////////////////////////////////////////////////////
+
+  void _fetchSubjectExamResults(
+    _FetchSubjectExamResults event,
+    Emitter<TestState> emit,
+  ) async {
+    if (state.fetchSubjectExamResultsStatus ==
+        FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+          fetchSubjectExamResultsStatus: FormzSubmissionStatus.inProgress),
+    );
+
+    try {
+      final subjectExamResults =
+          await locator<TestResultClient>().fetchSubjectExamResults(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.subjectId,
+      );
+
+      add(_FetchSubjectExamResultsSuccessful(subjectExamResults));
+    } catch (error, trace) {
+      onError(error, trace);
+      add(_FetchSubjectExamResultsFailed(error.toString()));
+    }
+  }
+
+  void _fetchSubjectExamResultsSuccessful(
+    _FetchSubjectExamResultsSuccessful event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectExamResultsStatus: FormzSubmissionStatus.success,
+        fetchSubjectExamResult: event.fetchSubjectExamResult,
+        fetchSubjectExamResultsData: event.fetchSubjectExamResult.data,
+        errorMessage: null,
+      ),
+    );
+  }
+
+  void _fetchSubjectExamResultsFailed(
+    _FetchSubjectExamResultsFailed event,
+    Emitter<TestState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        fetchSubjectExamResultsStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message,
       ),
     );

@@ -126,9 +126,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                         ),
                                       )
                                   : context.read<TestBloc>().add(
-                                        TestEvent.fetchExamResults(
-                                          studentId.toString(),
-                                          classId.toString(),
+                                        TestEvent.fetchSubjectExamResults(
                                           subjectData?.id ?? '',
                                         ),
                                       );

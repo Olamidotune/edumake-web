@@ -22,7 +22,7 @@ class TestState with _$TestState {
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus addExamResultStatus,
     @Default(ExamTitleFormz.pure()) ExamTitleFormz examTitle,
-    //Using 'TestResult' cause the example request format is same with test.
+    //Using 'TestResult' cause the exam request format is same with test.
     TestResult? examResultModel,
     String? examId,
     String? examDate,
@@ -55,6 +55,15 @@ class TestState with _$TestState {
     FormzSubmissionStatus fetchSubjectTestResultsStatus,
     FetchSubjectTestResult? fetchSubjectTestResult,
     List<FetchSubjectTestResultDatum>? fetchSubjectTestResultsData,
+
+//==============================================================================
+// FETCH SUBJECT EXAM RESULTS
+//==============================================================================
+
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchSubjectExamResultsStatus,
+    FetchSubjectExamResult? fetchSubjectExamResult,
+    List<FetchSubjectExamResultDatum>? fetchSubjectExamResultsData,
     String? errorMessage,
   }) = _TestState;
 }
