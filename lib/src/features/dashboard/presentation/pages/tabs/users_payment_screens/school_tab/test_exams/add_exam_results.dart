@@ -16,16 +16,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
-class AddTestResultsScreen extends StatefulWidget {
-  const AddTestResultsScreen({super.key});
+class AddExamResultsScreen extends StatefulWidget {
+  const AddExamResultsScreen({super.key});
 
-  static const String routeName = 'add/test result';
+  static const String routeName = 'add exam result';
 
   @override
-  State<AddTestResultsScreen> createState() => _AddTestResultsScreenState();
+  State<AddExamResultsScreen> createState() => _AddExamResultsScreenState();
 }
 
-class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
+class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
   final scrollerController = ScrollController();
   final titleController = TextEditingController();
   final dateController = TextEditingController();
@@ -61,7 +61,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Add Test Result',
+                    'Add Exam Result',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontSize: 24.fontSize,
                           fontWeight: FontWeight.w400,
@@ -72,12 +72,14 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                 AppSpacing.verticalSpaceMedium,
                 BlocConsumer<TestBloc, TestState>(
                   listener: (context, state) {
-                    if (state.addTestResultStatus ==
+                    if (state.addExamResultStatus ==
                         FormzSubmissionStatus.success) {
-                      ToastService.toast('Result saved successfully');
+                      ToastService.toast(
+                        'Result saved successfully',
+                      );
                       Navigator.pop(context);
                     }
-                    if (state.addTestResultStatus ==
+                    if (state.addExamResultStatus ==
                         FormzSubmissionStatus.failure) {
                       ToastService.toast(
                         'Failed to add result',
@@ -113,7 +115,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             title: 'Date Written',
                             controller: dateController,
                             focusNode: dateFocusNode,
-                            hintText: 'Test Date',
+                            hintText: 'Exam Date',
                             keyboardType: TextInputType.text,
                             customFilled: true,
                             readOnly: true,
@@ -141,37 +143,6 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             title: 'Grade',
                             controller: gradeController,
                             focusNode: gradeFocusNode,
-                            onFieldSubmitted: () {
-                              if (formKey.currentState!.validate()) {
-                                final gradeValue =
-                                    double.tryParse(gradeController.text);
-                                if (gradeValue == null) {
-                                  ToastService.toast(
-                                    'Invalid grade input. Please enter a valid number.',
-                                    ToastType.error,
-                                  );
-                                  return;
-                                }
-                                final result = TestResultRequest(
-                                  classId: classId.toString(),
-                                  title: titleController.value.text.trim(),
-                                  subjectId: subjectId.toString(),
-                                  dateWritten: dateController.value.text,
-                                  grades: [
-                                    Grade(
-                                      grade: gradeValue,
-                                      studentId: studentId.toString(),
-                                    ),
-                                  ],
-                                );
-                                context
-                                    .read<TestBloc>()
-                                    .add(TestEvent.addTestResult(result));
-                                context.read<TestBloc>().add(
-                                    TestEvent.fetchSubjectTestResults(
-                                        subjectId.toString()));
-                              }
-                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Grade is required';
@@ -189,7 +160,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                 : 240.height,
                           ),
                           Button(
-                            busy: state.addTestResultStatus ==
+                            busy: state.addExamResultStatus ==
                                 FormzSubmissionStatus.inProgress,
                             text: 'Save',
                             onPressed: () {
@@ -217,10 +188,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                 );
                                 context
                                     .read<TestBloc>()
-                                    .add(TestEvent.addTestResult(result));
-                                context.read<TestBloc>().add(
-                                    TestEvent.fetchSubjectTestResults(
-                                        subjectId.toString()));
+                                    .add(TestEvent.addExamResult(result));
                               }
                             },
                           ),

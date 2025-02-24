@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -28,6 +29,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
     final schoolName = args['schoolName'];
     final classId = args['classId'];
     final studentId = args['studentId'];
+    final source = args['source'];
 
     final scrollController = ScrollController();
 
@@ -59,7 +61,8 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: ' Tap on any to view, edit or add test results.',
+                      text:
+                          ' Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
                       style: TextStyle(
                         fontSize: 14.fontSize,
                         color: AppColors.blackColor,
@@ -116,34 +119,54 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                               state.getSubjectForStudentDatum?[index];
                           return GestureDetector(
                             onTap: () {
-                              context.read<TestBloc>().add(
-                                    TestEvent.fetchTestResults(
-                                      studentId.toString(),
-                                      classId.toString(),
-                                      subjectData?.id ?? '',
-                                    ),
-                                  );
+                              source == 'test'
+                                  ? context.read<TestBloc>().add(
+                                        TestEvent.fetchSubjectTestResults(
+                                          subjectData?.id ?? '',
+                                        ),
+                                      )
+                                  : context.read<TestBloc>().add(
+                                        TestEvent.fetchSubjectExamResults(
+                                          subjectData?.id ?? '',
+                                        ),
+                                      );
                               context.read<GetSchoolDataBloc>().add(
                                     GetSchoolDataEvent
                                         .onSelectedSubjectNameChanged(
                                       subjectData?.name,
                                     ),
                                   );
-
-                              Navigator.of(
-                                context,
-                              ).pushNamed(
-                                TestResultsScreen.routeName,
-                                arguments: {
-                                  'studentName': studentName,
-                                  'className': className,
-                                  'schoolName': schoolName,
-                                  'classId': classId,
-                                  'studentId': studentId,
-                                  'subjectName': subjectData?.name,
-                                  'subjectId': subjectData?.id,
-                                },
-                              );
+                              source == 'test'
+                                  ? Navigator.of(
+                                      context,
+                                    ).pushNamed(
+                                      TestResultsScreen.routeName,
+                                      arguments: {
+                                        'studentName': studentName,
+                                        'className': className,
+                                        'schoolName': schoolName,
+                                        'classId': classId,
+                                        'studentId': studentId,
+                                        'subjectName': subjectData?.name,
+                                        'subjectId': subjectData?.id,
+                                        'source': source,
+                                      },
+                                    )
+                                  : Navigator.of(
+                                      context,
+                                    ).pushNamed(
+                                      ExamResultScreen.routeName,
+                                      arguments: {
+                                        'studentName': studentName,
+                                        'className': className,
+                                        'schoolName': schoolName,
+                                        'classId': classId,
+                                        'studentId': studentId,
+                                        'subjectName': subjectData?.name,
+                                        'subjectId': subjectData?.id,
+                                        'source': source,
+                                      },
+                                    );
                             },
                             child: ClassesListTileContainer(
                               isProfilePictureEnabled: false,

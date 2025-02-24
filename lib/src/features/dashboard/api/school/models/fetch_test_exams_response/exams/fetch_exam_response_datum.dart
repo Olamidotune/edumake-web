@@ -1,29 +1,28 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_grade.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_subject.dart';
-
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_grade.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_subject.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'fetch_test_response_datum.g.dart';
+part 'fetch_exam_response_datum.g.dart';
 
 @JsonSerializable()
-class FetchTestResponseDatum {
-  FetchTestResponseDatum({
+class FetchExamResponseDatum {
+  FetchExamResponseDatum({
     required this.id,
     required this.title,
-    required this.testResponseSubject,
+    required this.examResponseSubject,
     required this.dateWritten,
     required this.classId,
     required this.testResponseSchool,
     required this.addedBy,
-    required this.testResponseGrades,
+    required this.examResponseGrades,
     required this.isDeleted,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
   });
 
-  factory FetchTestResponseDatum.fromJson(Map<String, dynamic> json) =>
-      _$FetchTestResponseDatumFromJson(json);
+  factory FetchExamResponseDatum.fromJson(Map<String, dynamic> json) =>
+      _$FetchExamResponseDatumFromJson(json);
   @JsonKey(name: '_id')
   final String id;
 
@@ -31,13 +30,13 @@ class FetchTestResponseDatum {
   final String title;
 
   @JsonKey(name: 'subject')
-  final FetchTestResponseSubject testResponseSubject;
+  final FetchExamResponseSubject examResponseSubject;
 
   @JsonKey(name: 'dateWritten')
   final String dateWritten;
 
   @JsonKey(name: 'classId')
-  final FetchTestResponseSubject classId;
+  final FetchExamResponseSubject classId;
 
   @JsonKey(name: 'school')
   final String testResponseSchool;
@@ -46,7 +45,7 @@ class FetchTestResponseDatum {
   final String addedBy;
 
   @JsonKey(name: 'grades')
-  final List<FetchTestResponseGrade> testResponseGrades;
+  final List<FetchExamResponseGrade> examResponseGrades;
 
   @JsonKey(name: 'isDeleted')
   final bool isDeleted;
@@ -59,5 +58,5 @@ class FetchTestResponseDatum {
 
   @JsonKey(name: '__v')
   final int v;
-  Map<String, dynamic> toJson() => _$FetchTestResponseDatumToJson(this);
+  Map<String, dynamic> toJson() => _$FetchExamResponseDatumToJson(this);
 }

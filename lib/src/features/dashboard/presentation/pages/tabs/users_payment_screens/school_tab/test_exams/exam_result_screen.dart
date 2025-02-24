@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
@@ -17,10 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
-class TestResultsScreen extends StatelessWidget {
-  const TestResultsScreen({Key? key}) : super(key: key);
+class ExamResultScreen extends StatelessWidget {
+  const ExamResultScreen({Key? key}) : super(key: key);
 
-  static const String routeName = 'test_result';
+  static const String routeName = 'exam_result';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class TestResultsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppStrings.test,
+                      AppStrings.exam,
                       style: TextStyle(
                         fontSize: 20.fontSize,
                         fontWeight: FontWeight.w400,
@@ -74,7 +74,7 @@ class TestResultsScreen extends StatelessWidget {
                           ),
                           AppSpacing.horizontalSpaceSmall,
                           Text(
-                            AppStrings.addTestResults,
+                            AppStrings.addExamResults,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -88,7 +88,7 @@ class TestResultsScreen extends StatelessWidget {
                       ),
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          AddTestResultsScreen.routeName,
+                          AddExamResultsScreen.routeName,
                           arguments: {
                             'classId': classId,
                             'studentId': studentId,
@@ -108,7 +108,7 @@ class TestResultsScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 BlocBuilder<TestBloc, TestState>(
                   builder: (context, state) {
-                    if (state.fetchSubjectTestResultsStatus ==
+                    if (state.fetchSubjectExamResultsStatus ==
                         FormzSubmissionStatus.inProgress) {
                       return SizedBox(
                         height: 800,
@@ -121,13 +121,13 @@ class TestResultsScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.fetchSubjectTestResultsData?.isEmpty ?? true) {
+                    if (state.fetchSubjectExamResultsData?.isEmpty ?? true) {
                       return const NoDataAvailable(
-                        message: 'No tests available for this subject',
+                        message: 'No exams available for this subject',
                         height: 7,
                       );
                     }
-                    if (state.fetchSubjectTestResultsStatus ==
+                    if (state.fetchSubjectExamResultsStatus ==
                         FormzSubmissionStatus.failure) {
                       return const NoDataAvailable(
                         message: 'Something went wrong',
@@ -147,23 +147,23 @@ class TestResultsScreen extends StatelessWidget {
                         AppSpacing.verticalSpaceMedium,
                         ListView.separated(
                           itemCount:
-                              state.fetchSubjectTestResultsData?.length ?? 0,
+                              state.fetchSubjectExamResultsData?.length ?? 0,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            final testResults =
-                                state.fetchSubjectTestResultsData?[index];
-                            // Get the first grade (or you might want to handle multiple grades differently)
-                            final testGrade =
-                                testResults?.grades.isNotEmpty == true
-                                    ? testResults?.grades[0]
+                            final examResults =
+                                state.fetchSubjectExamResultsData?[index];
+                            final examGrade =
+                                examResults?.grades.isNotEmpty == true
+                                    ? examResults?.grades[0]
                                     : null;
                             return GestureDetector(
+                              onTap: () {},
                               child: TestResultTitle(
                                 date: formatLocalTime(
-                                    testResults?.dateWritten ?? ''),
-                                title: testResults?.title ?? '',
-                                grade: testGrade?.grade ?? 0,
+                                    examResults?.dateWritten ?? ''),
+                                title: examResults?.title ?? '',
+                                grade: examGrade?.grade ?? 0,
                               ),
                             );
                           },
