@@ -135,6 +135,7 @@ class TestResultsScreen extends StatelessWidget {
                       );
                     }
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'New',
@@ -157,21 +158,23 @@ class TestResultsScreen extends StatelessWidget {
                                 testResults?.grades.isNotEmpty == true
                                     ? testResults?.grades[0]
                                     : null;
-                            return TestResultTitle(
-                              date: formatLocalTime(
-                                  testResults?.dateWritten ?? ''),
-                              title: testResults?.title ?? '',
-                              grade: testGrade?.grade ?? 0,
+                            return GestureDetector(
+                              child: TestResultTitle(
+                                date: formatLocalTime(
+                                    testResults?.dateWritten ?? ''),
+                                title: testResults?.title ?? '',
+                                grade: testGrade?.grade ?? 0,
+                              ),
                             );
                           },
                           separatorBuilder: (context, index) {
                             return AppSpacing.verticalSpaceMedium;
                           },
                         ),
-                        const Text(
+                        Text(
                           'Previous',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18.fontSize,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

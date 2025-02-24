@@ -108,7 +108,7 @@ class ExamResultScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 BlocBuilder<TestBloc, TestState>(
                   builder: (context, state) {
-                    if (state.fetchExamResultsStatus ==
+                    if (state.fetchSubjectExamResultsStatus ==
                         FormzSubmissionStatus.inProgress) {
                       return SizedBox(
                         height: 800,
@@ -121,13 +121,13 @@ class ExamResultScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.fetchExamResultsData?.isEmpty ?? true) {
+                    if (state.fetchSubjectExamResultsData?.isEmpty ?? true) {
                       return const NoDataAvailable(
                         message: 'No exams available for this subject',
                         height: 7,
                       );
                     }
-                    if (state.fetchExamResultsStatus ==
+                    if (state.fetchSubjectExamResultsStatus ==
                         FormzSubmissionStatus.failure) {
                       return const NoDataAvailable(
                         message: 'Something went wrong',
@@ -135,6 +135,7 @@ class ExamResultScreen extends StatelessWidget {
                       );
                     }
                     return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'New',
@@ -145,33 +146,35 @@ class ExamResultScreen extends StatelessWidget {
                         ),
                         AppSpacing.verticalSpaceMedium,
                         ListView.separated(
-                          itemCount: state.fetchExamResultsData?.length ?? 0,
+                          itemCount:
+                              state.fetchSubjectExamResultsData?.length ?? 0,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             final examResults =
-                                state.fetchExamResultsData?[index];
-                            // Get the first grade (or you might want to handle multiple grades differently)
+                                state.fetchSubjectExamResultsData?[index];
                             final examGrade =
-                                examResults?.examResponseGrades.isNotEmpty ==
-                                        true
-                                    ? examResults?.examResponseGrades[0]
+                                examResults?.grades.isNotEmpty == true
+                                    ? examResults?.grades[0]
                                     : null;
-                            return TestResultTitle(
-                              date: formatLocalTime(
-                                  examResults?.dateWritten ?? ''),
-                              title: examResults?.title ?? '',
-                              grade: examGrade?.grade ?? 0,
+                            return GestureDetector(
+                              onTap: () {},
+                              child: TestResultTitle(
+                                date: formatLocalTime(
+                                    examResults?.dateWritten ?? ''),
+                                title: examResults?.title ?? '',
+                                grade: examGrade?.grade ?? 0,
+                              ),
                             );
                           },
                           separatorBuilder: (context, index) {
                             return AppSpacing.verticalSpaceMedium;
                           },
                         ),
-                        const Text(
+                        Text(
                           'Previous',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 18.fontSize,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
