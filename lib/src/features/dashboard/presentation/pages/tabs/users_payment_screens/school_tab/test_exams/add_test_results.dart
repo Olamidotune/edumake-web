@@ -74,9 +74,7 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                   listener: (context, state) {
                     if (state.addTestResultStatus ==
                         FormzSubmissionStatus.success) {
-                      ToastService.toast(
-                        'Result saved successfully',
-                      );
+                      ToastService.toast('Result saved successfully');
                       Navigator.pop(context);
                     }
                     if (state.addTestResultStatus ==
@@ -143,6 +141,37 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                             title: 'Grade',
                             controller: gradeController,
                             focusNode: gradeFocusNode,
+                            onFieldSubmitted: () {
+                              if (formKey.currentState!.validate()) {
+                                final gradeValue =
+                                    double.tryParse(gradeController.text);
+                                if (gradeValue == null) {
+                                  ToastService.toast(
+                                    'Invalid grade input. Please enter a valid number.',
+                                    ToastType.error,
+                                  );
+                                  return;
+                                }
+                                final result = TestResultRequest(
+                                  classId: classId.toString(),
+                                  title: titleController.value.text.trim(),
+                                  subjectId: subjectId.toString(),
+                                  dateWritten: dateController.value.text,
+                                  grades: [
+                                    Grade(
+                                      grade: gradeValue,
+                                      studentId: studentId.toString(),
+                                    ),
+                                  ],
+                                );
+                                context
+                                    .read<TestBloc>()
+                                    .add(TestEvent.addTestResult(result));
+                                context.read<TestBloc>().add(
+                                    TestEvent.fetchSubjectTestResults(
+                                        subjectId.toString()));
+                              }
+                            },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Grade is required';
@@ -189,6 +218,9 @@ class _AddTestResultsScreenState extends State<AddTestResultsScreen> {
                                 context
                                     .read<TestBloc>()
                                     .add(TestEvent.addTestResult(result));
+                                context.read<TestBloc>().add(
+                                    TestEvent.fetchSubjectTestResults(
+                                        subjectId.toString()));
                               }
                             },
                           ),

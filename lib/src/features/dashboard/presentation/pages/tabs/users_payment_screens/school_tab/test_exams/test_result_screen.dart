@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_is_empty, use_if_null_to_convert_nulls_to_bools
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';

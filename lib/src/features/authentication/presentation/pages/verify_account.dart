@@ -28,7 +28,7 @@ class VerifyAccount extends StatefulWidget {
 class _VerifyAccountState extends State<VerifyAccount> {
   Timer? _timer;
 
-  int _remainingTime = 120; // 5 minutes (300 seconds)
+  int _remainingTime = 300; // 5 minutes (300 seconds)
 
   final TextEditingController _otpController = TextEditingController();
 
