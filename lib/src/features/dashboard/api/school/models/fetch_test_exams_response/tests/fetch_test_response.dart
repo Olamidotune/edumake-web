@@ -1,4 +1,4 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_datum.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response_datum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'fetch_test_response.g.dart';

@@ -1,5 +1,5 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_grade.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/fetch_test_response_subject.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response_grade.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_response_subject.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
