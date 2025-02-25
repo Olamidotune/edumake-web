@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -115,13 +116,13 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
                               ),
                             );
                           }
-
                           // Now we know index is within bounds of classesData
                           final subjectData =
                               state.getSubjectForStudent?.data[index];
-                          return GestureDetector(
+                          return ClassesListTileContainer(
+                            isProfilePictureEnabled: false,
+                            title: subjectData?.name.toUpperCase() ?? '',
                             onTap: () {
-                              // Handle onTap action here
                               context.read<GetSchoolDataBloc>().add(
                                     GetSchoolDataEvent
                                         .onSelectedSubjectNameChanged(
@@ -131,18 +132,16 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
                               Navigator.of(
                                 context,
                               ).pushNamed(
-                                AssignmentScreen.routeName,
+                                IndividualSubjectDetails.routeName,
                                 arguments: {
                                   'schoolName': schoolName,
                                   'className': className,
-                                  'studentName': studentName
+                                  'studentName': studentName,
+                                  'subjectId': subjectData?.id,
+                                  'subjectName': subjectData?.name,
                                 },
                               );
                             },
-                            child: ClassesListTileContainer(
-                              isProfilePictureEnabled: false,
-                              title: subjectData?.name.toUpperCase() ?? '',
-                            ),
                           );
                         },
                       ),
@@ -176,5 +175,122 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+}
+
+class IndividualSubjectDetails extends StatelessWidget {
+  const IndividualSubjectDetails({super.key});
+
+  static const String routeName = '/individual-subject-screen';
+
+  @override
+  Widget build(BuildContext context) {
+    final args =
+        // ignore: cast_nullable_to_non_nullable
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final schoolName = args['schoolName'];
+    final className = args['className'];
+    final studentName = args['studentName'];
+    final subjectId = args['subjectId'];
+    final subjectName = args['subjectName'];
+
+    final scrollController = ScrollController();
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: CustomRawScroller(
+          scrollController: scrollController,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withOpacity(0.1),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    width: double.infinity,
+                    height: 250,
+                    child: Image.asset(
+                      'assets/png/event.png',
+                    ),
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.assignments,
+                    onTap: () {
+                      context.read<GetSchoolDataBloc>().add(
+                            GetSchoolDataEvent.onSelectedSubjectNameChanged(
+                                subjectName.toString()),
+                          );
+                      Navigator.of(
+                        context,
+                      ).pushNamed(
+                        //change to parent assignment screen
+                        AssignmentScreen.routeName,
+                        arguments: {
+                          'schoolName': schoolName,
+                          'className': className,
+                          'studentName': studentName,
+                          'subjectId': subjectId,
+                          'subjectName': subjectName,
+                        },
+                      );
+                    },
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.curriculumSchemeOfWork,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: 'Learning Materials',
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: 'Test/Exam Results',
+                    onTap: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.events,
+                    onTap: () {
+                      //Can't get event by student...
+                      Navigator.of(context)
+                          .pushNamed(ClassEventsScreen.routeName);
+                    },
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  const ClassesListTileContainer(
+                    isProfilePictureEnabled: false,
+                    title: AppStrings.analysis,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class WardTestScreen extends StatelessWidget {
+  const WardTestScreen({super.key});
+
+  static const String routeName = '/ward-test-screen';
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

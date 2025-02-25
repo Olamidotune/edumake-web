@@ -29,6 +29,8 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
     final schoolName = args['schoolName'];
     final classNameKey = args['className'];
     final studentName = args['studentName'];
+    // final subjectId = args['subjectId'];
+    // final subjectName = args['subjectName'];
 
     return Scaffold(
       appBar: CustomAppBar(
