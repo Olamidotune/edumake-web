@@ -63,15 +63,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
-                height: 100,
+                height: 90,
               ),
-              // Button(
-              //   text: AppStrings.next,
-              //   onPressed: () {
-              //     Navigator.of(context)
-              //         .pushNamed(OnboardingScreenTwo.routeName);
-              //   },
-              // ),
               Button(
                 text: AppStrings.next,
                 onPressed: () {
