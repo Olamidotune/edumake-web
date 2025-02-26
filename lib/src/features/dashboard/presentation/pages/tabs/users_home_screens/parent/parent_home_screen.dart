@@ -125,6 +125,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                   return AppSpacing.verticalSpaceMedium;
                 },
               ),
+              AppSpacing.verticalSpaceSmall,
               Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
