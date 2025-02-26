@@ -36,6 +36,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/permissions/permissions_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
@@ -164,6 +165,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<TestBloc>(
           create: (context) => TestBloc(),
+        ),
+        BlocProvider<TimetableBloc>(
+          create: (context) => TimetableBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),

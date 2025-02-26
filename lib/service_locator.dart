@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/csv_upload.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/school_data_upload.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/timetable.dart/time_table_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
@@ -60,6 +61,12 @@ Future<void> setupLocator() async {
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),
+      )
+      ..registerFactory<TimeTableClient>(
+        () => TimeTableClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -98,6 +105,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<TestResultClient>(
         TestResultClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<TimeTableClient>(
+        TimeTableClient(
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),

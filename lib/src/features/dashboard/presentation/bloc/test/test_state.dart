@@ -1,7 +1,5 @@
 part of 'test_bloc.dart';
 
-// fetchExamResults
-
 @freezed
 class TestState with _$TestState {
   const factory TestState({

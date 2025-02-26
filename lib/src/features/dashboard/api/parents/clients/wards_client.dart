@@ -1,5 +1,3 @@
-// ignore_for_file: one_member_abstracts
-
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/send_request/send_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
