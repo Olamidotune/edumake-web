@@ -1,11 +1,14 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SkipKycDialog extends StatelessWidget {
-  const SkipKycDialog({super.key});
+class DeleteEventDialog extends StatelessWidget {
+  const DeleteEventDialog({required this.eventId, super.key});
+  final String eventId;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +19,8 @@ class SkipKycDialog extends StatelessWidget {
           SvgPicture.asset('assets/svg/error.svg'),
           AppSpacing.verticalSpaceMedium,
           Text(
-            'Note that, without the KYC you cannot be connected to a pupil and might not have a perfect experience here.',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            'Are you sure you want to delete this event? This action cannot be undone.',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w300,
                 ),
             textAlign: TextAlign.center,
@@ -33,16 +36,19 @@ class SkipKycDialog extends StatelessWidget {
               child: Button(
                 buttonColor: AppColors.primaryColor.withOpacity(0.3),
                 textColor: AppColors.secondaryTexColor,
-                text: 'Continue',
+                text: 'Yes',
                 onPressed: () {
-                  // Navigator.of(context).pop();
+                  context.read<EventsBloc>().add(
+                        EventsEvent.deleteEvent(eventId),
+                      );
+                  Navigator.of(context).pop();
                 },
               ),
             ),
             AppSpacing.horizontalSpaceMedium,
             Expanded(
               child: Button(
-                text: 'Back',
+                text: 'No',
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
