@@ -164,6 +164,7 @@ class ExamResultScreen extends StatelessWidget {
                                     examResults?.dateWritten ?? ''),
                                 title: examResults?.title ?? '',
                                 grade: examGrade?.grade ?? 0,
+                                editIcon: true,
                               ),
                             );
                           },

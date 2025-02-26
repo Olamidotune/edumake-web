@@ -166,7 +166,6 @@ class ClassEventsScreen extends StatelessWidget {
                           ),
                     ),
                     AppSpacing.verticalSpaceMedium,
-
                     ///////////////////////////////////////////////
                     if (state.previousEvent?.isEmpty ?? false)
                       const NoDataAvailable(

@@ -8,8 +8,8 @@ class GetRequestModel with _$GetRequestModel {
   const factory GetRequestModel({
     required bool success,
     required String message,
-    required int statusCode,
     required List<GetRequestDatum> data,
+    required int statusCode,
   }) = _GetRequestModel;
 
   factory GetRequestModel.fromJson(Map<String, dynamic> json) =>

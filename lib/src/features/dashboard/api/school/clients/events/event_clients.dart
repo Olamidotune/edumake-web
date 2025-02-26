@@ -38,6 +38,14 @@ abstract class EventClients {
     @Path('eventId') String eventId,
   );
 
+  @GET('/api/v1/sch/events/all/{schoolId}')
+  @FormUrlEncoded()
+  Future<EventResponse> fetchEventByClass(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Query('classId') String classId,
+  );
+
   @PUT('/api/v1/sch/events/{schoolId}/{eventId}')
   @FormUrlEncoded()
   Future<EventIdResponse> editEvents(

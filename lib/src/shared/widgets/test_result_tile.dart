@@ -9,12 +9,14 @@ class TestResultTitle extends StatelessWidget {
     required this.title,
     required this.date,
     required this.grade,
+    required this.editIcon,
     super.key,
   });
 
   final String title;
   final String date;
   final double grade;
+  final bool editIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,13 @@ class TestResultTitle extends StatelessWidget {
                         ),
                   ),
                 ),
-                SvgPicture.asset(
-                  'assets/svg/edit.svg',
-                  height: 18.fontSize,
-                ),
+                if (editIcon)
+                  SvgPicture.asset(
+                    'assets/svg/edit.svg',
+                    height: 18.fontSize,
+                  )
+                else
+                  const SizedBox.shrink()
               ],
             ),
             AppSpacing.verticalSpaceMedium,

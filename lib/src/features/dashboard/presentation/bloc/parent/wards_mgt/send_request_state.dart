@@ -4,6 +4,7 @@ part of 'send_request_bloc.dart';
 class SendRequestState with _$SendRequestState {
   const factory SendRequestState({
     GetWardRequestModel? getWardRequestModel,
+    SendRequestModel? sendRequestModel,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus requestAccessToWardStatus,
     String? errorMessage,

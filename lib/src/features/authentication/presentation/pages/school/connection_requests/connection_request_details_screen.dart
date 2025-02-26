@@ -42,12 +42,14 @@ class _ConnectionRequestDetailsScreenState
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-    // ignore: unused_local_variable
+
     final requestId = args['requestId'];
     final parent = args['parent'];
     final wardName = args['wardName'];
     final parentNIN = args['parentNIN'];
     final parentPhoneNumber = args['parentPhoneNumber'];
+    final relationship = args['relationship'];
+    final wardClass = args['wardClass'];
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -74,7 +76,6 @@ class _ConnectionRequestDetailsScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //
                   Text(
                     '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -100,7 +101,7 @@ class _ConnectionRequestDetailsScreenState
                       subTitleName:
                           '${context.read<AuthBloc>().state.user?.school?.schoolName ?? _user?.school?.schoolName}',
                       date: '',
-                      className: 'Ward class',
+                      className: wardClass.toString(),
                     ),
                   ),
                   AppSpacing.verticalSpaceMedium,
@@ -234,7 +235,7 @@ class _ConnectionRequestDetailsScreenState
                             ),
                           ),
                           Text(
-                            'Mother',
+                            relationship.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!

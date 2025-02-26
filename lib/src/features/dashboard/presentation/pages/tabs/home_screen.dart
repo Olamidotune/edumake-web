@@ -35,11 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
@@ -379,6 +374,7 @@ void _showConnectDialog(
   String className,
   String studentId,
 ) async {
+  String? selectedRelation; // Store selected relation
   await showDialog<void>(
     context: context,
     builder: (dialogContext) {
@@ -406,10 +402,17 @@ void _showConnectDialog(
               className: className,
               busy: state.requestAccessToWardStatus ==
                   FormzSubmissionStatus.inProgress,
+              onRelationSelected: (relation) {
+                selectedRelation = relation;
+              },
               onTap: () {
-                context
-                    .read<SendRequestBloc>()
-                    .add(SendRequestEvent.sendRequest(studentId));
+                if (selectedRelation == null) {
+                  ToastService.toast(
+                      'Please select a relationship', ToastType.warning);
+                  return;
+                }
+                context.read<SendRequestBloc>().add(
+                    SendRequestEvent.sendRequest(studentId, selectedRelation!));
               },
             );
           },

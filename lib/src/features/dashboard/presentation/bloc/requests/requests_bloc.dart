@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/ward
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -47,7 +48,6 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     try {
       final requests = await locator<WardsClient>()
           .getAllRequests(await getAuthorization(), await getSchoolID());
-
       add(
         _GetRequestSuccessful(
           requests,
@@ -55,11 +55,13 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       );
     } catch (error, trace) {
       onError(error, trace);
+      logError(error, trace);
       add(
         _GetRequestFailed(
           error.toString(),
         ),
       );
+      print('Here is the error : ${error.toString()}');
     }
   }
 

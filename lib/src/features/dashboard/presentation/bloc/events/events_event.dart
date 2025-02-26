@@ -61,5 +61,17 @@ class EventsEvent with _$EventsEvent {
     String? message,
   ) = _DeleteEventFailed;
 
+////////////////////////////////////////////////////////////////////////////////
+  ///FETCH EVENTS
+////////////////////////////////////////////////////////////////////////////////
+  const factory EventsEvent.fetchEventsByClass(
+      String? schoolId, String classId) = _FetchEventsByClass;
+  const factory EventsEvent.fetchEventsByClassSuccessful(
+    EventResponse response,
+  ) = _FetchEventsByClassSuccessful;
+  const factory EventsEvent.fetchEventsByClassFailed(
+    String message,
+  ) = _FetchEventsByClassFailed;
+
   const factory EventsEvent.errorMessage(String? message) = _ErrorMessage;
 }

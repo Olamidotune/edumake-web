@@ -1,36 +1,21 @@
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_parent_id.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'get_request_parent.g.dart';
 
 @JsonSerializable()
 class Parent {
-  Parent(
-    this.parentEmail,
-    this.parentFirstName,
-    this.parentIdNumber,
-    this.parentLastName,
-    this.parentPhoneNumber, {
+  Parent({
     required this.id,
+    required this.relationship,
   });
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
-  @JsonKey(name: '_id')
-  final String id;
-  @JsonKey(name: 'email')
-  final String parentEmail;
-  @JsonKey(name: 'firstName')
-  final String parentFirstName;
-  @JsonKey(name: 'idNumber')
-  final String parentIdNumber;
-  @JsonKey(name: 'lastName')
-  final String parentLastName;
-  @JsonKey(name: 'phoneNumber')
-  final String parentPhoneNumber;
 
   Map<String, dynamic> toJson() => _$ParentToJson(this);
 
-  String? get fullName {
-    final fullName = '$parentFirstName $parentLastName';
-    return fullName == ' ' ? null : fullName;
-  }
+  @JsonKey(name: 'id')
+  final GetRequestParentId id;
+  @JsonKey(name: 'relationship')
+  final String relationship;
 }
