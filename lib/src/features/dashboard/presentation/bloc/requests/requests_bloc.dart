@@ -61,7 +61,6 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
           error.toString(),
         ),
       );
-      print('Here is the error : ${error.toString()}');
     }
   }
 

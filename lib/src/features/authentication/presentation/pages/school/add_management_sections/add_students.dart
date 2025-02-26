@@ -528,7 +528,7 @@ class _AddStudentsScreenState extends State<AddStudentsScreen> {
         'An error occurred while selecting image',
         isError: true,
       );
-      debugPrint(e.toString());
+      logInfo(e.toString());
     }
   }
 

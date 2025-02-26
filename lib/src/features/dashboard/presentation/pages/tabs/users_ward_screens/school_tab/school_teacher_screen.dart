@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/teacher_details_screen.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/widgets/teachers_list_tile_container.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +70,7 @@ class SchoolTeacherScreen extends StatelessWidget {
                     'subject': subjects[index],
                   },
                 );
-                debugPrint('Teacher ${teachers[index]}');
+                logInfo('Teacher ${teachers[index]}');
               },
               child: TeachersListTileContainer(
                 teachers: teachers[index],

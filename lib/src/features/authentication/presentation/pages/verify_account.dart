@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/dialogs/successful_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -243,7 +244,7 @@ class _VerifyAccountState extends State<VerifyAccount> {
       context.read<AuthBloc>().add(const AuthEvent.resendOtp());
       _startCountdown();
       ToastService.toast('Verification Code Re-Sent!');
-      debugPrint('Resend OTP');
+      logInfo('Resend OTP');
     }
   }
 

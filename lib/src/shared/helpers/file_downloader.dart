@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -50,7 +50,7 @@ class FileDownloader {
         'File downloaded successfully to Downloads folder',
       );
     } catch (e) {
-      debugPrint('Error downloading file: $e');
+      logInfo('Error downloading file: $e');
       ToastService.toast(
         'Failed to download file. Please check app permissions.',
         ToastType.error,

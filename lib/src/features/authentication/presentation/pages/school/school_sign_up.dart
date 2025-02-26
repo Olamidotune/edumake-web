@@ -88,8 +88,8 @@ class SchoolSignUpScreen extends HookWidget {
                           hintText: 'Enter your preferred email address',
                           keyboardType: TextInputType.emailAddress,
                           prefixIcon: 'email',
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.emailChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.emailChanged(value),
                               ),
                           validator: (value) {
                             if (EmailValidator.validate(value?.trim() ?? '')) {
@@ -109,8 +109,8 @@ class SchoolSignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscurePassword.value,
                           isPassword: true,
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.passwordChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.passwordChanged(value),
                               ),
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -138,8 +138,8 @@ class SchoolSignUpScreen extends HookWidget {
                           prefixIcon: 'password',
                           obscureText: obscureConfirmPassword.value,
                           isPassword: true,
-                          onChanged: (vaule) => context.read<AuthBloc>().add(
-                                AuthEvent.onConfirmPasswordChanged(vaule),
+                          onChanged: (value) => context.read<AuthBloc>().add(
+                                AuthEvent.onConfirmPasswordChanged(value),
                               ),
                           onFieldSubmitted: () {
                             if (formKey.currentState!.validate()) {
@@ -300,7 +300,6 @@ class SchoolSignUpScreen extends HookWidget {
   ) {
     if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&
         current.signUpStatus == FormzSubmissionStatus.success) {
-      debugPrint('Sign up successful');
       ToastService.toast(AppStrings.welcome);
       Navigator.of(context).pushNamed(VerifyAccount.routeName);
     } else if (previous.signUpStatus == FormzSubmissionStatus.inProgress &&

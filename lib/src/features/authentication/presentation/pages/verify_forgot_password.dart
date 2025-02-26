@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/create_new_password.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -38,7 +39,7 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
   void initState() {
     _startCountdown();
     super.initState();
-    debugPrint(state.email.value);
+    logInfo(state.email.value);
   }
 
   @override
@@ -241,7 +242,7 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
       context.read<AuthBloc>().add(const AuthEvent.resendOtp());
       _startCountdown();
       ToastService.toast('Verification Code Re-Sent!');
-      debugPrint('Resend OTP');
+      logInfo('Resend OTP');
     }
   }
 

@@ -82,9 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               InkWell(
-                onTap: () {
-                  debugPrint('User: ${state.user?.fullName}');
-                },
+                onTap: () {},
                 child: SvgPicture.asset(
                   'assets/svg/chat.svg',
                   height: 20.height,

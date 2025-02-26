@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -132,9 +134,7 @@ class NotificationService {
 
   Future<void> _setUpMessageHandlers() async {
     //foreground message
-    FirebaseMessaging.onMessage.listen((message) {
-      showNotification(message);
-    });
+    FirebaseMessaging.onMessage.listen(showNotification);
 
     //background message
     FirebaseMessaging.onMessageOpenedApp.listen(_handleBackgroundMessage);

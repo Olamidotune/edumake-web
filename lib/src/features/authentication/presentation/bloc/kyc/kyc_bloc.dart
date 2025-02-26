@@ -106,9 +106,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
 
       add(_SubmitKycSuccess(result));
     } catch (error, trace) {
-      debugPrint('Error type: ${error.runtimeType}');
-      debugPrint('Error: $error');
-      debugPrint('Stack trace: $trace');
+      logError(error, trace);
       if (error is DioError && error.response?.data['message'] != null) {
         add(_SubmitKycFailure(error.response?.data['message'] as String));
       } else {

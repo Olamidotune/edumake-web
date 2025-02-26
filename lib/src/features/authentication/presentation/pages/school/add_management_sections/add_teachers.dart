@@ -232,10 +232,8 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
         imageFile = File(result.files.single.path!);
       });
       CustomSnackbar.show(context, 'Image selected successfully');
-      debugPrint(imageFile?.path);
     } else {
       CustomSnackbar.show(context, 'No file selected', isError: true);
-      // User canceled the picker
     }
   }
 
