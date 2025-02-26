@@ -37,6 +37,9 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     on<_FetchEvents>(_fetchEvents);
     on<_FetchEventsSuccessful>(_fetchEventsSuccessful);
     on<_FetchEventsFailed>(_fetchEventsFailed);
+    on<_FetchEventsByClass>(_fetchEventsByClass);
+    on<_FetchEventsByClassSuccessful>(_fetchEventsByClassSuccessful);
+    on<_FetchEventsByClassFailed>(_fetchEventsByClassFailed);
     on<_FetchEventsById>(_fetchEventById);
     on<_FetchEventsSuccessfulById>(_fetchEventByIdSuccessful);
     on<_FetchEventsFailedById>(_fetchEventByIdFailed);
@@ -189,6 +192,56 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       errorMessage: state.errorMessage,
     ));
   }
+
+////////////////////////////////////////////////////////////////////////////////
+  ///FETCH EVENTS
+////////////////////////////////////////////////////////////////////////////////
+
+  void _fetchEventsByClass(
+      _FetchEventsByClass event, Emitter<EventsState> emit) async {
+    if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        fetchEventStatus: FormzSubmissionStatus.inProgress,
+      ),
+    );
+    try {
+      final response = await locator<EventClients>().fetchEventByClass(
+          await getAuthorization(),
+          event.schoolId ?? await getSchoolID(),
+          event.classId);
+
+      add(_FetchEventsByClassSuccessful(response));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(const _FetchEventsByClassFailed('Error parsing response'));
+    }
+  }
+
+  void _fetchEventsByClassSuccessful(
+    _FetchEventsByClassSuccessful event,
+    Emitter<EventsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+          fetchEventStatus: FormzSubmissionStatus.success,
+          eventResponse: event.response,
+          upComingEvent: event.response.data.upcomingEvents,
+          previousEvent: event.response.data.previousEvents,
+          eventData: event.response.data),
+    );
+  }
+
+  void _fetchEventsByClassFailed(
+      _FetchEventsByClassFailed event, Emitter<EventsState> emit) {
+    emit(state.copyWith(
+      errorMessage: state.errorMessage,
+    ));
+  }
+
 ////////////////////////////////////////////////////////////////////////////////
   ///FETCH EVENTS BY ID
 ////////////////////////////////////////////////////////////////////////////////

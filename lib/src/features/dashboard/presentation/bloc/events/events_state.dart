@@ -15,11 +15,13 @@ class EventsState with _$EventsState {
     File? eventImage,
 
 ////////////////////////////////////////////////////////////////////////////////
-    ///FETCH EVENTS
+    ///FETCH EVENTS & FETCH EVENTS BY CLASS
 ////////////////////////////////////////////////////////////////////////////////
 
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchEventStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchEventByClass,
     EventResponse? eventResponse,
     List<UpcomingEvent>? upComingEvent,
     List<PreviousEvent>? previousEvent,
@@ -38,7 +40,6 @@ class EventsState with _$EventsState {
 ////////////////////////////////////////////////////////////////////////////////
     ///DELETE EVENTS
 ////////////////////////////////////////////////////////////////////////////////
-
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus deleteEventStatus,
     String? errorMessage,
