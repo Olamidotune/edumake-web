@@ -42,12 +42,14 @@ class _ConnectionRequestDetailsScreenState
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-    // ignore: unused_local_variable
+
     final requestId = args['requestId'];
     final parent = args['parent'];
     final wardName = args['wardName'];
     final parentNIN = args['parentNIN'];
     final parentPhoneNumber = args['parentPhoneNumber'];
+    final relationship = args['relationship'];
+    final wardClass = args['wardClass'];
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -74,15 +76,19 @@ class _ConnectionRequestDetailsScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //
-                  Text(
-                    '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 13.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryTextColor,
-                        ),
+                  GestureDetector(
+                    onTap: () {
+                      print(requestId);
+                    },
+                    child: Text(
+                      '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 13.fontSize,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primaryTextColor,
+                          ),
+                    ),
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Container(
@@ -100,7 +106,7 @@ class _ConnectionRequestDetailsScreenState
                       subTitleName:
                           '${context.read<AuthBloc>().state.user?.school?.schoolName ?? _user?.school?.schoolName}',
                       date: '',
-                      className: 'Ward class',
+                      className: wardClass.toString(),
                     ),
                   ),
                   AppSpacing.verticalSpaceMedium,
@@ -234,7 +240,7 @@ class _ConnectionRequestDetailsScreenState
                             ),
                           ),
                           Text(
-                            'Mother',
+                            relationship.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -360,3 +366,15 @@ class _ConnectionRequestDetailsScreenState
     );
   }
 }
+
+
+
+// {
+//   "status": 500,
+//     "response": {
+//       "success": false,
+//       "message": "Student validation failed: guardians.0.relationship: Path `relationship` is required., guardians.1.relationship: Path `relationship` is required.",
+//       "statusCode": 500
+//     }
+//     }
+  

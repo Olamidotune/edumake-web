@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/send_request/send_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
@@ -37,6 +38,7 @@ class SendRequestBloc extends Bloc<SendRequestEvent, SendRequestState> {
       final request = await locator<WardsClient>().sendRequest(
         await getAuthorization(),
         event.classId,
+        event.relationship,
       );
 
       add(
@@ -59,7 +61,7 @@ class SendRequestBloc extends Bloc<SendRequestEvent, SendRequestState> {
     emit(
       state.copyWith(
         requestAccessToWardStatus: FormzSubmissionStatus.success,
-        getWardRequestModel: event.getRequestModel,
+        sendRequestModel: event.sendRequestModel,
       ),
     );
   }

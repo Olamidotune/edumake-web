@@ -148,21 +148,23 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                                 ConnectionRequestDetailsScreen.routeName,
                                 arguments: {
                                   'requestId': request.id,
-                                  'wardClass': request.student.studentClass,
-                                  'parent': request.parent.fullName,
+                                  'wardClass':
+                                      request.student.studentClass.className,
+                                  'parent': request.parent.id.fullName,
                                   'wardName': request.student.name,
                                   'date': request.updatedAt,
-                                  'parentNIN': request.parent.parentIdNumber,
+                                  'parentNIN': request.parent.id.parentIdNumber,
                                   'parentPhoneNumber':
-                                      request.parent.parentPhoneNumber,
+                                      request.parent.id.parentPhoneNumber,
+                                  'relationship': request.parent.relationship
                                 },
                               );
                             },
                             child: ConnectionRequestListTile(
-                              titleName: request.parent.fullName.toString(),
+                              titleName: request.parent.id.fullName.toString(),
                               subTitleName: request.student.name,
                               date: request.createdAt.toString(),
-                              className: request.student.studentClass,
+                              className: request.student.studentClass.className,
                             ),
                           );
                         },

@@ -160,6 +160,7 @@ class TestResultsScreen extends StatelessWidget {
                                     : null;
                             return GestureDetector(
                               child: TestResultTitle(
+                                editIcon: true,
                                 date: formatLocalTime(
                                     testResults?.dateWritten ?? ''),
                                 title: testResults?.title ?? '',

@@ -188,6 +188,7 @@ class AppStrings {
   static const addTeachers = 'Add Teachers';
   static const classes = 'Classes';
   static const subjects = 'Subjects';
+  static const subject = 'Subject';
   static const addClasses = 'Add Classes';
   static const addSubjects = 'Add Subjects';
   static const assignments = 'Assignments';

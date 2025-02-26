@@ -13,6 +13,7 @@ class TestState with _$TestState {
     String? classId,
     String? dateWritten,
     String? studentId,
+    String? parentSchoolId,
     List<Grade>? grades,
     double? testGrade,
 

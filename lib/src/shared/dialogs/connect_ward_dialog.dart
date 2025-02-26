@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
@@ -13,6 +11,7 @@ class ConnectWardDialog extends StatefulWidget {
     required this.schoolName,
     required this.className,
     required this.busy,
+    required this.onRelationSelected,
     super.key,
     this.onTap,
   });
@@ -21,6 +20,7 @@ class ConnectWardDialog extends StatefulWidget {
   final String schoolName;
   final String className;
   final void Function()? onTap;
+  final void Function(String) onRelationSelected;
   final bool busy;
 
   @override
@@ -104,6 +104,9 @@ class _ConnectWardDialogState extends State<ConnectWardDialog> {
             setState(() {
               selectedRelation = newValue;
             });
+            if (newValue != null) {
+              widget.onRelationSelected(newValue);
+            }
           },
           value: selectedRelation,
         ),
@@ -131,23 +134,16 @@ class RelationDropdown extends StatelessWidget {
   final String? errorText;
 
   static const List<String> relations = [
-    'Parent',
     'Father',
     'Mother',
     'Step-Father',
     'Step-Mother',
     'Guardian',
-    'Legal Guardian',
-    'Grandparent',
-    'Grandfather',
-    'Grandmother',
     'Uncle',
     'Aunt',
-    'Elder Sibling',
     'Brother',
     'Sister',
     'Foster Parent',
-    'Caregiver',
     'Other Family Member',
   ];
 

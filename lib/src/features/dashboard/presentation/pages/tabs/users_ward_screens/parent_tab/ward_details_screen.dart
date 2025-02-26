@@ -26,6 +26,8 @@ class WardDetailScreen extends StatelessWidget {
     final wardClass = args['wardClass'];
     final wardSchool = args['wardSchool'];
     final wardId = args['wardId'];
+    final wardClassId = args['wardClassId'];
+    final wardSchoolId = args['wardSchoolId'];
 
     final scrollController = ScrollController();
     final parentSchoolId = context
@@ -69,7 +71,6 @@ class WardDetailScreen extends StatelessWidget {
                         state.fetchSubjectForStudentStatus ==
                                 FormzSubmissionStatus.inProgress
                             ? 'Loading...'
-                            //
                             : state.getSubjectForStudent?.data.length
                                     .toString() ??
                                 '',
@@ -85,6 +86,9 @@ class WardDetailScreen extends StatelessWidget {
                               'studentName': wardName,
                               'className': wardClass,
                               'schoolName': wardSchool,
+                              'studentId': wardId,
+                              'wardClassId': wardClassId,
+                              'wardSchoolId': wardSchoolId,
                             },
                           );
                         },
@@ -114,7 +118,7 @@ class WardDetailScreen extends StatelessWidget {
                       AppSpacing.verticalSpaceSmall,
                       _WardDetailsButton(
                         AppStrings.schoolEvents,
-                        'document',
+                        'game',
                         '',
                         () {
                           context.read<EventsBloc>().add(

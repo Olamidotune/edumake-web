@@ -7,8 +7,8 @@ part 'get_request_datum.g.dart';
 @JsonSerializable()
 class GetRequestDatum {
   GetRequestDatum({
-    required this.id,
     required this.parent,
+    required this.id,
     required this.student,
     required this.status,
     required this.school,
@@ -21,11 +21,11 @@ class GetRequestDatum {
   factory GetRequestDatum.fromJson(Map<String, dynamic> json) =>
       _$GetRequestDatumFromJson(json);
 
-  @JsonKey(name: '_id')
-  final String id;
-
   @JsonKey(name: 'parent')
   final Parent parent;
+
+  @JsonKey(name: '_id')
+  final String id;
 
   @JsonKey(name: 'student')
   final Student student;

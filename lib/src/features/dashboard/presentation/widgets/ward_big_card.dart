@@ -12,7 +12,7 @@ class WardBigCard extends StatelessWidget {
     required this.wardSchool,
     required this.wardNextEvent,
     required this.wardAttendance,
-    required this.wardGender,
+    // required this.wardGender,
     required this.feesAmount,
     required this.color,
     super.key,
@@ -23,7 +23,7 @@ class WardBigCard extends StatelessWidget {
   final String wardSchool;
   final String wardNextEvent;
   final String wardAttendance;
-  final String wardGender;
+  // final String wardGender;
   final String feesAmount;
   final Color color;
 
@@ -61,14 +61,14 @@ class WardBigCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                   ),
-                  Text(
-                    wardGender,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 12.fontSize,
-                          color: AppColors.primaryTextColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                  ),
+                  // Text(
+                  //   wardGender,
+                  //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  //         fontSize: 12.fontSize,
+                  //         color: AppColors.primaryTextColor,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  // ),
                 ],
               ),
             ],

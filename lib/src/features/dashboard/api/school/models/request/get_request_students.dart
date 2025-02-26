@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_students_class.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'get_request_students.g.dart';
@@ -23,7 +24,7 @@ class Student {
   final String id;
 
   @JsonKey(name: 'class')
-  final String studentClass;
+  final StudentClass studentClass;
 
   @JsonKey(name: 'name')
   final String name;
@@ -45,5 +46,8 @@ class Student {
 
   @JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
+
+  @JsonKey(name: 'slug')
+  String? slug;
   Map<String, dynamic> toJson() => _$StudentToJson(this);
 }

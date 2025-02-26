@@ -1,6 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/send_request/send_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
 
@@ -13,9 +14,10 @@ abstract class WardsClient {
   factory WardsClient(Dio dio, {String? baseUrl}) = _WardsClient;
   @POST('/api/v1/par/request/{studentId}')
   @FormUrlEncoded()
-  Future<GetWardRequestModel> sendRequest(
+  Future<SendRequestModel> sendRequest(
     @Header('Authorization') String authorization,
     @Path('studentId') String studentId,
+    @Field('relationship') String relationship,
   );
 
   @GET('/api/v1/par/wards')

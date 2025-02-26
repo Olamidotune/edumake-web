@@ -89,6 +89,8 @@ class ParentWardScreen extends StatelessWidget {
                         'wardClass': wardDetails?.wardDatumClass.name,
                         'wardSchool': wardDetails?.wardDatumSchool.schoolName,
                         'wardId': wardDetails?.id,
+                        'wardClassId': wardDetails?.wardDatumClass.id,
+                        'wardSchoolId': wardDetails?.wardDatumSchool.id,
                       },
                     );
                   },
@@ -100,7 +102,7 @@ class ParentWardScreen extends StatelessWidget {
                     wardAttendance: 'Attendance',
                     feesAmount: '20,000',
                     color: AppColors.purpleColor,
-                    wardGender: 'Female',
+                    // wardGender: 'Female',
                   ),
                 );
               },
