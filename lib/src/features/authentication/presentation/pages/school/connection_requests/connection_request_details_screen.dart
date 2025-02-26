@@ -76,19 +76,14 @@ class _ConnectionRequestDetailsScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      print(requestId);
-                    },
-                    child: Text(
-                      '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 13.fontSize,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.primaryTextColor,
-                          ),
-                    ),
+                  Text(
+                    '$parent ${AppStrings.wantsToConnectAndHaveAccessTo}',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Container(
@@ -366,15 +361,3 @@ class _ConnectionRequestDetailsScreenState
     );
   }
 }
-
-
-
-// {
-//   "status": 500,
-//     "response": {
-//       "success": false,
-//       "message": "Student validation failed: guardians.0.relationship: Path `relationship` is required., guardians.1.relationship: Path `relationship` is required.",
-//       "statusCode": 500
-//     }
-//     }
-  
