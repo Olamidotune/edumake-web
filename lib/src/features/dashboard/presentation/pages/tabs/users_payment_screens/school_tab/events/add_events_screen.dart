@@ -363,17 +363,20 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       selectedClassIds.asMap().forEach((index, classId) {
         request.fields['classes[$index]'] = classId;
       });
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'eventImage',
-          _selectedImage!.path,
-          filename: basename(_selectedImage!.path),
-          contentType: MediaType(
-            'image',
-            'jpeg',
+
+      if (_selectedImage != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'eventImage',
+            _selectedImage!.path,
+            filename: basename(_selectedImage!.path),
+            contentType: MediaType(
+              'image',
+              'jpeg',
+            ),
           ),
-        ),
-      );
+        );
+      }
 
       logInfo('Request fields: ${request.fields}');
 
@@ -402,7 +405,6 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
         'Something went wrong.',
         ToastType.error,
       );
-      rethrow;
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/delete_event_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -217,11 +218,10 @@ class ClassEventDetailsScreen extends StatelessWidget {
                               deleteButton: true,
                               text: 'Delete Event',
                               onPressed: () {
-                                context.read<EventsBloc>().add(
-                                      EventsEvent.deleteEvent(
-                                        state.eventIdData?.id ?? '',
-                                      ),
-                                    );
+                                _showDeleteDialog(
+                                  context,
+                                  state.eventIdData?.id ?? '',
+                                );
                               },
                               buttonColor: Colors.white,
                             );
@@ -237,4 +237,15 @@ class ClassEventDetailsScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showDeleteDialog(BuildContext context, String eventId) {
+  showDialog<void>(
+    context: context,
+    builder: (context) {
+      return DeleteEventDialog(
+        eventId: eventId,
+      );
+    },
+  );
 }
