@@ -5,7 +5,9 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +115,18 @@ class WardDetailScreen extends StatelessWidget {
                         AppStrings.lectureTimeTable,
                         'document',
                         '',
-                        () {},
+                        () {
+                          context.read<TimetableBloc>().add(
+                                TimetableEvent.fetchTimetable(
+                                    wardClassId.toString(), wardSchoolId),
+                              );
+                          Navigator.of(context).pushNamed(
+                            LectureTimeTableScreen.routeName,
+                            arguments: {
+                              'className': wardClass,
+                            },
+                          );
+                        },
                       ),
                       AppSpacing.verticalSpaceSmall,
                       _WardDetailsButton(
