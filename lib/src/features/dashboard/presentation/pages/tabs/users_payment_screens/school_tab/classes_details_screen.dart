@@ -4,9 +4,10 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -32,7 +33,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
         ModalRoute.of(context)!.settings.arguments! as Map<String, Object>;
     final className = args['className'];
     final classId = args['classId'];
-    // final studentCount = args['studentCount'];
     final scrollController = ScrollController();
 
     return Scaffold(
@@ -131,6 +131,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                             ClassEventsScreen.routeName,
                             arguments: {
                               'className': className,
+                              'classId': classId,
                             },
                           );
                         },
@@ -150,8 +151,17 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         title: AppStrings.lectureTimeTable,
                         isProfilePictureEnabled: false,
                         onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(LectureTimeTableScreen.routeName);
+                          context.read<TimetableBloc>().add(
+                                TimetableEvent.fetchTimetable(
+                                    classId.toString(), null),
+                              );
+                          Navigator.of(context).pushNamed(
+                            LectureTimeTableScreen.routeName,
+                            arguments: {
+                              'className': className,
+                              'classId': classId,
+                            },
+                          );
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,

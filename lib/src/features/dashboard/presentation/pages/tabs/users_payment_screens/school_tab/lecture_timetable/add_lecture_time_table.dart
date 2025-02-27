@@ -25,16 +25,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class LectureTimeTableScreen extends StatefulWidget {
-  const LectureTimeTableScreen({super.key});
+class AddLectureTimeTableScreen extends StatefulWidget {
+  const AddLectureTimeTableScreen({super.key});
 
   static const String routeName = '/lecture-time-table';
 
   @override
-  State<LectureTimeTableScreen> createState() => _LectureTimeTableScreenState();
+  State<AddLectureTimeTableScreen> createState() =>
+      _AddLectureTimeTableScreenState();
 }
 
-class _LectureTimeTableScreenState extends State<LectureTimeTableScreen> {
+class _AddLectureTimeTableScreenState extends State<AddLectureTimeTableScreen> {
   final scrollController = ScrollController();
   final timeTableTitleController = TextEditingController();
   final timeTableFocusNode = FocusNode();

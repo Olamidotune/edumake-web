@@ -55,7 +55,7 @@ class SignIn extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AppSpacing.verticalSpaceTiny,
+                    AppSpacing.verticalSpaceHuge,
                     Text(
                       'Welcome\nback',
                       style: Theme.of(context).textTheme.displayLarge!.copyWith(

@@ -125,6 +125,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                   return AppSpacing.verticalSpaceMedium;
                 },
               ),
+              AppSpacing.verticalSpaceSmall,
               Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
@@ -291,18 +292,12 @@ class _ParentDashboardState extends State<ParentDashboard> {
               AppSpacing.verticalSpaceMedium,
               Align(
                 alignment: Alignment.bottomRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed(ClassEventsScreen.routeName);
-                  },
-                  child: Text(
-                    'View all events',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                  ),
+                child: Text(
+                  'View all events',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                 ),
               ),
               AppSpacing.verticalSpaceMedium,

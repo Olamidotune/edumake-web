@@ -27,6 +27,15 @@ class ClassEventsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
     final controller = TextEditingController();
+
+    final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+    final args =
+        ModalRoute.of(context)?.settings.arguments! as Map<String, String?>;
+    final classId = args['classId'];
+    final wardSchoolId = args['wardSchoolId'];
+
+    final role = context.read<AuthBloc>().state.user?.role;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<EventsBloc, EventsState>(
@@ -51,138 +60,119 @@ class ClassEventsScreen extends StatelessWidget {
           }
           return CustomRawScroller(
             scrollController: scrollController,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              controller: scrollController,
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppStrings.events,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    fontSize: 24.fontSize,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.blackColor,
-                                  ),
-                        ),
-                        AppSpacing.horizontalSpaceSmall,
-                        if (context
-                                .read<AuthBloc>()
-                                .state
-                                .user
-                                ?.role
-                                ?.contains('parent') ??
-                            true)
-                          const SizedBox.shrink()
-                        else
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AddEventsScreen.routeName,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/svg/plus1.svg',
-                                  color: AppColors.primaryColor,
-                                ),
-                                AppSpacing.horizontalSpaceSmall,
-                                Text(
-                                  AppStrings.addEvents,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontSize: 14.fontSize,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                ),
-                              ],
-                            ),
+            child: RefreshIndicator(
+              backgroundColor: AppColors.secondaryColor,
+              color: AppColors.whiteColor,
+              key: refreshIndicatorKey,
+              onRefresh: () async {
+                context.read<EventsBloc>().add(
+                      EventsEvent.fetchEventsByClass(
+                          role!.contains('parent')
+                              ? wardSchoolId.toString()
+                              : null,
+                          classId.toString()),
+                    );
+                return;
+              },
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                controller: scrollController,
+                child: Padding(
+                  padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.events,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 24.fontSize,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.blackColor,
+                                    ),
                           ),
-                      ],
-                    ),
-                    AppSpacing.verticalSpaceMedium,
-                    CustomSearchBar(
-                      textEditingController: controller,
-                      isActive: false,
-                      isHomePage: false,
-                      hintText: 'Search for events...',
-                      onSearch: () {},
-                    ),
-                    // Events
-                    AppSpacing.verticalSpaceMassive,
-                    Text(
-                      AppStrings.upComingEvents,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 16.fontSize,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.blackColor,
-                          ),
-                    ),
-                    AppSpacing.verticalSpaceMedium,
-                    ListView.separated(
-                      itemCount: state.upComingEvent?.length ?? 0,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final event = state.upComingEvent?[index];
-                        return GestureDetector(
-                          onTap: () {
-                            context.read<EventsBloc>().add(
-                                  EventsEvent.fetchEventsById(event?.id ?? ''),
+                          AppSpacing.horizontalSpaceSmall,
+                          if (context
+                                  .read<AuthBloc>()
+                                  .state
+                                  .user
+                                  ?.role
+                                  ?.contains('parent') ??
+                              true)
+                            const SizedBox.shrink()
+                          else
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  AddEventsScreen.routeName,
                                 );
-                            Navigator.of(context).pushNamed(
-                              ClassEventDetailsScreen.routeName,
-                            );
-                          },
-                          child: SchoolMgtUpcomingEventsContainer(
-                            previousEvents: false,
-                            title: event?.title ?? '',
-                            date: formatLocalTime(event?.date),
-                            description: event?.details ?? '',
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return AppSpacing.verticalSpaceMedium;
-                      },
-                      physics: const NeverScrollableScrollPhysics(),
-                    ),
-                    AppSpacing.verticalSpaceMedium,
-                    Text(
-                      AppStrings.previousEvents,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 16.fontSize,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.blackColor,
-                          ),
-                    ),
-                    AppSpacing.verticalSpaceMedium,
-                    ///////////////////////////////////////////////
-                    if (state.previousEvent?.isEmpty ?? false)
-                      const NoDataAvailable(
-                        message: 'No Events Available',
-                        height: 0,
-                      )
-                    else
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/svg/plus1.svg',
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  AppSpacing.horizontalSpaceSmall,
+                                  Text(
+                                    AppStrings.addEvents,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: 14.fontSize,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColors.primaryColor,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      CustomSearchBar(
+                        textEditingController: controller,
+                        isActive: false,
+                        isHomePage: false,
+                        hintText: 'Search for events...',
+                        onSearch: () {},
+                      ),
+                      // Events
+                      AppSpacing.verticalSpaceMassive,
+                      Text(
+                        AppStrings.upComingEvents,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 16.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackColor,
+                            ),
+                      ),
+                      AppSpacing.verticalSpaceMedium,
                       ListView.separated(
-                        itemCount: state.previousEvent?.length ?? 0,
+                        itemCount: state.upComingEvent?.length ?? 0,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final event = state.previousEvent?[index];
-                          return SchoolMgtUpcomingEventsContainer(
-                            previousEvents: true,
-                            title: event?.title ?? '',
-                            date: formatLocalTime(event?.date),
-                            description: event?.details ?? '',
+                          final event = state.upComingEvent?[index];
+                          return GestureDetector(
+                            onTap: () {
+                              context.read<EventsBloc>().add(
+                                    EventsEvent.fetchEventsById(
+                                        event?.id ?? ''),
+                                  );
+                              Navigator.of(context).pushNamed(
+                                ClassEventDetailsScreen.routeName,
+                              );
+                            },
+                            child: SchoolMgtUpcomingEventsContainer(
+                              previousEvents: false,
+                              title: event?.title ?? '',
+                              date: formatLocalTime(event?.date),
+                              description: event?.details ?? '',
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) {
@@ -190,7 +180,42 @@ class ClassEventsScreen extends StatelessWidget {
                         },
                         physics: const NeverScrollableScrollPhysics(),
                       ),
-                  ],
+                      AppSpacing.verticalSpaceMedium,
+                      Text(
+                        AppStrings.previousEvents,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 16.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackColor,
+                            ),
+                      ),
+                      AppSpacing.verticalSpaceMedium,
+                      ///////////////////////////////////////////////
+                      if (state.previousEvent?.isEmpty ?? false)
+                        const NoDataAvailable(
+                          message: 'No Events Available',
+                          height: 0,
+                        )
+                      else
+                        ListView.separated(
+                          itemCount: state.previousEvent?.length ?? 0,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final event = state.previousEvent?[index];
+                            return SchoolMgtUpcomingEventsContainer(
+                              previousEvents: true,
+                              title: event?.title ?? '',
+                              date: formatLocalTime(event?.date),
+                              description: event?.details ?? '',
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return AppSpacing.verticalSpaceMedium;
+                          },
+                          physics: const NeverScrollableScrollPhysics(),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
