@@ -25,7 +25,7 @@ class LectureTimeTableScreen extends StatelessWidget {
     final scrollController = ScrollController();
 
     final args =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, String?>;
+        ModalRoute.of(context)!.settings.arguments! as Map<String, Object?>;
     final className = args['className'];
     final classId = args['classId'];
     final wardSchoolId = args['wardSchoolId'];
