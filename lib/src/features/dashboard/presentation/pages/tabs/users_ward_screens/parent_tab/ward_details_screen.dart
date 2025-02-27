@@ -124,6 +124,8 @@ class WardDetailScreen extends StatelessWidget {
                             LectureTimeTableScreen.routeName,
                             arguments: {
                               'className': wardClass,
+                              'wardSchoolId': wardSchoolId,
+                              'wardClassId': wardClassId,
                             },
                           );
                         },
@@ -140,8 +142,12 @@ class WardDetailScreen extends StatelessWidget {
                                   wardClassId.toString(),
                                 ),
                               );
-                          Navigator.of(context)
-                              .pushNamed(ClassEventsScreen.routeName);
+                          Navigator.of(context).pushNamed(
+                              ClassEventsScreen.routeName,
+                              arguments: {
+                                'classId': wardClassId,
+                                'wardSchoolId': wardSchoolId,
+                              });
                         },
                       ),
                       AppSpacing.verticalSpaceSmall,

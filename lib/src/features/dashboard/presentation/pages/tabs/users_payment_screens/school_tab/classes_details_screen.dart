@@ -131,6 +131,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                             ClassEventsScreen.routeName,
                             arguments: {
                               'className': className,
+                              'classId': classId,
                             },
                           );
                         },
@@ -158,6 +159,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                             LectureTimeTableScreen.routeName,
                             arguments: {
                               'className': className,
+                              'classId': classId,
                             },
                           );
                         },

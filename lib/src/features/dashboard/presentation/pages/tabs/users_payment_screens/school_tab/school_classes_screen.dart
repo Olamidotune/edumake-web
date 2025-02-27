@@ -89,8 +89,8 @@ class _ClassScreenState extends State<ClassScreen> {
                 current.fetchClassesStatus == FormzSubmissionStatus.failure,
             listener: (context, state) {
               ToastService.toast(
-                'Failed to fetch classes',
-                ToastType.error,
+                "You've gotten to the bottom of the list.",
+                ToastType.warning,
               );
             },
             child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
