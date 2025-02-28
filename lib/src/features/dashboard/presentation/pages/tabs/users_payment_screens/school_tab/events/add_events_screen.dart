@@ -52,6 +52,12 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   bool _isUploading = false;
 
   File? _selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

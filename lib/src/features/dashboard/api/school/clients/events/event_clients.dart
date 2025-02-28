@@ -52,6 +52,9 @@ abstract class EventClients {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Path('eventId') String eventId,
+    @Field('title') String title,
+    @Field('date') String date,
+    @Field('details') String details,
   );
 
   @DELETE('/api/v1/sch/events/{schoolId}/{eventId}')

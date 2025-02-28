@@ -309,8 +309,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
                       null,
                     ),
                   );
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed(ClassEventsScreen.routeName);
+              Navigator.of(context, rootNavigator: true).pushNamed(
+                  ClassEventsScreen.routeName,
+                  arguments: {'source': 'school-admin'});
             },
           ),
           Padding(

@@ -35,17 +35,13 @@ class ClassEventsScreen extends StatelessWidget {
 
     String? classId;
     String? wardSchoolId;
+    String? source;
 
-// Then handle both cases
     if (args != null) {
-      // Coming from student screen - use the class-specific logic
       classId = args['classId'] as String?;
       wardSchoolId = args['wardSchoolId'] as String?;
-      // Use these parameters
-    } else {
-      // Coming from admin menu - handle the general case
-      // No class-specific parameters available
-    }
+      source = args['source'] as String?;
+    } else {}
 
     final role = context.read<AuthBloc>().state.user?.role;
     return Scaffold(
@@ -77,13 +73,19 @@ class ClassEventsScreen extends StatelessWidget {
               color: AppColors.whiteColor,
               key: refreshIndicatorKey,
               onRefresh: () async {
-                context.read<EventsBloc>().add(
-                      EventsEvent.fetchEventsByClass(
-                          role!.contains('parent')
-                              ? wardSchoolId.toString()
-                              : null,
-                          classId.toString()),
-                    );
+                source == 'school-admin'
+                    ? context.read<EventsBloc>().add(
+                          const EventsEvent.fetchEvents(
+                            null,
+                          ),
+                        )
+                    : context.read<EventsBloc>().add(
+                          EventsEvent.fetchEventsByClass(
+                              role!.contains('parent')
+                                  ? wardSchoolId.toString()
+                                  : null,
+                              classId.toString()),
+                        );
                 return;
               },
               child: SingleChildScrollView(
