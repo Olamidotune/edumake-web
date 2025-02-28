@@ -3,8 +3,8 @@ part of 'requests_bloc.dart';
 @freezed
 class RequestsState with _$RequestsState {
   const factory RequestsState({
-    // List<GetRequestDatum>? getRequestDatum,
-    @Default([]) List<GetRequestDatum> getRequestDatum,
+    List<GetRequestDatum>? getRequestDatum,
+    // @Default([]) List<GetRequestDatum> getRequestDatum,
     GetRequestModel? getRequestModel,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus getRequestStatus,

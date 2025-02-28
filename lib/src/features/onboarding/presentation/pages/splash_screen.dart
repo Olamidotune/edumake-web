@@ -31,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0.5, end: 1.2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.bounceInOut),
+    _animation = Tween<double>(begin: 0.1, end: 1.5).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.elasticInOut),
     );
     await _controller.forward();
 
@@ -47,14 +47,12 @@ class _SplashScreenState extends State<SplashScreen>
                 ? const SignIn()
                 : const OnboardingScreen();
           },
-
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,
               child: child,
             );
           },
-          // const OnboardingScreen(),
         ),
       );
     });

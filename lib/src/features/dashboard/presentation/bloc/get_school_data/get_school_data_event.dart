@@ -13,17 +13,6 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   const factory GetSchoolDataEvent.onSelectedClassNameChanged(
     String? classNameKey,
   ) = _OnSelectedClassNameChanged;
-  //////////SUBJECTS//////////////
-  const factory GetSchoolDataEvent.fetchSubjects() = _FetchSubjects;
-  const factory GetSchoolDataEvent.fetchSubjectsSuccess(
-    GetSchoolDataModel getSchoolDataModel,
-  ) = _FetchSubjectsSuccess;
-  const factory GetSchoolDataEvent.fetchSubjectsFailed(
-    String? message,
-  ) = _FetchSubjectsFailed;
-  const factory GetSchoolDataEvent.onSelectedSubjectNameChanged(
-    String? subjectNameKey,
-  ) = _OnSelectedSubjectNameChanged;
 ////////STUDENTS/////////
   const factory GetSchoolDataEvent.fetchStudents(String? selectedClassId) =
       _FetchStudents;
@@ -32,19 +21,6 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
   ) = _FetchStudentsSuccessful;
   const factory GetSchoolDataEvent.fetchStudentsFailed(String? message) =
       _FetchStudentsFailed;
-  //////////SUBJECTS FOR STUDENT//////////////
-  const factory GetSchoolDataEvent.fetchSubjectForStudent(String? studentId) =
-      _FetchSubjectForStudent;
-  const factory GetSchoolDataEvent.fetchSubjectForStudentSuccessful(
-    GetSubjectForStudent getSubjectForStudent,
-  ) = _FetchSubjectForStudentSuccessful;
-
-  const factory GetSchoolDataEvent.onSelectedStudentId(
-    String? onSelectedStudentId,
-  ) = _OnSelectedStudentId;
-  const factory GetSchoolDataEvent.fetchSubjectForStudentFailed(
-    String? message,
-  ) = _FetchSubjectForStudentFailed;
 
   const factory GetSchoolDataEvent.errorMessage(String? message) =
       _ErrorMessage;

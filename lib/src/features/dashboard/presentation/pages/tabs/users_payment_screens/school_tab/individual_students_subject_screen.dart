@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_is_empty
-
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
@@ -76,7 +75,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
               AppSpacing.verticalSpaceMedium,
               CustomRawScroller(
                 scrollController: scrollController,
-                child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                child: BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
                     if (state.fetchSubjectForStudentStatus ==
                         FormzSubmissionStatus.inProgress) {
@@ -132,9 +131,8 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                           subjectData?.id ?? '',
                                         ),
                                       );
-                              context.read<GetSchoolDataBloc>().add(
-                                    GetSchoolDataEvent
-                                        .onSelectedSubjectNameChanged(
+                              context.read<SubjectsBloc>().add(
+                                    SubjectsEvent.onSelectedSubjectNameChanged(
                                       subjectData?.name,
                                     ),
                                   );

@@ -44,6 +44,9 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     on<_FetchEventsSuccessfulById>(_fetchEventByIdSuccessful);
     on<_FetchEventsFailedById>(_fetchEventByIdFailed);
     on<_ErrorMessage>(_errorMessage);
+    on<_EditEvent>(_editEvents);
+    on<_EditEventSuccessful>(_editEventSuccessful);
+    on<_EditEventFailed>(_editEventFailed);
     on<_DeleteEvent>(_deleteEvent);
     on<_DeleteEventSuccessful>(_deleteEventSuccessful);
     on<_DeleteEventFailed>(_deleteEventFailed);
@@ -289,9 +292,47 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
     ));
   }
 
+  ////////////////////////////////////////////////////////////////////////////////
+  ///EDIT EVENTS
 ////////////////////////////////////////////////////////////////////////////////
-  ///DELETE EVENTS
-////////////////////////////////////////////////////////////////////////////////
+
+  void _editEvents(_EditEvent event, Emitter<EventsState> emit) async {
+    if (state.editEventStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(editEventStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      await locator<EventClients>().editEvents(await getAuthorization(),
+          await getSchoolID(), event.eventId, '', '', '');
+
+      add(const _EditEventSuccessful('Event Edited Successfully'));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(const _EditEventFailed('Error Editing Event'));
+    }
+  }
+
+  void _editEventSuccessful(
+    _EditEventSuccessful event,
+    Emitter<EventsState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        editEventStatus: FormzSubmissionStatus.success,
+      ),
+    );
+  }
+
+  void _editEventFailed(_EditEventFailed event, Emitter<EventsState> emit) {
+    emit(
+      state.copyWith(
+        editEventStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message,
+      ),
+    );
+  }
 
   void _deleteEvent(_DeleteEvent event, Emitter<EventsState> emit) async {
     if (state.deleteEventStatus == FormzSubmissionStatus.inProgress) {

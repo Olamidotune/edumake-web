@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
@@ -75,7 +76,7 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
               // Assignments
               CustomRawScroller(
                 scrollController: scrollController,
-                child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                child: BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
                     if (state.fetchSubjectForStudentStatus ==
                         FormzSubmissionStatus.inProgress) {
@@ -132,9 +133,8 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
                             isProfilePictureEnabled: false,
                             title: subjectData?.name.toUpperCase() ?? '',
                             onTap: () {
-                              context.read<GetSchoolDataBloc>().add(
-                                    GetSchoolDataEvent
-                                        .onSelectedSubjectNameChanged(
+                              context.read<SubjectsBloc>().add(
+                                    SubjectsEvent.onSelectedSubjectNameChanged(
                                       subjectData?.name,
                                     ),
                                   );
@@ -177,9 +177,7 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
                 .state
                 .getSchoolDataModel
                 ?.cursor) {
-      context
-          .read<GetSchoolDataBloc>()
-          .add(const GetSchoolDataEvent.fetchSubjects());
+      context.read<SubjectsBloc>().add(const SubjectsEvent.fetchSubjects());
     }
   }
 
@@ -239,8 +237,8 @@ class IndividualSubjectDetails extends StatelessWidget {
                     isProfilePictureEnabled: false,
                     title: AppStrings.assignments,
                     onTap: () {
-                      context.read<GetSchoolDataBloc>().add(
-                            GetSchoolDataEvent.onSelectedSubjectNameChanged(
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.onSelectedSubjectNameChanged(
                                 subjectName.toString()),
                           );
                       Navigator.of(

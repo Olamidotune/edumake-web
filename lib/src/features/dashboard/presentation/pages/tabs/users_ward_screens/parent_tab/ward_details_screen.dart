@@ -3,8 +3,8 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
@@ -42,7 +42,7 @@ class WardDetailScreen extends StatelessWidget {
         .id;
 
     return Scaffold(
-      body: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+      body: BlocBuilder<SubjectsBloc, SubjectsState>(
         builder: (context, state) {
           return SafeArea(
             child: CustomRawScroller(
@@ -77,9 +77,9 @@ class WardDetailScreen extends StatelessWidget {
                                     .toString() ??
                                 '',
                         () {
-                          context.read<GetSchoolDataBloc>().add(
-                                GetSchoolDataEvent.fetchSubjectForStudent(
-                                  wardId,
+                          context.read<SubjectsBloc>().add(
+                                SubjectsEvent.fetchSubjectForStudent(
+                                  wardId ?? '',
                                 ),
                               );
                           Navigator.of(context).pushNamed(

@@ -2,8 +2,8 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/ward_big_card.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
@@ -71,13 +71,13 @@ class ParentWardScreen extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     //calling it here
-                    context.read<GetSchoolDataBloc>().add(
-                          GetSchoolDataEvent.fetchSubjectForStudent(
-                            wardDetails?.id,
+                    context.read<SubjectsBloc>().add(
+                          SubjectsEvent.fetchSubjectForStudent(
+                            wardDetails?.id ?? '',
                           ),
                         );
-                    context.read<GetSchoolDataBloc>().add(
-                          GetSchoolDataEvent.onSelectedSubjectNameChanged(
+                    context.read<SubjectsBloc>().add(
+                          SubjectsEvent.onSelectedSubjectNameChanged(
                             wardDetails?.id,
                           ),
                         );

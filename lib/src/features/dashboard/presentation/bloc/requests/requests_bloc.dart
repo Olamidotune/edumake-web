@@ -135,6 +135,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
       add(_AcceptRequestSuccessful(acceptRequest));
     } catch (error, trace) {
       onError(error, trace);
+      logError(error, trace);
       add(
         _AcceptRequestFailed(
           error.toString(),
@@ -183,7 +184,7 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
     );
 
     emit(
-      state.copyWith(acceptRequestStatus: FormzSubmissionStatus.inProgress),
+      state.copyWith(rejectRequestStatus: FormzSubmissionStatus.inProgress),
     );
 
     try {

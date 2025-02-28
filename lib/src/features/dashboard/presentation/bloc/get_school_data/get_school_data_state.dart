@@ -18,8 +18,7 @@ class GetSchoolDataState with _$GetSchoolDataState {
     FormzSubmissionStatus fetchSubjectStatus,
     @Default([]) List<Datum> subjects,
     @Default(false) bool isSubjectLoading,
-    String? selectedSubject,
-    String? selectedStudentId,
+
     //////////////////////////////////////////////
     GetStudentsModel? getStudentsModel,
     List<GetStudentsDatum>? getStudentsDatum,
@@ -27,10 +26,6 @@ class GetSchoolDataState with _$GetSchoolDataState {
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchStudentsStatus,
     //////////////////////////////////////////////
-    GetSubjectForStudent? getSubjectForStudent,
-    List<GetSubjectForStudentDatum>? getSubjectForStudentDatum,
-    @Default(FormzSubmissionStatus.initial)
-    FormzSubmissionStatus fetchSubjectForStudentStatus,
   }) = _GetSchoolDataState;
 
   const GetSchoolDataState._();
