@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/curriculum/curriculum_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -43,7 +44,6 @@ class _IndividualStudentAssignmentScreenState
     final studentName = args['studentName'];
     final className = args['className'];
     final schoolName = args['schoolName'];
-    // final studentId = args['studentId'];
     final source = args['source'];
 
     return Scaffold(
@@ -77,8 +77,11 @@ class _IndividualStudentAssignmentScreenState
                 child: BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
                     // Show loading indicator if data is being fetched
-                    if (state.fetchSubjectForStudentStatus ==
-                        FormzSubmissionStatus.inProgress) {
+                    if (source == 'curriculum'
+                        ? state.fetchClassSubjectsStatus ==
+                            FormzSubmissionStatus.inProgress
+                        : state.fetchSubjectForStudentStatus ==
+                            FormzSubmissionStatus.inProgress) {
                       return const Center(
                         child: SpinKitPulsingGrid(
                           color: AppColors.primaryColor,
@@ -94,8 +97,11 @@ class _IndividualStudentAssignmentScreenState
                         height: 7,
                       );
                     }
-                    if (state.fetchSubjectForStudentStatus ==
-                        FormzSubmissionStatus.failure) {
+                    if (source == 'curriculum'
+                        ? state.fetchClassSubjectsStatus ==
+                            FormzSubmissionStatus.failure
+                        : state.fetchSubjectForStudentStatus ==
+                            FormzSubmissionStatus.failure) {
                       return const NoDataAvailable(
                         message:
                             'Something went wrong. Try again or contact support.',
@@ -110,7 +116,9 @@ class _IndividualStudentAssignmentScreenState
                           : 510.height,
                       child: ListView.separated(
                         shrinkWrap: true,
-                        itemCount: state.getSubjectForStudentDatum?.length ?? 0,
+                        itemCount: source == 'curriculum'
+                            ? state.fetchClassSubjectsDatum?.length ?? 0
+                            : state.getSubjectForStudentDatum?.length ?? 0,
                         controller: scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         separatorBuilder: (context, index) {
@@ -118,10 +126,15 @@ class _IndividualStudentAssignmentScreenState
                         },
                         itemBuilder: (context, index) {
                           // Check if this is the last item and we're loading
-                          if (index ==
-                                  state.getSubjectForStudentDatum?.length &&
-                              state.fetchSubjectStatus ==
-                                  FormzSubmissionStatus.inProgress) {
+                          if (source == 'curriculum'
+                              ? index ==
+                                      state.fetchClassSubjectsDatum?.length &&
+                                  state.fetchClassSubjectsStatus ==
+                                      FormzSubmissionStatus.inProgress
+                              : index ==
+                                      state.getSubjectForStudentDatum?.length &&
+                                  state.fetchSubjectStatus ==
+                                      FormzSubmissionStatus.inProgress) {
                             return const Center(
                               child: Padding(
                                 padding: EdgeInsets.all(16),
@@ -133,9 +146,8 @@ class _IndividualStudentAssignmentScreenState
                             );
                           }
 
-                          // Now we know index is within bounds of classesData
                           final subjectData =
-                              state.getSubjectForStudentDatum?[index];
+                              state.fetchClassSubjectsDatum?[index];
                           return ClassesListTileContainer(
                             isProfilePictureEnabled: false,
                             title: subjectData?.name.toUpperCase() ?? '',
@@ -146,9 +158,12 @@ class _IndividualStudentAssignmentScreenState
                                       subjectData?.name,
                                     ),
                                   );
-
                               source == 'curriculum'
-                                  ? print('object')
+                                  ? Navigator.of(
+                                      context,
+                                    ).pushNamed(
+                                      CurriculumScreen.routeName,
+                                    )
                                   : Navigator.of(
                                       context,
                                     ).pushNamed(
