@@ -8,6 +8,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/time
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/subjects/subjects_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/response_logger.dart';
@@ -67,6 +68,12 @@ Future<void> setupLocator() async {
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),
+      )
+      ..registerFactory<SubjectsClients>(
+        () => SubjectsClients(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -111,6 +118,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<TimeTableClient>(
         TimeTableClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<SubjectsClients>(
+        SubjectsClients(
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),

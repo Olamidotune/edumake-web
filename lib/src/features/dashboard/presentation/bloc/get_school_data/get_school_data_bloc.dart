@@ -7,8 +7,10 @@ import 'package:edumake_frontend/src/features/authentication/api/models/school_m
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/subjects/subjects_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_school_data_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -323,16 +325,15 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     );
 
     try {
-      final subjects =
-          await locator<GetSchoolDataClient>().getSubjectForStudent(
+      final subjects = await locator<SubjectsClients>().getSubjectForStudent(
         await getAuthorization(),
         state.selectedSubject ?? state.selectedStudentId,
       );
       add(_FetchSubjectForStudentSuccessful(subjects));
-    } catch (error) {
+    } catch (error, trace) {
+      logError(error, trace);
       if (error is DioError) {
         final message = error.response?.data?['message'];
-
         add(
           _FetchSubjectForStudentFailed(
             message?.toString() ?? 'An unexpected error occurred',
