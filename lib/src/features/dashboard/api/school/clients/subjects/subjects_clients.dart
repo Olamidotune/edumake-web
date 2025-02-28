@@ -13,7 +13,7 @@ abstract class SubjectsClients {
   @FormUrlEncoded()
   Future<GetSubjectForStudent> getSubjectForStudent(
     @Header('Authorization') String authorization,
-    @Path('studentId') String? classId,
+    @Path('studentId') String? studentId,
   );
 
   @GET('/api/v1/sch/subjects/class/{classId}')

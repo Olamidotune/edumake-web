@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -42,11 +43,17 @@ class _IndividualStudentAssignmentScreenState
     final studentName = args['studentName'];
     final className = args['className'];
     final schoolName = args['schoolName'];
+    // final studentId = args['studentId'];
+    final source = args['source'];
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: studentName.toString(),
-        subtitle: '$schoolName. ($className)',
+        title: source == 'curriculum'
+            ? schoolName.toString()
+            : studentName.toString(),
+        subtitle: source == 'curriculum'
+            ? className.toString()
+            : '$schoolName. ($className,)',
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -67,10 +74,10 @@ class _IndividualStudentAssignmentScreenState
               // Assignments
               CustomRawScroller(
                 scrollController: scrollController,
-                child: BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                child: BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
                     // Show loading indicator if data is being fetched
-                    if (state.fetchSubjectStatus ==
+                    if (state.fetchSubjectForStudentStatus ==
                         FormzSubmissionStatus.inProgress) {
                       return const Center(
                         child: SpinKitPulsingGrid(
@@ -79,8 +86,15 @@ class _IndividualStudentAssignmentScreenState
                         ),
                       );
                     }
-
-                    if (state.fetchSubjectStatus ==
+                    // Show empty state if no data is available
+                    if (state.getSubjectForStudentDatum?.isEmpty ?? true) {
+                      // Show empty state UI
+                      return NoDataAvailable(
+                        message: 'No subject(s) available for $studentName',
+                        height: 7,
+                      );
+                    }
+                    if (state.fetchSubjectForStudentStatus ==
                         FormzSubmissionStatus.failure) {
                       return const NoDataAvailable(
                         message:
@@ -89,47 +103,6 @@ class _IndividualStudentAssignmentScreenState
                       );
                     }
 
-                    // Show empty state if no data is available
-                    if (state.subjectData == null ||
-                        state.subjectData!.isEmpty) {
-                      // Show empty state UI
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                              height: AppSpacing.verticalValueSpaceLarge * 6),
-                          Image.asset(
-                            'assets/png/empty.png',
-                            height: 150,
-                          ),
-                          Text(
-                            'No Data Available',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontSize:
-                                          20, // Assuming 20 is a valid font size
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primaryTextColor,
-                                    ),
-                          ),
-                          AppSpacing.verticalSpaceSmall,
-                          Text(
-                            'Add a subject or subjects by clicking the + button above.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontSize:
-                                      14, // Assuming 14 is a valid font size
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.secondaryTexColor,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      );
-                    }
-                    // Show the list of subjects
                     return SizedBox(
                       height: MediaQuery.of(context).size.height <
                               kMinSupportedHeight
@@ -137,11 +110,7 @@ class _IndividualStudentAssignmentScreenState
                           : 510.height,
                       child: ListView.separated(
                         shrinkWrap: true,
-                        itemCount: state.subjects.length +
-                            (state.fetchSubjectStatus ==
-                                    FormzSubmissionStatus.inProgress
-                                ? 1
-                                : 0),
+                        itemCount: state.getSubjectForStudentDatum?.length ?? 0,
                         controller: scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         separatorBuilder: (context, index) {
@@ -149,7 +118,8 @@ class _IndividualStudentAssignmentScreenState
                         },
                         itemBuilder: (context, index) {
                           // Check if this is the last item and we're loading
-                          if (index == state.subjects.length &&
+                          if (index ==
+                                  state.getSubjectForStudentDatum?.length &&
                               state.fetchSubjectStatus ==
                                   FormzSubmissionStatus.inProgress) {
                             return const Center(
@@ -164,31 +134,32 @@ class _IndividualStudentAssignmentScreenState
                           }
 
                           // Now we know index is within bounds of classesData
-                          final subjectData = state.subjects[index];
-                          return GestureDetector(
+                          final subjectData =
+                              state.getSubjectForStudentDatum?[index];
+                          return ClassesListTileContainer(
+                            isProfilePictureEnabled: false,
+                            title: subjectData?.name.toUpperCase() ?? '',
                             onTap: () {
                               // Handle onTap action here
-                              context.read<GetSchoolDataBloc>().add(
-                                    GetSchoolDataEvent
-                                        .onSelectedSubjectNameChanged(
-                                      subjectData.name,
+                              context.read<SubjectsBloc>().add(
+                                    SubjectsEvent.onSelectedSubjectNameChanged(
+                                      subjectData?.name,
                                     ),
                                   );
-                              Navigator.of(
-                                context,
-                              ).pushNamed(
-                                AssignmentScreen.routeName,
-                                arguments: {
-                                  'schoolName': schoolName,
-                                  'className': className,
-                                  'studentName': studentName
-                                },
-                              );
+
+                              source == 'curriculum'
+                                  ? print('object')
+                                  : Navigator.of(
+                                      context,
+                                    ).pushNamed(
+                                      AssignmentScreen.routeName,
+                                      arguments: {
+                                        'schoolName': schoolName,
+                                        'className': className,
+                                        'studentName': studentName
+                                      },
+                                    );
                             },
-                            child: ClassesListTileContainer(
-                              isProfilePictureEnabled: false,
-                              title: subjectData.name.toUpperCase(),
-                            ),
                           );
                         },
                       ),
@@ -212,9 +183,7 @@ class _IndividualStudentAssignmentScreenState
                 .state
                 .getSchoolDataModel
                 ?.cursor) {
-      context
-          .read<GetSchoolDataBloc>()
-          .add(const GetSchoolDataEvent.fetchSubjects());
+      context.read<SubjectsBloc>().add(const SubjectsEvent.fetchSubjects());
     }
   }
 

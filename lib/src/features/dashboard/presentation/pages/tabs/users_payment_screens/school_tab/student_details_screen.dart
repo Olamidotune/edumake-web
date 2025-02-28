@@ -2,7 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -114,8 +114,9 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.assignments,
                     onTap: () {
-                      context.read<GetSchoolDataBloc>().add(
-                            const GetSchoolDataEvent.fetchSubjects(),
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.fetchSubjectForStudent(
+                                studentId.toString()),
                           );
                       Navigator.of(context).pushNamed(
                         IndividualStudentAssignmentScreen.routeName,
@@ -123,6 +124,7 @@ class StudentDetailsScreen extends StatelessWidget {
                           'studentName': studentName,
                           'className': className,
                           'schoolName': schoolName,
+                          'studentId': studentId,
                         },
                       );
                     },
@@ -131,19 +133,18 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.test,
                     onTap: () {
-                      context.read<GetSchoolDataBloc>().add(
-                            const GetSchoolDataEvent
-                                .onSelectedSubjectNameChanged(
+                      context.read<SubjectsBloc>().add(
+                            const SubjectsEvent.onSelectedSubjectNameChanged(
                               null,
                             ), // Reset subject name
                           );
-                      context.read<GetSchoolDataBloc>().add(
-                            GetSchoolDataEvent.onSelectedStudentId(
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.onSelectedStudentId(
                               studentId.toString(),
                             ),
                           );
-                      context.read<GetSchoolDataBloc>().add(
-                            GetSchoolDataEvent.fetchSubjectForStudent(
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.fetchSubjectForStudent(
                               studentId.toString(),
                             ),
                           );
@@ -164,20 +165,19 @@ class StudentDetailsScreen extends StatelessWidget {
                   StudentDetailsListTile(
                     leading: AppStrings.exam,
                     onTap: () {
-                      context.read<GetSchoolDataBloc>().add(
-                            const GetSchoolDataEvent
-                                .onSelectedSubjectNameChanged(
+                      context.read<SubjectsBloc>().add(
+                            const SubjectsEvent.onSelectedSubjectNameChanged(
                               null,
                             ), // Reset subject name
                           );
 
-                      context.read<GetSchoolDataBloc>().add(
-                            GetSchoolDataEvent.onSelectedStudentId(
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.onSelectedStudentId(
                               studentId.toString(),
                             ),
                           );
-                      context.read<GetSchoolDataBloc>().add(
-                            GetSchoolDataEvent.fetchSubjectForStudent(
+                      context.read<SubjectsBloc>().add(
+                            SubjectsEvent.fetchSubjectForStudent(
                               studentId.toString(),
                             ),
                           );
@@ -202,11 +202,7 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.teachersNote,
-                    onTap: () {
-                      context
-                          .read<GetSchoolDataBloc>()
-                          .add(const GetSchoolDataEvent.fetchSubjects());
-                    },
+                    onTap: () {},
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(

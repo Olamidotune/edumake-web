@@ -36,7 +36,7 @@ class FetchClassSubjectsDatum {
   final String school;
 
   @JsonKey(name: 'note')
-  final String note;
+  final String? note;
 
   @JsonKey(name: 'isDeleted')
   final bool isDeleted;

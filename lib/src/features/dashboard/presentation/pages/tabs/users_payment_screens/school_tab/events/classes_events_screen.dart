@@ -30,10 +30,22 @@ class ClassEventsScreen extends StatelessWidget {
 
     final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
-    final args =
-        ModalRoute.of(context)?.settings.arguments! as Map<String, String?>;
-    final classId = args['classId'];
-    final wardSchoolId = args['wardSchoolId'];
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    final args = arguments != null ? arguments as Map<dynamic, dynamic> : null;
+
+    String? classId;
+    String? wardSchoolId;
+
+// Then handle both cases
+    if (args != null) {
+      // Coming from student screen - use the class-specific logic
+      classId = args['classId'] as String?;
+      wardSchoolId = args['wardSchoolId'] as String?;
+      // Use these parameters
+    } else {
+      // Coming from admin menu - handle the general case
+      // No class-specific parameters available
+    }
 
     final role = context.read<AuthBloc>().state.user?.role;
     return Scaffold(
