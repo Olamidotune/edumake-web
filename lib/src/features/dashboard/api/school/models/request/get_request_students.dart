@@ -1,3 +1,4 @@
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_guardian.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_students_class.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -33,7 +34,7 @@ class Student {
   final String school;
 
   @JsonKey(name: 'guardians')
-  final List<dynamic> guardians;
+  final List<Guardians> guardians;
 
   @JsonKey(name: 'isDeleted')
   final bool isDeleted;

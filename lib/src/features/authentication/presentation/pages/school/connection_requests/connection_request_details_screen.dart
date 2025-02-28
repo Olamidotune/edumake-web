@@ -294,9 +294,9 @@ class _ConnectionRequestDetailsScreenState
                       Expanded(
                         child: BlocConsumer<RequestsBloc, RequestsState>(
                           listener: (context, state) {
-                            //Add a refresh function in bloc to refresh all pending request across board
                             if (state.acceptRequestStatus ==
                                 FormzSubmissionStatus.success) {
+                              // Only add this event once when successful
                               context.read<RequestsBloc>().add(
                                     RequestsEvent.requestStatusChanged(
                                       requestId.toString(),
@@ -305,16 +305,12 @@ class _ConnectionRequestDetailsScreenState
                               ToastService.toast(
                                 'Request accepted successfully',
                               );
-                            }
-                            if (state.acceptRequestStatus ==
+                            } else if (state.acceptRequestStatus ==
                                 FormzSubmissionStatus.failure) {
-                              context.read<RequestsBloc>().add(
-                                    RequestsEvent.requestStatusChanged(
-                                      requestId.toString(),
-                                    ),
-                                  );
+                              // Use else if instead of a separate if
+                              // This ensures only one path is taken
                               ToastService.toast(
-                                'Failed to accept request',
+                                'Something went wrong',
                                 ToastType.error,
                               );
                             }
