@@ -60,7 +60,7 @@ class ClassEventsScreen extends StatelessWidget {
               ),
             );
           }
-          if (state.upComingEvent?.isEmpty ?? false) {
+          if (state.associatedEvents?.isEmpty ?? false) {
             return const NoDataAvailable(
               message: 'No Events Available',
               height: 0,

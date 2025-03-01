@@ -29,6 +29,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
@@ -57,8 +58,10 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
@@ -175,6 +178,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SubjectsBloc>(
           create: (context) => SubjectsBloc(),
+        ),
+        BlocProvider<ExamBloc>(
+          create: (context) => ExamBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
@@ -319,6 +325,8 @@ class MyApp extends StatelessWidget {
                       const LectureTimeTableScreen(),
                   AddLectureTimeTableScreen.routeName: (context) =>
                       const AddLectureTimeTableScreen(),
+                  AddExamTimeTableScreen.routeName: (context) =>
+                      const AddExamTimeTableScreen(),
                   IndividualStudentSubjectScreen.routeName: (context) =>
                       const IndividualStudentSubjectScreen(),
                   TermsAndConditions.routeName: (context) =>
@@ -327,6 +335,8 @@ class MyApp extends StatelessWidget {
                       const CurriculumScreen(),
                   AddCurriculumScreen.routeName: (context) =>
                       const AddCurriculumScreen(),
+                  ExamTimeTableScreen.routeName: (context) =>
+                      const ExamTimeTableScreen(),
                   Support.routeName: (context) => const Support(),
                   Dashboard.routeName: (context) => const Dashboard(),
                   KycScreen.routeName: (context) => const KycScreen(),
