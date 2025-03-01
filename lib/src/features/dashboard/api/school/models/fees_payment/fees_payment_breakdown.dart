@@ -7,7 +7,6 @@ class FeesBreakdown {
   FeesBreakdown({
     required this.title,
     required this.amount,
-    this.id,
   });
 
   factory FeesBreakdown.fromJson(Map<String, dynamic> json) =>
@@ -18,7 +17,5 @@ class FeesBreakdown {
   @JsonKey(name: 'amount')
   final int amount;
 
-  @JsonKey(name: '_id')
-  final String? id;
   Map<String, dynamic> toJson() => _$FeesBreakdownToJson(this);
 }

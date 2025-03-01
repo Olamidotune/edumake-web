@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/add_fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,10 @@ class _FeePaymentScreenState extends State<FeePaymentScreen>
                     ),
                     AppSpacing.verticalSpaceLarge,
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed(AddFeesPaymentScreen.routeName);
+                      },
                       child: Container(
                         padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
                         decoration: BoxDecoration(
