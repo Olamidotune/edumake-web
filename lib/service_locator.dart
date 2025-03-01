@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/api/clients/school_
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/timetable.dart/time_table_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/events/event_clients.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/school_mgt/get_school_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/subjects/subjects_clients.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
@@ -74,6 +75,12 @@ Future<void> setupLocator() async {
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),
+      )
+      ..registerFactory<FeesPaymentClient>(
+        () => FeesPaymentClient(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
       );
   } else {
     locator
@@ -124,6 +131,12 @@ Future<void> setupLocator() async {
       )
       ..registerSingleton<SubjectsClients>(
         SubjectsClients(
+          dio,
+          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+        ),
+      )
+      ..registerSingleton<FeesPaymentClient>(
+        FeesPaymentClient(
           dio,
           baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
         ),

@@ -17,6 +17,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_e
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_result_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -90,6 +91,7 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 
       add(_AddTestResultSuccessful(testResults));
     } catch (error, trace) {
+      logError(error, trace);
       onError(error, trace);
       add(_AddTestResultFailed(error.toString()));
     }

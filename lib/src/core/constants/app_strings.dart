@@ -134,7 +134,7 @@ class AppStrings {
   static const teacherManagement = 'Teacher Management';
   static const studentManagement = 'Student Management';
   static const academyManagement = 'Academy Management';
-  static const accessPermision = 'Access Permission';
+  static const accessPermission = 'Access Permission';
   static const examManagement = 'Exam Time Table';
   static const lessonManagement = 'Lesson Management';
   static const sessionManagement = 'Session Management';

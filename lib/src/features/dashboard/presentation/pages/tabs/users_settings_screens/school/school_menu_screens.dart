@@ -11,6 +11,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/reques
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/logout_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/widgets/menu_list_tile.dart';
@@ -170,7 +171,10 @@ class SchoolMenuTopContainer extends StatelessWidget {
           MenuListTile(
             title: AppStrings.paymentFees,
             icon: 'payment',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed(FeePaymentScreen.routeName);
+            },
           ),
           Padding(
             padding: EdgeInsets.symmetric(

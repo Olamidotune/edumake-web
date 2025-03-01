@@ -30,6 +30,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
@@ -67,7 +68,8 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/support.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school_menu_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/school_menu_screens.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
@@ -181,6 +183,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ExamBloc>(
           create: (context) => ExamBloc(),
+        ),
+        BlocProvider<FeesPaymentBloc>(
+          create: (context) => FeesPaymentBloc(),
         ),
         BlocProvider<PermissionsBloc>(
           create: (context) => PermissionsBloc(),
@@ -331,6 +336,8 @@ class MyApp extends StatelessWidget {
                       const IndividualStudentSubjectScreen(),
                   TermsAndConditions.routeName: (context) =>
                       const TermsAndConditions(),
+                  FeePaymentScreen.routeName: (context) =>
+                      const FeePaymentScreen(),
                   CurriculumScreen.routeName: (context) =>
                       const CurriculumScreen(),
                   AddCurriculumScreen.routeName: (context) =>
