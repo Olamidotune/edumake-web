@@ -166,34 +166,40 @@ class ClassEventsScreen extends StatelessWidget {
                             ),
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      ListView.separated(
-                        itemCount: state.upComingEvent?.length ?? 0,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final event = state.upComingEvent?[index];
-                          return GestureDetector(
-                            onTap: () {
-                              context.read<EventsBloc>().add(
-                                    EventsEvent.fetchEventsById(
-                                        event?.id ?? ''),
-                                  );
-                              Navigator.of(context).pushNamed(
-                                ClassEventDetailsScreen.routeName,
-                              );
-                            },
-                            child: SchoolMgtUpcomingEventsContainer(
-                              previousEvents: false,
-                              title: event?.title ?? '',
-                              date: formatLocalTime(event?.date),
-                              description: event?.details ?? '',
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return AppSpacing.verticalSpaceMedium;
-                        },
-                        physics: const NeverScrollableScrollPhysics(),
-                      ),
+                      if (state.upComingEvent?.isEmpty ?? false)
+                        const NoDataAvailable(
+                            message:
+                                'No upcoming events at the moment. Please check back later.',
+                            height: 0)
+                      else
+                        ListView.separated(
+                          itemCount: state.upComingEvent?.length ?? 0,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final event = state.upComingEvent?[index];
+                            return GestureDetector(
+                              onTap: () {
+                                context.read<EventsBloc>().add(
+                                      EventsEvent.fetchEventsById(
+                                          event?.id ?? ''),
+                                    );
+                                Navigator.of(context).pushNamed(
+                                  ClassEventDetailsScreen.routeName,
+                                );
+                              },
+                              child: SchoolMgtUpcomingEventsContainer(
+                                previousEvents: false,
+                                title: event?.title ?? '',
+                                date: formatLocalTime(event?.date),
+                                description: event?.details ?? '',
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return AppSpacing.verticalSpaceMedium;
+                          },
+                          physics: const NeverScrollableScrollPhysics(),
+                        ),
                       AppSpacing.verticalSpaceMedium,
                       Text(
                         AppStrings.previousEvents,
