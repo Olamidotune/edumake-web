@@ -1,6 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/parents/models/timetable/time_table_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_by_subject/fetch_subject_exam_result.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/tests/fetch_test_by_subject/fetch_subject_test_result.dart';
@@ -61,5 +62,12 @@ abstract class TestResultClient {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Query('subjectId') String subjectId,
+  );
+
+  @GET('/api/v1/sch/tt/exam/all/{schoolId}')
+  Future<FetchTimeTableResponse> fetchExamTimeTable(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Query('classId') String classId,
   );
 }

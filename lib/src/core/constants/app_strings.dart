@@ -135,7 +135,7 @@ class AppStrings {
   static const studentManagement = 'Student Management';
   static const academyManagement = 'Academy Management';
   static const accessPermision = 'Access Permission';
-  static const examManagement = 'Exam Management';
+  static const examManagement = 'Exam Time Table';
   static const lessonManagement = 'Lesson Management';
   static const sessionManagement = 'Session Management';
   static const holidayManagement = 'Holiday Management';
@@ -199,6 +199,7 @@ class AppStrings {
   static const addTestResults = 'Add Test Results';
   static const addExamResults = 'Add Exam Results';
   static const addExam = 'Add Exam';
+  static const addExamTimeTable = 'Add Exam Time Table';
   static const addTest = 'Add Test';
   static const events = 'Events';
   static const addEvents = 'Add Events';

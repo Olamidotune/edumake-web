@@ -9,7 +9,6 @@ import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -289,16 +288,16 @@ class IndividualSubjectDetails extends StatelessWidget {
                       );
                     },
                   ),
-                  AppSpacing.verticalSpaceMedium,
-                  ClassesListTileContainer(
-                    isProfilePictureEnabled: false,
-                    title: AppStrings.events,
-                    onTap: () {
-                      //Can't get event by student...
-                      Navigator.of(context)
-                          .pushNamed(ClassEventsScreen.routeName);
-                    },
-                  ),
+
+                  // ClassesListTileContainer(
+                  //   isProfilePictureEnabled: false,
+                  //   title: AppStrings.events,
+                  //   onTap: () {
+                  //     //Can't get event by student...
+                  //     Navigator.of(context)
+                  //         .pushNamed(ClassEventsScreen.routeName);
+                  //   },
+                  // ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(
                     isProfilePictureEnabled: false,

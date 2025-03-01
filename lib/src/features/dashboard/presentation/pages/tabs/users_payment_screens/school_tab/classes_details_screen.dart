@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -189,9 +191,22 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      const ClassesListTileContainer(
+                      ClassesListTileContainer(
                         isProfilePictureEnabled: false,
                         title: AppStrings.examManagement,
+                        onTap: () {
+                          context.read<ExamBloc>().add(
+                                ExamEvent.fetchTimetable(
+                                    classId.toString(), null),
+                              );
+                          Navigator.of(context).pushNamed(
+                            ExamTimeTableScreen.routeName,
+                            arguments: {
+                              'className': className,
+                              'classId': classId,
+                            },
+                          );
+                        },
                       ),
                     ],
                   );
