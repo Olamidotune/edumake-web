@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
@@ -36,14 +37,18 @@ class _ParentDashboardState extends State<ParentDashboard> {
   void initState() {
     super.initState();
     context.read<GetWardsBloc>().add(const GetWardsEvent.fetchWards());
+
     context.read<GetWardsBloc>().stream.listen((state) {
       if (state.getWardStatus == FormzSubmissionStatus.success) {
         final parentSchoolId =
             state.getWardRequestModel?.data.first.wardDatumSchool.id;
-        if (parentSchoolId != null) {
-          context.read<EventsBloc>().add(
-                EventsEvent.fetchEvents(parentSchoolId),
-              );
+
+        final studentIds =
+            state.getWardRequestModel?.data.map((ward) => ward.id).toList();
+        for (final studentId in studentIds!) {
+          context
+              .read<FeesPaymentBloc>()
+              .add(FeesPaymentEvent.fetchFees(parentSchoolId, studentId));
         }
       }
     });
@@ -111,6 +116,12 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 itemCount: state.getWardRequestModel?.data.length ?? 0,
                 itemBuilder: (context, index) {
                   final wardDetails = state.getWardRequestModel?.data[index];
+                  final studentId = state.getWardRequestModel?.data[index].id;
+                  final paymentStatus = context
+                          .read<FeesPaymentBloc>()
+                          .state
+                          .studentPaymentStatus[studentId] ??
+                      'unpaid';
                   return YourWardCard(
                     wardName:
                         '${state.getWardRequestModel?.data[index].wardName}',
@@ -118,7 +129,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                     wardClass: wardDetails?.wardDatumClass.name ?? '',
                     assignmentNum: '{Ward scores}',
                     scores: 'student.deviceToken',
-                    feesPaid: true,
+                    feesPaid: paymentStatus == 'paid',
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {

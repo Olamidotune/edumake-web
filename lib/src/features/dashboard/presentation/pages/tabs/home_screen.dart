@@ -3,6 +3,8 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/wards_mgt/send_request_bloc.dart';
@@ -33,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _controller = TextEditingController();
+  final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -179,12 +182,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   left: 10,
                   right: 5,
                 ),
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                    child: _buildView(),
+                child: RefreshIndicator(
+                  key: refreshIndicatorKey,
+                  backgroundColor: AppColors.secondaryColor,
+                  color: AppColors.whiteColor,
+                  onRefresh: () async {
+                    context
+                        .read<GetWardsBloc>()
+                        .add(const GetWardsEvent.fetchWards());
+
+                    context.read<GetWardsBloc>().stream.listen((state) {
+                      if (state.getWardStatus ==
+                          FormzSubmissionStatus.success) {
+                        final parentSchoolId = state
+                            .getWardRequestModel?.data.first.wardDatumSchool.id;
+
+                        final studentIds = state.getWardRequestModel?.data
+                            .map((ward) => ward.id)
+                            .toList();
+                        for (final studentId in studentIds!) {
+                          context.read<FeesPaymentBloc>().add(
+                              FeesPaymentEvent.fetchFees(
+                                  parentSchoolId, studentId));
+                        }
+                      }
+                    });
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+                      child: _buildView(),
+                    ),
                   ),
                 ),
               );

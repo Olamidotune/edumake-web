@@ -215,14 +215,14 @@ class FeesTabView extends StatelessWidget {
           return Center(child: Text('Error: ${state.errorMessage}'));
         }
 
-        if (state.datum == null || state.datum!.isEmpty) {
+        if (state.datum.isEmpty) {
           return const Center(child: Text('No fees found'));
         }
 
         return ListView.separated(
-          itemCount: state.datum!.length,
+          itemCount: state.datum.length,
           itemBuilder: (context, index) {
-            final details = state.datum![index];
+            final details = state.datum[index];
             return FeesContainer(
               onTap: () {},
               title: details.title,
@@ -305,12 +305,12 @@ class PaymentsTabView extends StatelessWidget {
           return Center(child: Text('Error: ${state.errorMessage}'));
         }
 
-        if (state.datum == null || state.datum!.isEmpty) {
+        if (state.datum.isEmpty) {
           return const Center(child: Text('No payments found'));
         }
 
         return ListView.separated(
-          itemCount: state.datum!.length,
+          itemCount: state.datum.length,
           itemBuilder: (context, index) {
             return const PaymentContainer(payment: 'payment');
           },

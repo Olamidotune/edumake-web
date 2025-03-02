@@ -28,13 +28,22 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.addFeesFailed([String? message]) =
       _AddFeesFailed;
 
-  const factory FeesPaymentEvent.fetchFees(String? studentId) = _FetchFees;
+  const factory FeesPaymentEvent.fetchFees(
+      String? parentSchoolId, String? studentId) = _FetchFees;
 
   const factory FeesPaymentEvent.fetchFeesSuccessful(FeesResponse feesPayment) =
       _FetchFeesSuccessful;
 
   const factory FeesPaymentEvent.fetchFeesFailed(String message) =
       _FetchFeesFailed;
+
+  const factory FeesPaymentEvent.fetchFeesById(String feeId) = _FetchFeesById;
+
+  const factory FeesPaymentEvent.fetchFeesSuccessfulById(
+      FeeByIdResponse feesResponseById) = _FetchFeesByIdSuccessful;
+
+  const factory FeesPaymentEvent.fetchFeesByIdFailed(String message) =
+      _FetchFeesByIdFailed;
 
   const factory FeesPaymentEvent.errorMessage(String? message) = _ErrorMessage;
 }

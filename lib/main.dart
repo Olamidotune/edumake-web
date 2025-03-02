@@ -44,7 +44,8 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashb
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_payment_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_tab/fees_datails.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_tab/parent_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/classes_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/curriculum/add_curriculum_screen.dart';
@@ -339,6 +340,8 @@ class MyApp extends StatelessWidget {
                       const TermsAndConditions(),
                   FeePaymentScreen.routeName: (context) =>
                       const FeePaymentScreen(),
+                  ParentFeesDetailsScreen.routeName: (context) =>
+                      const ParentFeesDetailsScreen(),
                   AddFeesPaymentScreen.routeName: (context) =>
                       const AddFeesPaymentScreen(),
                   CurriculumScreen.routeName: (context) =>
