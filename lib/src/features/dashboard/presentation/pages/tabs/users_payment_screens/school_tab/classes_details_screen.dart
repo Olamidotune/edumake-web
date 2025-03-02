@@ -12,6 +12,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
@@ -168,9 +169,28 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         },
                       ),
                       AppSpacing.verticalSpaceMedium,
-                      const ClassesListTileContainer(
+                      ClassesListTileContainer(
                         isProfilePictureEnabled: false,
                         title: AppStrings.payments,
+                        onTap: () {
+                          // FeesContainer
+                          Navigator.of(context).pushNamed(
+                            IndividualStudentFeesPaymentScreen.routeName,
+                            arguments: {
+                              'studentName': '',
+                              'className': className,
+                              'schoolName': context
+                                      .read<AuthBloc>()
+                                      .state
+                                      .user
+                                      ?.school
+                                      ?.schoolName ??
+                                  '',
+                              'studentId': '',
+                              'source': 'curriculum',
+                            },
+                          );
+                        },
                       ),
                       AppSpacing.verticalSpaceMedium,
                       ClassesListTileContainer(

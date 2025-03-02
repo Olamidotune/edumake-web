@@ -5,40 +5,40 @@ part 'ward_datum_class.g.dart';
 @JsonSerializable()
 class WardDatumClass {
   WardDatumClass({
-    required this.id,
-    required this.school,
-    required this.name,
-    required this.slug,
-    required this.isDeleted,
-    required this.v,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.school,
+    this.name,
+    this.slug,
+    this.isDeleted,
+    this.v,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory WardDatumClass.fromJson(Map<String, dynamic> json) =>
       _$WardDatumClassFromJson(json);
   @JsonKey(name: '_id')
-  final String id;
+  final String? id;
 
   @JsonKey(name: 'school')
-  final String school;
+  final String? school;
 
   @JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   @JsonKey(name: 'slug')
-  final String slug;
+  final String? slug;
 
   @JsonKey(name: 'isDeleted')
-  final bool isDeleted;
+  final bool? isDeleted;
 
   @JsonKey(name: '__v')
-  final int v;
+  final int? v;
 
   @JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   Map<String, dynamic> toJson() => _$WardDatumClassToJson(this);
 }

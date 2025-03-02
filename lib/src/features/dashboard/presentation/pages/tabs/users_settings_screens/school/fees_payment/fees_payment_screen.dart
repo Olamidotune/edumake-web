@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/add_fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,7 +213,9 @@ class FeesTabView extends StatelessWidget {
         }
 
         if (state.errorMessage != null) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return const Center(
+            child: NoDataAvailable(message: 'Something went wrong', height: 3),
+          );
         }
 
         if (state.datum.isEmpty) {

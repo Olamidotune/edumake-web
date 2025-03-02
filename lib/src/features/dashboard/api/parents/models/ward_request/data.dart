@@ -11,10 +11,10 @@ class WardDatum {
     required this.wardDatumClass,
     required this.wardName,
     required this.wardDatumSchool,
-    required this.isDeleted,
-    required this.v,
-    required this.createdAt,
-    required this.updatedAt,
+    this.isDeleted,
+    this.v,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory WardDatum.fromJson(Map<String, dynamic> json) =>
@@ -32,15 +32,15 @@ class WardDatum {
   final WardDatumSchool wardDatumSchool;
 
   @JsonKey(name: 'isDeleted')
-  final bool isDeleted;
+  final bool? isDeleted;
 
   @JsonKey(name: '__v')
-  final int v;
+  final int? v;
 
   @JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   Map<String, dynamic> toJson() => _$WardDatumToJson(this);
 }

@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
@@ -212,7 +213,19 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.feesPayment,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        IndividualStudentFeesPaymentScreen.routeName,
+                        arguments: {
+                          'studentName': studentName.toString(),
+                          'className': className.toString(),
+                          'schoolName': schoolName.toString(),
+                          'classId': classId.toString(),
+                          'studentId': studentId.toString(),
+                          'source': 'exam',
+                        },
+                      );
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(

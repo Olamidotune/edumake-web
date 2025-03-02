@@ -39,43 +39,43 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
         title: studentName.toString(),
         subtitle: '$schoolName. ($className)',
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: 'These are the subjects/courses available for ',
-                  style: TextStyle(
-                    fontSize: 14.fontSize,
-                    color: AppColors.blackColor,
+      body: CustomRawScroller(
+        scrollController: scrollController,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'These are the subjects/courses available for ',
+                    style: TextStyle(
+                      fontSize: 14.fontSize,
+                      color: AppColors.blackColor,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '$studentName.',
+                        style: const TextStyle(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            ' Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
+                        style: TextStyle(
+                          fontSize: 14.fontSize,
+                          color: AppColors.blackColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  children: [
-                    TextSpan(
-                      text: '$studentName.',
-                      style: const TextStyle(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          ' Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
-                      style: TextStyle(
-                        fontSize: 14.fontSize,
-                        color: AppColors.blackColor,
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              AppSpacing.verticalSpaceMedium,
-              CustomRawScroller(
-                scrollController: scrollController,
-                child: BlocBuilder<SubjectsBloc, SubjectsState>(
+                AppSpacing.verticalSpaceMedium,
+                BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
                     if (state.fetchSubjectForStudentStatus ==
                         FormzSubmissionStatus.inProgress) {
@@ -178,8 +178,8 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

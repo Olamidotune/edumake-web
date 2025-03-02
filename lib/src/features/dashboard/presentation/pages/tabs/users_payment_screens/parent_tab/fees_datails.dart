@@ -21,12 +21,12 @@ class ParentFeesDetailsScreen extends StatelessWidget {
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
         builder: (context, state) {
-          final feeData = state.feesIdResponse!.data;
-          final breakdown = feeData.feesBreakdown;
-          final students = feeData.students;
+          final feeData = state.feesIdResponse?.data;
+          final breakdown = feeData?.feesBreakdown;
+          final students = feeData?.students;
 
           final unpaidCount =
-              students.where((s) => s.paymentStatus == 'unpaid').length;
+              students?.where((s) => s.paymentStatus == 'unpaid').length;
 
           if (state.fetchFeesByIdStatus == FormzSubmissionStatus.inProgress) {
             return const Center(
@@ -78,7 +78,7 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                                   ),
                         ),
                         Text(
-                          unpaidCount > 0 ? 'Unpaid' : 'Paid',
+                          unpaidCount! > 0 ? 'Unpaid' : 'Paid',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: AppColors.blackColor,
@@ -102,13 +102,13 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: breakdown.length,
+                    itemCount: breakdown?.length ?? 0,
                     itemBuilder: (context, index) {
-                      final item = breakdown[index];
+                      final item = breakdown?[index];
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         title: Text(
-                          item.title,
+                          item?.title ?? '',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: AppColors.blackColor,
@@ -117,7 +117,7 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                                   ),
                         ),
                         trailing: Text(
-                          'N ${item.amount}',
+                          'N ${item?.amount}',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: AppColors.blackColor,
@@ -142,7 +142,7 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                             ),
                       ),
                       Text(
-                        ' N ${feeData.totalAmount}',
+                        ' N ${feeData?.totalAmount}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               color: AppColors.primaryColor,
                               fontSize: 14.fontSize,
