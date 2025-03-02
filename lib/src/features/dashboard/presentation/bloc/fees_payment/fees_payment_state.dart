@@ -5,6 +5,8 @@ class FeesPaymentState with _$FeesPaymentState {
   const factory FeesPaymentState({
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus addFeesPaymentStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchFeesPaymentStatus,
     @Default(FeesTitleFormz.pure()) FeesTitleFormz feesTitle,
     @Default(FeesDetailsFormz.pure()) FeesDetailsFormz feesDetails,
     @Default(FeesTotalAmountFormz.pure()) FeesTotalAmountFormz feesTotalAmount,
@@ -13,6 +15,8 @@ class FeesPaymentState with _$FeesPaymentState {
     @Default(FeesBreakDownAmountFormz.pure())
     FeesBreakDownAmountFormz feesBreakDownAmount,
     FeesPaymentResponse? feesPaymentResponse,
+    FeesResponse? feesResponse,
+    List<Datum>? datum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
     String? errorMessage,
   }) = _FeesPaymentState;

@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
@@ -23,6 +25,9 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     on<_AddFees>(_addFees);
     on<_AddFeesSuccessful>(_addFeesSuccessful);
     on<_AddFeesFailed>(_addFeesFailed);
+    on<_FetchFees>(_fetchFees);
+    on<_FetchFeesSuccessful>(_fetchFeesSuccessful);
+    on<_FetchFeesFailed>(_fetchFeesFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -91,7 +96,12 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       add(_AddFeesSuccessful(addFees));
     } catch (error, trace) {
       logError(error, trace);
-      add(_AddFeesFailed(error.toString()));
+
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_AddFeesFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _AddFeesFailed('An unexpected error occurred'));
+      }
     }
   }
 
@@ -105,6 +115,40 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
   void _addFeesFailed(_AddFeesFailed event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
         addFeesPaymentStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message));
+  }
+
+  void _fetchFees(_FetchFees event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(
+        fetchFeesPaymentStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final fees = await locator<FeesPaymentClient>().fetchFees(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.studentId ?? '',
+      );
+
+      add(_FetchFeesSuccessful(fees));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(_FetchFeesFailed(error.toString()));
+    }
+  }
+
+  void _fetchFeesSuccessful(
+      _FetchFeesSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchFeesPaymentStatus: FormzSubmissionStatus.success,
+        feesResponse: event.feesPayment,
+        datum: event.feesPayment.data,
+        errorMessage: null));
+  }
+
+  void _fetchFeesFailed(
+      _FetchFeesFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchFeesPaymentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message));
   }
 

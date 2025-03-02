@@ -44,7 +44,7 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
   final List<TextEditingController> _breakDownAmountController = [];
   final List<FocusNode> _breakDownTitleFocusNodes = [];
   final List<FocusNode> _breakDownAmountFocusNodes = [];
-  List<String>? selectedClassId;
+  List<String> selectedClassId = [];
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -91,21 +91,9 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                           ),
                     ),
                     AppSpacing.verticalSpaceMassive,
-                    BlocConsumer<FeesPaymentBloc, FeesPaymentState>(
-                      listener: (context, state) {
-                        if (state.addFeesPaymentStatus ==
-                            FormzSubmissionStatus.success) {
-                          ToastService.toast('Fess saved successfully');
-                          Navigator.pop(context);
-                        }
-                        if (state.addFeesPaymentStatus ==
-                            FormzSubmissionStatus.failure) {
-                          ToastService.toast(
-                            'Failed to add fees',
-                            ToastType.error,
-                          );
-                        }
-                      },
+                    BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+                      buildWhen: (previous, current) =>
+                          _buildWhen(context, previous, current),
                       builder: (context, state) {
                         return Form(
                           key: _formKey,
@@ -131,10 +119,16 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                   keyboardType: TextInputType.text),
                               AppSpacing.verticalSpaceMedium,
                               CustomTextFormField(
-                                  title: 'Details (optional)',
+                                  title: 'Details',
                                   controller: detailsController,
                                   focusNode: detailsFocusNode,
                                   hintText: 'Enter Details',
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Title is required';
+                                    }
+                                    return null;
+                                  },
                                   onChanged: (value) {
                                     context.read<FeesPaymentBloc>().add(
                                         FeesPaymentEvent.feesTitleChanged(
@@ -167,6 +161,12 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                               _breakDownTitleController[index],
                                           focusNode:
                                               _breakDownTitleFocusNodes[index],
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Field cannot be empty';
+                                            }
+                                            return null;
+                                          },
                                           hintText: 'Title',
                                           keyboardType: TextInputType.text,
                                         ),
@@ -178,6 +178,12 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                               _breakDownAmountController[index],
                                           focusNode:
                                               _breakDownAmountFocusNodes[index],
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Field cannot be empty';
+                                            }
+                                            return null;
+                                          },
                                           hintText: 'Amount',
                                           keyboardType: TextInputType.number,
                                         ),
@@ -208,11 +214,6 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                   title: 'Term',
                                   controller: termController,
                                   focusNode: termFocusNode,
-                                  // onChanged: (value) {
-                                  //   context.read<FeesPaymentBloc>().add(
-                                  //       FeesPaymentEvent.feesTotalAmountChanged(
-                                  //           value));
-                                  // },
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Term is required';
@@ -259,29 +260,6 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                               Row(
                                 spacing: 6,
                                 children: [
-                                  // Container(
-                                  //   padding: EdgeInsets.all(
-                                  //       AppSpacing.horizontalSpacing),
-                                  //   decoration: BoxDecoration(
-                                  //       borderRadius: const BorderRadius.all(
-                                  //           Radius.circular(15)),
-                                  //       color: AppColors.greyColor
-                                  //           .withOpacity(0.1)),
-                                  //   child: Center(
-                                  //     child: Text(
-                                  //       'NGN',
-                                  //       style: Theme.of(context)
-                                  //           .textTheme
-                                  //           .bodySmall!
-                                  //           .copyWith(
-                                  //             color: AppColors.primaryColor,
-                                  //             fontWeight: FontWeight.w300,
-                                  //             fontSize: 12.fontSize,
-                                  //           ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-
                                   Expanded(
                                     flex: 2,
                                     child: CustomTextFormField(
@@ -344,33 +322,37 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                     FormzSubmissionStatus.inProgress,
                                 text: 'Review',
                                 onPressed: () {
-                                  final fees = FeesPaymentRequestBody(
-                                    titleController.value.text.trim(),
-                                    detailsController.value.text.trim(),
-                                    totalAmount.value.text.trim(),
-                                    selectedClassId ?? [],
-                                    [
-                                      for (int i = 0;
-                                          i < _breakDownTitleController.length;
-                                          i++)
-                                        FeesBreakdown(
-                                          title: _breakDownTitleController[i]
-                                              .value
-                                              .text,
-                                          amount: int.parse(
-                                            _breakDownAmountController[i]
+                                  if (_formKey.currentState!.validate()) {
+                                    final fees = FeesPaymentRequestBody(
+                                      titleController.value.text.trim(),
+                                      detailsController.value.text.trim(),
+                                      totalAmount.value.text.trim(),
+                                      selectedClassId,
+                                      [
+                                        for (int i = 0;
+                                            i <
+                                                _breakDownTitleController
+                                                    .length;
+                                            i++)
+                                          FeesBreakdown(
+                                            title: _breakDownTitleController[i]
                                                 .value
-                                                .text
-                                                .replaceAll(',', ''),
+                                                .text,
+                                            amount: int.parse(
+                                              _breakDownAmountController[i]
+                                                  .value
+                                                  .text
+                                                  .replaceAll(',', ''),
+                                            ),
                                           ),
-                                        ),
-                                    ],
-                                    dateController.value.text,
-                                    termController.value.text,
-                                  );
-                                  context
-                                      .read<FeesPaymentBloc>()
-                                      .add(FeesPaymentEvent.addFees(fees));
+                                      ],
+                                      dateController.value.text,
+                                      termController.value.text,
+                                    );
+                                    context
+                                        .read<FeesPaymentBloc>()
+                                        .add(FeesPaymentEvent.addFees(fees));
+                                  }
                                 },
                               ),
                             ],
@@ -408,4 +390,54 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
       });
     }
   }
+
+  bool _buildWhen(
+    BuildContext context,
+    FeesPaymentState previous,
+    FeesPaymentState current,
+  ) {
+    if (previous.addFeesPaymentStatus == FormzSubmissionStatus.inProgress &&
+        current.addFeesPaymentStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Fees payment added successfully');
+      Navigator.of(context).pop();
+    } else if (previous.addFeesPaymentStatus ==
+            FormzSubmissionStatus.inProgress &&
+        current.addFeesPaymentStatus == FormzSubmissionStatus.failure) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      return true;
+    }
+    return true;
+  }
 }
+
+
+
+
+// {
+//   "type": "Request--->",
+//   "url": "https://edumake-backend.onrender.com/api/v1/sch/fees/67991ea0c1bc2dd292b374b1",
+//   "method": "POST",
+//   "payload": {
+//     "title": "Testing only for class 10",
+//     "details": "This should only show for class 10",
+//     "totalAmount": "20000",
+//     "classes": [
+//       "67a13d60e134e66839d5b652"
+//     ],
+//     "feesBreakdown": [
+//       {
+//         "title": "ICT1",
+//         "amount": 232
+//       },
+//       {
+//         "title": "Tution",
+//         "amount": 2323
+//       }
+//     ],
+//     "dueDate": "2025-03-31",
+//     "term": "First Term"
+//   }
+// }

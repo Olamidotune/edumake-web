@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/response.dart';
 import 'package:retrofit/http.dart';
 
 part 'fees_payment_client.g.dart';
@@ -17,5 +18,13 @@ abstract class FeesPaymentClient {
     @Header('Authorization') String authorization,
     @Path('schoolId') String schoolId,
     @Body() FeesPaymentRequestBody body,
+  );
+
+  @GET('/api/v1/sch/fees/all/{schoolId}')
+  @FormUrlEncoded()
+  Future<FeesResponse> fetchFees(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Query('studentId') String? studentId,
   );
 }

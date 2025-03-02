@@ -1,4 +1,4 @@
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_breakdown.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/break_down.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_student.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -46,7 +46,7 @@ class FeesPaymentDatum {
   final String createdBy;
 
   @JsonKey(name: 'feesBreakdown')
-  final List<FeesBreakdown> feesBreakdown;
+  final List<BreakDown> feesBreakdown;
 
   @JsonKey(name: 'status')
   final String status;
