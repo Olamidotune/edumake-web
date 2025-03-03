@@ -58,7 +58,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/add_lecture_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_fees_payment_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_time_table.dart';
@@ -294,8 +294,8 @@ class MyApp extends StatelessWidget {
                       const IndividualSubjectDetails(),
                   IndividualStudentAssignmentScreen.routeName: (context) =>
                       const IndividualStudentAssignmentScreen(),
-                  IndividualStudentFeesPaymentScreen.routeName: (context) =>
-                      const IndividualStudentFeesPaymentScreen(),
+                  IndividualStudentPaymentHistoryScreen.routeName: (context) =>
+                      const IndividualStudentPaymentHistoryScreen(),
                   ClassEventsScreen.routeName: (context) =>
                       const ClassEventsScreen(),
                   ClassEventDetailsScreen.routeName: (context) =>

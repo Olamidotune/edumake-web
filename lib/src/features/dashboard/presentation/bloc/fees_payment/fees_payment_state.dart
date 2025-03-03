@@ -19,6 +19,12 @@ class FeesPaymentState with _$FeesPaymentState {
     @Default([]) List<Datum> datum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
     FeeByIdResponse? feesIdResponse,
+    IndividualStudentPaymentHistoryResponse?
+        individualStudentPaymentHistoryResponse,
+    List<IndividualStudentPaymentHistoryResponseDatum>?
+        individualStudentPaymentHistoryResponseDatum,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchPaymentHistoryForStudentStatus,
     List<FeeByIdData>? feesIdDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchFeesByIdStatus,
@@ -30,7 +36,6 @@ extension FeesPaymentStateX on FeesPaymentState {
   Map<String, String> get studentPaymentStatus {
     final paymentStatusMap = <String, String>{};
 
-    // Ensure there's a response before processing
     if (feesResponse?.data != null) {
       for (final fee in feesResponse!.data) {
         for (final student in fee.students) {

@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
+import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,16 @@ class ParentFeesDetailsScreen extends StatelessWidget {
         builder: (context, state) {
           final feeData = state.feesIdResponse?.data;
           final breakdown = feeData?.feesBreakdown;
-          final students = feeData?.students;
 
-          final unpaidCount =
-              students?.where((s) => s.paymentStatus == 'unpaid').length;
+//           final studentsList = feeData?.students ?? [];
+//           final currentStudent = studentsList.firstWhere(
+//             (student) => student.studentId == studentId,
+//             orElse: () => Student(
+//                 studentId: '', paymentStatus: '', amountPaid: 0, id: ''),
+//           );
+
+// // Get payment status
+//           final paymentStatus = currentStudent.paymentStatus;
 
           if (state.fetchFeesByIdStatus == FormzSubmissionStatus.inProgress) {
             return const Center(
@@ -78,12 +85,14 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                                   ),
                         ),
                         Text(
-                          unpaidCount! > 0 ? 'Unpaid' : 'Paid',
+                          // add it here
+                          'Payment Status',
+                          // paymentStatus.toUpperCase(),
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: AppColors.blackColor,
+                                    color: AppColors.redColor,
                                     fontSize: 14.fontSize,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w600,
                                   ),
                         ),
                       ],
@@ -151,6 +160,11 @@ class ParentFeesDetailsScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  AppSpacing.verticalSpaceMassive,
+                  Button(
+                    text: 'Pay Fees',
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),
@@ -160,3 +174,8 @@ class ParentFeesDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+
+    // //  feeData!.students.contains(studentId)
+                    // // '${feeData!.students.map((id) => id.paymentStatus.contains(studentId.toString()))}',
+                    // studentId.toString(),

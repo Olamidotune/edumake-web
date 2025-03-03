@@ -247,7 +247,7 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                               ),
                               AppSpacing.verticalSpaceMedium,
                               Text(
-                                'Recipient/Payer',
+                                'Total Amount',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall!
@@ -303,6 +303,7 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                                       fontSize: 12.fontSize,
                                     ),
                               ),
+                              AppSpacing.verticalSpaceSmall,
                               BlocBuilder<GetSchoolDataBloc,
                                   GetSchoolDataState>(
                                 builder: (context, state) {

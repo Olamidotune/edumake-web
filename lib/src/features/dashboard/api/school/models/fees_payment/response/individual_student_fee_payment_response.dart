@@ -3,17 +3,17 @@ import 'package:json_annotation/json_annotation.dart';
 part 'individual_student_fee_payment_response.g.dart';
 
 @JsonSerializable()
-class IndividualStudentFeePaymentResponse {
-  IndividualStudentFeePaymentResponse({
+class IndividualStudentPaymentHistoryResponse {
+  IndividualStudentPaymentHistoryResponse({
     required this.success,
     required this.message,
     required this.statusCode,
     required this.data,
   });
 
-  factory IndividualStudentFeePaymentResponse.fromJson(
+  factory IndividualStudentPaymentHistoryResponse.fromJson(
           Map<String, dynamic> json) =>
-      _$IndividualStudentFeePaymentResponseFromJson(json);
+      _$IndividualStudentPaymentHistoryResponseFromJson(json);
   @JsonKey(name: 'success')
   bool success;
 
@@ -24,14 +24,14 @@ class IndividualStudentFeePaymentResponse {
   int statusCode;
 
   @JsonKey(name: 'data')
-  List<Datum> data;
+  List<IndividualStudentPaymentHistoryResponseDatum> data;
   Map<String, dynamic> toJson() =>
-      _$IndividualStudentFeePaymentResponseToJson(this);
+      _$IndividualStudentPaymentHistoryResponseToJson(this);
 }
 
 @JsonSerializable()
-class Datum {
-  Datum({
+class IndividualStudentPaymentHistoryResponseDatum {
+  IndividualStudentPaymentHistoryResponseDatum({
     required this.id,
     required this.fee,
     required this.amount,
@@ -46,7 +46,9 @@ class Datum {
     required this.v,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory IndividualStudentPaymentHistoryResponseDatum.fromJson(
+          Map<String, dynamic> json) =>
+      _$IndividualStudentPaymentHistoryResponseDatumFromJson(json);
   @JsonKey(name: '_id')
   String id;
 
@@ -82,7 +84,8 @@ class Datum {
 
   @JsonKey(name: '__v')
   int v;
-  Map<String, dynamic> toJson() => _$DatumToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$IndividualStudentPaymentHistoryResponseDatumToJson(this);
 }
 
 @JsonSerializable()

@@ -231,6 +231,7 @@ class FeesTabView extends StatelessWidget {
               title: details.title,
               term: details.term,
               amount: details.totalAmount,
+              student: false,
             );
           },
           separatorBuilder: (context, index) {
@@ -331,12 +332,14 @@ class FeesContainer extends StatelessWidget {
     required this.title,
     required this.term,
     required this.amount,
+    required this.student,
     super.key,
     this.onTap,
   });
   final String title;
   final String term;
   final int amount;
+  final bool student;
   final void Function()? onTap;
 
   @override
@@ -386,15 +389,15 @@ class FeesContainer extends StatelessWidget {
                             Icon(
                               Icons.star_border,
                               color: AppColors.primaryColor,
-                              size: 17.fontSize,
+                              size: 14.fontSize,
                             ),
                             Text(
-                              'Term',
+                              student ? 'Class/Level' : 'Term',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontSize: 15.fontSize,
+                                    fontSize: 12.fontSize,
                                     color: AppColors.primaryTextColor,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -418,7 +421,7 @@ class FeesContainer extends StatelessWidget {
                           maxLines: 2,
                         ),
                         Text(
-                          '$amount',
+                          'N $amount',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 15.fontSize,

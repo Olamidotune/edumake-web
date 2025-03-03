@@ -37,9 +37,9 @@ abstract class FeesPaymentClient {
     @Path('feeId') String feeId,
   );
 
-  @GET('/api/v1/sch/fees/{studentId}')
+  @GET('api/v1/par/payment-history/{studentId}')
   @FormUrlEncoded()
-  Future<IndividualStudentFeePaymentResponse> fetchFeesForStudent(
+  Future<IndividualStudentPaymentHistoryResponse> fetchPaymentHistoryForStudent(
     @Header('Authorization') String authorization,
     @Path('studentId') String studentId,
   );
