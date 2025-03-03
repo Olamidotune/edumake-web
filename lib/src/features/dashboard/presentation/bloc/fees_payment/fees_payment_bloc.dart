@@ -5,6 +5,8 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
@@ -28,6 +30,14 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     on<_FetchFees>(_fetchFees);
     on<_FetchFeesSuccessful>(_fetchFeesSuccessful);
     on<_FetchFeesFailed>(_fetchFeesFailed);
+    on<_FetchFeesById>(_fetchFeesById);
+    on<_FetchFeesByIdSuccessful>(_fetchFeesByIdSuccessful);
+    on<_FetchFeesByIdFailed>(_fetchFeesByIdFailed);
+    on<_FetchPaymentHistoryForStudent>(_fetchPaymentHistoryForStudent);
+    on<_FetchPaymentHistoryForStudentSuccessful>(
+        _fetchPaymentHistoryForStudentSuccessful);
+    on<_FetchPaymentHistoryForStudentFailed>(
+        _fetchPaymentHistoryForStudentFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -125,9 +135,14 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     try {
       final fees = await locator<FeesPaymentClient>().fetchFees(
         await getAuthorization(),
-        await getSchoolID(),
+        event.parentSchoolId ?? await getSchoolID(),
         event.studentId ?? '',
       );
+
+      emit(state.copyWith(
+        datum: List.from(state.datum)
+          ..addAll(fees.data), // ✅ Merging instead of overwriting
+      ));
 
       add(_FetchFeesSuccessful(fees));
     } catch (error, trace) {
@@ -149,6 +164,81 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       _FetchFeesFailed event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
         fetchFeesPaymentStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message));
+  }
+
+  void _fetchFeesById(
+      _FetchFeesById event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(fetchFeesByIdStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final fees = await locator<FeesPaymentClient>().fetchFeesByID(
+        await getAuthorization(),
+        event.feeId,
+      );
+
+      add(_FetchFeesByIdSuccessful(fees));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(_FetchFeesByIdFailed(error.toString()));
+    }
+  }
+
+  void _fetchFeesByIdSuccessful(
+      _FetchFeesByIdSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchFeesByIdStatus: FormzSubmissionStatus.success,
+        feesIdResponse: event.feesResponseById,
+        errorMessage: null));
+  }
+
+  void _fetchFeesByIdFailed(
+      _FetchFeesByIdFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchFeesByIdStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message));
+  }
+
+  void _fetchPaymentHistoryForStudent(_FetchPaymentHistoryForStudent event,
+      Emitter<FeesPaymentState> emit) async {
+    if (state.fetchPaymentHistoryForStudentStatus ==
+        FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(state.copyWith(
+        fetchPaymentHistoryForStudentStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final fees =
+          await locator<FeesPaymentClient>().fetchPaymentHistoryForStudent(
+        await getAuthorization(),
+        event.studentId,
+      );
+
+      add(_FetchPaymentHistoryForStudentSuccessful(fees));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(_FetchPaymentHistoryForStudentFailed(error.toString()));
+    }
+  }
+
+  void _fetchPaymentHistoryForStudentSuccessful(
+      _FetchPaymentHistoryForStudentSuccessful event,
+      Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchPaymentHistoryForStudentStatus: FormzSubmissionStatus.success,
+        individualStudentPaymentHistoryResponse: event.feesResponseForStudent,
+        individualStudentPaymentHistoryResponseDatum:
+            event.feesResponseForStudent.data,
+        errorMessage: null));
+  }
+
+  void _fetchPaymentHistoryForStudentFailed(
+      _FetchPaymentHistoryForStudentFailed event,
+      Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchPaymentHistoryForStudentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message));
   }
 

@@ -2,9 +2,11 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
@@ -217,7 +219,22 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.paymentHistory,
-                    onTap: () {},
+                    onTap: () {
+                      context.read<FeesPaymentBloc>().add(
+                            FeesPaymentEvent.fetchPaymentHistoryForStudent(
+                              studentId.toString(),
+                            ),
+                          );
+                      Navigator.of(context).pushNamed(
+                        IndividualStudentPaymentHistoryScreen.routeName,
+                        arguments: {
+                          'studentName': studentName.toString(),
+                          'className': className.toString(),
+                          'schoolName': schoolName.toString(),
+                          'studentId': studentId.toString(),
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

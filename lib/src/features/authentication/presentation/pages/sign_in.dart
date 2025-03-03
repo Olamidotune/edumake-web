@@ -217,8 +217,6 @@ class SignIn extends HookWidget {
                               ),
                             ),
                           ),
-
-                          // ),
                           AppSpacing.verticalSpaceHuge,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

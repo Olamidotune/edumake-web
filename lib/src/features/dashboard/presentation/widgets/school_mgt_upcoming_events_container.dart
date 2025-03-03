@@ -43,7 +43,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 7,
+                flex: 9,
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -55,7 +55,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Text(
                   date,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(

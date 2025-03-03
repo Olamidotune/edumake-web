@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/add_fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,22 +213,25 @@ class FeesTabView extends StatelessWidget {
         }
 
         if (state.errorMessage != null) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return const Center(
+            child: NoDataAvailable(message: 'Something went wrong', height: 3),
+          );
         }
 
-        if (state.datum == null || state.datum!.isEmpty) {
+        if (state.datum.isEmpty) {
           return const Center(child: Text('No fees found'));
         }
 
         return ListView.separated(
-          itemCount: state.datum!.length,
+          itemCount: state.datum.length,
           itemBuilder: (context, index) {
-            final details = state.datum![index];
+            final details = state.datum[index];
             return FeesContainer(
               onTap: () {},
               title: details.title,
               term: details.term,
               amount: details.totalAmount,
+              student: false,
             );
           },
           separatorBuilder: (context, index) {
@@ -240,51 +244,115 @@ class FeesTabView extends StatelessWidget {
 }
 
 class PaymentContainer extends StatelessWidget {
-  const PaymentContainer({required this.payment, super.key});
-
-  final String payment;
+  const PaymentContainer(
+      {required this.title,
+      required this.amount,
+      required this.paidBy,
+      required this.paidFor,
+      required this.date,
+      super.key,
+      this.onTap});
+  final String title;
+  final int amount;
+  final String paidBy;
+  final String paidFor;
+  final String date;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            ' payment.title',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
+    return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.shadowColor.withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(4, -2),
                 ),
-          ),
-          AppSpacing.verticalSpaceSmall,
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Date: ${'date'}'),
-              Text(
-                // '\$${payment.amount.toStringAsFixed(2)}',
-                'here',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: SvgPicture.asset('assets/svg/tick.svg'),
+                  title: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
+                  subtitle: Text(date),
+                  trailing: Text(
+                    'N $amount',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 14.fontSize,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
                 ),
-              ),
-            ],
+                AppSpacing.verticalSpaceSmall,
+                const Divider(
+                  color: AppColors.greyColor,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'paid by ',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                    children: [
+                      TextSpan(
+                        text: paidBy,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryColor,
+                            ),
+                      ),
+                      TextSpan(
+                        text: ', for ',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryTextColor,
+                            ),
+                      ),
+                      TextSpan(
+                        text: paidBy,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryColor,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -297,22 +365,34 @@ class PaymentsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
       builder: (context, state) {
-        if (state.fetchFeesPaymentStatus == FormzSubmissionStatus.inProgress) {
+        if (state.fetchPaymentHistoryForStudentStatus ==
+            FormzSubmissionStatus.inProgress) {
           return const Center(child: CircularProgressIndicator());
         }
 
         if (state.errorMessage != null) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return const Center(
+            child: NoDataAvailable(message: 'Something went wrong', height: 3),
+          );
         }
 
-        if (state.datum == null || state.datum!.isEmpty) {
+        if (state.individualStudentPaymentHistoryResponseDatum?.isEmpty ??
+            true) {
           return const Center(child: Text('No payments found'));
         }
-
         return ListView.separated(
-          itemCount: state.datum!.length,
+          itemCount: state.individualStudentPaymentHistoryResponseDatum!.length,
           itemBuilder: (context, index) {
-            return const PaymentContainer(payment: 'payment');
+            final payments =
+                state.individualStudentPaymentHistoryResponseDatum![index];
+            return PaymentContainer(
+              onTap: () {},
+              title: payments.fee.title,
+              amount: payments.amount,
+              paidBy: payments.paidBy.toString(),
+              paidFor: payments.paidFor,
+              date: '',
+            );
           },
           separatorBuilder: (context, index) {
             return AppSpacing.verticalSpaceMedium;
@@ -328,12 +408,14 @@ class FeesContainer extends StatelessWidget {
     required this.title,
     required this.term,
     required this.amount,
+    required this.student,
     super.key,
     this.onTap,
   });
   final String title;
   final String term;
   final int amount;
+  final bool student;
   final void Function()? onTap;
 
   @override
@@ -383,15 +465,15 @@ class FeesContainer extends StatelessWidget {
                             Icon(
                               Icons.star_border,
                               color: AppColors.primaryColor,
-                              size: 17.fontSize,
+                              size: 14.fontSize,
                             ),
                             Text(
-                              'Term',
+                              student ? 'Class/Level' : 'Term',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontSize: 15.fontSize,
+                                    fontSize: 12.fontSize,
                                     color: AppColors.primaryTextColor,
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -415,7 +497,7 @@ class FeesContainer extends StatelessWidget {
                           maxLines: 2,
                         ),
                         Text(
-                          '$amount',
+                          'N $amount',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 15.fontSize,

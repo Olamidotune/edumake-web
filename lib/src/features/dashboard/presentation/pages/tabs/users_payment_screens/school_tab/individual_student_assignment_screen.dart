@@ -108,7 +108,6 @@ class _IndividualStudentAssignmentScreenState
                         height: 8,
                       );
                     }
-
                     return SizedBox(
                       height: MediaQuery.of(context).size.height <
                               kMinSupportedHeight
@@ -125,7 +124,6 @@ class _IndividualStudentAssignmentScreenState
                           return AppSpacing.verticalSpaceMedium;
                         },
                         itemBuilder: (context, index) {
-                          // Check if this is the last item and we're loading
                           if (source == 'curriculum'
                               ? index ==
                                       state.fetchClassSubjectsDatum?.length &&
@@ -147,7 +145,7 @@ class _IndividualStudentAssignmentScreenState
                           }
 
                           final subjectData =
-                              state.fetchClassSubjectsDatum?[index];
+                              state.getSubjectForStudentDatum?[index];
                           return ClassesListTileContainer(
                             isProfilePictureEnabled: false,
                             title: subjectData?.name.toUpperCase() ?? '',

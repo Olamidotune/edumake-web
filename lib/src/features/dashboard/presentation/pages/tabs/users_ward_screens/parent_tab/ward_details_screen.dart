@@ -4,11 +4,13 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/get_wards/get_wards_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -184,7 +186,22 @@ class WardDetailScreen extends StatelessWidget {
                         AppStrings.paymentHistory,
                         'document',
                         '',
-                        () {},
+                        () {
+                          context.read<FeesPaymentBloc>().add(
+                                FeesPaymentEvent.fetchPaymentHistoryForStudent(
+                                  wardId.toString(),
+                                ),
+                              );
+                          Navigator.of(context).pushNamed(
+                            IndividualStudentPaymentHistoryScreen.routeName,
+                            arguments: {
+                              'studentName': wardName.toString(),
+                              'className': wardClass.toString(),
+                              'schoolName': wardSchool.toString(),
+                              'studentId': wardId.toString(),
+                            },
+                          );
+                        },
                       ),
                       AppSpacing.verticalSpaceSmall,
                       _WardDetailsButton(

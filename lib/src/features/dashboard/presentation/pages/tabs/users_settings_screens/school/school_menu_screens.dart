@@ -175,7 +175,7 @@ class SchoolMenuTopContainer extends StatelessWidget {
             onTap: () {
               context
                   .read<FeesPaymentBloc>()
-                  .add(const FeesPaymentEvent.fetchFees(''));
+                  .add(const FeesPaymentEvent.fetchFees(null, ''));
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(FeePaymentScreen.routeName);
             },
