@@ -31,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     );
 
-    _animation = Tween<double>(begin: 0.1, end: 1.5).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.elasticInOut),
+    _animation = Tween<double>(begin: .1, end: 1.5).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInCirc),
     );
     await _controller.forward();
 
