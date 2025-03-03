@@ -14,7 +14,8 @@ String formatLocalTime(String? timestamp) {
     final utcTime = DateTime.parse(timestamp);
     final localTime = utcTime.toLocal();
 
-    return DateFormat('dd/MM/yyyy HH:mm a').format(localTime);
+    // Changed format to dd-MMM-yyyy
+    return DateFormat('dd-MMM-yyyy').format(localTime);
   } catch (e) {
     return timestamp;
   }

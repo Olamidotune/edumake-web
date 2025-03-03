@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -21,7 +22,6 @@ class IndividualStudentPaymentHistoryScreen extends StatelessWidget {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     final studentName = args['studentName'];
-    final className = args['className'];
 
     final scrollController = ScrollController();
 
@@ -94,11 +94,12 @@ class IndividualStudentPaymentHistoryScreen extends StatelessWidget {
                         final feesPayments =
                             state.individualStudentPaymentHistoryResponseDatum![
                                 index];
-                        return FeesContainer(
+                        return PaymentContainer(
                           title: feesPayments.fee.details,
-                          term: '$className',
                           amount: feesPayments.fee.totalAmount,
-                          student: true,
+                          paidBy: feesPayments.paidBy.toString(),
+                          paidFor: feesPayments.paidFor,
+                          date: formatLocalTime(feesPayments.createdAt),
                         );
                       },
                       separatorBuilder: (context, index) {

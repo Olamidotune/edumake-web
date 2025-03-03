@@ -77,7 +77,7 @@ class IndividualStudentPaymentHistoryResponseDatum {
   bool isDeleted;
 
   @JsonKey(name: 'createdAt')
-  DateTime createdAt;
+  String createdAt;
 
   @JsonKey(name: 'updatedAt')
   DateTime updatedAt;

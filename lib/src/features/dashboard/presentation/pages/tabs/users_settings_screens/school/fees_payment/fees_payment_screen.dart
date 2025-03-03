@@ -244,51 +244,115 @@ class FeesTabView extends StatelessWidget {
 }
 
 class PaymentContainer extends StatelessWidget {
-  const PaymentContainer({required this.payment, super.key});
-
-  final String payment;
+  const PaymentContainer(
+      {required this.title,
+      required this.amount,
+      required this.paidBy,
+      required this.paidFor,
+      required this.date,
+      super.key,
+      this.onTap});
+  final String title;
+  final int amount;
+  final String paidBy;
+  final String paidFor;
+  final String date;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            ' payment.title',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
+    return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.shadowColor.withOpacity(0.2),
+                  blurRadius: 8,
+                  offset: const Offset(4, -2),
                 ),
-          ),
-          AppSpacing.verticalSpaceSmall,
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Date: ${'date'}'),
-              Text(
-                // '\$${payment.amount.toStringAsFixed(2)}',
-                'here',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: SvgPicture.asset('assets/svg/tick.svg'),
+                  title: Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
+                  subtitle: Text(date),
+                  trailing: Text(
+                    'N $amount',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 14.fontSize,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
                 ),
-              ),
-            ],
+                AppSpacing.verticalSpaceSmall,
+                const Divider(
+                  color: AppColors.greyColor,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'paid by ',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 13.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryTextColor,
+                        ),
+                    children: [
+                      TextSpan(
+                        text: paidBy,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryColor,
+                            ),
+                      ),
+                      TextSpan(
+                        text: ', for ',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryTextColor,
+                            ),
+                      ),
+                      TextSpan(
+                        text: paidBy,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 13.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.primaryColor,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -301,22 +365,34 @@ class PaymentsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
       builder: (context, state) {
-        if (state.fetchFeesPaymentStatus == FormzSubmissionStatus.inProgress) {
+        if (state.fetchPaymentHistoryForStudentStatus ==
+            FormzSubmissionStatus.inProgress) {
           return const Center(child: CircularProgressIndicator());
         }
 
         if (state.errorMessage != null) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
+          return const Center(
+            child: NoDataAvailable(message: 'Something went wrong', height: 3),
+          );
         }
 
-        if (state.datum.isEmpty) {
+        if (state.individualStudentPaymentHistoryResponseDatum?.isEmpty ??
+            true) {
           return const Center(child: Text('No payments found'));
         }
-
         return ListView.separated(
-          itemCount: state.datum.length,
+          itemCount: state.individualStudentPaymentHistoryResponseDatum!.length,
           itemBuilder: (context, index) {
-            return const PaymentContainer(payment: 'payment');
+            final payments =
+                state.individualStudentPaymentHistoryResponseDatum![index];
+            return PaymentContainer(
+              onTap: () {},
+              title: payments.fee.title,
+              amount: payments.amount,
+              paidBy: payments.paidBy.toString(),
+              paidFor: payments.paidFor,
+              date: '',
+            );
           },
           separatorBuilder: (context, index) {
             return AppSpacing.verticalSpaceMedium;

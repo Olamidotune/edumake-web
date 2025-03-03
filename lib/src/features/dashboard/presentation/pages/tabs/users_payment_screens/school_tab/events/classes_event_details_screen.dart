@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/edit_event_screen.dart';
@@ -99,7 +100,7 @@ class ClassEventDetailsScreen extends StatelessWidget {
                       ),
                       AppSpacing.verticalSpaceSmall,
                       Text(
-                        state.eventIdData?.createdAt ?? '',
+                        formatLocalTime(state.eventIdData?.date ?? ''),
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 12.fontSize,
                               fontWeight: FontWeight.w400,
