@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:edumake_frontend/config/pref_keys.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
@@ -116,4 +119,16 @@ class AuthServices {
   Future<void> signOut() async {
     await _manager._storage.deleteAll();
   }
+}
+
+Future<String?> getDeviceId() async {
+  final deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    final androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.id; // Returns unique Android device ID
+  } else if (Platform.isIOS) {
+    final iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.identifierForVendor; // Unique ID for iOS
+  }
+  return null;
 }

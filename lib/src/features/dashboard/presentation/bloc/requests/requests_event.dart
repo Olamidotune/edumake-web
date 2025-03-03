@@ -15,11 +15,10 @@ class RequestsEvent with _$RequestsEvent {
       _SelectedRequestId;
   const factory RequestsEvent.acceptRequest(String selectedRequestId) =
       _AcceptRequest;
-  const factory RequestsEvent.acceptRequestSuccessful(
-    GetRequestModel getRequestModel,
-  ) = _AcceptRequestSuccessful;
+  const factory RequestsEvent.acceptRequestSuccessful(SignupResponse response) =
+      _AcceptRequestSuccessful;
   const factory RequestsEvent.acceptRequestFailed(
-    String message,
+    String? message,
   ) = _AcceptRequestFailed;
   const factory RequestsEvent.rejectRequest(
     String selectedRequestId,

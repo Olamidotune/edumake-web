@@ -9,7 +9,7 @@ class KycState with _$KycState {
     @Default(PhoneNumberFormz.pure()) PhoneNumberFormz phoneNumber,
     @Default(NinFormz.pure()) NinFormz nin,
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus kycStatus,
-    SignupResponse? signupResponse,
+    KycResponse? kycResponse,
     String? errorMessage,
   }) = _KycState;
   const KycState._();

@@ -289,14 +289,11 @@ class _ConnectionRequestDetailsScreenState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Accept Button with BlocConsumer
-
                       Expanded(
                         child: BlocConsumer<RequestsBloc, RequestsState>(
                           listener: (context, state) {
                             if (state.acceptRequestStatus ==
                                 FormzSubmissionStatus.success) {
-                              // Only add this event once when successful
                               context.read<RequestsBloc>().add(
                                     RequestsEvent.requestStatusChanged(
                                       requestId.toString(),
@@ -305,12 +302,11 @@ class _ConnectionRequestDetailsScreenState
                               ToastService.toast(
                                 'Request accepted successfully',
                               );
+                              Navigator.pop(context);
                             } else if (state.acceptRequestStatus ==
                                 FormzSubmissionStatus.failure) {
-                              // Use else if instead of a separate if
-                              // This ensures only one path is taken
                               ToastService.toast(
-                                'Something went wrong',
+                                state.errorMessage.toString(),
                                 ToastType.error,
                               );
                             }

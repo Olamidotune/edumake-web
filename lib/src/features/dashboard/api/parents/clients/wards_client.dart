@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/send_request/send_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/models/ward_request/ward_request_model.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
@@ -32,7 +33,7 @@ abstract class WardsClient {
 
   @POST('/api/v1/sch/request/{requestId}')
   @FormUrlEncoded()
-  Future<GetRequestModel> approveRejectRequest(
+  Future<SignupResponse> approveRejectRequest(
     @Header('Authorization') String authorization,
     @Path('requestId') String requestId,
     @Field('action') String action,

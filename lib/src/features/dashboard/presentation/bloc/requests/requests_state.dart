@@ -5,6 +5,7 @@ class RequestsState with _$RequestsState {
   const factory RequestsState({
     List<GetRequestDatum>? getRequestDatum,
     GetRequestModel? getRequestModel,
+    AcceptRequestResponse? acceptRequestResponse,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus getRequestStatus,
     @Default(FormzSubmissionStatus.initial)

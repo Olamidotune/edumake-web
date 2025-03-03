@@ -15,6 +15,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/announcement_card.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/your_ward_widget.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
@@ -37,18 +38,21 @@ class _ParentDashboardState extends State<ParentDashboard> {
   void initState() {
     super.initState();
     context.read<GetWardsBloc>().add(const GetWardsEvent.fetchWards());
-
     context.read<GetWardsBloc>().stream.listen((state) {
       if (state.getWardStatus == FormzSubmissionStatus.success) {
-        final parentSchoolId =
-            state.getWardRequestModel?.data.first.wardDatumSchool.id;
+        final wardData = state.getWardRequestModel?.data ?? [];
 
-        final studentIds =
-            state.getWardRequestModel?.data.map((ward) => ward.id).toList();
-        for (final studentId in studentIds!) {
-          context
-              .read<FeesPaymentBloc>()
-              .add(FeesPaymentEvent.fetchFees(parentSchoolId, studentId));
+        if (wardData.isNotEmpty) {
+          final parentSchoolId = wardData.first.wardDatumSchool.id;
+          final studentIds = wardData.map((ward) => ward.id).toList();
+
+          for (final studentId in studentIds) {
+            context
+                .read<FeesPaymentBloc>()
+                .add(FeesPaymentEvent.fetchFees(parentSchoolId, studentId));
+          }
+        } else {
+          logInfo('No wards available, skipping fetchFees.');
         }
       }
     });
