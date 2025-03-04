@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/olamidotun/bin/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/olamidotun/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/olamidotun/Mobile Projects/edumake-frontend/android/app/.cxx/Debug/3hh12n65/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/olamidotun/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/olamidotun/Mobile Projects/edumake-frontend/android/app/.cxx/Debug/3hh12n65/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

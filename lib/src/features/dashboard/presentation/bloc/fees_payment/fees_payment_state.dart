@@ -16,7 +16,7 @@ class FeesPaymentState with _$FeesPaymentState {
     FeesBreakDownAmountFormz feesBreakDownAmount,
     FeesPaymentResponse? feesPaymentResponse,
     FeesResponse? feesResponse,
-    @Default([]) List<Datum> datum,
+    List<FetchResponseDatum>? fetchFeesResponseDatum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
     FeeByIdResponse? feesIdResponse,
     IndividualStudentPaymentHistoryResponse?
@@ -30,22 +30,6 @@ class FeesPaymentState with _$FeesPaymentState {
     FormzSubmissionStatus fetchFeesByIdStatus,
     String? errorMessage,
   }) = _FeesPaymentState;
-}
-
-extension FeesPaymentStateX on FeesPaymentState {
-  Map<String, String> get studentPaymentStatus {
-    final paymentStatusMap = <String, String>{};
-
-    if (feesResponse?.data != null) {
-      for (final fee in feesResponse!.data) {
-        for (final student in fee.students) {
-          paymentStatusMap[student.studentId] = student.paymentStatus;
-        }
-      }
-    }
-
-    return paymentStatusMap;
-  }
 }
 
 //==============================================================================

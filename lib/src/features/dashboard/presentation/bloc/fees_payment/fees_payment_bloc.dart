@@ -1,21 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'fees_payment_bloc.freezed.dart';
 part 'fees_payment_event.dart';
 part 'fees_payment_state.dart';
-part 'fees_payment_bloc.freezed.dart';
 
 class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
   FeesPaymentBloc() : super(const FeesPaymentState()) {
@@ -139,10 +141,10 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
         event.studentId ?? '',
       );
 
-      emit(state.copyWith(
-        datum: List.from(state.datum)
-          ..addAll(fees.data), // ✅ Merging instead of overwriting
-      ));
+      // emit(state.copyWith(
+      //   datum: List.from(state.datum)
+      //     ..addAll(fees.data), // ✅ Merging instead of overwriting
+      // ));
 
       add(_FetchFeesSuccessful(fees));
     } catch (error, trace) {
@@ -156,7 +158,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchFeesPaymentStatus: FormzSubmissionStatus.success,
         feesResponse: event.feesPayment,
-        datum: event.feesPayment.data,
+        fetchFeesResponseDatum: event.feesPayment.data,
         errorMessage: null));
   }
 

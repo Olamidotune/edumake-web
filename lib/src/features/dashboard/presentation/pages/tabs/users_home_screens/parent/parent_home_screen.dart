@@ -120,12 +120,15 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 itemCount: state.getWardRequestModel?.data.length ?? 0,
                 itemBuilder: (context, index) {
                   final wardDetails = state.getWardRequestModel?.data[index];
-                  final studentId = state.getWardRequestModel?.data[index].id;
+                  // final studentId = state.getWardRequestModel?.data[index].id;
                   final paymentStatus = context
-                          .read<FeesPaymentBloc>()
-                          .state
-                          .studentPaymentStatus[studentId] ??
-                      'unpaid';
+                      .read<FeesPaymentBloc>()
+                      .state
+                      .fetchFeesResponseDatum?[index]
+                      .students?[index]
+                      .paymentStatus;
+                  // ignore: unnecessary_statements
+                  'unpaid';
                   return YourWardCard(
                     wardName:
                         '${state.getWardRequestModel?.data[index].wardName}',

@@ -22,8 +22,8 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.addFees(
       FeesPaymentRequestBody feesPaymentRequestBody) = _AddFees;
 
-  const factory FeesPaymentEvent.addFeesSuccessful(
-      FeesPaymentResponse feesPaymentResponse) = _AddFeesSuccessful;
+  const factory FeesPaymentEvent.addFeesSuccessful(SignupResponse response) =
+      _AddFeesSuccessful;
 
   const factory FeesPaymentEvent.addFeesFailed([String? message]) =
       _AddFeesFailed;
