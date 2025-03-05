@@ -4,16 +4,16 @@ import 'package:json_annotation/json_annotation.dart';
 part 'fetch_fees_student.g.dart';
 
 @JsonSerializable()
-class Student {
-  Student({
+class Students {
+  Students({
     this.studentId,
     this.paymentStatus,
     this.amountPaid,
     this.amountPaidId,
   });
 
-  factory Student.fromJson(Map<String, dynamic> json) =>
-      _$StudentFromJson(json);
+  factory Students.fromJson(Map<String, dynamic> json) =>
+      _$StudentsFromJson(json);
   @JsonKey(name: 'studentId')
   StudentId? studentId;
 
@@ -25,5 +25,5 @@ class Student {
 
   @JsonKey(name: '_id')
   String? amountPaidId;
-  Map<String, dynamic> toJson() => _$StudentToJson(this);
+  Map<String, dynamic> toJson() => _$StudentsToJson(this);
 }

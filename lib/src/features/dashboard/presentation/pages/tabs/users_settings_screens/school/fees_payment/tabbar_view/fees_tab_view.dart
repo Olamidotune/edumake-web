@@ -32,17 +32,27 @@ class FeesTabView extends StatelessWidget {
           );
         }
 
-        if (state.fetchFeesResponseDatum?.isEmpty ?? true) {
+        // Explicitly filter students with 'unpaid' status from the original students list
+        final unpaidStudents = state.fetchFeesResponseDatum?.first.students
+                ?.where(
+                    (studentEntry) => studentEntry.paymentStatus == 'unpaid')
+                .toList() ??
+            [];
+
+        if (unpaidStudents.isEmpty) {
           return const Center(
-            child: NoDataAvailable(message: 'No fees presently.', height: 3),
+            child: NoDataAvailable(message: 'No unpaid fees.', height: 3),
           );
         }
 
         return ListView.separated(
-          controller: ScrollController(), //,
-          itemCount: state.fetchFeesResponseDatum?.first.students?.length ?? 0,
+          controller: ScrollController(),
+          itemCount: unpaidStudents.length,
           itemBuilder: (context, index) {
             final details = state.fetchFeesResponseDatum?.first;
+            final currentStudentEntry = unpaidStudents[index];
+            final currentStudent = currentStudentEntry.studentId;
+
             return FeesContainer(
               onTap: () {
                 Navigator.of(context).pushNamed(
@@ -55,27 +65,22 @@ class FeesTabView extends StatelessWidget {
                             .join(' and ') ??
                         '',
                     'amount': details?.totalAmount,
-                    'paidBy': details?.students?[index].studentId
-                        ?.guardians?[index].relationship,
-                    'paidFor': details?.students?[index].studentId?.name,
-                    'class': details?.students?[index].studentId?.studentClass
-                        ?.feesResponseClass?.slug,
+                    'paidBy': currentStudent?.guardians?[0].relationship,
+                    'paidFor': currentStudent?.name,
+                    'class':
+                        currentStudent?.studentClass?.feesResponseClass?.slug,
                     'feesBreakdown': details?.feesBreakdown
                             ?.map((fb) =>
                                 {'title': fb.title, 'amount': fb.amount})
                             .toList() ??
-                        [], // Convert `feesBreakdown` to a list of maps
-                    'studentId': details?.students?[index].studentId?.id,
+                        [],
+                    'studentId': currentStudent?.id,
                     'feesId': details?.id,
                   },
                 );
               },
               title: details?.title ?? '',
-              term: details?.classes
-                      ?.map((c) => c.name)
-                      .where((name) => true)
-                      .join(' and ') ??
-                  '',
+              term: currentStudent?.name ?? '',
               amount: details?.totalAmount ?? 0,
               student: false,
             );

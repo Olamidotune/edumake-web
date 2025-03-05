@@ -64,7 +64,7 @@ class FetchResponseDatum {
   String? term;
 
   @JsonKey(name: 'students')
-  List<Student>? students;
+  List<Students>? students;
 
   // @JsonKey(name: 'students', defaultValue: [])
   // List<Student> students;

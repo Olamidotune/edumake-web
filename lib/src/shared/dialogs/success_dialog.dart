@@ -51,9 +51,8 @@ class SuccessDialog extends StatelessWidget {
   }
 
   void _navigate(BuildContext context) async {
-    await Navigator.of(context).pushNamedAndRemoveUntil(
+    await Navigator.of(context).popAndPushNamed(
       FeePaymentScreen.routeName,
-      (_) => false,
     );
   }
 }

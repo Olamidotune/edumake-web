@@ -135,3 +135,14 @@ class FeesBreakDownAmountFormz extends FormzInput<String, ValidationError> {
     return null;
   }
 }
+
+extension FeesPaymentStateX on FeesPaymentState {
+  List<students.StudentId> get unpaidStudents {
+    return feesResponse?.data?.first.students
+            ?.where((status) => status.paymentStatus == 'unpaid')
+            .map((s) => s.studentId)
+            .whereType<students.StudentId>()
+            .toList() ??
+        [];
+  }
+}
