@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'fees_payment_client.g.dart';
@@ -32,7 +32,7 @@ abstract class FeesPaymentClient {
 
   @GET('/api/v1/sch/fees/{feeId}')
   @FormUrlEncoded()
-  Future<FeeByIdResponse> fetchFeesByID(
+  Future<FetchFeesByIdResponse> fetchFeesByID(
     @Header('Authorization') String authorization,
     @Path('feeId') String feeId,
   );

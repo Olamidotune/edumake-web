@@ -190,7 +190,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       _FetchFeesByIdSuccessful event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
         fetchFeesByIdStatus: FormzSubmissionStatus.success,
-        feesIdResponse: event.feesResponseById,
+        fetchFeesById: event.fetchFeesById,
         errorMessage: null));
   }
 

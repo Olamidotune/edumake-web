@@ -61,309 +61,304 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          controller: scroller,
-          child: CustomRawScroller(
-              scrollController: scroller,
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Add Fess',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 32.fontSize,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.primaryColor,
-                          ),
-                    ),
-                    AppSpacing.verticalSpaceTiny,
-                    Text(
-                      'Fill in all inputs to complete Fees addition.',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 12.fontSize,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.primaryTextColor,
-                          ),
-                    ),
-                    AppSpacing.verticalSpaceMassive,
-                    BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
-                      buildWhen: (previous, current) =>
-                          _buildWhen(context, previous, current),
-                      builder: (context, state) {
-                        return Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTextFormField(
-                                  title: 'Fees Title',
-                                  controller: titleController,
-                                  focusNode: titleFocusNode,
-                                  onChanged: (value) {
-                                    context.read<FeesPaymentBloc>().add(
-                                        FeesPaymentEvent.feesTitleChanged(
-                                            value));
-                                  },
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Title is required';
-                                    }
-                                    return null;
-                                  },
-                                  hintText: 'What is this fee for?',
-                                  keyboardType: TextInputType.text),
-                              AppSpacing.verticalSpaceMedium,
-                              CustomTextFormField(
-                                  title: 'Details',
-                                  controller: detailsController,
-                                  focusNode: detailsFocusNode,
-                                  hintText: 'Enter Details',
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Title is required';
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    context.read<FeesPaymentBloc>().add(
-                                        FeesPaymentEvent.feesTitleChanged(
-                                            value));
-                                  },
-                                  keyboardType: TextInputType.text),
-                              AppSpacing.verticalSpaceMedium,
-                              Text(
-                                'Fees Breakdown',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: AppColors.primaryTextColor,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 12.fontSize,
-                                    ),
-                              ),
-                              ListView.builder(
-                                padding: EdgeInsets.zero,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: _breakDownTitleController.length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      Expanded(
-                                        child: CustomTextFormField(
-                                          controller:
-                                              _breakDownTitleController[index],
-                                          focusNode:
-                                              _breakDownTitleFocusNodes[index],
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Field cannot be empty';
-                                            }
-                                            return null;
-                                          },
-                                          hintText: 'Title',
-                                          keyboardType: TextInputType.text,
-                                        ),
-                                      ),
-                                      AppSpacing.horizontalSpaceMedium,
-                                      Expanded(
-                                        child: CustomTextFormField(
-                                          controller:
-                                              _breakDownAmountController[index],
-                                          focusNode:
-                                              _breakDownAmountFocusNodes[index],
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Field cannot be empty';
-                                            }
-                                            return null;
-                                          },
-                                          hintText: 'Amount',
-                                          keyboardType: TextInputType.number,
-                                        ),
-                                      ),
-                                    ],
-                                  );
+        child: CustomRawScroller(
+          scrollController: scroller,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scroller,
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Add Fess',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 32.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceTiny,
+                  Text(
+                    'Fill in all inputs to complete Fees addition.',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 12.fontSize,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.primaryTextColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceMassive,
+                  BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+                    buildWhen: (previous, current) =>
+                        _buildWhen(context, previous, current),
+                    builder: (context, state) {
+                      return Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextFormField(
+                                title: 'Fees Title',
+                                controller: titleController,
+                                focusNode: titleFocusNode,
+                                onChanged: (value) {
+                                  context.read<FeesPaymentBloc>().add(
+                                      FeesPaymentEvent.feesTitleChanged(value));
                                 },
-                              ),
-                              AppSpacing.verticalSpaceTiny,
-                              Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton(
-                                    onPressed: _addBreakdownField,
-                                    child: Text(
-                                      'Add More',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: AppColors.primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12.fontSize,
-                                          ),
-                                    ),
-                                  )),
-                              AppSpacing.verticalSpaceMedium,
-                              CustomTextFormField(
-                                  title: 'Term',
-                                  controller: termController,
-                                  focusNode: termFocusNode,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Term is required';
-                                    }
-                                    return null;
-                                  },
-                                  hintText: 'Enter Term',
-                                  keyboardType: TextInputType.text),
-                              AppSpacing.verticalSpaceMedium,
-                              CustomTextFormField(
-                                title: 'Due Date',
-                                controller: dateController,
-                                focusNode: dateFocusNode,
-                                hintText: AppStrings.eventsDate,
-                                keyboardType: TextInputType.text,
-                                customFilled: true,
-                                readOnly: true,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please select a due date.';
+                                    return 'Title is required';
                                   }
                                   return null;
                                 },
-                                onTap: () {
-                                  _selectDate(context);
+                                hintText: 'What is this fee for?',
+                                keyboardType: TextInputType.text),
+                            AppSpacing.verticalSpaceMedium,
+                            CustomTextFormField(
+                                title: 'Details',
+                                controller: detailsController,
+                                focusNode: detailsFocusNode,
+                                hintText: 'Enter Details',
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Title is required';
+                                  }
+                                  return null;
                                 },
-                                editIcon: SvgPicture.asset(
-                                  'assets/svg/calendar.svg',
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                              AppSpacing.verticalSpaceMedium,
-                              Text(
-                                'Total Amount',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: AppColors.primaryTextColor,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 12.fontSize,
-                                    ),
-                              ),
-                              Row(
-                                spacing: 6,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: CustomTextFormField(
-                                        controller: dateController,
-                                        focusNode: dateFocusNode,
-                                        readOnly: true,
-                                        hintText: 'NGN',
-                                        keyboardType: TextInputType.text),
+                                onChanged: (value) {
+                                  context.read<FeesPaymentBloc>().add(
+                                      FeesPaymentEvent.feesTitleChanged(value));
+                                },
+                                keyboardType: TextInputType.text),
+                            AppSpacing.verticalSpaceMedium,
+                            Text(
+                              'Fees Breakdown',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
                                   ),
-                                  Expanded(
-                                    flex: 9,
-                                    child: CustomTextFormField(
-                                        controller: totalAmount,
-                                        focusNode: totalAmountFocusNode,
-                                        onChanged: (value) {
-                                          context.read<FeesPaymentBloc>().add(
-                                              FeesPaymentEvent
-                                                  .feesTotalAmountChanged(
-                                                      value));
-                                        },
+                            ),
+                            ListView.builder(
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: _breakDownTitleController.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        controller:
+                                            _breakDownTitleController[index],
+                                        focusNode:
+                                            _breakDownTitleFocusNodes[index],
                                         validator: (value) {
                                           if (value!.isEmpty) {
-                                            return 'Amount is required';
+                                            return 'Field cannot be empty';
                                           }
                                           return null;
                                         },
-                                        hintText: 'Enter Amount',
-                                        keyboardType: TextInputType.text),
-                                  ),
-                                ],
-                              ),
-                              AppSpacing.verticalSpaceMedium,
-                              Text(
-                                'Recipient/Payer',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: AppColors.primaryTextColor,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 12.fontSize,
+                                        hintText: 'Title',
+                                        keyboardType: TextInputType.text,
+                                      ),
                                     ),
-                              ),
-                              AppSpacing.verticalSpaceSmall,
-                              BlocBuilder<GetSchoolDataBloc,
-                                  GetSchoolDataState>(
-                                builder: (context, state) {
-                                  return MultiClassDropdown(
-                                    classes: state.classesData!,
-                                    onClassesSelected: (selectedClassIds) {
-                                      setState(() {
-                                        selectedClassId = selectedClassIds;
-                                      });
-                                    },
-                                  );
-                                },
-                              ),
-                              AppSpacing.verticalSpaceMassive,
-                              Button(
-                                busy: state.addFeesPaymentStatus ==
-                                    FormzSubmissionStatus.inProgress,
-                                text: 'Review',
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    final fees = FeesPaymentRequestBody(
-                                      titleController.value.text.trim(),
-                                      detailsController.value.text.trim(),
-                                      totalAmount.value.text.trim(),
-                                      selectedClassId,
-                                      [
-                                        for (int i = 0;
-                                            i <
-                                                _breakDownTitleController
-                                                    .length;
-                                            i++)
-                                          FeesBreakdown(
-                                            title: _breakDownTitleController[i]
-                                                .value
-                                                .text,
-                                            amount: int.parse(
-                                              _breakDownAmountController[i]
-                                                  .value
-                                                  .text
-                                                  .replaceAll(',', ''),
-                                            ),
-                                          ),
-                                      ],
-                                      dateController.value.text,
-                                      termController.value.text,
-                                    );
-                                    context
-                                        .read<FeesPaymentBloc>()
-                                        .add(FeesPaymentEvent.addFees(fees));
+                                    AppSpacing.horizontalSpaceMedium,
+                                    Expanded(
+                                      child: CustomTextFormField(
+                                        controller:
+                                            _breakDownAmountController[index],
+                                        focusNode:
+                                            _breakDownAmountFocusNodes[index],
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Field cannot be empty';
+                                          }
+                                          return null;
+                                        },
+                                        hintText: 'Amount',
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            AppSpacing.verticalSpaceTiny,
+                            Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: _addBreakdownField,
+                                  child: Text(
+                                    'Add More',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: AppColors.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.fontSize,
+                                        ),
+                                  ),
+                                )),
+                            AppSpacing.verticalSpaceMedium,
+                            CustomTextFormField(
+                                title: 'Term',
+                                controller: termController,
+                                focusNode: termFocusNode,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Term is required';
                                   }
+                                  return null;
                                 },
+                                hintText: 'Enter Term',
+                                keyboardType: TextInputType.text),
+                            AppSpacing.verticalSpaceMedium,
+                            CustomTextFormField(
+                              title: 'Due Date',
+                              controller: dateController,
+                              focusNode: dateFocusNode,
+                              hintText: AppStrings.eventsDate,
+                              keyboardType: TextInputType.text,
+                              customFilled: true,
+                              readOnly: true,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please select a due date.';
+                                }
+                                return null;
+                              },
+                              onTap: () {
+                                _selectDate(context);
+                              },
+                              editIcon: SvgPicture.asset(
+                                'assets/svg/calendar.svg',
+                                color: AppColors.primaryColor,
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              )),
+                            ),
+                            AppSpacing.verticalSpaceMedium,
+                            Text(
+                              'Total Amount',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
+                                  ),
+                            ),
+                            Row(
+                              spacing: 6,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: CustomTextFormField(
+                                      controller: dateController,
+                                      focusNode: dateFocusNode,
+                                      readOnly: true,
+                                      hintText: 'NGN',
+                                      keyboardType: TextInputType.text),
+                                ),
+                                Expanded(
+                                  flex: 9,
+                                  child: CustomTextFormField(
+                                      controller: totalAmount,
+                                      focusNode: totalAmountFocusNode,
+                                      onChanged: (value) {
+                                        context.read<FeesPaymentBloc>().add(
+                                            FeesPaymentEvent
+                                                .feesTotalAmountChanged(value));
+                                      },
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Amount is required';
+                                        }
+                                        return null;
+                                      },
+                                      hintText: 'Enter Amount',
+                                      keyboardType: TextInputType.text),
+                                ),
+                              ],
+                            ),
+                            AppSpacing.verticalSpaceMedium,
+                            Text(
+                              'Recipient/Payer',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                    color: AppColors.primaryTextColor,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.fontSize,
+                                  ),
+                            ),
+                            AppSpacing.verticalSpaceSmall,
+                            BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                              builder: (context, state) {
+                                return MultiClassDropdown(
+                                  classes: state.classesData!,
+                                  onClassesSelected: (selectedClassIds) {
+                                    setState(() {
+                                      selectedClassId = selectedClassIds;
+                                    });
+                                  },
+                                );
+                              },
+                            ),
+                            AppSpacing.verticalSpaceMassive,
+                            Button(
+                              busy: state.addFeesPaymentStatus ==
+                                  FormzSubmissionStatus.inProgress,
+                              text: 'Review',
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  final fees = FeesPaymentRequestBody(
+                                    titleController.value.text.trim(),
+                                    detailsController.value.text.trim(),
+                                    totalAmount.value.text.trim(),
+                                    selectedClassId,
+                                    [
+                                      for (int i = 0;
+                                          i < _breakDownTitleController.length;
+                                          i++)
+                                        FeesBreakdown(
+                                          title: _breakDownTitleController[i]
+                                              .value
+                                              .text,
+                                          amount: int.parse(
+                                            _breakDownAmountController[i]
+                                                .value
+                                                .text
+                                                .replaceAll(',', ''),
+                                          ),
+                                        ),
+                                    ],
+                                    dateController.value.text,
+                                    termController.value.text,
+                                  );
+                                  context
+                                      .read<FeesPaymentBloc>()
+                                      .add(FeesPaymentEvent.addFees(fees));
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

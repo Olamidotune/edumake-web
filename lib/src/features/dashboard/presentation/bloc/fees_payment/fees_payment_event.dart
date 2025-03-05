@@ -40,7 +40,7 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.fetchFeesById(String feeId) = _FetchFeesById;
 
   const factory FeesPaymentEvent.fetchFeesSuccessfulById(
-      FeeByIdResponse feesResponseById) = _FetchFeesByIdSuccessful;
+      FetchFeesByIdResponse fetchFeesById) = _FetchFeesByIdSuccessful;
 
   const factory FeesPaymentEvent.fetchFeesByIdFailed(String message) =
       _FetchFeesByIdFailed;

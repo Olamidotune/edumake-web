@@ -3,185 +3,265 @@ import 'package:json_annotation/json_annotation.dart';
 part 'fee_by_id_response.g.dart';
 
 @JsonSerializable()
-class FeeByIdResponse {
-  FeeByIdResponse({
-    required this.success,
-    required this.message,
-    required this.data,
-    required this.statusCode,
+class FetchFeesByIdResponse {
+  FetchFeesByIdResponse({
+    this.success,
+    this.message,
+    this.data,
+    this.statusCode,
   });
-  factory FeeByIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$FeeByIdResponseFromJson(json);
+
+  factory FetchFeesByIdResponse.fromJson(Map<String, dynamic> json) =>
+      _$FetchFeesByIdResponseFromJson(json);
   @JsonKey(name: 'success')
-  bool success;
+  bool? success;
 
   @JsonKey(name: 'message')
-  String message;
+  String? message;
 
   @JsonKey(name: 'data')
-  FeeByIdData data;
+  FetchFeesByIdResponseDatum? data;
 
   @JsonKey(name: 'statusCode')
-  int statusCode;
-  Map<String, dynamic> toJson() => _$FeeByIdResponseToJson(this);
+  int? statusCode;
+  Map<String, dynamic> toJson() => _$FetchFeesByIdResponseToJson(this);
 }
 
 @JsonSerializable()
-class FeeByIdData {
-  FeeByIdData({
-    required this.id,
-    required this.title,
-    required this.details,
-    required this.totalAmount,
-    required this.classes,
-    required this.school,
-    required this.createdBy,
-    required this.feesBreakdown,
-    required this.status,
-    required this.dueDate,
-    required this.term,
-    required this.students,
-    required this.isDeleted,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+class FetchFeesByIdResponseDatum {
+  FetchFeesByIdResponseDatum({
+    this.id,
+    this.title,
+    this.details,
+    this.totalAmount,
+    this.classes,
+    this.school,
+    this.createdBy,
+    this.feesBreakdown,
+    this.status,
+    this.dueDate,
+    this.term,
+    this.students,
+    this.isDeleted,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
   });
 
-  factory FeeByIdData.fromJson(Map<String, dynamic> json) =>
-      _$FeeByIdDataFromJson(json);
+  factory FetchFeesByIdResponseDatum.fromJson(Map<String, dynamic> json) =>
+      _$FetchFeesByIdResponseDatumFromJson(json);
   @JsonKey(name: '_id')
-  String id;
-
+  String? id;
   @JsonKey(name: 'title')
-  String title;
-
+  String? title;
   @JsonKey(name: 'details')
-  String details;
-
+  String? details;
   @JsonKey(name: 'totalAmount')
-  int totalAmount;
-
+  int? totalAmount;
   @JsonKey(name: 'classes')
-  List<Class> classes;
-
+  List<Class>? classes;
   @JsonKey(name: 'school')
-  String school;
-
+  School? school;
   @JsonKey(name: 'createdBy')
-  CreatedBy createdBy;
-
+  CreatedBy? createdBy;
   @JsonKey(name: 'feesBreakdown')
-  List<FeesBreakdown> feesBreakdown;
-
+  List<FeesBreakdown>? feesBreakdown;
   @JsonKey(name: 'status')
-  String status;
-
+  String? status;
   @JsonKey(name: 'dueDate')
-  DateTime dueDate;
-
+  DateTime? dueDate;
   @JsonKey(name: 'term')
-  String term;
-
+  String? term;
   @JsonKey(name: 'students')
-  List<Student> students;
-
+  List<Student>? students;
   @JsonKey(name: 'isDeleted')
-  bool isDeleted;
-
+  bool? isDeleted;
   @JsonKey(name: 'createdAt')
-  DateTime createdAt;
-
+  DateTime? createdAt;
   @JsonKey(name: 'updatedAt')
-  DateTime updatedAt;
-
+  DateTime? updatedAt;
   @JsonKey(name: '__v')
-  int v;
-  Map<String, dynamic> toJson() => _$FeeByIdDataToJson(this);
+  int? v;
+  Map<String, dynamic> toJson() => _$FetchFeesByIdResponseDatumToJson(this);
 }
 
 @JsonSerializable()
 class Class {
   Class({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
 
   factory Class.fromJson(Map<String, dynamic> json) => _$ClassFromJson(json);
   @JsonKey(name: '_id')
-  String id;
-
-  @JsonKey(name: 'name')
-  String name;
+  String? id;
+  String? name;
   Map<String, dynamic> toJson() => _$ClassToJson(this);
 }
 
 @JsonSerializable()
 class CreatedBy {
   CreatedBy({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
+    this.id,
+    this.email,
+    this.firstName,
+    this.lastName,
   });
 
   factory CreatedBy.fromJson(Map<String, dynamic> json) =>
       _$CreatedByFromJson(json);
   @JsonKey(name: '_id')
-  String id;
-
-  @JsonKey(name: 'email')
-  String email;
-
-  @JsonKey(name: 'firstName')
-  String firstName;
-
-  @JsonKey(name: 'lastName')
-  String lastName;
+  String? id;
+  String? email;
+  String? firstName;
+  String? lastName;
   Map<String, dynamic> toJson() => _$CreatedByToJson(this);
 }
 
 @JsonSerializable()
 class FeesBreakdown {
   FeesBreakdown({
-    required this.title,
-    required this.amount,
-    required this.id,
+    this.title,
+    this.amount,
+    this.id,
   });
 
   factory FeesBreakdown.fromJson(Map<String, dynamic> json) =>
       _$FeesBreakdownFromJson(json);
-  @JsonKey(name: 'title')
-  String title;
-
-  @JsonKey(name: 'amount')
-  int amount;
-
+  String? title;
+  int? amount;
   @JsonKey(name: '_id')
-  String id;
+  String? id;
   Map<String, dynamic> toJson() => _$FeesBreakdownToJson(this);
+}
+
+@JsonSerializable()
+class School {
+  School({
+    this.id,
+  });
+
+  factory School.fromJson(Map<String, dynamic> json) => _$SchoolFromJson(json);
+  @JsonKey(name: '_id')
+  String? id;
+  Map<String, dynamic> toJson() => _$SchoolToJson(this);
 }
 
 @JsonSerializable()
 class Student {
   Student({
-    required this.studentId,
-    required this.paymentStatus,
-    required this.amountPaid,
-    required this.id,
+    this.studentId,
+    this.paymentStatus,
+    this.amountPaid,
+    this.id,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) =>
       _$StudentFromJson(json);
-  @JsonKey(name: 'studentId')
-  String studentId;
+  StudentId? studentId;
+  String? paymentStatus;
+  int? amountPaid;
+  @JsonKey(name: '_id')
+  String? id;
+  Map<String, dynamic> toJson() => _$StudentToJson(this);
+}
 
-  @JsonKey(name: 'paymentStatus')
-  String paymentStatus;
+@JsonSerializable()
+class StudentId {
+  StudentId({
+    this.id,
+    this.studentIdClass,
+    this.name,
+    this.school,
+    this.guardians,
+    this.isDeleted,
+    this.v,
+    this.createdAt,
+    this.updatedAt,
+    this.slug,
+  });
 
-  @JsonKey(name: 'amountPaid')
-  int amountPaid;
+  factory StudentId.fromJson(Map<String, dynamic> json) =>
+      _$StudentIdFromJson(json);
+  @JsonKey(name: '_id')
+  String? id;
+  @JsonKey(name: 'class')
+  FetchFeeByIdClass? studentIdClass;
+
+  String? name;
+
+  String? school;
+
+  List<Guardian>? guardians;
+
+  bool? isDeleted;
+
+  int? v;
+
+  DateTime? createdAt;
+
+  DateTime? updatedAt;
+  String? slug;
+  Map<String, dynamic> toJson() => _$StudentIdToJson(this);
+}
+
+@JsonSerializable()
+class FetchFeeByIdClass {
+  FetchFeeByIdClass({
+    this.id,
+    this.school,
+    this.name,
+    this.slug,
+    this.isDeleted,
+    this.v,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory FetchFeeByIdClass.fromJson(Map<String, dynamic>? json) =>
+      json == null ? FetchFeeByIdClass() : _$FetchFeeByIdClassFromJson(json);
 
   @JsonKey(name: '_id')
-  String id;
-  Map<String, dynamic> toJson() => _$StudentToJson(this);
+  String? id;
+
+  @JsonKey(name: 'school')
+  String? school;
+
+  @JsonKey(name: 'name')
+  String? name;
+
+  @JsonKey(name: 'slug')
+  String? slug;
+
+  @JsonKey(name: 'isDeleted')
+  bool? isDeleted;
+
+  @JsonKey(name: '__v')
+  int? v;
+
+  @JsonKey(name: 'createdAt')
+  DateTime? createdAt;
+
+  @JsonKey(name: 'updatedAt')
+  DateTime? updatedAt;
+
+  Map<String, dynamic> toJson() => _$FetchFeeByIdClassToJson(this);
+}
+
+@JsonSerializable()
+class Guardian {
+  Guardian({
+    this.guardianId,
+    this.relationship,
+    this.id,
+  });
+
+  factory Guardian.fromJson(Map<String, dynamic> json) =>
+      _$GuardianFromJson(json);
+  @JsonKey(name: 'guardianId')
+  String? guardianId;
+  String? relationship;
+  @JsonKey(name: '_id')
+  String? id;
+  Map<String, dynamic> toJson() => _$GuardianToJson(this);
 }

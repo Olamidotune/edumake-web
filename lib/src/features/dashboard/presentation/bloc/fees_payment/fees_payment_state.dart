@@ -18,14 +18,13 @@ class FeesPaymentState with _$FeesPaymentState {
     FeesResponse? feesResponse,
     List<FetchResponseDatum>? fetchFeesResponseDatum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
-    FeeByIdResponse? feesIdResponse,
+    FetchFeesByIdResponse? fetchFeesById,
     IndividualStudentPaymentHistoryResponse?
         individualStudentPaymentHistoryResponse,
     List<IndividualStudentPaymentHistoryResponseDatum>?
         individualStudentPaymentHistoryResponseDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchPaymentHistoryForStudentStatus,
-    List<FeeByIdData>? feesIdDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchFeesByIdStatus,
     String? errorMessage,
