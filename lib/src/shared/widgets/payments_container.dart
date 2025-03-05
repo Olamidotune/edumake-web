@@ -49,7 +49,10 @@ class PaymentContainer extends StatelessWidget {
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: SvgPicture.asset('assets/svg/tick.svg'),
+                  leading: SvgPicture.asset(
+                    'assets/svg/tick.svg',
+                    height: 20.fontSize,
+                  ),
                   title: Text(
                     title,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -59,7 +62,15 @@ class PaymentContainer extends StatelessWidget {
                           color: AppColors.primaryTextColor,
                         ),
                   ),
-                  subtitle: Text(date),
+                  subtitle: Text(
+                    date,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 10.fontSize,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.greyColor,
+                        ),
+                  ),
                   trailing: Text(
                     '${AppStrings.naira} ${numberFormat.format(amount)}',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(

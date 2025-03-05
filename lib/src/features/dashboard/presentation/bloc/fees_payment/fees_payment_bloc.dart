@@ -253,6 +253,8 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _markFeesPayment(
       _MarkFeesPayment event, Emitter<FeesPaymentState> emit) async {
+    if (state.markFeesPaymentStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(
         markFeesPaymentStatus: FormzSubmissionStatus.inProgress));
 
@@ -295,6 +297,8 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _submitFeesIssue(
       _SubmitFeesIssue event, Emitter<FeesPaymentState> emit) async {
+    if (state.submitFeesIssueStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(
         submitFeesIssueStatus: FormzSubmissionStatus.inProgress));
 
@@ -337,7 +341,9 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _fetchPayments(
       _FetchPayments event, Emitter<FeesPaymentState> emit) async {
-    emit(state.copyWith(fetchFeesByIdStatus: FormzSubmissionStatus.inProgress));
+    if (state.fetchPaymentStatus == FormzSubmissionStatus.inProgress) return;
+
+    emit(state.copyWith(fetchPaymentStatus: FormzSubmissionStatus.inProgress));
 
     try {
       final payments = await locator<FeesPaymentClient>().fetchPayments(
@@ -353,7 +359,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
   void _fetchPaymentsSuccessful(
       _FetchPaymentsSuccessful event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
-        fetchFeesPaymentStatus: FormzSubmissionStatus.success,
+        fetchPaymentStatus: FormzSubmissionStatus.success,
         fetchPaymentsResponse: event.fetchPaymentsResponse,
         fetchPaymentsDatum: event.fetchPaymentsResponse.data,
         errorMessage: null));
@@ -362,7 +368,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
   void _fetchPaymentsFailed(
       _FetchPaymentsFailed event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
-        fetchFeesByIdStatus: FormzSubmissionStatus.failure,
+        fetchPaymentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message));
   }
 

@@ -29,6 +29,7 @@ class PaymentsTabView extends StatelessWidget {
                   message: 'No payments presently.', height: 3));
         }
         return ListView.separated(
+          shrinkWrap: true,
           controller: ScrollController(), //
           itemCount: state.fetchPaymentsDatum!.length,
           itemBuilder: (context, index) {
