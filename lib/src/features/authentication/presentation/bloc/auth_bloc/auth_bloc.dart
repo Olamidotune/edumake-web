@@ -9,6 +9,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/notification_service.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -115,15 +116,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(signUpStatus: FormzSubmissionStatus.inProgress));
 
     final userRole = await UserRoleHelper.getUserRole();
-
     final roleForAPI =
         UserRoleHelper.getRoleStringForAPI(userRole ?? UserRole.parent);
+
+    final deviceId = await getDeviceId();
+    logInfo('Device ID: $deviceId');
+
+    await NotificationService.instance.initialize();
+    final fcmToken = NotificationService.instance.fcmToken;
+    if (fcmToken == null) {
+      logInfo('FCM token is null, continuing signup without token.');
+    }
 
     try {
       final signupResponse = await locator<AuthenticationClient>().signUp(
         state.email.value.trim(),
         state.password.value.trim(),
         roleForAPI,
+        fcmToken ?? '',
+        deviceId ?? 'unknown', // Handle null case
       );
       add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {

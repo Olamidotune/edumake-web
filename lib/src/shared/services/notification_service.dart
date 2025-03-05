@@ -25,6 +25,7 @@ class NotificationService {
   final messaging = FirebaseMessaging.instance;
   final _localNotification = FlutterLocalNotificationsPlugin();
   bool _isFlutterNotificationInitialized = false;
+  String? _fcmToken; // Store FCM token
 
   Future<void> initialize() async {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -32,12 +33,14 @@ class NotificationService {
     await _setUpMessageHandlers();
 
     try {
-      final token = await messaging.getToken();
-      logInfo('FCM Token: $token');
+      _fcmToken = await messaging.getToken();
+      logInfo('FCM Token: $_fcmToken');
     } catch (e) {
       logInfo('Error getting FCM token: $e');
     }
   }
+
+  String? get fcmToken => _fcmToken; // Getter for FCM token
 
   Future<void> _requestPermission() async {
     final messaging = FirebaseMessaging.instance;

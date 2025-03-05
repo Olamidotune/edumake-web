@@ -10,7 +10,7 @@ class KycEvent with _$KycEvent {
   const factory KycEvent.ninChanged(String nin) = _NinChanged;
   const factory KycEvent.submitKyc() = _SubmitKyc;
   const factory KycEvent.resetKyc() = _ResetKyc;
-  const factory KycEvent.submitKycSuccess(SignupResponse signupResponse) =
+  const factory KycEvent.submitKycSuccess(KycResponse kycResponse) =
       _SubmitKycSuccess;
   const factory KycEvent.submitKycFailure(String error) = _SubmitKycFailure;
   const factory KycEvent.init() = _Init;

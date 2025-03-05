@@ -22,7 +22,7 @@ class ParentFeesDetailsScreen extends StatelessWidget {
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
         builder: (context, state) {
-          final feeData = state.feesIdResponse?.data;
+          final feeData = state.fetchFeesById?.data;
           final breakdown = feeData?.feesBreakdown;
 
 //           final studentsList = feeData?.students ?? [];

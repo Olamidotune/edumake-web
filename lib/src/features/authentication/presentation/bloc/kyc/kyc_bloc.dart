@@ -2,13 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/api/clients/authentication.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/kyc_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/persistence_services.dart';
-import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -26,7 +25,6 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     on<_SubmitKycSuccess>(_onSubmitKycSuccess);
     on<_SubmitKycFailure>(_onSubmitKycFailure);
     on<_ResetKyc>(_onResetKyc);
-    // on<_Init>(_onInit);
   }
 
   void _onFirstNameChanged(_FirstNameChanged event, Emitter<KycState> emit) {
@@ -122,11 +120,11 @@ class KycBloc extends Bloc<KycEvent, KycState> {
     emit(
       state.copyWith(
         kycStatus: FormzSubmissionStatus.success,
-        signupResponse: event.signupResponse,
+        kycResponse: event.kycResponse,
       ),
     );
 
-    logInfo(event.signupResponse.message);
+    logInfo(event.kycResponse.message);
     add(const KycEvent.resetKyc());
   }
 

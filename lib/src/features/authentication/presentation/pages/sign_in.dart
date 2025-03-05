@@ -305,6 +305,7 @@ class SignIn extends HookWidget {
           current.errorMessage ?? 'An error occurred',
           ToastType.warning,
         );
+        context.read<AuthBloc>().add(const AuthEvent.resendOtp());
         Navigator.of(context)
             .pushNamedAndRemoveUntil(VerifyAccount.routeName, (route) => false);
       } else {

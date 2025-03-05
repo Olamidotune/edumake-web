@@ -22,8 +22,8 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.addFees(
       FeesPaymentRequestBody feesPaymentRequestBody) = _AddFees;
 
-  const factory FeesPaymentEvent.addFeesSuccessful(
-      FeesPaymentResponse feesPaymentResponse) = _AddFeesSuccessful;
+  const factory FeesPaymentEvent.addFeesSuccessful(SignupResponse response) =
+      _AddFeesSuccessful;
 
   const factory FeesPaymentEvent.addFeesFailed([String? message]) =
       _AddFeesFailed;
@@ -40,7 +40,7 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.fetchFeesById(String feeId) = _FetchFeesById;
 
   const factory FeesPaymentEvent.fetchFeesSuccessfulById(
-      FeeByIdResponse feesResponseById) = _FetchFeesByIdSuccessful;
+      FetchFeesByIdResponse fetchFeesById) = _FetchFeesByIdSuccessful;
 
   const factory FeesPaymentEvent.fetchFeesByIdFailed(String message) =
       _FetchFeesByIdFailed;
@@ -54,6 +54,27 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
 
   const factory FeesPaymentEvent.fetchPaymentHistoryForStudentFailed(
       String message) = _FetchPaymentHistoryForStudentFailed;
+
+////////////////////////////////////////////////////////
+  const factory FeesPaymentEvent.markFeesPayment(
+      String feesId, String studentId, String paymentStatus) = _MarkFeesPayment;
+
+  const factory FeesPaymentEvent.markFeesPaymentSuccessful(
+      SignupResponse response) = _MarkFeesPaymentSuccessful;
+
+  const factory FeesPaymentEvent.markFeesPaymentFailed(String? message) =
+      _MarkFeesPaymentFailed;
+
+/////////////////////////////////////////////////////////////////////////
+
+  const factory FeesPaymentEvent.submitFeesIssue(
+      String feesId, String studentId, String paymentStatus) = _SubmitFeesIssue;
+
+  const factory FeesPaymentEvent.submitFeesIssueSuccessful(
+      SignupResponse response) = _SubmitFeesIssueSuccessful;
+
+  const factory FeesPaymentEvent.submitFeesIssueFailed(String? message) =
+      _SubmitFeesIssueFailed;
 
   const factory FeesPaymentEvent.errorMessage(String? message) = _ErrorMessage;
 }

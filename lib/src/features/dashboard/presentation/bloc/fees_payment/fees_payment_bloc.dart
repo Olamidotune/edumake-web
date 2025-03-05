@@ -1,21 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_data.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_student_id.dart'
+    as students show StudentId;
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'fees_payment_bloc.freezed.dart';
 part 'fees_payment_event.dart';
 part 'fees_payment_state.dart';
-part 'fees_payment_bloc.freezed.dart';
 
 class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
   FeesPaymentBloc() : super(const FeesPaymentState()) {
@@ -38,6 +42,13 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
         _fetchPaymentHistoryForStudentSuccessful);
     on<_FetchPaymentHistoryForStudentFailed>(
         _fetchPaymentHistoryForStudentFailed);
+    on<_MarkFeesPayment>(_markFeesPayment);
+    on<_MarkFeesPaymentSuccessful>(_markFeesPaymentSuccessful);
+    on<_MarkFeesPaymentFailed>(_markFeesPaymentFailed);
+
+    on<_SubmitFeesIssue>(_submitFeesIssue);
+    on<_SubmitFeesIssueSuccessful>(_submitFeesIssueSuccessful);
+    on<_SubmitFeesIssueFailed>(_submitFeesIssueFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -139,10 +150,10 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
         event.studentId ?? '',
       );
 
-      emit(state.copyWith(
-        datum: List.from(state.datum)
-          ..addAll(fees.data), // ✅ Merging instead of overwriting
-      ));
+      // emit(state.copyWith(
+      //   datum: List.from(state.datum)
+      //     ..addAll(fees.data), // ✅ Merging instead of overwriting
+      // ));
 
       add(_FetchFeesSuccessful(fees));
     } catch (error, trace) {
@@ -156,7 +167,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchFeesPaymentStatus: FormzSubmissionStatus.success,
         feesResponse: event.feesPayment,
-        datum: event.feesPayment.data,
+        fetchFeesResponseDatum: event.feesPayment.data,
         errorMessage: null));
   }
 
@@ -188,7 +199,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       _FetchFeesByIdSuccessful event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
         fetchFeesByIdStatus: FormzSubmissionStatus.success,
-        feesIdResponse: event.feesResponseById,
+        fetchFeesById: event.fetchFeesById,
         errorMessage: null));
   }
 
@@ -240,6 +251,90 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchPaymentHistoryForStudentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message));
+  }
+
+  void _markFeesPayment(
+      _MarkFeesPayment event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(
+        markFeesPaymentStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final response = await locator<FeesPaymentClient>().markFeesPaymentStatus(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.feesId,
+        event.studentId,
+        event.paymentStatus,
+      );
+
+      add(_MarkFeesPaymentSuccessful(response));
+    } catch (error, trace) {
+      logError(error, trace);
+
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_MarkFeesPaymentFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _MarkFeesPaymentFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _markFeesPaymentSuccessful(
+      _MarkFeesPaymentSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      markFeesPaymentStatus: FormzSubmissionStatus.success,
+      errorMessage: null,
+    ));
+  }
+
+  void _markFeesPaymentFailed(
+      _MarkFeesPaymentFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      markFeesPaymentStatus: FormzSubmissionStatus.failure,
+      errorMessage: event.message,
+    ));
+  }
+
+  void _submitFeesIssue(
+      _SubmitFeesIssue event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(
+        submitFeesIssueStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final response = await locator<FeesPaymentClient>().markFeesPaymentStatus(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.feesId,
+        event.studentId,
+        event.paymentStatus,
+      );
+
+      add(_SubmitFeesIssueSuccessful(response));
+    } catch (error, trace) {
+      logError(error, trace);
+
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SubmitFeesIssueFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _SubmitFeesIssueFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _submitFeesIssueSuccessful(
+      _SubmitFeesIssueSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      submitFeesIssueStatus: FormzSubmissionStatus.success,
+      errorMessage: null,
+    ));
+  }
+
+  void _submitFeesIssueFailed(
+      _SubmitFeesIssueFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      submitFeesIssueStatus: FormzSubmissionStatus.failure,
+      errorMessage: event.message,
+    ));
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<FeesPaymentState> emit) {

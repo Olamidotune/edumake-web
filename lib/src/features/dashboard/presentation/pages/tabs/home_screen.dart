@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/kyc/kyc_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/search_result.dart';
 
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/parent/search/search_bloc.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final kycState = context.read<KycBloc>().state;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
@@ -65,7 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                       children: [
                         TextSpan(
-                          text: '${state.user?.fullName ?? 'User'},',
+                          text:
+                              '${state.user?.fullName ?? kycState.kycResponse?.data.firstName},',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',

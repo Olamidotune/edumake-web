@@ -10,8 +10,8 @@ class YourWardCard extends StatelessWidget {
     required this.wardName,
     required this.schoolName,
     required this.wardClass,
+    required this.feesPaid,
     this.assignmentNum,
-    this.feesPaid = false,
     this.scores,
     super.key,
   });

@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/parents/clients/wards_client.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/accept_request_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_datum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/request/get_request_model.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
@@ -134,13 +137,13 @@ class RequestsBloc extends Bloc<RequestsEvent, RequestsState> {
 
       add(_AcceptRequestSuccessful(acceptRequest));
     } catch (error, trace) {
-      onError(error, trace);
       logError(error, trace);
-      add(
-        _AcceptRequestFailed(
-          error.toString(),
-        ),
-      );
+      if (error is DioError && error.response?.data['message'] != null) {
+        // add(_SignUpFailed(error.response?.data['message'] as String?));
+        add(_AcceptRequestFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _AcceptRequestFailed('An unexpected error occurred'));
+      }
     }
 
     emit(state.copyWith(selectedRequestId: event.selectedRequestId));

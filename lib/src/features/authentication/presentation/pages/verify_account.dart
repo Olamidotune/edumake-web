@@ -37,7 +37,6 @@ class _VerifyAccountState extends State<VerifyAccount> {
   void initState() {
     _startCountdown();
     super.initState();
-    context.read<AuthBloc>().add(const AuthEvent.resendOtp());
   }
 
   @override

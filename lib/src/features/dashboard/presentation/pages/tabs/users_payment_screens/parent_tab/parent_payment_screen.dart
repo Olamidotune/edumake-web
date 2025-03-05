@@ -110,28 +110,27 @@ class ParentPaymentScreen extends StatelessWidget {
                   height: 3,
                 ));
               }
-              if (state.datum.isEmpty) {
+              if (state.fetchFeesResponseDatum?.isEmpty ?? true) {
                 return const Center(child: Text('No fees found'));
               }
               return ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: state.datum.length,
+                itemCount: state.fetchFeesResponseDatum?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
-                  final feeData = state.datum[index];
+                  final feeData = state.fetchFeesResponseDatum?[index];
                   return GestureDetector(
                     onTap: () {},
                     child: ParentPaymentCard(
-                      wardName:
-                          feeData.students[0].id, // Replace with correct field
-                      wardSchool: feeData.title,
+                      wardName: feeData?.students?[index].studentId?.name ??
+                          '', // Replace with correct field
+                      wardSchool: feeData?.title ?? '',
                       wardClass: 'Class',
-                      amount: feeData
-                          .totalAmount, // Assuming this is the correct field
+                      amount: feeData?.totalAmount ??
+                          0, // Assuming this is the correct field
                       onPayFee: () {
-                        context
-                            .read<FeesPaymentBloc>()
-                            .add(FeesPaymentEvent.fetchFeesById(feeData.id));
+                        context.read<FeesPaymentBloc>().add(
+                            FeesPaymentEvent.fetchFeesById(feeData?.id ?? ''));
                         Navigator.of(context, rootNavigator: true)
                             .pushNamed(ParentFeesDetailsScreen.routeName);
                       },

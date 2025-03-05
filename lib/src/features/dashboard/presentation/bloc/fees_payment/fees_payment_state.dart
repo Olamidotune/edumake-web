@@ -16,36 +16,25 @@ class FeesPaymentState with _$FeesPaymentState {
     FeesBreakDownAmountFormz feesBreakDownAmount,
     FeesPaymentResponse? feesPaymentResponse,
     FeesResponse? feesResponse,
-    @Default([]) List<Datum> datum,
+    List<FetchResponseDatum>? fetchFeesResponseDatum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
-    FeeByIdResponse? feesIdResponse,
+    FetchFeesByIdResponse? fetchFeesById,
     IndividualStudentPaymentHistoryResponse?
         individualStudentPaymentHistoryResponse,
     List<IndividualStudentPaymentHistoryResponseDatum>?
         individualStudentPaymentHistoryResponseDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchPaymentHistoryForStudentStatus,
-    List<FeeByIdData>? feesIdDatum,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchFeesByIdStatus,
+
+    ////////////////////////////////////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus markFeesPaymentStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus submitFeesIssueStatus,
     String? errorMessage,
   }) = _FeesPaymentState;
-}
-
-extension FeesPaymentStateX on FeesPaymentState {
-  Map<String, String> get studentPaymentStatus {
-    final paymentStatusMap = <String, String>{};
-
-    if (feesResponse?.data != null) {
-      for (final fee in feesResponse!.data) {
-        for (final student in fee.students) {
-          paymentStatusMap[student.studentId] = student.paymentStatus;
-        }
-      }
-    }
-
-    return paymentStatusMap;
-  }
 }
 
 //==============================================================================
@@ -146,5 +135,16 @@ class FeesBreakDownAmountFormz extends FormzInput<String, ValidationError> {
     }
 
     return null;
+  }
+}
+
+extension FeesPaymentStateX on FeesPaymentState {
+  List<students.StudentId> get unpaidStudents {
+    return feesResponse?.data?.first.students
+            ?.where((status) => status.paymentStatus == 'unpaid')
+            .map((s) => s.studentId)
+            .whereType<students.StudentId>()
+            .toList() ??
+        [];
   }
 }

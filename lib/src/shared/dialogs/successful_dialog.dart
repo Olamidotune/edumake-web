@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SuccessfulDialog extends StatelessWidget {
-  const SuccessfulDialog({required this.text, super.key});
+  const SuccessfulDialog({
+    required this.text,
+    super.key,
+  });
   final String text;
 
   @override

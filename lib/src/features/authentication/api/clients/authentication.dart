@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/auth_data.dart';
+import 'package:edumake_frontend/src/features/authentication/api/models/kyc_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/verify_otp_model.dart';
 import 'package:retrofit/http.dart';
@@ -17,6 +18,8 @@ abstract class AuthenticationClient {
     @Field('email') String email,
     @Field('password') String password,
     @Field('role') String role,
+    @Field('fcmToken') String fcmToken,
+    @Field('deviceId') String deviceId,
   );
 
   @POST('/api/v1/auth/login')
@@ -53,7 +56,7 @@ abstract class AuthenticationClient {
 
   @PUT('/api/v1/auth/parents/kyc')
   @FormUrlEncoded()
-  Future<SignupResponse> submitKYC(
+  Future<KycResponse> submitKYC(
     @Header('Authorization') String authorization,
     @Field('firstName') String firstName,
     @Field('lastName') String lastName,
