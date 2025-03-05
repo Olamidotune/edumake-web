@@ -31,6 +31,8 @@ class FeesPaymentState with _$FeesPaymentState {
     ////////////////////////////////////////////////////////////////////////////
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus markFeesPaymentStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus submitFeesIssueStatus,
     String? errorMessage,
   }) = _FeesPaymentState;
 }

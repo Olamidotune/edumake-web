@@ -1,7 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,16 +42,10 @@ class SuccessDialog extends StatelessWidget {
           text: 'Done',
           onPressed: () {
             Navigator.of(context).pop();
-            _navigate(context);
+            Navigator.of(context).pop();
           },
         ),
       ],
-    );
-  }
-
-  void _navigate(BuildContext context) async {
-    await Navigator.of(context).popAndPushNamed(
-      FeePaymentScreen.routeName,
     );
   }
 }

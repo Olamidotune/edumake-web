@@ -45,6 +45,10 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     on<_MarkFeesPayment>(_markFeesPayment);
     on<_MarkFeesPaymentSuccessful>(_markFeesPaymentSuccessful);
     on<_MarkFeesPaymentFailed>(_markFeesPaymentFailed);
+
+    on<_SubmitFeesIssue>(_submitFeesIssue);
+    on<_SubmitFeesIssueSuccessful>(_submitFeesIssueSuccessful);
+    on<_SubmitFeesIssueFailed>(_submitFeesIssueFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -287,6 +291,48 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       _MarkFeesPaymentFailed event, Emitter<FeesPaymentState> emit) {
     emit(state.copyWith(
       markFeesPaymentStatus: FormzSubmissionStatus.failure,
+      errorMessage: event.message,
+    ));
+  }
+
+  void _submitFeesIssue(
+      _SubmitFeesIssue event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(
+        submitFeesIssueStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final response = await locator<FeesPaymentClient>().markFeesPaymentStatus(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.feesId,
+        event.studentId,
+        event.paymentStatus,
+      );
+
+      add(_SubmitFeesIssueSuccessful(response));
+    } catch (error, trace) {
+      logError(error, trace);
+
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_SubmitFeesIssueFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _SubmitFeesIssueFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _submitFeesIssueSuccessful(
+      _SubmitFeesIssueSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      submitFeesIssueStatus: FormzSubmissionStatus.success,
+      errorMessage: null,
+    ));
+  }
+
+  void _submitFeesIssueFailed(
+      _SubmitFeesIssueFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      submitFeesIssueStatus: FormzSubmissionStatus.failure,
       errorMessage: event.message,
     ));
   }

@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_issue_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/success_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -162,11 +163,22 @@ class FeesDetailsScreen extends StatelessWidget {
                             ),
                             AppSpacing.verticalSpaceLarge,
                             Button(
-                              busy: state.markFeesPaymentStatus ==
-                                  FormzSubmissionStatus.inProgress,
                               buttonColor: AppColors.whiteColor,
                               text: 'Enter Issue',
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).popAndPushNamed(
+                                    FeesIssueScreen.routeName,
+                                    arguments: {
+                                      'title': title,
+                                      'amount': amount,
+                                      'payer': payer,
+                                      'studentClass': studentClass,
+                                      'paidBy': paidBy,
+                                      'paidFor': paidFor,
+                                      'feesId': feesId,
+                                      'studentId': studentId,
+                                    });
+                              },
                             )
                           ],
                         );
