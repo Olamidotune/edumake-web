@@ -76,5 +76,17 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.submitFeesIssueFailed(String? message) =
       _SubmitFeesIssueFailed;
 
+/////////////////////////////////////////////////////////////////////////
+
+  const factory FeesPaymentEvent.fetchPayments(
+    String feesId,
+  ) = _FetchPayments;
+
+  const factory FeesPaymentEvent.fetchPaymentsSuccessful(
+      FetchPaymentsResponse fetchPaymentsResponse) = _FetchPaymentsSuccessful;
+
+  const factory FeesPaymentEvent.fetchPaymentsFailed(String? message) =
+      _FetchPaymentsFailed;
+
   const factory FeesPaymentEvent.errorMessage(String? message) = _ErrorMessage;
 }

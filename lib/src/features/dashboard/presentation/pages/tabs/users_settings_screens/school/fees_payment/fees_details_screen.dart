@@ -1,6 +1,8 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_issue_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/success_dialog.dart';
@@ -109,7 +111,7 @@ class FeesDetailsScreen extends StatelessWidget {
                                             color: AppColors.primaryTextColor),
                                   ),
                                   trailing: Text(
-                                    " ₦${fee['amount'] ?? 0}",
+                                    '${AppStrings.naira} ${numberFormat.format(fee['amount'] ?? 0)}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -138,7 +140,7 @@ class FeesDetailsScreen extends StatelessWidget {
                                         color: AppColors.primaryColor),
                               ),
                               trailing: Text(
-                                '₦${state.fetchFeesResponseDatum?.first.totalAmount ?? 0}',
+                                '${AppStrings.naira} ${numberFormat.format(state.fetchFeesResponseDatum?.first.totalAmount ?? 0)}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!

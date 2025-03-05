@@ -25,7 +25,7 @@ class FeesTabView extends StatelessWidget {
           );
         }
 
-        if (state.errorMessage != null) {
+        if (state.fetchFeesPaymentStatus == FormzSubmissionStatus.failure) {
           return Center(
             child:
                 NoDataAvailable(message: state.errorMessage ?? '', height: 3),

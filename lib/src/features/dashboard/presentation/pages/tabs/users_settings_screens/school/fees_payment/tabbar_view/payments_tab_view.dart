@@ -13,35 +13,32 @@ class PaymentsTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
       builder: (context, state) {
-        if (state.fetchPaymentHistoryForStudentStatus ==
-            FormzSubmissionStatus.inProgress) {
+        if (state.fetchPaymentStatus == FormzSubmissionStatus.inProgress) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.errorMessage != null) {
+        if (state.fetchPaymentStatus == FormzSubmissionStatus.failure) {
           return const Center(
             child: NoDataAvailable(message: 'Something went wrong', height: 3),
           );
         }
 
-        if (state.individualStudentPaymentHistoryResponseDatum?.isEmpty ??
-            true) {
+        if (state.fetchPaymentsDatum?.isEmpty ?? true) {
           return const Center(
               child: NoDataAvailable(
                   message: 'No payments presently.', height: 3));
         }
         return ListView.separated(
           controller: ScrollController(), //
-          itemCount: state.individualStudentPaymentHistoryResponseDatum!.length,
+          itemCount: state.fetchPaymentsDatum!.length,
           itemBuilder: (context, index) {
-            final payments =
-                state.individualStudentPaymentHistoryResponseDatum![index];
+            final payments = state.fetchPaymentsDatum![index];
             return PaymentContainer(
               onTap: () {},
               title: payments.fee.title,
               amount: payments.amount,
-              paidBy: payments.paidBy.toString(),
-              paidFor: payments.paidFor,
+              paidBy: payments.paidBy.fullName ?? '',
+              paidFor: payments.paidFor.name,
               date: '',
             );
           },

@@ -33,6 +33,11 @@ class FeesPaymentState with _$FeesPaymentState {
     FormzSubmissionStatus markFeesPaymentStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus submitFeesIssueStatus,
+    ////////////////////////////////////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchPaymentStatus,
+    FetchPaymentsResponse? fetchPaymentsResponse,
+    List<FetchPaymentsDatum>? fetchPaymentsDatum,
     String? errorMessage,
   }) = _FeesPaymentState;
 }

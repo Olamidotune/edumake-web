@@ -1,7 +1,9 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart'
     show AppColors;
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:flutter/material.dart';
 
 class FeesBigContainer extends StatelessWidget {
@@ -95,7 +97,7 @@ class FeesBigContainer extends StatelessWidget {
                           maxLines: 2,
                         ),
                         Text(
-                          '₦$amount',
+                          '${AppStrings.naira} ${numberFormat.format(amount)}',
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 16.fontSize,

@@ -176,6 +176,9 @@ class SchoolMenuTopContainer extends StatelessWidget {
               context
                   .read<FeesPaymentBloc>()
                   .add(const FeesPaymentEvent.fetchFees(null, ''));
+              context
+                  .read<FeesPaymentBloc>()
+                  .add(const FeesPaymentEvent.fetchPayments(''));
               Navigator.of(context, rootNavigator: true)
                   .pushNamed(FeePaymentScreen.routeName);
             },
