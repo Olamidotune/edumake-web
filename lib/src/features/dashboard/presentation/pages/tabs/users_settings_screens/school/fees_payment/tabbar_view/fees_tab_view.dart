@@ -65,6 +65,8 @@ class FeesTabView extends StatelessWidget {
                                 {'title': fb.title, 'amount': fb.amount})
                             .toList() ??
                         [], // Convert `feesBreakdown` to a list of maps
+                    'studentId': details?.students?[index].studentId?.id,
+                    'feesId': details?.id,
                   },
                 );
               },

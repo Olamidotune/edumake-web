@@ -55,5 +55,15 @@ class FeesPaymentEvent with _$FeesPaymentEvent {
   const factory FeesPaymentEvent.fetchPaymentHistoryForStudentFailed(
       String message) = _FetchPaymentHistoryForStudentFailed;
 
+////////////////////////////////////////////////////////
+  const factory FeesPaymentEvent.markFeesPayment(
+      String feesId, String studentId, String paymentStatus) = _MarkFeesPayment;
+
+  const factory FeesPaymentEvent.markFeesPaymentSuccessful(
+      SignupResponse response) = _MarkFeesPaymentSuccessful;
+
+  const factory FeesPaymentEvent.markFeesPaymentFailed(String? message) =
+      _MarkFeesPaymentFailed;
+
   const factory FeesPaymentEvent.errorMessage(String? message) = _ErrorMessage;
 }

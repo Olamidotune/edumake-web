@@ -40,6 +40,9 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
         _fetchPaymentHistoryForStudentSuccessful);
     on<_FetchPaymentHistoryForStudentFailed>(
         _fetchPaymentHistoryForStudentFailed);
+    on<_MarkFeesPayment>(_markFeesPayment);
+    on<_MarkFeesPaymentSuccessful>(_markFeesPaymentSuccessful);
+    on<_MarkFeesPaymentFailed>(_markFeesPaymentFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -242,6 +245,48 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchPaymentHistoryForStudentStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message));
+  }
+
+  void _markFeesPayment(
+      _MarkFeesPayment event, Emitter<FeesPaymentState> emit) async {
+    emit(state.copyWith(
+        markFeesPaymentStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final response = await locator<FeesPaymentClient>().markFeesPaymentStatus(
+        await getAuthorization(),
+        await getSchoolID(),
+        event.feesId,
+        event.studentId,
+        event.paymentStatus,
+      );
+
+      add(_MarkFeesPaymentSuccessful(response));
+    } catch (error, trace) {
+      logError(error, trace);
+
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_MarkFeesPaymentFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _MarkFeesPaymentFailed('An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _markFeesPaymentSuccessful(
+      _MarkFeesPaymentSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      markFeesPaymentStatus: FormzSubmissionStatus.success,
+      errorMessage: null,
+    ));
+  }
+
+  void _markFeesPaymentFailed(
+      _MarkFeesPaymentFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+      markFeesPaymentStatus: FormzSubmissionStatus.failure,
+      errorMessage: event.message,
+    ));
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<FeesPaymentState> emit) {

@@ -27,6 +27,10 @@ class FeesPaymentState with _$FeesPaymentState {
     FormzSubmissionStatus fetchPaymentHistoryForStudentStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchFeesByIdStatus,
+
+    ////////////////////////////////////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus markFeesPaymentStatus,
     String? errorMessage,
   }) = _FeesPaymentState;
 }

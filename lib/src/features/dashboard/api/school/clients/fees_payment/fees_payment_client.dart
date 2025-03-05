@@ -43,4 +43,14 @@ abstract class FeesPaymentClient {
     @Header('Authorization') String authorization,
     @Path('studentId') String studentId,
   );
+
+  @PATCH('/api/v1/sch/fees/{schoolId}')
+  @FormUrlEncoded()
+  Future<SignupResponse> markFeesPaymentStatus(
+    @Header('Authorization') String authorization,
+    @Path('schoolId') String schoolId,
+    @Field('feesId') String feesId,
+    @Field('studentId') String studentId,
+    @Field('paymentStatus') String paymentStatus,
+  );
 }

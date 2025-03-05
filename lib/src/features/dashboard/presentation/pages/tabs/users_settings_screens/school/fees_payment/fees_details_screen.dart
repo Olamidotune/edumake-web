@@ -1,13 +1,15 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
+import 'package:edumake_frontend/src/shared/dialogs/success_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 class FeesDetailsScreen extends StatelessWidget {
   const FeesDetailsScreen({super.key});
@@ -27,6 +29,8 @@ class FeesDetailsScreen extends StatelessWidget {
     final paidBy = args['paidBy'];
     final paidFor = args['paidFor'];
     final studentClass = args['class'];
+    final studentId = args['studentId'];
+    final feesId = args['feesId'];
     final feesBreakdown = List<Map<String, dynamic>>.from(
         (args['feesBreakdown'] as Iterable<dynamic>?) ?? []);
 
@@ -57,6 +61,9 @@ class FeesDetailsScreen extends StatelessWidget {
                     ),
                     AppSpacing.verticalSpaceMedium,
                     BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+                      buildWhen: (previous, current) {
+                        return _buildWhen(context, previous, current);
+                      },
                       builder: (context, state) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,11 +148,21 @@ class FeesDetailsScreen extends StatelessWidget {
                             ),
                             AppSpacing.verticalSpaceMassive,
                             Button(
+                              busy: state.markFeesPaymentStatus ==
+                                  FormzSubmissionStatus.inProgress,
                               text: 'Mark as paid',
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<FeesPaymentBloc>().add(
+                                    FeesPaymentEvent.markFeesPayment(
+                                        feesId.toString(),
+                                        studentId.toString(),
+                                        'paid'));
+                              },
                             ),
                             AppSpacing.verticalSpaceLarge,
                             Button(
+                              busy: state.markFeesPaymentStatus ==
+                                  FormzSubmissionStatus.inProgress,
                               buttonColor: AppColors.whiteColor,
                               text: 'Enter Issue',
                               onPressed: () {},
@@ -159,6 +176,44 @@ class FeesDetailsScreen extends StatelessWidget {
               ),
             )),
       ),
+    );
+  }
+
+  bool _buildWhen(
+    BuildContext context,
+    FeesPaymentState previous,
+    FeesPaymentState current,
+  ) {
+    if (previous.markFeesPaymentStatus == FormzSubmissionStatus.inProgress &&
+        current.markFeesPaymentStatus == FormzSubmissionStatus.success) {
+      _showSuccessDialog(context);
+      return false;
+    } else if (previous.markFeesPaymentStatus ==
+            FormzSubmissionStatus.inProgress &&
+        current.markFeesPaymentStatus == FormzSubmissionStatus.failure &&
+        current.errorMessage != null) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      context
+          .read<FeesPaymentBloc>()
+          .add(const FeesPaymentEvent.errorMessage(null));
+      return false;
+    }
+    return true;
+  }
+
+  void _showSuccessDialog(BuildContext context) async {
+    await showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const SuccessDialog(
+          titleText: 'Payment Status Updated Successfully',
+          text: 'The associated accounts will be notified accordingly.',
+        );
+      },
     );
   }
 }

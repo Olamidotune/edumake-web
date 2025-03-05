@@ -1,44 +1,46 @@
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SuccessfulDialog extends StatelessWidget {
-  const SuccessfulDialog({
-    required this.text,
-    super.key,
-  });
+class SuccessDialog extends StatelessWidget {
+  const SuccessDialog({required this.text, super.key, this.titleText});
   final String text;
+  final String? titleText;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppColors.whiteColor,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset('assets/svg/successful.svg'),
+          SvgPicture.asset('assets/svg/tick_successful.svg'),
           AppSpacing.verticalSpaceLarge,
           Text(
-            'Successful',
-            style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  fontSize: 24.fontSize,
-                  fontWeight: FontWeight.w300,
-                ),
+            titleText ?? 'Successful',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 14.fontSize,
+                fontWeight: FontWeight.w600,
+                color: AppColors.blackColor),
           ),
           AppSpacing.verticalSpaceMedium,
           Text(
             text,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontWeight: FontWeight.w300,
+                  color: AppColors.primaryTextColor,
                 ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
       actions: [
         Button(
-          text: 'Continue',
+          text: 'Done',
           onPressed: () {
             Navigator.of(context).pop();
             _navigate(context);
@@ -50,7 +52,7 @@ class SuccessfulDialog extends StatelessWidget {
 
   void _navigate(BuildContext context) async {
     await Navigator.of(context).pushNamedAndRemoveUntil(
-      SignIn.routeName,
+      FeePaymentScreen.routeName,
       (_) => false,
     );
   }
