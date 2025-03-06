@@ -190,8 +190,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                                       ?.school
                                       ?.schoolName ??
                                   '',
-                              'studentId': '',
-                              'source': 'curriculum',
                             },
                           );
                         },

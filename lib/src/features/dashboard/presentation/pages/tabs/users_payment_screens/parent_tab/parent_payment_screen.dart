@@ -131,8 +131,8 @@ class ParentPaymentScreen extends StatelessWidget {
                       onPayFee: () {
                         context.read<FeesPaymentBloc>().add(
                             FeesPaymentEvent.fetchFeesById(feeData?.id ?? ''));
-                        Navigator.of(context, rootNavigator: true)
-                            .pushNamed(ParentFeesDetailsScreen.routeName);
+                        Navigator.of(context, rootNavigator: true).pushNamed(
+                            IndividualStudentFeesDetailsScreen.routeName);
                       },
                     ),
                   );

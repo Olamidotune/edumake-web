@@ -150,7 +150,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
     try {
       final students = await locator<GetSchoolDataClient>().getStudentsByClass(
         await getAuthorization(),
-        event.selectedClassId ?? '',
+        event.selectedClassId,
       );
       add(_FetchStudentsSuccessful(students));
     } catch (error) {

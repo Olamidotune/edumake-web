@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjec
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/students_details_list_tile.dart';
@@ -214,7 +215,23 @@ class StudentDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(
                     leading: AppStrings.feesPayment,
-                    onTap: () {},
+                    onTap: () {
+                      context.read<FeesPaymentBloc>().add(
+                            FeesPaymentEvent.fetchFees(
+                              null,
+                              studentId.toString(),
+                            ),
+                          );
+                      Navigator.of(context).pushNamed(
+                        IndividualStudentPaymentScreen.routeName,
+                        arguments: {
+                          'studentName': studentName.toString(),
+                          'className': className.toString(),
+                          'schoolName': schoolName.toString(),
+                          'studentId': studentId.toString(),
+                        },
+                      );
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   StudentDetailsListTile(

@@ -32,14 +32,7 @@ class FeesTabView extends StatelessWidget {
           );
         }
 
-        // Explicitly filter students with 'unpaid' status from the original students list
-        final unpaidStudents = state.fetchFeesResponseDatum?.first.students
-                ?.where(
-                    (studentEntry) => studentEntry.paymentStatus == 'unpaid')
-                .toList() ??
-            [];
-
-        if (unpaidStudents.isEmpty) {
+        if (state.paymentStatuses.isEmpty) {
           return const Center(
             child: NoDataAvailable(message: 'No unpaid fees.', height: 3),
           );
@@ -47,41 +40,52 @@ class FeesTabView extends StatelessWidget {
 
         return ListView.separated(
           controller: ScrollController(),
-          itemCount: unpaidStudents.length,
+          itemCount: state.unpaidStudents.length,
           itemBuilder: (context, index) {
-            final details = state.fetchFeesResponseDatum?.first;
-            final currentStudentEntry = unpaidStudents[index];
-            final currentStudent = currentStudentEntry.studentId;
+            final currentStudent = state.unpaidStudents[index];
+
+            // Find the corresponding fee details for this student
+            final details = state.fetchFeesResponseDatum?.firstWhere(
+              (fee) =>
+                  fee.students?.any((student) =>
+                      student.studentId?.id == currentStudent.id &&
+                      student.paymentStatus == 'unpaid') ??
+                  false,
+            );
+
+            if (details == null) {
+              return const SizedBox.shrink(); // Skip if no matching fee found
+            }
 
             return FeesContainer(
               onTap: () {
                 Navigator.of(context).pushNamed(
                   FeesDetailsScreen.routeName,
                   arguments: {
-                    'title': details?.title,
-                    'payer': details?.classes
+                    'title': details.title,
+                    'payer': details.classes
                             ?.map((c) => c.name)
                             .where((name) => true)
                             .join(' and ') ??
                         '',
-                    'amount': details?.totalAmount,
-                    'paidBy': currentStudent?.guardians?[0].relationship,
-                    'paidFor': currentStudent?.name,
+                    'amount': details.totalAmount,
+                    'paidBy': currentStudent.guardians?[0].relationship,
+                    'paidFor': currentStudent.name,
                     'class':
-                        currentStudent?.studentClass?.feesResponseClass?.slug,
-                    'feesBreakdown': details?.feesBreakdown
+                        currentStudent.studentClass?.feesResponseClass?.slug,
+                    'feesBreakdown': details.feesBreakdown
                             ?.map((fb) =>
                                 {'title': fb.title, 'amount': fb.amount})
                             .toList() ??
                         [],
-                    'studentId': currentStudent?.id,
-                    'feesId': details?.id,
+                    'studentId': currentStudent.id,
+                    'feesId': details.id,
                   },
                 );
               },
-              title: details?.title ?? '',
-              term: currentStudent?.name ?? '',
-              amount: details?.totalAmount ?? 0,
+              title: details.title ?? '',
+              term: currentStudent.name ?? '',
+              amount: details.totalAmount ?? 0,
               student: false,
             );
           },
