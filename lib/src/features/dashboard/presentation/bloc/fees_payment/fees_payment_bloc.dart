@@ -12,7 +12,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_p
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_student_id.dart'
     as students show StudentId;
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_payment_response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';

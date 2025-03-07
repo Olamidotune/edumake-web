@@ -6,7 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_p
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/payments/fetch_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_payment_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'fees_payment_client.g.dart';

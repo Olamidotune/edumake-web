@@ -32,8 +32,11 @@ class PaymentContainer extends StatelessWidget {
           onTap: () {},
           child: Container(
             margin: const EdgeInsets.all(3),
-            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueSmall),
             decoration: BoxDecoration(
+              border: Border.all(color: AppColors.primaryColor),
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
@@ -86,6 +89,7 @@ class PaymentContainer extends StatelessWidget {
                   color: AppColors.greyColor,
                 ),
                 RichText(
+                  textAlign: TextAlign.end,
                   text: TextSpan(
                     text: 'paid by ',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(

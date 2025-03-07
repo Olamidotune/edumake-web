@@ -121,14 +121,15 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 itemBuilder: (context, index) {
                   final wardDetails = state.getWardRequestModel?.data[index];
                   // final studentId = state.getWardRequestModel?.data[index].id;
-                  final paymentStatus = context
-                      .read<FeesPaymentBloc>()
-                      .state
-                      .fetchFeesResponseDatum?[index]
-                      .students?[index]
-                      .paymentStatus;
-                  // ignore: unnecessary_statements
-                  'unpaid';
+
+                  ///
+                  // final paymentStatus = context
+                  //     .read<FeesPaymentBloc>()
+                  //     .state
+                  //     .fetchFeesResponseDatum?[index]
+                  //     .students?[index]
+                  //     .paymentStatus;
+
                   return YourWardCard(
                     wardName:
                         '${state.getWardRequestModel?.data[index].wardName}',
@@ -136,7 +137,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                     wardClass: wardDetails?.wardDatumClass.name ?? '',
                     assignmentNum: '{Ward scores}',
                     scores: 'student.deviceToken',
-                    feesPaid: paymentStatus == 'paid',
+                    feesPaid: true,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
