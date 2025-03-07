@@ -6,12 +6,13 @@ import 'package:edumake_frontend/src/features/authentication/presentation/bloc/a
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/fees_payment/fees_payment_client.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_request_body.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/fees_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/payments/fetch_payment_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fee_by_id_response.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_data.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/fetch_fees_student_id.dart'
     as students show StudentId;
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/fetch_fees/responses.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_fee_payment_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/fees_payment/response/individual_student_payment_response.dart';
 import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:formz/formz.dart';
@@ -45,10 +46,12 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     on<_MarkFeesPayment>(_markFeesPayment);
     on<_MarkFeesPaymentSuccessful>(_markFeesPaymentSuccessful);
     on<_MarkFeesPaymentFailed>(_markFeesPaymentFailed);
-
     on<_SubmitFeesIssue>(_submitFeesIssue);
     on<_SubmitFeesIssueSuccessful>(_submitFeesIssueSuccessful);
     on<_SubmitFeesIssueFailed>(_submitFeesIssueFailed);
+    on<_FetchPayments>(_fetchPayments);
+    on<_FetchPaymentsSuccessful>(_fetchPaymentsSuccessful);
+    on<_FetchPaymentsFailed>(_fetchPaymentsFailed);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -150,11 +153,6 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
         event.studentId ?? '',
       );
 
-      // emit(state.copyWith(
-      //   datum: List.from(state.datum)
-      //     ..addAll(fees.data), // ✅ Merging instead of overwriting
-      // ));
-
       add(_FetchFeesSuccessful(fees));
     } catch (error, trace) {
       logError(error, trace);
@@ -180,15 +178,17 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _fetchFeesById(
       _FetchFeesById event, Emitter<FeesPaymentState> emit) async {
+    if (state.fetchFeesByIdStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(fetchFeesByIdStatus: FormzSubmissionStatus.inProgress));
 
     try {
-      final fees = await locator<FeesPaymentClient>().fetchFeesByID(
+      final breakDown = await locator<FeesPaymentClient>().fetchFeesByID(
         await getAuthorization(),
         event.feeId,
       );
 
-      add(_FetchFeesByIdSuccessful(fees));
+      add(_FetchFeesByIdSuccessful(breakDown));
     } catch (error, trace) {
       logError(error, trace);
       add(_FetchFeesByIdFailed(error.toString()));
@@ -200,6 +200,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchFeesByIdStatus: FormzSubmissionStatus.success,
         fetchFeesById: event.fetchFeesById,
+        fetchFeesByIdResponseDatum: event.fetchFeesById.data,
         errorMessage: null));
   }
 
@@ -255,6 +256,8 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _markFeesPayment(
       _MarkFeesPayment event, Emitter<FeesPaymentState> emit) async {
+    if (state.markFeesPaymentStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(
         markFeesPaymentStatus: FormzSubmissionStatus.inProgress));
 
@@ -297,6 +300,8 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _submitFeesIssue(
       _SubmitFeesIssue event, Emitter<FeesPaymentState> emit) async {
+    if (state.submitFeesIssueStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(
         submitFeesIssueStatus: FormzSubmissionStatus.inProgress));
 
@@ -335,6 +340,39 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
       submitFeesIssueStatus: FormzSubmissionStatus.failure,
       errorMessage: event.message,
     ));
+  }
+
+  void _fetchPayments(
+      _FetchPayments event, Emitter<FeesPaymentState> emit) async {
+    if (state.fetchPaymentStatus == FormzSubmissionStatus.inProgress) return;
+
+    emit(state.copyWith(fetchPaymentStatus: FormzSubmissionStatus.inProgress));
+
+    try {
+      final payments = await locator<FeesPaymentClient>().fetchPayments(
+          await getAuthorization(), await getSchoolID(), event.feesId);
+
+      add(_FetchPaymentsSuccessful(payments));
+    } catch (error, trace) {
+      logError(error, trace);
+      add(_FetchPaymentsFailed(error.toString()));
+    }
+  }
+
+  void _fetchPaymentsSuccessful(
+      _FetchPaymentsSuccessful event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchPaymentStatus: FormzSubmissionStatus.success,
+        fetchPaymentsResponse: event.fetchPaymentsResponse,
+        fetchPaymentsDatum: event.fetchPaymentsResponse.data,
+        errorMessage: null));
+  }
+
+  void _fetchPaymentsFailed(
+      _FetchPaymentsFailed event, Emitter<FeesPaymentState> emit) {
+    emit(state.copyWith(
+        fetchPaymentStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message));
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<FeesPaymentState> emit) {

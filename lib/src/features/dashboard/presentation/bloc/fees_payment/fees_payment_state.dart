@@ -19,6 +19,7 @@ class FeesPaymentState with _$FeesPaymentState {
     List<FetchResponseDatum>? fetchFeesResponseDatum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
     FetchFeesByIdResponse? fetchFeesById,
+    FetchFeesByIdResponseDatum? fetchFeesByIdResponseDatum,
     IndividualStudentPaymentHistoryResponse?
         individualStudentPaymentHistoryResponse,
     List<IndividualStudentPaymentHistoryResponseDatum>?
@@ -33,6 +34,11 @@ class FeesPaymentState with _$FeesPaymentState {
     FormzSubmissionStatus markFeesPaymentStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus submitFeesIssueStatus,
+    ////////////////////////////////////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchPaymentStatus,
+    FetchPaymentsResponse? fetchPaymentsResponse,
+    List<FetchPaymentsDatum>? fetchPaymentsDatum,
     String? errorMessage,
   }) = _FeesPaymentState;
 }
@@ -139,12 +145,35 @@ class FeesBreakDownAmountFormz extends FormzInput<String, ValidationError> {
 }
 
 extension FeesPaymentStateX on FeesPaymentState {
+  List<String> get paymentStatuses {
+    final statuses = <String>[];
+
+    feesResponse?.data?.forEach((fee) {
+      fee.students?.forEach((student) {
+        if (student.paymentStatus != null) {
+          statuses.add(student.paymentStatus ?? '');
+        }
+      });
+    });
+
+    return statuses;
+  }
+}
+
+extension FeesPaymentStateXX on FeesPaymentState {
   List<students.StudentId> get unpaidStudents {
-    return feesResponse?.data?.first.students
-            ?.where((status) => status.paymentStatus == 'unpaid')
-            .map((s) => s.studentId)
-            .whereType<students.StudentId>()
-            .toList() ??
-        [];
+    final result = <students.StudentId>[];
+
+    feesResponse?.data?.forEach((fee) {
+      fee.students
+          ?.where((student) => student.paymentStatus == 'unpaid')
+          .forEach((student) {
+        if (student.studentId != null) {
+          result.add(student.studentId!);
+        }
+      });
+    });
+
+    return result;
   }
 }

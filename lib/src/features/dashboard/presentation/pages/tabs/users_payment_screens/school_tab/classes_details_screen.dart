@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timetable/timetable_bloc.dart';
@@ -12,7 +13,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/class_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
@@ -147,6 +148,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         isProfilePictureEnabled: false,
                         title: AppStrings.curriculumSchemeOfWork,
                         onTap: () {
+                          print(classId);
                           context.read<SubjectsBloc>().add(
                               SubjectsEvent.fetchClassSubjects(
                                   classId.toString()));
@@ -173,11 +175,13 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         isProfilePictureEnabled: false,
                         title: AppStrings.payments,
                         onTap: () {
-                          // FeesContainer
+                          context
+                              .read<FeesPaymentBloc>()
+                              .add(const FeesPaymentEvent.fetchFees(null, ''));
                           Navigator.of(context).pushNamed(
-                            IndividualStudentPaymentHistoryScreen.routeName,
+                            ClassPaymentScreen.routeName,
                             arguments: {
-                              'studentName': '',
+                              'classId': classId,
                               'className': className,
                               'schoolName': context
                                       .read<AuthBloc>()
@@ -186,8 +190,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                                       ?.school
                                       ?.schoolName ??
                                   '',
-                              'studentId': '',
-                              'source': 'curriculum',
                             },
                           );
                         },

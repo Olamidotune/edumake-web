@@ -3,23 +3,9 @@ import 'package:json_annotation/json_annotation.dart';
 part 'student_id_class.g.dart';
 
 @JsonSerializable()
+@JsonSerializable()
 class StudentIdClass {
   StudentIdClass({
-    this.feesResponseClass,
-  });
-
-  factory StudentIdClass.fromJson(Map<String, dynamic> json) =>
-      _$StudentIdClassFromJson(json);
-
-  @JsonKey(name: 'feesResponseClass')
-  final Class? feesResponseClass;
-
-  Map<String, dynamic> toJson() => _$StudentIdClassToJson(this);
-}
-
-@JsonSerializable()
-class Class {
-  Class({
     this.id,
     this.school,
     this.name,
@@ -30,7 +16,8 @@ class Class {
     this.updatedAt,
   });
 
-  factory Class.fromJson(Map<String, dynamic> json) => _$ClassFromJson(json);
+  factory StudentIdClass.fromJson(Map<String, dynamic> json) =>
+      _$StudentIdClassFromJson(json);
 
   @JsonKey(name: '_id')
   String? id;
@@ -56,5 +43,5 @@ class Class {
   @JsonKey(name: 'updatedAt')
   DateTime? updatedAt;
 
-  Map<String, dynamic> toJson() => _$ClassToJson(this);
+  Map<String, dynamic> toJson() => _$StudentIdClassToJson(this);
 }

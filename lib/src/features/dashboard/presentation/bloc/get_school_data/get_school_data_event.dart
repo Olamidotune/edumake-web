@@ -14,7 +14,7 @@ class GetSchoolDataEvent with _$GetSchoolDataEvent {
     String? classNameKey,
   ) = _OnSelectedClassNameChanged;
 ////////STUDENTS/////////
-  const factory GetSchoolDataEvent.fetchStudents(String? selectedClassId) =
+  const factory GetSchoolDataEvent.fetchStudents(String selectedClassId) =
       _FetchStudents;
   const factory GetSchoolDataEvent.fetchStudentsSuccessful(
     GetStudentsModel getStudentsModel,

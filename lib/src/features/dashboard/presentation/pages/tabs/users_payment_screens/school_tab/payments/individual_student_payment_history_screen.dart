@@ -95,11 +95,11 @@ class IndividualStudentPaymentHistoryScreen extends StatelessWidget {
                             state.individualStudentPaymentHistoryResponseDatum![
                                 index];
                         return PaymentContainer(
-                          title: feesPayments.fee.details,
-                          amount: feesPayments.fee.totalAmount,
-                          paidBy: feesPayments.paidBy.toString(),
-                          paidFor: feesPayments.paidFor,
-                          date: formatLocalTime(feesPayments.createdAt),
+                          title: feesPayments.fee?.details ?? '',
+                          amount: feesPayments.fee?.totalAmount ?? 0,
+                          paidBy: feesPayments.paidBy?.email ?? '',
+                          paidFor: feesPayments.paidFor?.name ?? '',
+                          date: formatLocalTime(feesPayments.createdAt ?? ''),
                         );
                       },
                       separatorBuilder: (context, index) {

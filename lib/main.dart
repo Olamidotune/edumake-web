@@ -58,7 +58,9 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_students_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/add_lecture_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/lecture_timetable/lecture_time_table_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/class_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_history_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/payments/individual_student_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/student_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_time_table.dart';
@@ -347,10 +349,14 @@ class MyApp extends StatelessWidget {
                       const FeePaymentScreen(),
                   FeesDetailsScreen.routeName: (context) =>
                       const FeesDetailsScreen(),
+                  ClassPaymentScreen.routeName: (context) =>
+                      const ClassPaymentScreen(),
                   FeesIssueScreen.routeName: (context) =>
                       const FeesIssueScreen(),
-                  ParentFeesDetailsScreen.routeName: (context) =>
-                      const ParentFeesDetailsScreen(),
+                  IndividualStudentFeesDetailsScreen.routeName: (context) =>
+                      const IndividualStudentFeesDetailsScreen(),
+                  IndividualStudentPaymentScreen.routeName: (context) =>
+                      const IndividualStudentPaymentScreen(),
                   AddFeesPaymentScreen.routeName: (context) =>
                       const AddFeesPaymentScreen(),
                   CurriculumScreen.routeName: (context) =>

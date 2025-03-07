@@ -184,7 +184,7 @@ class WardDetailScreen extends StatelessWidget {
                       AppSpacing.verticalSpaceSmall,
                       _WardDetailsButton(
                         AppStrings.paymentHistory,
-                        'document',
+                        'download',
                         '',
                         () {
                           context.read<FeesPaymentBloc>().add(

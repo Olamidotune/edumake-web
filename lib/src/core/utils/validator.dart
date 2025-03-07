@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 String? validatePassword(String? value) {
   if (value == null) return 'Field cannot be empty';
   const pattern =
@@ -12,3 +14,5 @@ String? validatePassword(String? value) {
   }
   return null;
 }
+
+final NumberFormat numberFormat = NumberFormat('#,##0.00', 'en_US');

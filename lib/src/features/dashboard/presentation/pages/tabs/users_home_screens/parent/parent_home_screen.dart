@@ -46,10 +46,11 @@ class _ParentDashboardState extends State<ParentDashboard> {
           final parentSchoolId = wardData.first.wardDatumSchool.id;
           final studentIds = wardData.map((ward) => ward.id).toList();
 
+          // ignore: unused_local_variable
           for (final studentId in studentIds) {
             context
                 .read<FeesPaymentBloc>()
-                .add(FeesPaymentEvent.fetchFees(parentSchoolId, studentId));
+                .add(FeesPaymentEvent.fetchFees(parentSchoolId, ''));
           }
         } else {
           logInfo('No wards available, skipping fetchFees.');
@@ -120,23 +121,13 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 itemCount: state.getWardRequestModel?.data.length ?? 0,
                 itemBuilder: (context, index) {
                   final wardDetails = state.getWardRequestModel?.data[index];
-                  // final studentId = state.getWardRequestModel?.data[index].id;
-                  final paymentStatus = context
-                      .read<FeesPaymentBloc>()
-                      .state
-                      .fetchFeesResponseDatum?[index]
-                      .students?[index]
-                      .paymentStatus;
-                  // ignore: unnecessary_statements
-                  'unpaid';
                   return YourWardCard(
                     wardName:
                         '${state.getWardRequestModel?.data[index].wardName}',
                     schoolName: wardDetails?.wardDatumSchool.schoolName ?? '',
                     wardClass: wardDetails?.wardDatumClass.name ?? '',
-                    assignmentNum: '{Ward scores}',
-                    scores: 'student.deviceToken',
-                    feesPaid: paymentStatus == 'paid',
+                    assignmentNum: '4',
+                    scores: '23',
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -161,163 +152,163 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 ),
               ),
               AppSpacing.verticalSpaceMedium,
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Upcoming Events',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 16.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.blackColor,
-                      ),
-                ),
-              ),
-              AppSpacing.verticalSpaceMedium,
-              BlocBuilder<EventsBloc, EventsState>(
-                builder: (context, state) {
-                  if (state.fetchEventStatus ==
-                      FormzSubmissionStatus.inProgress) {
-                    return SizedBox(
-                      height: 800,
-                      child: ListView.builder(
-                        controller: scrollController,
-                        itemBuilder: (context, index) {
-                          return const CustomShimmer();
-                        },
-                        itemCount: 10,
-                      ),
-                    );
-                  }
+              // Align(
+              //   alignment: Alignment.topLeft,
+              //   child: Text(
+              //     'Upcoming Events',
+              //     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              //           fontSize: 16.fontSize,
+              //           fontWeight: FontWeight.bold,
+              //           color: AppColors.blackColor,
+              //         ),
+              //   ),
+              // ),
+              // AppSpacing.verticalSpaceMedium,
+              // BlocBuilder<EventsBloc, EventsState>(
+              //   builder: (context, state) {
+              //     if (state.fetchEventStatus ==
+              //         FormzSubmissionStatus.inProgress) {
+              //       return SizedBox(
+              //         height: 800,
+              //         child: ListView.builder(
+              //           controller: scrollController,
+              //           itemBuilder: (context, index) {
+              //             return const CustomShimmer();
+              //           },
+              //           itemCount: 10,
+              //         ),
+              //       );
+              //     }
 
-                  if (state.fetchEventStatus == FormzSubmissionStatus.failure) {
-                    return Center(
-                      child: Text(
-                        'Failed to load events: ${state.errorMessage ?? "Unknown error"}',
-                        style: const TextStyle(
-                          color: AppColors.errorColor, // Use your error color
-                          fontSize: 16,
-                        ),
-                      ),
-                    );
-                  }
+              //     if (state.fetchEventStatus == FormzSubmissionStatus.failure) {
+              //       return Center(
+              //         child: Text(
+              //           'Failed to load events: ${state.errorMessage ?? "Unknown error"}',
+              //           style: const TextStyle(
+              //             color: AppColors.errorColor, // Use your error color
+              //             fontSize: 16,
+              //           ),
+              //         ),
+              //       );
+              //     }
 
-                  if (state.upComingEvent?.isEmpty ?? false) {
-                    return const NoDataAvailable(
-                      message: 'No Events Available',
-                      height: 0,
-                    );
-                  }
-                  return SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height <
-                                  kMinSupportedHeight
-                              ? 250.height
-                              : 215.height,
-                          constraints: BoxConstraints(
-                            maxWidth: 180.width,
-                          ),
-                          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-                          decoration: BoxDecoration(
-                            color: AppColors.purpleColor,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.greyColor.withOpacity(0.7),
-                                blurRadius: 10,
-                                spreadRadius: 1,
-                                offset: const Offset(1, 3),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: state.eventIdData?.imageUrl == null ||
-                                        state.eventIdData!.imageUrl.isEmpty
-                                    ? Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 20),
-                                        width: double.infinity,
-                                        height: 250,
-                                        child: Image.asset(
-                                          'assets/png/event.png',
-                                        ),
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl: state.eventIdData!.imageUrl,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                          child: SpinKitPulsingGrid(
-                                            color: AppColors.primaryColor,
-                                            size: 30,
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset('assets/png/event.png'),
-                                      ),
-                              ),
-                              AppSpacing.verticalSpaceMedium,
-                              Expanded(
-                                flex: 6,
-                                child: Text(
-                                  state.upComingEvent?.first.details ?? '',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontSize: 10.fontSize,
-                                        color: AppColors.primaryTextColor,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 6,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            // First AnnouncementCard with data from upComingEvent[0]
-                            if (state.upComingEvent != null &&
-                                state.upComingEvent!.isNotEmpty)
-                              AnnouncementCard(
-                                title: state.upComingEvent![0].title,
-                                description: state.upComingEvent![0].details,
-                                color: AppColors.redColor.withOpacity(0.3),
-                              ),
-                            AppSpacing.verticalSpaceMedium,
-                            // Second AnnouncementCard with data from upComingEvent[1]
-                            if (state.upComingEvent != null &&
-                                state.upComingEvent!.length > 1)
-                              AnnouncementCard(
-                                title: state.upComingEvent![1].title,
-                                description: state.upComingEvent![1].details,
-                                color: AppColors.greenColor.withOpacity(0.3),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              AppSpacing.verticalSpaceMedium,
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  'View all events',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-              ),
+              //     if (state.upComingEvent?.isEmpty ?? false) {
+              //       return const NoDataAvailable(
+              //         message: 'No Events Available',
+              //         height: 0,
+              //       );
+              //     }
+              //     return SizedBox(
+              //       width: double.infinity,
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Container(
+              //             height: MediaQuery.of(context).size.height <
+              //                     kMinSupportedHeight
+              //                 ? 250.height
+              //                 : 215.height,
+              //             constraints: BoxConstraints(
+              //               maxWidth: 180.width,
+              //             ),
+              //             padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+              //             decoration: BoxDecoration(
+              //               color: AppColors.purpleColor,
+              //               borderRadius: BorderRadius.circular(20),
+              //               boxShadow: [
+              //                 BoxShadow(
+              //                   color: AppColors.greyColor.withOpacity(0.7),
+              //                   blurRadius: 10,
+              //                   spreadRadius: 1,
+              //                   offset: const Offset(1, 3),
+              //                 ),
+              //               ],
+              //             ),
+              //             child: Column(
+              //               children: [
+              //                 Expanded(
+              //                   flex: 7,
+              //                   child: state.eventIdData?.imageUrl == null ||
+              //                           state.eventIdData!.imageUrl.isEmpty
+              //                       ? Container(
+              //                           margin:
+              //                               const EdgeInsets.only(bottom: 20),
+              //                           width: double.infinity,
+              //                           height: 250,
+              //                           child: Image.asset(
+              //                             'assets/png/event.png',
+              //                           ),
+              //                         )
+              //                       : CachedNetworkImage(
+              //                           imageUrl: state.eventIdData!.imageUrl,
+              //                           placeholder: (context, url) =>
+              //                               const Center(
+              //                             child: SpinKitPulsingGrid(
+              //                               color: AppColors.primaryColor,
+              //                               size: 30,
+              //                             ),
+              //                           ),
+              //                           errorWidget: (context, url, error) =>
+              //                               Image.asset('assets/png/event.png'),
+              //                         ),
+              //                 ),
+              //                 AppSpacing.verticalSpaceMedium,
+              //                 Expanded(
+              //                   flex: 6,
+              //                   child: Text(
+              //                     state.upComingEvent?.first.details ?? '',
+              //                     style: Theme.of(context)
+              //                         .textTheme
+              //                         .bodyMedium!
+              //                         .copyWith(
+              //                           fontSize: 10.fontSize,
+              //                           color: AppColors.primaryTextColor,
+              //                           fontWeight: FontWeight.w400,
+              //                         ),
+              //                     overflow: TextOverflow.ellipsis,
+              //                     maxLines: 6,
+              //                   ),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //           Column(
+              //             children: [
+              //               // First AnnouncementCard with data from upComingEvent[0]
+              //               if (state.upComingEvent != null &&
+              //                   state.upComingEvent!.isNotEmpty)
+              //                 AnnouncementCard(
+              //                   title: state.upComingEvent![0].title,
+              //                   description: state.upComingEvent![0].details,
+              //                   color: AppColors.redColor.withOpacity(0.3),
+              //                 ),
+              //               AppSpacing.verticalSpaceMedium,
+              //               // Second AnnouncementCard with data from upComingEvent[1]
+              //               if (state.upComingEvent != null &&
+              //                   state.upComingEvent!.length > 1)
+              //                 AnnouncementCard(
+              //                   title: state.upComingEvent![1].title,
+              //                   description: state.upComingEvent![1].details,
+              //                   color: AppColors.greenColor.withOpacity(0.3),
+              //                 ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // ),
+              // AppSpacing.verticalSpaceMedium,
+              // Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: Text(
+              //     'View all events',
+              //     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              //           color: AppColors.primaryColor,
+              //           fontWeight: FontWeight.w700,
+              //         ),
+              //   ),
+              // ),
               AppSpacing.verticalSpaceMedium,
               Align(
                 alignment: Alignment.topLeft,

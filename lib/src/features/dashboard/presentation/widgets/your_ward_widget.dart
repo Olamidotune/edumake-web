@@ -10,7 +10,7 @@ class YourWardCard extends StatelessWidget {
     required this.wardName,
     required this.schoolName,
     required this.wardClass,
-    required this.feesPaid,
+    // required this.feesPaid,
     this.assignmentNum,
     this.scores,
     super.key,
@@ -21,7 +21,7 @@ class YourWardCard extends StatelessWidget {
   final String wardClass;
   final String? assignmentNum;
   final String? scores;
-  final bool feesPaid;
+  // final bool feesPaid;
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +106,17 @@ class YourWardCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               AppSpacing.verticalSpaceTiny,
-              Text(
-                feesPaid ? 'Fees Paid' : 'Fees not paid',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 8.fontSize,
-                      color: feesPaid
-                          ? AppColors.greenColor
-                          : AppColors.errorColor,
-                    ),
-              ),
-              AppSpacing.verticalSpaceSmall,
+              // Text(
+              //   feesPaid ? 'Fees Paid' : 'Fees not paid',
+              //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              //         fontWeight: FontWeight.w400,
+              //         fontSize: 8.fontSize,
+              //         color: feesPaid
+              //             ? AppColors.greenColor
+              //             : AppColors.errorColor,
+              //       ),
+              // ),
+              AppSpacing.verticalSpaceMedium,
               SizedBox(
                 height: 12,
                 child: AutoScrollingText(

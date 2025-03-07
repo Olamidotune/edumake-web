@@ -6,14 +6,18 @@ import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
+import 'package:edumake_frontend/src/shared/widgets/payments_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -39,6 +43,12 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
             null,
           ),
         );
+    context
+        .read<FeesPaymentBloc>()
+        .add(const FeesPaymentEvent.fetchPayments(''));
+    context
+        .read<FeesPaymentBloc>()
+        .add(const FeesPaymentEvent.fetchFees(null, ''));
   }
 
   @override
@@ -54,34 +64,66 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                 color: AppColors.blackColor,
               ),
         ),
-        Center(
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/png/empty.png',
-                height: 150.height,
-                width: 150.width,
-              ),
-              Text(
-                AppStrings.noPaymentUpdate,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 12.fontSize,
-                      color: AppColors.primaryTextColor,
-                      fontWeight: FontWeight.w400,
-                    ),
-              ),
-            ],
-          ),
+        AppSpacing.verticalSpaceSmall,
+        BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+          builder: (context, state) {
+            if (state.fetchPaymentStatus == FormzSubmissionStatus.inProgress) {
+              return const Center(
+                  child: SpinKitPulsingGrid(
+                color: AppColors.primaryColor,
+                size: 30,
+              ));
+            }
+            if (state.fetchPaymentStatus == FormzSubmissionStatus.failure) {
+              return const Center(
+                child:
+                    NoDataAvailable(message: 'Something went wrong', height: 3),
+              );
+            }
+
+            if (state.fetchPaymentsDatum?.isEmpty ?? true) {
+              return const Center(
+                  child: NoDataAvailable(
+                      message: 'No payments presently.', height: 3));
+            }
+            return ListView.separated(
+              shrinkWrap: true,
+              controller: ScrollController(),
+              itemCount: (state.fetchPaymentsDatum?.length ?? 0) > 3
+                  ? 3
+                  : state.fetchPaymentsDatum?.length ?? 0,
+              itemBuilder: (context, index) {
+                final payments = state.fetchPaymentsDatum![index];
+                return PaymentContainer(
+                  onTap: () {},
+                  title: payments.fee.title,
+                  amount: payments.amount,
+                  paidBy: payments.paidBy.fullName ?? '',
+                  paidFor: payments.paidFor.name,
+                  date: formatLocalTime(payments.updatedAt.toString()),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return AppSpacing.verticalSpaceMedium;
+              },
+            );
+          },
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            AppStrings.seeAll,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.primaryColor,
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.w700,
-                ),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed(FeePaymentScreen.routeName);
+          },
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,
@@ -229,7 +271,9 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
               );
             }
             return ListView.separated(
-              itemCount: state.upComingEvent?.length ?? 0,
+              itemCount: (state.upComingEvent?.length ?? 0) > 3
+                  ? 3
+                  : state.upComingEvent?.length ?? 0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final event = state.upComingEvent?[index];
@@ -256,6 +300,24 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
               physics: const NeverScrollableScrollPhysics(),
             );
           },
+        ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed(ClassEventsScreen.routeName);
+          },
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+          ),
         ),
         AppSpacing.verticalSpaceHuge,
         Align(

@@ -304,7 +304,7 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
                             BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
                               builder: (context, state) {
                                 return MultiClassDropdown(
-                                  classes: state.classesData!,
+                                  classes: state.classesData ?? [],
                                   onClassesSelected: (selectedClassIds) {
                                     setState(() {
                                       selectedClassId = selectedClassIds;
