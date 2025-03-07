@@ -54,9 +54,8 @@ class FeesTabView extends StatelessWidget {
             );
 
             if (details == null) {
-              return const SizedBox.shrink(); // Skip if no matching fee found
+              return const SizedBox.shrink();
             }
-
             return FeesContainer(
               onTap: () {
                 Navigator.of(context).pushNamed(
@@ -71,8 +70,7 @@ class FeesTabView extends StatelessWidget {
                     'amount': details.totalAmount,
                     'paidBy': currentStudent.guardians?[0].relationship,
                     'paidFor': currentStudent.name,
-                    'class':
-                        currentStudent.studentClass?.feesResponseClass?.slug,
+                    'class': currentStudent.studentClass?.name,
                     'feesBreakdown': details.feesBreakdown
                             ?.map((fb) =>
                                 {'title': fb.title, 'amount': fb.amount})

@@ -58,64 +58,93 @@ class IndividualStudentPaymentScreen extends StatelessWidget {
                             message: state.errorMessage ?? '', height: 50),
                       );
                     }
-                    final unpaidStudents = state
-                            .fetchFeesResponseDatum?.first.students
-                            ?.where((studentEntry) =>
-                                studentEntry.paymentStatus == 'unpaid')
-                            .toList() ??
-                        [];
-
-                    if (unpaidStudents.isEmpty) {
+                    if (state.fetchFeesResponseDatum?.isEmpty ?? true) {
                       return const Center(
                         child: NoDataAvailable(
                             message: 'No unpaid fees.', height: 10),
                       );
                     }
-
                     return Column(
                       children: [
                         ListView.separated(
+                          // shrinkWrap: true,
+                          // itemCount: state.paymentStatuses.length,
+                          // itemBuilder: (context, index) {
+                          //   final details =
+                          //       state.fetchFeesResponseDatum?[index];
+
                           shrinkWrap: true,
-                          itemCount: state.paymentStatuses.length,
+                          itemCount: state.fetchFeesResponseDatum?.length ?? 0,
                           itemBuilder: (context, index) {
-                            final details = state.fetchFeesResponseDatum?.first;
-                            final currentStudentEntry = unpaidStudents[index];
-                            final currentStudent =
-                                currentStudentEntry.studentId;
+                            final details =
+                                state.fetchFeesResponseDatum?[index];
+
+                            if (details == null) {
+                              return const SizedBox(); // Prevent null issues
+                            }
+
+                            final student =
+                                (details.students?.isNotEmpty ?? false) &&
+                                        index < details.students!.length
+                                    ? details.students![index]
+                                    : null; // Prevent out-of-range error
 
                             return FeesContainer(
                               onTap: () {
+                                context.read<FeesPaymentBloc>().add(
+                                    FeesPaymentEvent.fetchFeesById(
+                                        details.id ?? ''));
                                 Navigator.of(context).pushNamed(
                                   IndividualStudentFeesDetailsScreen.routeName,
                                   arguments: {
-                                    'title': details?.title,
-                                    'payer': details?.classes
+                                    'title': details.title,
+                                    'payer': details.classes
                                             ?.map((c) => c.name)
                                             .where((name) => true)
                                             .join(' and ') ??
                                         '',
-                                    'amount': details?.totalAmount,
-                                    'paidBy': currentStudent
-                                        ?.guardians?[0].relationship,
-                                    'paidFor': currentStudent?.name,
-                                    'class': currentStudent
-                                        ?.studentClass?.feesResponseClass?.slug,
-                                    'feesBreakdown': details?.feesBreakdown
+                                    'amount': details.totalAmount,
+                                    // 'paidBy': details?.students?.
+                                    //     ?.guardians?[0].relationship,
+                                    'paidBy': student
+                                        ?.studentId, // Check student before access
+                                    // 'paidFor': details
+                                    //         .students?[index].studentId?.name ??
+                                    //     '',
+                                    'paidFor': student?.studentId?.name,
+
+                                    // 'class': details
+                                    //         .students?[index]
+                                    //         .studentId
+                                    //         ?.studentClass!
+                                    //         .feesResponseClass
+                                    //         ?.name ??
+                                    //     '',
+
+                                    'class':
+                                        student?.studentId?.studentClass?.name,
+                                    'feesBreakdown': details.feesBreakdown
                                             ?.map((fb) => {
                                                   'title': fb.title,
                                                   'amount': fb.amount
                                                 })
                                             .toList() ??
                                         [],
-                                    'studentId': currentStudent?.id,
-                                    'feesId': details?.id,
-                                    'paymentStatus': currentStudent?.school
+                                    // 'studentId': details
+                                    //         .students?[index].studentId?.id ??
+                                    //     '',
                                   },
                                 );
                               },
-                              title: details?.title ?? '',
-                              term: currentStudent?.name ?? '',
-                              amount: details?.totalAmount ?? 0,
+                              title: details.title ?? '',
+
+                              //details
+                              //     .students?[index].studentId?.id ??
+                              // '',
+                              // term: details.students?[index].studentId?.name ??
+                              //     '',
+                              term: student?.studentId?.name ?? '',
+                              amount: details.totalAmount ?? 0,
                               student: false,
                             );
                           },

@@ -178,15 +178,17 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
 
   void _fetchFeesById(
       _FetchFeesById event, Emitter<FeesPaymentState> emit) async {
+    if (state.fetchFeesByIdStatus == FormzSubmissionStatus.inProgress) return;
+
     emit(state.copyWith(fetchFeesByIdStatus: FormzSubmissionStatus.inProgress));
 
     try {
-      final fees = await locator<FeesPaymentClient>().fetchFeesByID(
+      final breakDown = await locator<FeesPaymentClient>().fetchFeesByID(
         await getAuthorization(),
         event.feeId,
       );
 
-      add(_FetchFeesByIdSuccessful(fees));
+      add(_FetchFeesByIdSuccessful(breakDown));
     } catch (error, trace) {
       logError(error, trace);
       add(_FetchFeesByIdFailed(error.toString()));
@@ -198,6 +200,7 @@ class FeesPaymentBloc extends Bloc<FeesPaymentEvent, FeesPaymentState> {
     emit(state.copyWith(
         fetchFeesByIdStatus: FormzSubmissionStatus.success,
         fetchFeesById: event.fetchFeesById,
+        fetchFeesByIdResponseDatum: event.fetchFeesById.data,
         errorMessage: null));
   }
 

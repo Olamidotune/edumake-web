@@ -19,6 +19,7 @@ class FeesPaymentState with _$FeesPaymentState {
     List<FetchResponseDatum>? fetchFeesResponseDatum,
     FeesPaymentRequestBody? feesPaymentRequestBody,
     FetchFeesByIdResponse? fetchFeesById,
+    FetchFeesByIdResponseDatum? fetchFeesByIdResponseDatum,
     IndividualStudentPaymentHistoryResponse?
         individualStudentPaymentHistoryResponse,
     List<IndividualStudentPaymentHistoryResponseDatum>?

@@ -93,8 +93,7 @@ class ClassPaymentScreen extends StatelessWidget {
                             'amount': details.totalAmount,
                             'paidBy': currentStudent.guardians?[0].relationship,
                             'paidFor': currentStudent.name,
-                            'class': currentStudent
-                                .studentClass?.feesResponseClass?.slug,
+                            'class': currentStudent.studentClass?.name,
                             'feesBreakdown': details.feesBreakdown
                                     ?.map((fb) => {
                                           'title': fb.title,

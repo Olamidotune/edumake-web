@@ -21,20 +21,11 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-
-    final studentId = args['studentId'];
-    final feesId = args['feesId'];
-    final feesBreakdown = List<Map<String, dynamic>>.from(
-        (args['feesBreakdown'] as Iterable<dynamic>?) ?? []);
-
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
         builder: (context, state) {
-          if (state.fetchFeesPaymentStatus ==
-              FormzSubmissionStatus.inProgress) {
+          if (state.fetchFeesByIdStatus == FormzSubmissionStatus.inProgress) {
             return const Center(
               child: SpinKitPulsingGrid(
                 color: AppColors.primaryColor,
@@ -42,7 +33,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
               ),
             );
           }
-          if (state.fetchFeesPaymentStatus == FormzSubmissionStatus.failure) {
+          if (state.fetchFeesByIdStatus == FormzSubmissionStatus.failure) {
             return const Center(
                 child: NoDataAvailable(
               message: 'No Data Available',
@@ -83,14 +74,17 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                   ),
                         ),
                         Text(
-                          state.paymentStatuses.first.contains('unpaid')
+                          state.fetchFeesByIdResponseDatum!.students!.first
+                                  .paymentStatus!
+                                  .contains('unpaid')
                               ? 'Not Paid'
                               : 'Paid',
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: state.paymentStatuses.first
+                                    color: state.fetchFeesByIdResponseDatum!
+                                            .students!.first.paymentStatus!
                                             .contains('unpaid')
-                                        ? AppColors.redColor
+                                        ? AppColors.yellowWarningColor
                                         : AppColors.greenColor,
                                     fontSize: 14.fontSize,
                                     fontWeight: FontWeight.w600,
@@ -124,12 +118,15 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                           ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: feesBreakdown.length,
+                            itemCount: state.fetchFeesByIdResponseDatum
+                                    ?.feesBreakdown?.length ??
+                                0,
                             itemBuilder: (context, index) {
-                              final fee = feesBreakdown[index];
+                              final fee = state.fetchFeesByIdResponseDatum
+                                  ?.feesBreakdown?[index];
                               return ListTile(
                                 title: Text(
-                                  fee['title'] as String? ?? 'Unknown Title',
+                                  fee?.title ?? '',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -139,7 +136,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                           color: AppColors.primaryTextColor),
                                 ),
                                 trailing: Text(
-                                  '${AppStrings.naira} ${numberFormat.format(fee['amount'] ?? 0)}',
+                                  '${AppStrings.naira} ${numberFormat.format(fee?.amount)}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -183,19 +180,26 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                             buttonColor: Colors.white,
                             busy: state.markFeesPaymentStatus ==
                                 FormzSubmissionStatus.inProgress,
-                            text: state.paymentStatuses.first.contains('unpaid')
+                            text: state.fetchFeesByIdResponseDatum!.students!
+                                    .first.paymentStatus!
+                                    .contains('unpaid')
                                 ? '   Mark as paid'
                                 : 'Mark as unpaid',
                             onPressed: () {
                               context
                                   .read<FeesPaymentBloc>()
                                   .add(FeesPaymentEvent.markFeesPayment(
-                                    feesId.toString(),
-                                    studentId.toString(),
-                                    state.paymentStatuses.first
+                                    // feesId.toString(),
+                                    // studentId.toString(),
+                                    state.fetchFeesByIdResponseDatum?.id ?? '',
+                                    state.fetchFeesByIdResponseDatum?.students
+                                            ?.first.id ??
+                                        '',
+                                    state.fetchFeesByIdResponseDatum!.students!
+                                            .first.paymentStatus!
                                             .contains('unpaid')
-                                        ? 'paid'
-                                        : 'unpaid',
+                                        ? 'Not Paid'
+                                        : 'Paid',
                                   ));
                             },
                           ),
