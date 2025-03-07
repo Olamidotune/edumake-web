@@ -58,6 +58,11 @@ class FeesTabView extends StatelessWidget {
             }
             return FeesContainer(
               onTap: () {
+                context
+                    .read<FeesPaymentBloc>()
+                    .add(FeesPaymentEvent.fetchFeesById(
+                      details.id ?? '',
+                    ));
                 Navigator.of(context).pushNamed(
                   FeesDetailsScreen.routeName,
                   arguments: {

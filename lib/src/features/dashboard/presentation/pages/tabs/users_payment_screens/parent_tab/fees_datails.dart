@@ -196,8 +196,6 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                   ? context
                                       .read<FeesPaymentBloc>()
                                       .add(FeesPaymentEvent.markFeesPayment(
-                                        // feesId.toString(),
-                                        // studentId.toString(),
                                         state.fetchFeesByIdResponseDatum?.id ??
                                             '',
                                         state.fetchFeesByIdResponseDatum

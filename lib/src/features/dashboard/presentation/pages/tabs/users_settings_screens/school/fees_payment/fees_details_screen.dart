@@ -11,8 +11,10 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/fees_big_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
 
 class FeesDetailsScreen extends StatelessWidget {
@@ -29,14 +31,9 @@ class FeesDetailsScreen extends StatelessWidget {
 
     final title = args['title'];
     final payer = args['payer'];
-    final amount = args['amount'];
     final paidBy = args['paidBy'];
     final paidFor = args['paidFor'];
     final studentClass = args['class'];
-    final studentId = args['studentId'];
-    final feesId = args['feesId'];
-    final feesBreakdown = List<Map<String, dynamic>>.from(
-        (args['feesBreakdown'] as Iterable<dynamic>?) ?? []);
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -69,13 +66,35 @@ class FeesDetailsScreen extends StatelessWidget {
                         return _buildWhen(context, previous, current);
                       },
                       builder: (context, state) {
+                        if (state.fetchFeesByIdStatus ==
+                            FormzSubmissionStatus.inProgress) {
+                          return const Center(
+                            child: SpinKitPulsingGrid(
+                              color: AppColors.primaryColor,
+                              size: 30,
+                            ),
+                          );
+                        }
+                        if (state.fetchFeesByIdStatus ==
+                            FormzSubmissionStatus.failure) {
+                          return const Center(
+                              child: NoDataAvailable(
+                            message: 'No Data Available',
+                            height: 3,
+                          ));
+                        }
+                        final fee = state
+                            .fetchFeesByIdResponseDatum?.feesBreakdown?.first;
+                        final details = state.fetchFeesByIdResponseDatum;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FeesBigContainer(
-                                title: title.toString(),
-                                amount: amount as int,
-                                payer: payer.toString(),
+                                title: fee?.title ?? '',
+                                amount: details?.totalAmount ?? 0,
+                                payer:
+                                    details?.students?.first.studentId?.name ??
+                                        '',
                                 studentClass: studentClass.toString(),
                                 paidBy: paidBy.toString(),
                                 paidFor: paidFor.toString()),
@@ -96,12 +115,15 @@ class FeesDetailsScreen extends StatelessWidget {
                             ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: feesBreakdown.length,
+                              itemCount: state.fetchFeesByIdResponseDatum
+                                      ?.feesBreakdown?.length ??
+                                  0,
                               itemBuilder: (context, index) {
-                                final fee = feesBreakdown[index];
+                                final fee = state.fetchFeesByIdResponseDatum
+                                    ?.feesBreakdown?[index];
                                 return ListTile(
                                   title: Text(
-                                    fee['title'] as String? ?? 'Unknown Title',
+                                    fee?.title ?? '',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -111,7 +133,7 @@ class FeesDetailsScreen extends StatelessWidget {
                                             color: AppColors.primaryTextColor),
                                   ),
                                   trailing: Text(
-                                    '${AppStrings.naira} ${numberFormat.format(fee['amount'] ?? 0)}',
+                                    '${AppStrings.naira} ${numberFormat.format(fee?.amount)}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
@@ -140,7 +162,7 @@ class FeesDetailsScreen extends StatelessWidget {
                                         color: AppColors.primaryColor),
                               ),
                               trailing: Text(
-                                '${AppStrings.naira} ${numberFormat.format(state.fetchFeesResponseDatum?.first.totalAmount ?? 0)}',
+                                '${AppStrings.naira} ${numberFormat.format(state.fetchFeesByIdResponseDatum?.totalAmount ?? 0)}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -158,8 +180,11 @@ class FeesDetailsScreen extends StatelessWidget {
                               onPressed: () {
                                 context.read<FeesPaymentBloc>().add(
                                     FeesPaymentEvent.markFeesPayment(
-                                        feesId.toString(),
-                                        studentId.toString(),
+                                        state.fetchFeesByIdResponseDatum?.id ??
+                                            '',
+                                        state.fetchFeesByIdResponseDatum
+                                                ?.students?.first.id ??
+                                            '',
                                         'paid'));
                               },
                             ),
@@ -172,13 +197,22 @@ class FeesDetailsScreen extends StatelessWidget {
                                     FeesIssueScreen.routeName,
                                     arguments: {
                                       'title': title,
-                                      'amount': amount,
+                                      'amount': state.fetchFeesByIdResponseDatum
+                                              ?.totalAmount ??
+                                          0,
                                       'payer': payer,
                                       'studentClass': studentClass,
                                       'paidBy': paidBy,
                                       'paidFor': paidFor,
-                                      'feesId': feesId,
-                                      'studentId': studentId,
+                                      'feesId': state
+                                              .fetchFeesByIdResponseDatum?.id ??
+                                          '',
+                                      'studentId': state
+                                              .fetchFeesByIdResponseDatum
+                                              ?.students
+                                              ?.first
+                                              .id ??
+                                          ''
                                     });
                               },
                             )
