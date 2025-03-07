@@ -207,9 +207,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                             ? 'Not Paid'
                                             : 'Paid',
                                       ))
-                                  : Navigator.of(context).pop();
-                              ToastService.toast(
-                                  'Hang in there! An admin will verify your payment and you will be notified.');
+                                  : () {};
                             },
                           ),
                           AppSpacing.verticalSpaceLarge,
