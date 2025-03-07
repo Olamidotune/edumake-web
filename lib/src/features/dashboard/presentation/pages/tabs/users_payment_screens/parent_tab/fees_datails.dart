@@ -22,7 +22,10 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final role = context.read<AuthBloc>().state.user?.role;
+    final args =
+        ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
+
+    final studentId = args['studentId'];
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
@@ -101,6 +104,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                       return _buildWhen(context, previous, current);
                     },
                     builder: (context, state) {
+                      final role = context.read<AuthBloc>().state.user?.role;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -198,14 +202,12 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                       .add(FeesPaymentEvent.markFeesPayment(
                                         state.fetchFeesByIdResponseDatum?.id ??
                                             '',
-                                        state.fetchFeesByIdResponseDatum
-                                                ?.students?.first.id ??
-                                            '',
+                                        studentId.toString(),
                                         state.fetchFeesByIdResponseDatum!
                                                 .students!.first.paymentStatus!
                                                 .contains('unpaid')
-                                            ? 'Not Paid'
-                                            : 'Paid',
+                                            ? 'paid'
+                                            : 'unpaid',
                                       ))
                                   : () {};
                             },
