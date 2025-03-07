@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -27,16 +28,14 @@ class ParentPaymentCard extends StatelessWidget {
         ListTile(
           contentPadding: EdgeInsets.zero,
           leading: CircleAvatar(
-            radius: 20,
+            radius: 24,
             backgroundColor: AppColors.greyColor,
-            child: Text(
-              'HH',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontFamily: 'HelveticaNeueRounded',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.primaryTextColor,
-                  ),
+            child: CircleAvatar(
+              radius: 16.fontSize,
+              backgroundColor: AppColors.primaryColor,
+              child: SvgPicture.asset(
+                'assets/svg/people.svg',
+              ),
             ),
           ),
           title: Text(
@@ -165,7 +164,10 @@ class ParentPaymentCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$amount',
+                      // $amount,
+
+                      '${AppStrings.naira} ${numberFormat.format(amount)}',
+
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 12.fontSize,

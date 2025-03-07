@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/utils/validator.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/shared/dialogs/success_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -21,6 +22,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final role = context.read<AuthBloc>().state.user?.role;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
@@ -84,7 +86,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                     color: state.fetchFeesByIdResponseDatum!
                                             .students!.first.paymentStatus!
                                             .contains('unpaid')
-                                        ? AppColors.yellowWarningColor
+                                        ? AppColors.redColor
                                         : AppColors.greenColor,
                                     fontSize: 14.fontSize,
                                     fontWeight: FontWeight.w600,
@@ -165,7 +167,7 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                                       color: AppColors.primaryColor),
                             ),
                             trailing: Text(
-                              '${AppStrings.naira} ${numberFormat.format(state.fetchFeesResponseDatum?.first.totalAmount ?? 0)}',
+                              '${AppStrings.naira} ${numberFormat.format(state.fetchFeesByIdResponseDatum?.totalAmount ?? 0)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -177,30 +179,39 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
                           ),
                           AppSpacing.verticalSpaceMassive,
                           Button(
-                            buttonColor: Colors.white,
+                            buttonColor: role == 'school-admin'
+                                ? Colors.white
+                                : AppColors.primaryColor,
                             busy: state.markFeesPaymentStatus ==
                                 FormzSubmissionStatus.inProgress,
-                            text: state.fetchFeesByIdResponseDatum!.students!
-                                    .first.paymentStatus!
-                                    .contains('unpaid')
-                                ? '   Mark as paid'
-                                : 'Mark as unpaid',
+                            text: role == 'school-admin'
+                                ? state.fetchFeesByIdResponseDatum!.students!
+                                        .first.paymentStatus!
+                                        .contains('unpaid')
+                                    ? '   Mark as paid'
+                                    : 'Mark as unpaid'
+                                : 'Pay Fees',
                             onPressed: () {
-                              context
-                                  .read<FeesPaymentBloc>()
-                                  .add(FeesPaymentEvent.markFeesPayment(
-                                    // feesId.toString(),
-                                    // studentId.toString(),
-                                    state.fetchFeesByIdResponseDatum?.id ?? '',
-                                    state.fetchFeesByIdResponseDatum?.students
-                                            ?.first.id ??
-                                        '',
-                                    state.fetchFeesByIdResponseDatum!.students!
-                                            .first.paymentStatus!
-                                            .contains('unpaid')
-                                        ? 'Not Paid'
-                                        : 'Paid',
-                                  ));
+                              role == 'school-admin'
+                                  ? context
+                                      .read<FeesPaymentBloc>()
+                                      .add(FeesPaymentEvent.markFeesPayment(
+                                        // feesId.toString(),
+                                        // studentId.toString(),
+                                        state.fetchFeesByIdResponseDatum?.id ??
+                                            '',
+                                        state.fetchFeesByIdResponseDatum
+                                                ?.students?.first.id ??
+                                            '',
+                                        state.fetchFeesByIdResponseDatum!
+                                                .students!.first.paymentStatus!
+                                                .contains('unpaid')
+                                            ? 'Not Paid'
+                                            : 'Paid',
+                                      ))
+                                  : Navigator.of(context).pop();
+                              ToastService.toast(
+                                  'Hang in there! An admin will verify your payment and you will be notified.');
                             },
                           ),
                           AppSpacing.verticalSpaceLarge,

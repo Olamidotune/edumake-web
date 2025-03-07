@@ -110,27 +110,40 @@ class ParentPaymentScreen extends StatelessWidget {
                   height: 3,
                 ));
               }
-              if (state.fetchFeesResponseDatum?.isEmpty ?? true) {
+              if (state.paymentStatuses.isEmpty) {
                 return const Center(child: Text('No fees found'));
               }
               return ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: state.fetchFeesResponseDatum?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  final feeData = state.fetchFeesResponseDatum?[index];
+                itemCount: state.unpaidStudents.length,
+                itemBuilder: (context, index) {
+                  final currentStudent = state.unpaidStudents[index];
+                  final details = state.fetchFeesResponseDatum?.firstWhere(
+                    (fee) =>
+                        fee.students?.any((student) =>
+                            student.studentId?.id == currentStudent.id &&
+                            student.paymentStatus == 'unpaid') ??
+                        false,
+                  );
+
+                  if (details == null) {
+                    return const SizedBox.shrink();
+                  }
                   return GestureDetector(
                     onTap: () {},
                     child: ParentPaymentCard(
-                      wardName: feeData?.students?[index].studentId?.name ??
-                          '', // Replace with correct field
-                      wardSchool: feeData?.title ?? '',
-                      wardClass: 'Class',
-                      amount: feeData?.totalAmount ??
-                          0, // Assuming this is the correct field
+                      wardName: currentStudent.name ?? '',
+                      // wardSchool: d.studentClass?.school ?? '',
+                      wardSchool: details.school!.id,
+                      wardClass: currentStudent.studentClass?.name ?? '',
+                      amount: details.totalAmount ?? 0,
                       onPayFee: () {
-                        context.read<FeesPaymentBloc>().add(
-                            FeesPaymentEvent.fetchFeesById(feeData?.id ?? ''));
+                        context
+                            .read<FeesPaymentBloc>()
+                            .add(FeesPaymentEvent.fetchFeesById(
+                              details.id ?? '',
+                            ));
                         Navigator.of(context, rootNavigator: true).pushNamed(
                             IndividualStudentFeesDetailsScreen.routeName);
                       },

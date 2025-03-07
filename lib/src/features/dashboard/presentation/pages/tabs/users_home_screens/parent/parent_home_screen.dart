@@ -49,7 +49,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
           for (final studentId in studentIds) {
             context
                 .read<FeesPaymentBloc>()
-                .add(FeesPaymentEvent.fetchFees(parentSchoolId, studentId));
+                .add(FeesPaymentEvent.fetchFees(parentSchoolId, ''));
           }
         } else {
           logInfo('No wards available, skipping fetchFees.');
@@ -120,24 +120,13 @@ class _ParentDashboardState extends State<ParentDashboard> {
                 itemCount: state.getWardRequestModel?.data.length ?? 0,
                 itemBuilder: (context, index) {
                   final wardDetails = state.getWardRequestModel?.data[index];
-                  // final studentId = state.getWardRequestModel?.data[index].id;
-
-                  ///
-                  // final paymentStatus = context
-                  //     .read<FeesPaymentBloc>()
-                  //     .state
-                  //     .fetchFeesResponseDatum?[index]
-                  //     .students?[index]
-                  //     .paymentStatus;
-
                   return YourWardCard(
                     wardName:
                         '${state.getWardRequestModel?.data[index].wardName}',
                     schoolName: wardDetails?.wardDatumSchool.schoolName ?? '',
                     wardClass: wardDetails?.wardDatumClass.name ?? '',
-                    assignmentNum: '{Ward scores}',
-                    scores: 'student.deviceToken',
-                    feesPaid: true,
+                    assignmentNum: '4',
+                    scores: '23',
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
