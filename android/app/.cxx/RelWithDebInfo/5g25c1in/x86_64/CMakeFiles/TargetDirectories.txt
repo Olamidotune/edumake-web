@@ -1,0 +1,2 @@
+/Users/olamidotun/Mobile Projects/edumake-frontend/android/app/.cxx/RelWithDebInfo/5g25c1in/x86_64/CMakeFiles/edit_cache.dir
+/Users/olamidotun/Mobile Projects/edumake-frontend/android/app/.cxx/RelWithDebInfo/5g25c1in/x86_64/CMakeFiles/rebuild_cache.dir

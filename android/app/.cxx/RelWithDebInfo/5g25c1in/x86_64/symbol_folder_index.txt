@@ -1,0 +1,1 @@
+/Users/olamidotun/Mobile Projects/edumake-frontend/build/app/intermediates/cxx/RelWithDebInfo/5g25c1in/obj/x86_64
