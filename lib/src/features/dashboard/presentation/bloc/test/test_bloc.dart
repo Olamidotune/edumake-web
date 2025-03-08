@@ -141,12 +141,11 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 
     try {
       final testResults = await locator<TestResultClient>().fetchTestResults(
-        await getAuthorization(),
-        event.parentSchoolId ?? await getSchoolID(),
-        event.studentId,
-        event.classId,
-        event.subjectId,
-      );
+          await getAuthorization(),
+          event.parentSchoolId ?? await getSchoolID(),
+          event.studentId ?? '',
+          event.classId ?? '',
+          event.subjectId ?? '');
 
       add(_FetchTestResultsSuccessful(testResults));
     } catch (error, trace) {

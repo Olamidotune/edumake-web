@@ -40,9 +40,9 @@ class TestEvent with _$TestEvent {
   /// Fetch Test Results
   //////////////////////////////////////////////////////////////////////
   const factory TestEvent.fetchTestResults(
-    String studentId,
-    String classId,
-    String subjectId,
+    String? studentId,
+    String? classId,
+    String? subjectId,
     String? parentSchoolId,
   ) = _FetchTestResults;
   const factory TestEvent.fetchTestResultsSuccessful(

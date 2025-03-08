@@ -3,7 +3,6 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
-import 'package:edumake_frontend/src/features/dashboard/api/school/models/fetch_test_exams_response/exams/fetch_exam_response_grade.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -14,10 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-class WardExamScreen extends StatelessWidget {
-  const WardExamScreen({super.key});
+class WardTestScreen extends StatelessWidget {
+  const WardTestScreen({super.key});
 
-  static const String routeName = '/ward-exam-screen';
+  static const String routeName = '/ward-test-screen';
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +28,12 @@ class WardExamScreen extends StatelessWidget {
     final studentName = args['studentName'];
     // final subjectId = args['subjectId'];
     final subjectName = args['subjectName'];
-    final wardId = args['wardId'];
 
     final scrollController = ScrollController();
 
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Exam Results',
+        title: 'Test Results',
       ),
       body: SafeArea(
         child: CustomRawScroller(
@@ -99,7 +97,7 @@ class WardExamScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   BlocBuilder<TestBloc, TestState>(
                     builder: (context, state) {
-                      if (state.fetchExamResultsStatus ==
+                      if (state.fetchTestResultsStatus ==
                           FormzSubmissionStatus.inProgress) {
                         return SizedBox(
                           height: 800,
@@ -112,15 +110,15 @@ class WardExamScreen extends StatelessWidget {
                           ),
                         );
                       }
-
-                      if (state.fetchExamResultsData?.isEmpty ?? true) {
+                      //////////////////////////////////////////////////////
+                      if (state.fetchTestResultsData?.isEmpty ?? true) {
                         return NoDataAvailable(
                           message:
-                              '$studentName does not have any exam results available for $subjectName at the moment. You will be notified when a test is available.',
+                              '$studentName does not have any test results available for $subjectName at the moment. You will be notified when a test is available.',
                           height: 7,
                         );
                       }
-                      if (state.fetchExamResultsStatus ==
+                      if (state.fetchTestResultsStatus ==
                           FormzSubmissionStatus.failure) {
                         return const NoDataAvailable(
                           message: 'Something went wrong',
@@ -139,29 +137,25 @@ class WardExamScreen extends StatelessWidget {
                           ),
                           AppSpacing.verticalSpaceMedium,
                           ListView.separated(
-                            itemCount: state.fetchExamResultsData?.length ?? 0,
+                            itemCount: state.fetchTestResultsData?.length ?? 0,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              final examResults =
-                                  state.fetchExamResultsData?[index];
-
-                              // Filter grade for the specific student
-
-                              final examGrade =
-                                  examResults?.examResponseGrades.firstWhere(
-                                (grade) => grade.student == wardId,
-                                orElse: () => FetchExamResponseGrade(
-                                    student: '', id: '', grade: 0),
-                              );
+                              final testResults =
+                                  state.fetchTestResultsData?[index];
+                              // Get the first grade (or you might want to handle multiple grades differently)
+                              final testGrade =
+                                  testResults?.testResponseGrades.isNotEmpty ==
+                                          true
+                                      ? testResults?.testResponseGrades[0]
+                                      : null;
                               return GestureDetector(
-                                onTap: () {},
                                 child: TestResultTitle(
-                                  date: formatLocalTime(
-                                      examResults?.dateWritten ?? ''),
-                                  title: examResults?.title ?? '',
-                                  grade: examGrade?.grade ?? 0,
                                   editIcon: false,
+                                  date: formatLocalTime(
+                                      testResults?.dateWritten ?? ''),
+                                  title: testResults?.title ?? '',
+                                  grade: testGrade?.grade ?? 0,
                                 ),
                               );
                             },
@@ -169,7 +163,6 @@ class WardExamScreen extends StatelessWidget {
                               return AppSpacing.verticalSpaceMedium;
                             },
                           ),
-                          AppSpacing.verticalSpaceMedium,
                           Text(
                             'Previous',
                             style: TextStyle(
