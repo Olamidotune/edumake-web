@@ -45,7 +45,6 @@ class _AddExamTimeTableScreenState extends State<AddExamTimeTableScreen> {
   final _formKey = GlobalKey<FormState>();
 
   List<String>? selectedClassId;
-  List<String>? selectedEventId;
 
   bool _isUploading = false;
 
@@ -246,7 +245,7 @@ class _AddExamTimeTableScreenState extends State<AddExamTimeTableScreen> {
     final baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
 
     final url = '${baseUrl}api/v1/sch/tt/exam/$schoolId';
-    print(url);
+
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
       request.headers.addAll({

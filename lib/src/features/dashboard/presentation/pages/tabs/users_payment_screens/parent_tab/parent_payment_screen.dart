@@ -134,7 +134,6 @@ class ParentPaymentScreen extends StatelessWidget {
                     onTap: () {},
                     child: ParentPaymentCard(
                       wardName: currentStudent.name ?? '',
-                      // wardSchool: d.studentClass?.school ?? '',
                       wardSchool: details.school!.id,
                       wardClass: currentStudent.studentClass?.name ?? '',
                       amount: details.totalAmount ?? 0,
@@ -145,7 +144,8 @@ class ParentPaymentScreen extends StatelessWidget {
                               details.id ?? '',
                             ));
                         Navigator.of(context, rootNavigator: true).pushNamed(
-                            IndividualStudentFeesDetailsScreen.routeName);
+                            IndividualStudentFeesDetailsScreen.routeName,
+                            arguments: {'studentId': currentStudent.id});
                       },
                     ),
                   );

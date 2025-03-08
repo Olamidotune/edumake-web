@@ -5,12 +5,16 @@ part 'fetch_test_response_grade.g.dart';
 @JsonSerializable()
 class FetchTestResponseGrade {
   FetchTestResponseGrade({
+    required this.student,
     required this.grade,
     required this.id,
   });
 
   factory FetchTestResponseGrade.fromJson(Map<String, dynamic> json) =>
       _$FetchTestResponseGradeFromJson(json);
+  @JsonKey(name: 'student')
+  final String student;
+
   @JsonKey(name: 'grade')
   final double grade;
 

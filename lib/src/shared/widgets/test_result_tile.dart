@@ -8,14 +8,14 @@ class TestResultTitle extends StatelessWidget {
   const TestResultTitle({
     required this.title,
     required this.date,
-    required this.grade,
     required this.editIcon,
+    this.grade,
     super.key,
   });
 
   final String title;
   final String date;
-  final double grade;
+  final double? grade;
   final bool editIcon;
 
   @override
@@ -80,7 +80,7 @@ class TestResultTitle extends StatelessWidget {
             ),
             RichText(
               text: TextSpan(
-                text: 'Grade: ',
+                text: grade != null ? 'Grade: ' : '',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.fontSize,
                       fontWeight: FontWeight.w400,
@@ -90,12 +90,13 @@ class TestResultTitle extends StatelessWidget {
                   TextSpan(
                     text: '$grade',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 12.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: grade >= 50
-                              ? AppColors.greenColor
-                              : AppColors.redColor,
-                        ),
+                        fontSize: 12.fontSize,
+                        fontWeight: FontWeight.w400,
+                        color: grade != null
+                            ? (grade ?? 0) >= 50
+                                ? AppColors.greenColor
+                                : AppColors.redColor
+                            : Colors.transparent),
                   ),
                 ],
               ),

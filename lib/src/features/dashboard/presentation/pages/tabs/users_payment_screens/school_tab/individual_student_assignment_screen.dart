@@ -3,6 +3,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/curriculum/curriculum_screen.dart';
@@ -90,10 +91,13 @@ class _IndividualStudentAssignmentScreenState
                       );
                     }
                     // Show empty state if no data is available
-                    if (state.getSubjectForStudentDatum?.isEmpty ?? true) {
-                      // Show empty state UI
+                    if (source == 'curriculum'
+                        ? state.fetchClassSubjectsDatum?.isEmpty ?? true
+                        : state.getSubjectForStudentDatum?.isEmpty ?? true) {
                       return NoDataAvailable(
-                        message: 'No subject(s) available for $studentName',
+                        message: source == 'curriculum'
+                            ? 'No subject(s) available for $className'
+                            : 'No subject(s) available for $studentName',
                         height: 7,
                       );
                     }
@@ -146,22 +150,36 @@ class _IndividualStudentAssignmentScreenState
 
                           final subjectData =
                               state.getSubjectForStudentDatum?[index];
+
+                          final curriculumSubjectData =
+                              state.fetchClassSubjectsDatum?[index];
                           return ClassesListTileContainer(
                             isProfilePictureEnabled: false,
-                            title: subjectData?.name.toUpperCase() ?? '',
+                            title: source == 'curriculum'
+                                ? curriculumSubjectData?.name ?? ''
+                                : subjectData?.name.toUpperCase() ?? '',
                             onTap: () {
-                              // Handle onTap action here
-                              context.read<SubjectsBloc>().add(
-                                    SubjectsEvent.onSelectedSubjectNameChanged(
-                                      subjectData?.name,
-                                    ),
-                                  );
+                              source == 'curriculum'
+                                  ? context.read<CurriculumBloc>().add(
+                                        CurriculumEvent.fetchCurriculums(
+                                          null,
+                                          curriculumSubjectData?.id,
+                                        ),
+                                      )
+                                  : context.read<SubjectsBloc>().add(
+                                        SubjectsEvent
+                                            .onSelectedSubjectNameChanged(
+                                          subjectData?.name,
+                                        ),
+                                      );
                               source == 'curriculum'
                                   ? Navigator.of(
                                       context,
-                                    ).pushNamed(
-                                      CurriculumScreen.routeName,
-                                    )
+                                    ).pushNamed(CurriculumScreen.routeName,
+                                      arguments: {
+                                          'subjectId':
+                                              curriculumSubjectData?.id,
+                                        })
                                   : Navigator.of(
                                       context,
                                     ).pushNamed(

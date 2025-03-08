@@ -28,6 +28,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
@@ -65,8 +66,12 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_time_table.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/class_exam_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/class_test_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/review_exam.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/review_test.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
@@ -77,8 +82,11 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_issue_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/school_menu_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/subjects/individual_subject_details.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/subjects/ward_subject_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/exam/ward_exam_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/ward_test_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_details_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/teacher_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
@@ -190,6 +198,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ExamBloc>(
           create: (context) => ExamBloc(),
+        ),
+        BlocProvider<CurriculumBloc>(
+          create: (context) => CurriculumBloc(),
         ),
         BlocProvider<FeesPaymentBloc>(
           create: (context) => FeesPaymentBloc(),
@@ -305,6 +316,7 @@ class MyApp extends StatelessWidget {
                   ClassEventDetailsScreen.routeName: (context) =>
                       const ClassEventDetailsScreen(),
                   WardTestScreen.routeName: (context) => const WardTestScreen(),
+                  WardExamScreen.routeName: (context) => const WardExamScreen(),
                   AddEventsScreen.routeName: (context) =>
                       const AddEventsScreen(),
                   EditEventScreen.routeName: (context) =>
@@ -329,6 +341,10 @@ class MyApp extends StatelessWidget {
                   PrivacyPolicy.routeName: (context) => const PrivacyPolicy(),
                   TestResultsScreen.routeName: (context) =>
                       const TestResultsScreen(),
+                  ClassTestScreen.routeName: (context) =>
+                      const ClassTestScreen(),
+                  ClassExamScreen.routeName: (context) =>
+                      const ClassExamScreen(),
                   ExamResultScreen.routeName: (context) =>
                       const ExamResultScreen(),
                   AddTestResultsScreen.routeName: (context) =>
@@ -341,6 +357,10 @@ class MyApp extends StatelessWidget {
                       const AddLectureTimeTableScreen(),
                   AddExamTimeTableScreen.routeName: (context) =>
                       const AddExamTimeTableScreen(),
+                  ReviewExamScreen.routeName: (context) =>
+                      const ReviewExamScreen(),
+                  ReviewTestScreen.routeName: (context) =>
+                      const ReviewTestScreen(),
                   IndividualStudentSubjectScreen.routeName: (context) =>
                       const IndividualStudentSubjectScreen(),
                   TermsAndConditions.routeName: (context) =>

@@ -31,9 +31,9 @@ class FeesContainer extends StatelessWidget {
           onTap: onTap,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: .05),
+              color: AppColors.primaryColor.withValues(alpha: .15),
               border: Border.all(
-                color: AppColors.primaryColor.withValues(alpha: .05),
+                color: AppColors.primaryColor,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: [

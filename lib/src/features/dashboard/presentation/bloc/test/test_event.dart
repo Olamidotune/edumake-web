@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 part of 'test_bloc.dart';
 
 @freezed
@@ -38,9 +40,9 @@ class TestEvent with _$TestEvent {
   /// Fetch Test Results
   //////////////////////////////////////////////////////////////////////
   const factory TestEvent.fetchTestResults(
-    String studentId,
-    String classId,
-    String subjectId,
+    String? studentId,
+    String? classId,
+    String? subjectId,
     String? parentSchoolId,
   ) = _FetchTestResults;
   const factory TestEvent.fetchTestResultsSuccessful(
@@ -57,6 +59,7 @@ class TestEvent with _$TestEvent {
     String studentId,
     String classId,
     String subjectId,
+    String? parentSchoolId,
   ) = _FetchExamResults;
 
   const factory TestEvent.fetchExamResultsSuccessful(
@@ -99,5 +102,19 @@ class TestEvent with _$TestEvent {
     String? message,
   ) = _FetchSubjectExamResultsFailed;
 
+  ////////////////////////////////////////////////////////////////////
+  /// Saving Navigation Args
+//////////////////////////////////////////////////////////////////////
+
+  const factory TestEvent.savingRouteArgs(
+    String studentName,
+    String className,
+    String schoolName,
+    String classId,
+    String studentId,
+    String subjectId,
+  ) = _SavingRouteArgs;
+
+  const factory TestEvent.setNeedsRefresh(bool value) = _Refresh;
   const factory TestEvent.errorMessage(String? message) = _ErrorMessage;
 }

@@ -23,7 +23,7 @@ class IndividualStudentPaymentScreen extends StatelessWidget {
     final className = args['className'];
     final schoolName = args['schoolName'];
     // final classId = args['classId'];
-    // final studentId = args['studentId'];
+    final studentId = args['studentId'];
     // final source = args['source'];
 
     final scrollController = ScrollController();
@@ -120,7 +120,7 @@ class IndividualStudentPaymentScreen extends StatelessWidget {
                                     //         .feesResponseClass
                                     //         ?.name ??
                                     //     '',
-
+                                    'studentId': studentId.toString(),
                                     'class':
                                         student?.studentId?.studentClass?.name,
                                     'feesBreakdown': details.feesBreakdown

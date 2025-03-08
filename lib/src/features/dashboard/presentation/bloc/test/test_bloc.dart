@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:edumake_frontend/service_locator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/clients/test_exam/test_result_client.dart';
@@ -49,6 +50,8 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     on<_FetchSubjectExamResults>(_fetchSubjectExamResults);
     on<_FetchSubjectExamResultsSuccessful>(_fetchSubjectExamResultsSuccessful);
     on<_FetchSubjectExamResultsFailed>(_fetchSubjectExamResultsFailed);
+    on<_SavingRouteArgs>(_onSavingRouteArgs);
+    on<_Refresh>(_refresh);
     on<_ErrorMessage>(_errorMessage);
   }
 
@@ -138,12 +141,11 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 
     try {
       final testResults = await locator<TestResultClient>().fetchTestResults(
-        await getAuthorization(),
-        event.parentSchoolId ?? await getSchoolID(),
-        event.studentId,
-        event.classId,
-        event.subjectId,
-      );
+          await getAuthorization(),
+          event.parentSchoolId ?? await getSchoolID(),
+          event.studentId ?? '',
+          event.classId ?? '',
+          event.subjectId ?? '');
 
       add(_FetchTestResultsSuccessful(testResults));
     } catch (error, trace) {
@@ -201,8 +203,12 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 
       add(_AddExamResultSuccessful(testResults));
     } catch (error, trace) {
-      onError(error, trace);
-      add(_AddExamResultFailed(error.toString()));
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        add(_AddExamResultFailed(error.response?.data['message'] as String?));
+      } else {
+        add(const _AddExamResultFailed('An unexpected error occurred'));
+      }
     }
   }
 
@@ -249,7 +255,7 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     try {
       final examResults = await locator<TestResultClient>().fetchExamResults(
         await getAuthorization(),
-        await getSchoolID(),
+        event.parentSchoolId ?? await getSchoolID(),
         event.studentId,
         event.classId,
         event.subjectId,
@@ -404,6 +410,20 @@ class TestBloc extends Bloc<TestEvent, TestState> {
         errorMessage: event.message,
       ),
     );
+  }
+
+  void _onSavingRouteArgs(_SavingRouteArgs event, Emitter<TestState> emit) {
+    emit(state.copyWith(
+        studentName: event.studentName,
+        className: event.className,
+        schoolName: event.schoolName,
+        classId: event.classId,
+        studentId: event.studentId,
+        subjectId: event.subjectId));
+  }
+
+  void _refresh(_Refresh event, Emitter<TestState> emit) {
+    emit(state.copyWith(refresh: event.value));
   }
 
   void _errorMessage(_ErrorMessage event, Emitter<TestState> emit) {
