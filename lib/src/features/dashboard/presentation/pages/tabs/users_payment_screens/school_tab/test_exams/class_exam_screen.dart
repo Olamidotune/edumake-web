@@ -127,17 +127,16 @@ class _ClassExamScreenState extends State<ClassExamScreen> {
                           );
                         }
 
+                        if (state.fetchExamResultsData?.isEmpty ?? true) {
+                          return const NoDataAvailable(
+                            message: 'No exams available for this class',
+                            height: 7,
+                          );
+                        }
                         if (state.fetchExamResultsStatus ==
                             FormzSubmissionStatus.failure) {
                           return const NoDataAvailable(
                             message: 'Something went wrong',
-                            height: 7,
-                          );
-                        }
-
-                        if (state.fetchExamResultsData?.length == 0) {
-                          return const NoDataAvailable(
-                            message: 'No exams available for this subject',
                             height: 7,
                           );
                         }

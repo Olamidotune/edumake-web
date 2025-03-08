@@ -128,17 +128,17 @@ class _ClassTestScreenState extends State<ClassTestScreen> {
                           );
                         }
 
-                        if (state.fetchTestResultsStatus ==
-                            FormzSubmissionStatus.failure) {
+                        if (state.fetchTestResultsData?.isEmpty ?? true) {
                           return const NoDataAvailable(
-                            message: 'Something went wrong',
+                            message: 'No tests available for this class',
                             height: 7,
                           );
                         }
 
-                        if (state.fetchTestResultsData?.length == 0) {
+                        if (state.fetchTestResultsStatus ==
+                            FormzSubmissionStatus.failure) {
                           return const NoDataAvailable(
-                            message: 'No tests available for this subject',
+                            message: 'Something went wrong',
                             height: 7,
                           );
                         }
