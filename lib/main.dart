@@ -67,6 +67,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_test_results.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_time_table.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/review_exam.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/parent_menu_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
@@ -341,6 +342,8 @@ class MyApp extends StatelessWidget {
                       const AddLectureTimeTableScreen(),
                   AddExamTimeTableScreen.routeName: (context) =>
                       const AddExamTimeTableScreen(),
+                  ReviewExamScreen.routeName: (context) =>
+                      const ReviewExamScreen(),
                   IndividualStudentSubjectScreen.routeName: (context) =>
                       const IndividualStudentSubjectScreen(),
                   TermsAndConditions.routeName: (context) =>

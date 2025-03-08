@@ -408,32 +408,3 @@ class _AddFeesPaymentScreenState extends State<AddFeesPaymentScreen> {
     return true;
   }
 }
-
-
-
-
-// {
-//   "type": "Request--->",
-//   "url": "https://edumake-backend.onrender.com/api/v1/sch/fees/67991ea0c1bc2dd292b374b1",
-//   "method": "POST",
-//   "payload": {
-//     "title": "Testing only for class 10",
-//     "details": "This should only show for class 10",
-//     "totalAmount": "20000",
-//     "classes": [
-//       "67a13d60e134e66839d5b652"
-//     ],
-//     "feesBreakdown": [
-//       {
-//         "title": "ICT1",
-//         "amount": 232
-//       },
-//       {
-//         "title": "Tution",
-//         "amount": 2323
-//       }
-//     ],
-//     "dueDate": "2025-03-31",
-//     "term": "First Term"
-//   }
-// }

@@ -147,10 +147,7 @@ class StudentDetailsScreen extends StatelessWidget {
                             ),
                           );
                       context.read<SubjectsBloc>().add(
-                            SubjectsEvent.fetchSubjectForStudent(
-                              studentId.toString(),
-                            ),
-                          );
+                          SubjectsEvent.fetchClassSubjects(classId.toString()));
                       Navigator.of(context).pushNamed(
                         IndividualStudentSubjectScreen.routeName,
                         arguments: {
@@ -180,10 +177,7 @@ class StudentDetailsScreen extends StatelessWidget {
                             ),
                           );
                       context.read<SubjectsBloc>().add(
-                            SubjectsEvent.fetchSubjectForStudent(
-                              studentId.toString(),
-                            ),
-                          );
+                          SubjectsEvent.fetchClassSubjects(classId.toString()));
                       Navigator.of(context).pushNamed(
                         IndividualStudentSubjectScreen.routeName,
                         arguments: {

@@ -65,7 +65,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            ' Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
+                            'Tap on any to view, edit or add ${source == 'test' ? 'test' : 'exams'} results.',
                         style: TextStyle(
                           fontSize: 14.fontSize,
                           color: AppColors.blackColor,
@@ -77,7 +77,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                 AppSpacing.verticalSpaceMedium,
                 BlocBuilder<SubjectsBloc, SubjectsState>(
                   builder: (context, state) {
-                    if (state.fetchSubjectForStudentStatus ==
+                    if (state.fetchClassSubjectsStatus ==
                         FormzSubmissionStatus.inProgress) {
                       return const Center(
                         child: SpinKitPulsingGrid(
@@ -85,17 +85,15 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state.fetchSubjectForStudentStatus ==
+                    if (state.fetchClassSubjectsStatus ==
                         FormzSubmissionStatus.failure) {
                       return NoDataAvailable(
                         message: 'Something went wrong',
                         height: 5.height,
                       );
                     }
-                    if (state.fetchSubjectForStudentStatus ==
-                                FormzSubmissionStatus.success &&
-                            state.getSubjectForStudentDatum == null ||
-                        state.getSubjectForStudentDatum?.length == 0) {
+                    if (state.fetchClassSubjectsDatum == null ||
+                        state.fetchClassSubjectsDatum?.length == 0) {
                       return NoDataAvailable(
                         message:
                             'No subject/courses available for this student',
@@ -109,7 +107,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                           : 510.height,
                       child: ListView.separated(
                         shrinkWrap: true,
-                        itemCount: state.getSubjectForStudentDatum?.length ?? 0,
+                        itemCount: state.fetchClassSubjectsDatum?.length ?? 0,
                         controller: scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         separatorBuilder: (context, index) {
@@ -117,7 +115,7 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                         },
                         itemBuilder: (context, index) {
                           final subjectData =
-                              state.getSubjectForStudentDatum?[index];
+                              state.fetchClassSubjectsDatum?[index];
                           return GestureDetector(
                             onTap: () {
                               source == 'test'
@@ -127,7 +125,9 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                         ),
                                       )
                                   : context.read<TestBloc>().add(
-                                        TestEvent.fetchSubjectExamResults(
+                                        TestEvent.fetchExamResults(
+                                          studentId.toString(),
+                                          '',
                                           subjectData?.id ?? '',
                                         ),
                                       );

@@ -148,7 +148,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                         isProfilePictureEnabled: false,
                         title: AppStrings.curriculumSchemeOfWork,
                         onTap: () {
-                          print(classId);
                           context.read<SubjectsBloc>().add(
                               SubjectsEvent.fetchClassSubjects(
                                   classId.toString()));

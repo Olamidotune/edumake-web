@@ -1,12 +1,15 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_requests/test_result_grade_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_requests/test_result_request.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/review_exam.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -29,13 +32,27 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
   final scrollerController = ScrollController();
   final titleController = TextEditingController();
   final dateController = TextEditingController();
-  final gradeController = TextEditingController();
-
   final titleFocusNode = FocusNode();
   final dateFocusNode = FocusNode();
-  final gradeFocusNode = FocusNode();
+
+  final List<TextEditingController> _gradeController = [];
+  final List<FocusNode> _gradeFocusNode = [];
 
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    scrollerController.dispose();
+    titleController.dispose();
+    dateController.dispose();
+    for (final controller in _gradeController) {
+      controller.dispose();
+    }
+    for (final focusNode in _gradeFocusNode) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +60,8 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
 
     final classId = args['classId'];
-    final studentId = args['studentId'];
     final subjectId = args['subjectId'];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
@@ -70,24 +87,12 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
                   ),
                 ),
                 AppSpacing.verticalSpaceMedium,
-                BlocConsumer<TestBloc, TestState>(
-                  listener: (context, state) {
-                    if (state.addExamResultStatus ==
-                        FormzSubmissionStatus.success) {
-                      ToastService.toast(
-                        'Result saved successfully',
-                      );
-                      Navigator.pop(context);
-                    }
-                    if (state.addExamResultStatus ==
-                        FormzSubmissionStatus.failure) {
-                      ToastService.toast(
-                        'Failed to add result',
-                        ToastType.error,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
+                BlocBuilder<GetSchoolDataBloc, GetSchoolDataState>(
+                  builder: (context, getSchoolDataState) {
+                    final students = getSchoolDataState.getStudentsDatum ?? [];
+                    // Ensure controllers match student count
+                    _initializeGradeControllers(students.length);
+
                     return Form(
                       key: formKey,
                       child: Column(
@@ -138,58 +143,173 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          AppSpacing.verticalSpaceMedium,
-                          CustomTextFormField(
-                            title: 'Grade',
-                            controller: gradeController,
-                            focusNode: gradeFocusNode,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Grade is required';
-                              }
-                              return null;
-                            },
-                            hintText: 'Enter Score',
-                            keyboardType: TextInputType.number,
+                          AppSpacing.verticalSpaceMassive,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.horizontalSpacing),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Students',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: 14.fontSize,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.secondaryTexColor,
+                                      ),
+                                ),
+                                Text(
+                                  'Grades',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: 14.fontSize,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.secondaryTexColor,
+                                      ),
+                                )
+                              ],
+                            ),
                           ),
                           AppSpacing.verticalSpaceMedium,
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height <
-                                    kMinSupportedHeight
-                                ? 130.height
-                                : 240.height,
-                          ),
-                          Button(
-                            busy: state.addExamResultStatus ==
-                                FormzSubmissionStatus.inProgress,
-                            text: 'Save',
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                final gradeValue =
-                                    double.tryParse(gradeController.text);
-                                if (gradeValue == null) {
-                                  ToastService.toast(
-                                    'Invalid grade input. Please enter a valid number.',
-                                    ToastType.error,
-                                  );
-                                  return;
-                                }
-                                final result = TestResultRequest(
-                                  classId: classId.toString(),
-                                  title: titleController.value.text.trim(),
-                                  subjectId: subjectId.toString(),
-                                  dateWritten: dateController.value.text,
-                                  grades: [
-                                    Grade(
-                                      grade: gradeValue,
-                                      studentId: studentId.toString(),
+                          ListView.separated(
+                            itemCount: students.length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final student = students[index];
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 2),
                                     ),
                                   ],
-                                );
-                                context
-                                    .read<TestBloc>()
-                                    .add(TestEvent.addExamResult(result));
-                              }
+                                ),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ClassesListTileContainer(
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.02),
+                                        onTap: () {},
+                                        isProfilePictureEnabled: true,
+                                        title: student.name,
+                                        subTitle: context
+                                                .read<AuthBloc>()
+                                                .state
+                                                .school
+                                                ?.schoolName ??
+                                            '',
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10.width,
+                                        vertical: 3.height,
+                                      ),
+                                      width: 80.width,
+                                      child: TextFormField(
+                                        controller: _gradeController[index],
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: AppColors.primaryColor
+                                              .withOpacity(0.05),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (_, __) =>
+                                AppSpacing.verticalSpaceMedium,
+                          ),
+                          AppSpacing.verticalSpaceMedium,
+                          BlocBuilder<TestBloc, TestState>(
+                            builder: (context, state) {
+                              return Button(
+                                busy: state.addExamResultStatus ==
+                                    FormzSubmissionStatus.inProgress,
+                                text: 'Review',
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    final grades = <Grade>[];
+                                    for (var i = 0; i < students.length; i++) {
+                                      final gradeText =
+                                          _gradeController[i].text.trim();
+                                      final gradeValue =
+                                          double.tryParse(gradeText);
+
+                                      if (gradeValue == null) {
+                                        ToastService.toast(
+                                          'Invalid grade for ${students[i].name}. Please enter a number.',
+                                          ToastType.error,
+                                        );
+                                        return;
+                                      }
+                                      grades.add(Grade(
+                                        grade: gradeValue,
+                                        studentId: students[i].id,
+                                      ));
+
+                                      print(
+                                          'Student: ${students[i].name}, Grade: $gradeValue');
+                                    }
+
+                                    final result = TestResultRequest(
+                                      classId: classId.toString(),
+                                      title: titleController.text.trim(),
+                                      subjectId: subjectId.toString(),
+                                      dateWritten: dateController.text,
+                                      grades: grades,
+                                    );
+                                    Navigator.of(context).pushNamed(
+                                        ReviewExamScreen.routeName,
+                                        arguments: {
+                                          'title': result.title,
+                                          'dateWritten': result.dateWritten,
+                                          'classId': result.classId,
+                                          'grades': grades,
+                                          'studentId': result.grades
+                                              .map((sId) => sId.studentId),
+                                          'class': result.classId,
+                                          'subjectId': result.subjectId,
+                                          'studentCount': students.length
+                                        });
+                                    print({
+                                      'title': result.title,
+                                      'dateWritten': result.dateWritten,
+                                      'classId': result.classId,
+                                      'grade': result.grades
+                                          .map((g) => g.grade)
+                                          .toList(),
+                                      'studentId': result.grades
+                                          .map((sId) => sId.studentId)
+                                          .toList(),
+                                      'class': result.classId,
+                                    });
+                                    // context
+                                    //     .read<TestBloc>()
+                                    //     .add(TestEvent.addExamResult(result));
+                                  }
+                                },
+                              );
                             },
                           ),
                         ],
@@ -205,16 +325,23 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
     );
   }
 
+  void _initializeGradeControllers(int count) {
+    while (_gradeController.length < count) {
+      _gradeController.add(TextEditingController());
+      _gradeFocusNode.add(FocusNode());
+    }
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final picked = await showDatePicker(
       context: context,
       firstDate: DateTime(2025),
-      lastDate: DateTime(4100),
+      lastDate: DateTime(2100),
       initialDate: DateTime.now(),
     );
     if (picked != null) {
       setState(() {
-        dateController.text = picked.toString().split(' ')[0];
+        dateController.text = picked.toIso8601String().split('T')[0];
       });
     }
   }

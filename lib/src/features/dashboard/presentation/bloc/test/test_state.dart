@@ -26,6 +26,9 @@ class TestState with _$TestState {
     String? examId,
     String? examDate,
     String? examStudentId,
+    String? studentName,
+    String? className,
+    String? schoolName,
     List<Grade>? examGrades,
     double? examGrade,
 //==============================================================================
@@ -63,6 +66,7 @@ class TestState with _$TestState {
     FormzSubmissionStatus fetchSubjectExamResultsStatus,
     FetchSubjectExamResult? fetchSubjectExamResult,
     List<FetchSubjectExamResultDatum>? fetchSubjectExamResultsData,
+    @Default(false) bool refresh,
     String? errorMessage,
   }) = _TestState;
 }

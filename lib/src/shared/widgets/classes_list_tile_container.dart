@@ -11,6 +11,7 @@ class ClassesListTileContainer extends StatelessWidget {
     this.onTap,
     this.subTitle,
     this.trailing,
+    this.color,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class ClassesListTileContainer extends StatelessWidget {
   final void Function()? onTap;
   final bool isProfilePictureEnabled;
   final String? subTitle;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class ClassesListTileContainer extends StatelessWidget {
         vertical: 3.height,
       ),
       decoration: BoxDecoration(
-        color: AppColors.secondaryColor.withOpacity(0.1),
+        color: color ?? AppColors.secondaryColor.withOpacity(0.1),
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
