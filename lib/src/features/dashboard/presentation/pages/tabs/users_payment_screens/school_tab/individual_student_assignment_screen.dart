@@ -167,9 +167,11 @@ class _IndividualStudentAssignmentScreenState
                               source == 'curriculum'
                                   ? Navigator.of(
                                       context,
-                                    ).pushNamed(
-                                      CurriculumScreen.routeName,
-                                    )
+                                    ).pushNamed(CurriculumScreen.routeName,
+                                      arguments: {
+                                          'subjectId':
+                                              curriculumSubjectData?.id,
+                                        })
                                   : Navigator.of(
                                       context,
                                     ).pushNamed(

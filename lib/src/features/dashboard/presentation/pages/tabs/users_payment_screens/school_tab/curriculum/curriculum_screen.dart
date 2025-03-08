@@ -16,6 +16,11 @@ class CurriculumScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
 
+    final args =
+        // ignore: cast_nullable_to_non_nullable
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final subjectId = args['subjectId'];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -44,8 +49,8 @@ class CurriculumScreen extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          AddCurriculumScreen.routeName,
-                        );
+                            AddCurriculumScreen.routeName,
+                            arguments: {'subjectId': subjectId});
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
