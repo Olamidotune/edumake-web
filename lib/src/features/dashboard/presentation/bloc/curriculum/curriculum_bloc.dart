@@ -29,7 +29,9 @@ class CurriculumBloc extends Bloc<CurriculumEvent, CurriculumState> {
 
     try {
       final curriculum = await locator<SubjectsClients>().fetchCurriculum(
-          await getAuthorization(), await getSchoolID(), event.subjectId);
+          await getAuthorization(),
+          event.parentSchoolId ?? await getSchoolID(),
+          event.subjectId);
 
       add(_FetchCurriculumsSuccess(curriculum));
     } catch (error, trace) {

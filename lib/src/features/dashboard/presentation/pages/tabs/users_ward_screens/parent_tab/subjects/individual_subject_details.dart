@@ -1,8 +1,10 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/curriculum/curriculum_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/exam/ward_exam_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/ward_test_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
@@ -83,9 +85,18 @@ class IndividualSubjectDetails extends StatelessWidget {
                     },
                   ),
                   AppSpacing.verticalSpaceMedium,
-                  const ClassesListTileContainer(
+                  ClassesListTileContainer(
                     isProfilePictureEnabled: false,
                     title: AppStrings.curriculumSchemeOfWork,
+                    onTap: () {
+                      context.read<CurriculumBloc>().add(
+                            CurriculumEvent.fetchCurriculums(
+                                schoolId.toString(), subjectId.toString()),
+                          );
+                      Navigator.of(context).pushNamed(
+                          CurriculumScreen.routeName,
+                          arguments: {'subjectId': subjectId.toString()});
+                    },
                   ),
                   AppSpacing.verticalSpaceMedium,
                   const ClassesListTileContainer(

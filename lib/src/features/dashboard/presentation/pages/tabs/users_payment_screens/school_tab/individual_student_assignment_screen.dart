@@ -162,6 +162,7 @@ class _IndividualStudentAssignmentScreenState
                               source == 'curriculum'
                                   ? context.read<CurriculumBloc>().add(
                                         CurriculumEvent.fetchCurriculums(
+                                          null,
                                           curriculumSubjectData?.id,
                                         ),
                                       )

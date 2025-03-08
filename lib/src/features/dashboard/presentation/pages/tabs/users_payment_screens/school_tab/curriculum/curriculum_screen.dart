@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/curriculum/add_curriculum_screen.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
@@ -26,6 +27,8 @@ class CurriculumScreen extends StatelessWidget {
         // ignore: cast_nullable_to_non_nullable
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final subjectId = args['subjectId'];
+
+    final role = context.read<AuthBloc>().state.user?.role;
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -52,27 +55,29 @@ class CurriculumScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            AddCurriculumScreen.routeName,
-                            arguments: {'subjectId': subjectId});
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.greyColor.withOpacity(0.1),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(30),
+                    child: role!.contains('parent')
+                        ? const SizedBox.shrink()
+                        : GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  AddCurriculumScreen.routeName,
+                                  arguments: {'subjectId': subjectId});
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColors.greyColor.withOpacity(0.1),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/svg/plus1.svg',
+                                color: AppColors.primaryColor,
+                                height: 20.fontSize,
+                              ),
+                            ),
                           ),
-                        ),
-                        child: SvgPicture.asset(
-                          'assets/svg/plus1.svg',
-                          color: AppColors.primaryColor,
-                          height: 20.fontSize,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

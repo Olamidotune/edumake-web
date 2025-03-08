@@ -5,8 +5,8 @@ class CurriculumEvent with _$CurriculumEvent {
   const factory CurriculumEvent() = _CurriculumEvent;
 
   //////////FETCH////////////
-  const factory CurriculumEvent.fetchCurriculums(String? subjectId) =
-      _FetchCurriculum;
+  const factory CurriculumEvent.fetchCurriculums(
+      String? parentSchoolId, String? subjectId) = _FetchCurriculum;
   const factory CurriculumEvent.fetchCurriculumsSuccess(
     FetchCurriculum fetchCurriculumModel,
   ) = _FetchCurriculumsSuccess;
