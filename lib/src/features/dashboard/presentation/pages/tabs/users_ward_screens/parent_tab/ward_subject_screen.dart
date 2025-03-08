@@ -9,7 +9,9 @@ import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/exam/ward_exam_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/successful_dialog.dart';
 import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
@@ -47,7 +49,7 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
     final studentName = args['studentName'];
     final className = args['className'];
     final schoolName = args['schoolName'];
-    final studentId = args['studentId'];
+    final wardId = args['wardId'];
     final classId = args['wardClassId'];
     final schoolId = args['wardSchoolId'];
 
@@ -147,7 +149,7 @@ class _WardSubjectScreenState extends State<WardSubjectScreen> {
                                   'studentName': studentName,
                                   'subjectId': subjectData?.id,
                                   'subjectName': subjectData?.name,
-                                  'studentId': studentId,
+                                  'wardId': wardId,
                                   'classId': classId,
                                   'schoolId': schoolId
                                 },
@@ -202,7 +204,7 @@ class IndividualSubjectDetails extends StatelessWidget {
     final studentName = args['studentName'];
     final subjectId = args['subjectId'];
     final subjectName = args['subjectName'];
-    final studentId = args['studentId'];
+    final wardId = args['wardId'];
     final classId = args['classId'];
     final schoolId = args['schoolId'];
 
@@ -251,6 +253,7 @@ class IndividualSubjectDetails extends StatelessWidget {
                           'studentName': studentName,
                           'subjectId': subjectId,
                           'subjectName': subjectName,
+                          'wardId': wardId
                         },
                       );
                     },
@@ -270,22 +273,44 @@ class IndividualSubjectDetails extends StatelessWidget {
                     isProfilePictureEnabled: false,
                     title: 'Test/Exam Results',
                     onTap: () {
-                      context.read<TestBloc>().add(TestEvent.fetchTestResults(
-                            studentId.toString(),
-                            classId.toString(),
-                            subjectId.toString(),
-                            schoolId.toString(),
-                          ));
-                      Navigator.of(context).pushNamed(
-                        WardTestScreen.routeName,
-                        arguments: {
-                          'schoolName': schoolName,
-                          'className': className,
-                          'studentName': studentName,
-                          'subjectId': subjectId,
-                          'subjectName': subjectName,
-                        },
-                      );
+                      _showTestAndExamDialog(context, () {
+                        context.read<TestBloc>().add(TestEvent.fetchTestResults(
+                              wardId.toString(),
+                              classId.toString(),
+                              subjectId.toString(),
+                              schoolId.toString(),
+                            ));
+                        Navigator.of(context).pushNamed(
+                          WardTestScreen.routeName,
+                          arguments: {
+                            'schoolName': schoolName,
+                            'className': className,
+                            'studentName': studentName,
+                            'subjectId': subjectId,
+                            'subjectName': subjectName,
+                            'studentId': schoolId
+                            //wardId
+                          },
+                        );
+                      }, () {
+                        context.read<TestBloc>().add(TestEvent.fetchExamResults(
+                              wardId.toString(),
+                              classId.toString(),
+                              subjectId.toString(),
+                              schoolId.toString(),
+                            ));
+                        Navigator.of(context).pushNamed(
+                          WardExamScreen.routeName,
+                          arguments: {
+                            'schoolName': schoolName,
+                            'className': className,
+                            'studentName': studentName,
+                            'subjectId': subjectId,
+                            'subjectName': subjectName,
+                            'wardId': wardId
+                          },
+                        );
+                      });
                     },
                   ),
 
@@ -311,6 +336,19 @@ class IndividualSubjectDetails extends StatelessWidget {
       ),
     );
   }
+
+  void _showTestAndExamDialog(BuildContext context, void Function()? onTest,
+      void Function()? onExam) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return TestAndExamDialog(
+          onTestPressed: onTest,
+          onExamPressed: onExam,
+        );
+      },
+    );
+  }
 }
 
 class WardTestScreen extends StatelessWidget {
@@ -333,7 +371,7 @@ class WardTestScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Exam/Test Results',
+        title: 'Test Results',
       ),
       body: SafeArea(
         child: CustomRawScroller(

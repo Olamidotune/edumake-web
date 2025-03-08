@@ -302,7 +302,8 @@ class _ConnectionRequestDetailsScreenState
                               ToastService.toast(
                                 'Request accepted successfully',
                               );
-                              Navigator.pop(context);
+                              Navigator.of(context).pushReplacementNamed(
+                                  ConnectionRequestDetailsScreen.routeName);
                             } else if (state.acceptRequestStatus ==
                                 FormzSubmissionStatus.failure) {
                               ToastService.toast(

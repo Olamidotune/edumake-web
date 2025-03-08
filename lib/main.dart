@@ -78,6 +78,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_issue_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/school_menu_screens.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/test/exam/ward_exam_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/parent_tab/ward_subject_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_ward_screens/school_tab/assignment_screen.dart';
@@ -306,6 +307,7 @@ class MyApp extends StatelessWidget {
                   ClassEventDetailsScreen.routeName: (context) =>
                       const ClassEventDetailsScreen(),
                   WardTestScreen.routeName: (context) => const WardTestScreen(),
+                  WardExamScreen.routeName: (context) => const WardExamScreen(),
                   AddEventsScreen.routeName: (context) =>
                       const AddEventsScreen(),
                   EditEventScreen.routeName: (context) =>

@@ -92,7 +92,7 @@ class WardDetailScreen extends StatelessWidget {
                               'studentName': wardName,
                               'className': wardClass,
                               'schoolName': wardSchool,
-                              'studentId': wardId,
+                              'wardId': wardId,
                               'wardClassId': wardClassId,
                               'wardSchoolId': wardSchoolId,
                             },

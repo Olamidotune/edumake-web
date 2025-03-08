@@ -71,6 +71,7 @@ class _ExamResultScreenState extends State<ExamResultScreen> {
               state.studentId ?? '',
               '',
               state.subjectId ?? '',
+              'null',
             ),
           );
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -103,11 +104,7 @@ class _ExamResultScreenState extends State<ExamResultScreen> {
           color: AppColors.whiteColor,
           onRefresh: () async {
             context.read<TestBloc>().add(
-                  TestEvent.fetchExamResults(
-                    studentId,
-                    '',
-                    subjectId,
-                  ),
+                  TestEvent.fetchExamResults(studentId, '', subjectId, null),
                 );
           },
           key: refreshIndicatorKey,
@@ -182,7 +179,7 @@ class _ExamResultScreenState extends State<ExamResultScreen> {
                           return SizedBox(
                             height: 800,
                             child: ListView.builder(
-                              controller: scrollController,
+                              shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return const CustomShimmer();
                               },

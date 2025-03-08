@@ -256,7 +256,7 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     try {
       final examResults = await locator<TestResultClient>().fetchExamResults(
         await getAuthorization(),
-        await getSchoolID(),
+        event.parentSchoolId ?? await getSchoolID(),
         event.studentId,
         event.classId,
         event.subjectId,

@@ -126,10 +126,10 @@ class IndividualStudentSubjectScreen extends StatelessWidget {
                                       )
                                   : context.read<TestBloc>().add(
                                         TestEvent.fetchExamResults(
-                                          studentId.toString(),
-                                          '',
-                                          subjectData?.id ?? '',
-                                        ),
+                                            studentId.toString(),
+                                            '',
+                                            subjectData?.id ?? '',
+                                            null),
                                       );
                               context.read<SubjectsBloc>().add(
                                     SubjectsEvent.onSelectedSubjectNameChanged(

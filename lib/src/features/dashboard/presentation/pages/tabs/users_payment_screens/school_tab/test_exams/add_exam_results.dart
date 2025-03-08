@@ -267,9 +267,6 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
                                         grade: gradeValue,
                                         studentId: students[i].id,
                                       ));
-
-                                      print(
-                                          'Student: ${students[i].name}, Grade: $gradeValue');
                                     }
 
                                     final result = TestResultRequest(
@@ -292,21 +289,6 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
                                           'subjectId': result.subjectId,
                                           'studentCount': students.length
                                         });
-                                    print({
-                                      'title': result.title,
-                                      'dateWritten': result.dateWritten,
-                                      'classId': result.classId,
-                                      'grade': result.grades
-                                          .map((g) => g.grade)
-                                          .toList(),
-                                      'studentId': result.grades
-                                          .map((sId) => sId.studentId)
-                                          .toList(),
-                                      'class': result.classId,
-                                    });
-                                    // context
-                                    //     .read<TestBloc>()
-                                    //     .add(TestEvent.addExamResult(result));
                                   }
                                 },
                               );
