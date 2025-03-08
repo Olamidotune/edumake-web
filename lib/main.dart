@@ -28,6 +28,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/exam/exam_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
@@ -197,6 +198,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ExamBloc>(
           create: (context) => ExamBloc(),
+        ),
+        BlocProvider<CurriculumBloc>(
+          create: (context) => CurriculumBloc(),
         ),
         BlocProvider<FeesPaymentBloc>(
           create: (context) => FeesPaymentBloc(),

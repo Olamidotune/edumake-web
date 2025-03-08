@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/get_subject_for_student/get_subject_for_student.dart';
-import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
+import 'package:edumake_frontend/src/features/dashboard/api/school/models/curriculum/fetch_curriculum.dart';
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/get_subject_for_class/fetch_class_subjects.dart';
 import 'package:retrofit/http.dart';
 
@@ -24,10 +24,10 @@ abstract class SubjectsClients {
     @Path('classId') String? classId,
   );
 
-  @GET('/api/v1/sch/curriculum/{schoolId}')
-  @FormUrlEncoded()
-  Future<SignupResponse> addCurriculum(
+  @GET('/api/v1/sch/curriculum/all/{schoolId}')
+  Future<FetchCurriculum> fetchCurriculum(
     @Header('Authorization') String authorization,
-    @Path('schoolId') String? classId,
+    @Path('schoolId') String? schoolId,
+    @Query('subjectId') String? subjectId,
   );
 }
