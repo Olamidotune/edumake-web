@@ -24,8 +24,8 @@ class IndividualStudentFeesDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
-
     final studentId = args['studentId'];
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
