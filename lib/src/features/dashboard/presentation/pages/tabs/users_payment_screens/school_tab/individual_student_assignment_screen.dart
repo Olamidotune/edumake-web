@@ -90,10 +90,13 @@ class _IndividualStudentAssignmentScreenState
                       );
                     }
                     // Show empty state if no data is available
-                    if (state.getSubjectForStudentDatum?.isEmpty ?? true) {
-                      // Show empty state UI
+                    if (source == 'curriculum'
+                        ? state.fetchClassSubjectsDatum?.isEmpty ?? true
+                        : state.getSubjectForStudentDatum?.isEmpty ?? true) {
                       return NoDataAvailable(
-                        message: 'No subject(s) available for $studentName',
+                        message: source == 'curriculum'
+                            ? 'No subject(s) available for $className'
+                            : 'No subject(s) available for $studentName',
                         height: 7,
                       );
                     }
@@ -146,9 +149,14 @@ class _IndividualStudentAssignmentScreenState
 
                           final subjectData =
                               state.getSubjectForStudentDatum?[index];
+
+                          final curriculumSubjectData =
+                              state.fetchClassSubjectsDatum?[index];
                           return ClassesListTileContainer(
                             isProfilePictureEnabled: false,
-                            title: subjectData?.name.toUpperCase() ?? '',
+                            title: source == 'curriculum'
+                                ? curriculumSubjectData?.name ?? ''
+                                : subjectData?.name.toUpperCase() ?? '',
                             onTap: () {
                               // Handle onTap action here
                               context.read<SubjectsBloc>().add(

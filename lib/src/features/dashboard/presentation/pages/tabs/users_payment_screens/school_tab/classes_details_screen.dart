@@ -140,8 +140,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                                       ?.school
                                       ?.schoolName ??
                                   '',
-                              'studentId': '',
-                              'source': 'curriculum',
                             },
                           );
                         },
@@ -167,8 +165,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                                       ?.school
                                       ?.schoolName ??
                                   '',
-                              'studentId': '',
-                              'source': 'curriculum',
                             },
                           );
                         },
@@ -211,6 +207,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                             arguments: {
                               'studentName': '',
                               'className': className,
+                              'source': 'curriculum'
                             },
                           );
                         },

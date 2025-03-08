@@ -38,6 +38,10 @@ class SubjectsBloc extends Bloc<SubjectsEvent, SubjectsState> {
     _FetchClassSubjects event,
     Emitter<SubjectsState> emit,
   ) async {
+    if (state.fetchClassSubjectsStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
     emit(
       state.copyWith(
         fetchClassSubjectsStatus: FormzSubmissionStatus.inProgress,
