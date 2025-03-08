@@ -6,7 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_e
 import 'package:edumake_frontend/src/features/dashboard/api/school/models/test_exams/test_exams_requests/test_result_request.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/exam_result_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/test_result_screen.dart';
 
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -17,10 +17,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-class ReviewExamScreen extends StatelessWidget {
-  const ReviewExamScreen({super.key});
+class ReviewTestScreen extends StatelessWidget {
+  const ReviewTestScreen({super.key});
 
-  static const String routeName = 'review exam result';
+  static const String routeName = 'review test result';
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +187,7 @@ class ReviewExamScreen extends StatelessWidget {
                       AppSpacing.verticalSpaceHuge,
                       AppSpacing.verticalSpaceHuge,
                       Button(
-                        busy: testState.addExamResultStatus ==
+                        busy: testState.addTestResultStatus ==
                             FormzSubmissionStatus.inProgress,
                         text: 'Save and post',
                         onPressed: () {
@@ -200,7 +200,7 @@ class ReviewExamScreen extends StatelessWidget {
                           );
                           context
                               .read<TestBloc>()
-                              .add(TestEvent.addExamResult(result));
+                              .add(TestEvent.addTestResult(result));
                         },
                       )
                     ],
@@ -219,20 +219,20 @@ class ReviewExamScreen extends StatelessWidget {
     TestState previous,
     TestState current,
   ) {
-    if (previous.addExamResultStatus == FormzSubmissionStatus.inProgress &&
-        current.addExamResultStatus == FormzSubmissionStatus.success) {
-      ToastService.toast('Exam results successfully saved and posted');
+    if (previous.addTestResultStatus == FormzSubmissionStatus.inProgress &&
+        current.addTestResultStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Test results successfully saved and posted');
 
       context.read<TestBloc>().add(const TestEvent.setNeedsRefresh(true));
 
       Navigator.of(context).popAndPushNamed(
-        ExamResultScreen.routeName,
+        TestResultsScreen.routeName,
       );
 
       return false;
-    } else if (previous.addExamResultStatus ==
+    } else if (previous.addTestResultStatus ==
             FormzSubmissionStatus.inProgress &&
-        current.addExamResultStatus == FormzSubmissionStatus.failure &&
+        current.addTestResultStatus == FormzSubmissionStatus.failure &&
         current.errorMessage != null) {
       ToastService.toast(
         current.errorMessage ?? 'An error occurred',

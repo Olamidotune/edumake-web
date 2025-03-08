@@ -17,7 +17,6 @@ import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:formz/formz.dart';
 
 class AddExamResultsScreen extends StatefulWidget {
   const AddExamResultsScreen({super.key});
@@ -244,8 +243,6 @@ class _AddExamResultsScreenState extends State<AddExamResultsScreen> {
                           BlocBuilder<TestBloc, TestState>(
                             builder: (context, state) {
                               return Button(
-                                busy: state.addExamResultStatus ==
-                                    FormzSubmissionStatus.inProgress,
                                 text: 'Review',
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
