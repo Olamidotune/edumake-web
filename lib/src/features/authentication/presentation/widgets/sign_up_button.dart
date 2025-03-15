@@ -1,4 +1,5 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,13 +22,14 @@ class SignUpButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding:
+            EdgeInsets.symmetric(horizontal: AppSpacing.horizontalSpacingSmall),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.primaryColor),
-          borderRadius: BorderRadius.circular(30.radius),
+          borderRadius: BorderRadius.circular(60.radius),
         ),
         width: double.infinity,
-        height: 70,
+        height: 70.height,
         child: busy
             ? const SizedBox(
                 width: 20,
@@ -38,14 +40,18 @@ class SignUpButton extends StatelessWidget {
               )
             : Row(
                 children: [
-                  SvgPicture.asset(
-                    svgPath,
-                    height: svgPath.contains('email') ? 30 : 50,
+                  Expanded(
+                    child: SvgPicture.asset(
+                      svgPath,
+                      height: svgPath.contains('email') ? 30.height : 50.height,
+                    ),
                   ),
-                  Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 16.fontSize,
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 16.fontSize,
+                      ),
                     ),
                   ),
                 ],
