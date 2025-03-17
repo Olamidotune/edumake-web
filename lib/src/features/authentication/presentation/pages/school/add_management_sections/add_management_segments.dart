@@ -52,7 +52,7 @@ class _AddManagementSegmentsScreenState
                       Navigator.pop(context);
                     },
                     child: Text(
-                      state.user!.fullName!.substring(0, 1).toUpperCase(),
+                      state.user?.fullName!.substring(0, 1).toUpperCase() ?? '',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
                             fontSize: 12.fontSize,
