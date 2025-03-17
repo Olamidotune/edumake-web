@@ -15,11 +15,13 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddSubjectsScreen extends StatefulWidget {
   const AddSubjectsScreen({super.key});
@@ -145,25 +147,82 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                       ],
                     ),
                   ),
-                  AppSpacing.verticalSpaceMedium,
-                  GestureDetector(
-                    onTap: () async {
-                      final csvContent = await _loadCSV();
-                      await _downloadCSV(csvContent);
-                      ToastService.toast(
-                        'CSV template saved successfully as "subjects_upload_csv_template.csv". Check your device storage',
-                      );
-                    },
-                    child: Text(
-                      'Click to download CSV example template',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  AppSpacing.verticalSpaceSmall,
+                  if (Platform.isAndroid)
+                    RichText(
+                      text: TextSpan(
+                        text: 'Sample CSV format: ',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
                             fontSize: 12.fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryColor),
+                        children: [
+                          TextSpan(
+                            text: 'Use this file as a reference.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor
+                                      .withValues(alpha: .7),
+                                ),
                           ),
+                          TextSpan(
+                            text: ' Click here ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 12.fontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.blackColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                _launchCSVLink();
+                              },
+                          ),
+                          TextSpan(
+                            text:
+                                'to view Edumake CSV file.You can either edit this file or follow the file content format',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor
+                                      .withValues(alpha: .7),
+                                ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    GestureDetector(
+                      onTap: () async {
+                        final csvContent = await _loadCSV();
+                        await _downloadCSV(csvContent);
+
+                        ToastService.toast(
+                          'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
+                        );
+                      },
+                      child: Text(
+                        'Click to download CSV example template',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontFamily: 'HelveticaNeueRounded',
+                              fontSize: 12.fontSize,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
+                            ),
+                      ),
                     ),
-                  ),
                   AppSpacing.verticalSpaceLarge,
                   Button(
                     busy: _isUploading,
@@ -177,6 +236,20 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
         ),
       ),
     );
+  }
+
+  void _launchCSVLink() async {
+    const csvLink =
+        'https://drive.google.com/file/d/1hJyZ9xhJ31kS6sx7PVGu-WiBqj1njC9k';
+    final uri = Uri.parse(csvLink);
+    if (await canLaunchUrl(uri)) {
+      try {
+        await launchUrl(uri);
+        return;
+      } catch (e) {
+        ToastService.toast('Could not launch Reset PIN URL.', ToastType.error);
+      }
+    }
   }
 
 //this is to submit for the manual input

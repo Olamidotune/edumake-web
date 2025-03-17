@@ -5,12 +5,15 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/api/service/subject_csv_upload.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/school_data_upload/school_data_upload_bloc.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +21,7 @@ import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddClassesScreen extends StatefulWidget {
   const AddClassesScreen({super.key});
@@ -30,6 +34,8 @@ class AddClassesScreen extends StatefulWidget {
 
 class _AddClassesScreenState extends State<AddClassesScreen> {
   PlatformFile? _csvFile;
+  bool _isUploading = false;
+  final _subjectCsvUpload = CsvUploadService();
   final List<int> classes = [1];
   final List<TextEditingController> controllers = [TextEditingController()];
   final List<FocusNode> focusNodes = [FocusNode()];
@@ -41,22 +47,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   bool savedClasses = false;
 
   SchoolDataUploadState schoolDataUploadState = const SchoolDataUploadState();
-
-  void _uploadClasses() async {
-    final file = File(_csvFile?.path ?? '');
-    final rawData = await file.readAsString();
-    final csvClassesList = const CsvToListConverter().convert(rawData);
-
-    final classes = csvClassesList
-        .skip(1)
-        .expand((row) => row)
-        .where((element) => element != null && element.toString().isNotEmpty)
-        .map((e) => e.toString().trim())
-        .toList();
-    context.read<SchoolDataUploadBloc>().add(
-          SchoolDataUploadEvent.uploadClasses(classes: classes),
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,25 +135,87 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      GestureDetector(
-                        onTap: () async {
-                          final csvContent = await _loadCSV();
-                          await _downloadCSV(csvContent);
-                          ToastService.toast(
-                            'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
-                          );
-                        },
-                        child: Text(
-                          'Click to download CSV example template',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      if (Platform.isAndroid)
+                        RichText(
+                          text: TextSpan(
+                            text: 'Sample CSV format: ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
                                     fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryColor,
-                                  ),
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor),
+                            children: [
+                              TextSpan(
+                                text: 'Use this file as a reference.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 12.fontSize,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryColor
+                                          .withValues(alpha: .7),
+                                    ),
+                              ),
+                              TextSpan(
+                                text: ' Click here ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        fontFamily: 'HelveticaNeueRounded',
+                                        fontSize: 12.fontSize,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.blackColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    _launchCSVLink();
+                                  },
+                              ),
+                              TextSpan(
+                                text:
+                                    'to view Edumake CSV file.You can either edit this file or follow the file content format',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 12.fontSize,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryColor
+                                          .withValues(alpha: .7),
+                                    ),
+                              ),
+                            ],
+                          ),
+                        )
+                      else
+                        GestureDetector(
+                          onTap: () async {
+                            final csvContent = await _loadCSV();
+                            await _downloadCSV(csvContent);
+
+                            ToastService.toast(
+                              'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
+                            );
+                          },
+                          child: Text(
+                            'Click to download CSV example template',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 12.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                          ),
                         ),
-                      ),
                       AppSpacing.verticalSpaceLarge,
                       // GestureDetector(
                       //   onTap: () {
@@ -255,21 +307,12 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       //     ),
                       //   ),
                       // ),
-                      // AppSpacing.verticalSpaceMassive,
+                      AppSpacing.verticalSpaceMassive,
+
                       Button(
-                        busy: state.classesUploadStatus ==
-                            FormzSubmissionStatus.inProgress,
-                        text: 'Save Classes',
-                        onPressed: () {
-                          if (_csvFile != null) {
-                            _uploadClasses();
-                          } else {
-                            ToastService.toast(
-                              'Please upload a CSV file or add classes manually',
-                              ToastType.error,
-                            );
-                          }
-                        },
+                        busy: _isUploading,
+                        text: _isUploading ? 'Uploading...' : 'Save Classes',
+                        onPressed: _uploadFile,
                       ),
                     ],
                   ),
@@ -280,6 +323,44 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
         );
       },
     );
+  }
+
+  void _launchCSVLink() async {
+    const csvLink =
+        'https://drive.google.com/file/d/1QZZCMsn_2uAnkoP174I9AyrdCmNxS7CH/view?usp=drivesdk';
+    final uri = Uri.parse(csvLink);
+    if (await canLaunchUrl(uri)) {
+      try {
+        await launchUrl(uri);
+        return;
+      } catch (e) {
+        ToastService.toast('Could not launch Reset PIN URL.', ToastType.error);
+      }
+    }
+  }
+
+  Future<void> _uploadFile() async {
+    if (_csvFile == null) {
+      ToastService.toast(
+        'Please select a CSV file first',
+        ToastType.error,
+      );
+      return;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      await _subjectCsvUpload.uploadClassCSVFile(_csvFile!, context);
+    } catch (e) {
+      logInfo(e);
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
   }
 
   bool _authBuildWhen(
