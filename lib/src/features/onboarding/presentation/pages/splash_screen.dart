@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/shared/services/persistence_services.dart';
 import 'package:edumake_frontend/src/shared/services/shared_preferences.dart';
