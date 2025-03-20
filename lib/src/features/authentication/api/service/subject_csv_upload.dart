@@ -14,7 +14,7 @@ class CsvUploadService {
   final String? baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
 
 //==============================================================================
-//CLASS CSV UPLOAD
+//SUBJECT CSV UPLOAD
 //==============================================================================
 
   Future<void> uploadSubjectCsvFile(
@@ -75,7 +75,7 @@ class CsvUploadService {
   }
 
 //==============================================================================
-//SUBJECT CSV UPLOAD
+//CLASS CSV UPLOAD
 //==============================================================================
 
   Future<void> uploadClassCSVFile(
@@ -103,6 +103,8 @@ class CsvUploadService {
       );
 
       final response = await request.send();
+      logInfo('request: ${request.fields}');
+
       final responseBody = await response.stream.bytesToString();
       logInfo('responseBody: $responseBody');
 
