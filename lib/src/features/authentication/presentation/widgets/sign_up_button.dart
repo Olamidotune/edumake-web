@@ -11,11 +11,13 @@ class SignUpButton extends StatelessWidget {
     required this.onPressed,
     this.busy = false,
     super.key,
+    this.isWeb = false,
   });
   final String text;
   final String svgPath;
   final VoidCallback onPressed;
   final bool busy;
+  final bool isWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class SignUpButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(60.radius),
         ),
         width: double.infinity,
-        height: 70.height,
+        height: isWeb ? 89 : 70.height,
         child: busy
             ? const SizedBox(
                 width: 20,
@@ -40,17 +42,15 @@ class SignUpButton extends StatelessWidget {
               )
             : Row(
                 children: [
-                  Expanded(
-                    child: SvgPicture.asset(
-                      svgPath,
-                      height: svgPath.contains('email') ? 30.height : 50.height,
-                    ),
+                  SvgPicture.asset(
+                    svgPath,
+                    height: svgPath.contains('email') ? 30.height : 50.height,
                   ),
                   Expanded(
                     child: Text(
                       text,
                       style: TextStyle(
-                        fontSize: 16.fontSize,
+                        fontSize: isWeb ? 24 : 16.fontSize,
                       ),
                     ),
                   ),

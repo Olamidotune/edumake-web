@@ -218,40 +218,35 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
-          width: MediaQuery.of(context).size.width / 2,
-          decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: .8),
-              borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(50),
-                  bottomRight: Radius.circular(50))),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                Image.asset(
-                  'assets/png/w_onboarding.png',
-                ),
-                AppSpacing.horizontalSpaceMedium,
-                Text(
-                  "Organizing student's data streamlines tracking of progress, enables personalized learning, improves communication with parents, and simplifies administration.",
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 14.fontSize,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.whiteColor),
-                  textAlign: TextAlign.center,
-                ),
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-                AppSpacing.verticalSpaceMassive,
-              ],
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                color: AppColors.primaryColor.withValues(alpha: .8),
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    bottomRight: Radius.circular(50))),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/png/w_onboarding.png',
+                    height: 300.height,
+                  ),
+                  AppSpacing.horizontalSpaceMedium,
+                  Text(
+                    "Organizing student's data streamlines tracking of progress, enables personalized learning, improves communication with parents, and simplifies administration.",
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.whiteColor),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -264,9 +259,9 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
               children: [
                 AppSpacing.verticalSpaceMassive,
                 Text(
-                  AppStrings.signUpToEDUMAKE,
+                  'Sign up to EduMake',
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        fontSize: 30.fontSize,
+                        fontSize: 50,
                         fontWeight: FontWeight.w300,
                       ),
                 ),
@@ -274,7 +269,7 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
                 Text(
                   AppStrings.welcomeWeAreDelighted,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.fontSize,
+                        fontSize: 20,
                         fontWeight: FontWeight.w300,
                         color: AppColors.primaryTextColor.withValues(alpha: .8),
                       ),
@@ -285,7 +280,7 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
                     text: AppStrings.alreadyHaveAnAccountWithUs,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
+                          fontSize: 20,
                           fontWeight: FontWeight.w300,
                           color:
                               AppColors.primaryTextColor.withValues(alpha: .8),
@@ -299,7 +294,7 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
                         text: ' ${AppStrings.signIn}',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: '',
-                              fontSize: 13.fontSize,
+                              fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primaryColor,
                             ),
@@ -309,18 +304,21 @@ class _OnBoardingScreenTwoWebView extends StatelessWidget {
                 ),
                 AppSpacing.verticalSpaceHuge,
                 SignUpButton(
+                  isWeb: true,
                   text: AppStrings.continueWithGoogle,
                   svgPath: 'assets/svg/google.svg',
                   onPressed: () {},
                 ),
                 AppSpacing.verticalSpaceMedium,
                 SignUpButton(
+                  isWeb: true,
                   text: AppStrings.continueWithFacebook,
                   svgPath: 'assets/svg/facebook.svg',
                   onPressed: () {},
                 ),
                 AppSpacing.verticalSpaceMedium,
                 SignUpButton(
+                  isWeb: true,
                   text: '     ${AppStrings.continueWithEmail}',
                   svgPath: 'assets/svg/email.svg',
                   onPressed: () {
