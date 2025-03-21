@@ -6,6 +6,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/ward_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,15 +95,14 @@ class _DashboardState extends State<Dashboard> {
       body: Row(
         children: [
           Expanded(
-            flex: 2,
+            flex: kIsWeb ? 2 : 3,
             child: ColoredBox(
               color: AppColors.shadowColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
-                        right: AppSpacing.horizontalSpacingSmall),
+                    padding: EdgeInsets.all(AppSpacing.horizontalSpacingSmall),
                     child: Row(
                       children: [
                         Expanded(
@@ -119,7 +119,7 @@ class _DashboardState extends State<Dashboard> {
                                 .bodyMedium!
                                 .copyWith(
                                   fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 24,
+                                  fontSize: kIsWeb ? 24 : 20,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.primaryColor,
                                 ),
@@ -160,8 +160,13 @@ class _DashboardState extends State<Dashboard> {
         'assets/svg/$icon.svg',
         color: isSelected ? AppColors.primaryColor : AppColors.blackColor,
       ),
-      title: Text(title,
-          style: TextStyle(color: isSelected ? Colors.blue : Colors.black)),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+            fontSize: kIsWeb ? 18 : 10.fontSize,
+            fontWeight: FontWeight.w500,
+            color: isSelected ? Colors.blue : Colors.black),
+      ),
       onTap: () {
         controller.value = index;
       },

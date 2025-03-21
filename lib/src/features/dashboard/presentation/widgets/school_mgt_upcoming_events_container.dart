@@ -1,7 +1,9 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
   const SchoolMgtUpcomingEventsContainer({
@@ -25,6 +27,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
@@ -47,7 +50,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.fontSize,
+                        fontSize: isDesktop ? 20 : 12.fontSize,
                         color: AppColors.blackColor,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'HelveticaNeueRounded',
@@ -59,7 +62,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
                 child: Text(
                   date,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 12.fontSize,
+                        fontSize: isDesktop ? 20 : 12.fontSize,
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'HelveticaNeueRounded',
@@ -72,7 +75,7 @@ class SchoolMgtUpcomingEventsContainer extends StatelessWidget {
           Text(
             description,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 12.fontSize,
+                  fontSize: isDesktop ? 20 : 12.fontSize,
                   color: AppColors.primaryTextColor.withOpacity(.8),
                   fontWeight: FontWeight.w300,
                 ),

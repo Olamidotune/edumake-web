@@ -1,9 +1,11 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ConnectionRequestListTile extends StatelessWidget {
@@ -22,6 +24,7 @@ class ConnectionRequestListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
@@ -37,7 +40,7 @@ class ConnectionRequestListTile extends StatelessWidget {
       title: Text(
         titleName,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 14.fontSize,
+              fontSize: isDesktop ? 24 : 14.fontSize,
               color: AppColors.primaryColor,
               fontWeight: FontWeight.w700,
             ),

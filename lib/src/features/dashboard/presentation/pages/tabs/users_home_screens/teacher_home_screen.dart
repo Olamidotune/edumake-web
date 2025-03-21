@@ -2,7 +2,9 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class TeacherHomeScreen extends StatelessWidget {
@@ -160,6 +162,71 @@ class TeacherHomeAssignmentListTile extends StatelessWidget {
                 ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class RecentTeachersNoteScreen extends StatelessWidget {
+  const RecentTeachersNoteScreen({super.key});
+
+  static const String routeName = '/recent-teachers-note';
+
+  @override
+  Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SafeArea(
+        child: RawScrollbar(
+          controller: scrollController,
+          thumbColor: AppColors.primaryColor.withOpacity(0.4),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+          ),
+          padding: const EdgeInsets.only(
+            right: 10,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            controller: scrollController,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSpacing.horizontalSpacing,
+                vertical: AppSpacing.verticalValueMedium,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.teachersNote,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 24.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceSmall,
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return const RecentTeachersNote();
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                    itemCount: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -4,19 +4,22 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:edumake_frontend/src/shared/widgets/payments_container.dart';
 import 'package:flutter/foundation.dart';
@@ -78,7 +81,10 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                     description:
                         'Add a class or set of classes, add students to it and assign teachers/subjects.',
                     buttonText: 'Add Classes',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddClassesScreen.routeName);
+                    },
                   ),
                 ),
                 Expanded(
@@ -87,7 +93,10 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                     description:
                         'Add student, input their classes, subjects and teachers in charge of the student.',
                     buttonText: 'Add Student',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddStudentsScreen.routeName);
+                    },
                   ),
                 ),
                 Expanded(
@@ -96,7 +105,10 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                     description:
                         'Add a teacher and assign him/her to a subject and set of classes they will manage.',
                     buttonText: 'Add Teacher',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddTeachersScreen.routeName);
+                    },
                   ),
                 ),
               ],
@@ -109,7 +121,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
         //////
         Container(
           padding: EdgeInsets.all(
-            AppSpacing.horizontalSpacing,
+            isDesktop ? AppSpacing.horizontalSpacing : 0,
           ),
           decoration: BoxDecoration(
             color: isDesktop
@@ -123,7 +135,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
               Text(
                 isDesktop ? AppStrings.payments : AppStrings.paymentUpdate,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: isDesktop ? 24 : 16.fontSize,
+                      fontSize: kIsWeb ? 24 : 16.fontSize,
                       fontWeight: FontWeight.bold,
                       color: AppColors.blackColor,
                     ),
@@ -345,7 +357,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           ),
         ),
         AppSpacing.verticalSpaceMedium,
-        ///////
+        ///////EVENTS/////////
         BlocBuilder<EventsBloc, EventsState>(
           builder: (context, state) {
             if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
@@ -468,7 +480,7 @@ class _AddSchoolDataContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         width: 171, // Add width
         height: 250, // Add height
         decoration: BoxDecoration(
@@ -478,25 +490,32 @@ class _AddSchoolDataContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.blackColor,
-                  ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.blackColor,
+                    ),
+              ),
             ),
             AppSpacing.verticalSpaceSmall,
-            Text(
-              description,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 14,
-                    color: AppColors.blackColor,
-                  ),
-              textAlign: TextAlign.center,
+            Expanded(
+              flex: 5,
+              child: Text(
+                description,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 14,
+                      color: AppColors.blackColor,
+                    ),
+                textAlign: TextAlign.center,
+              ),
             ),
             AppSpacing.verticalSpaceLarge,
             Expanded(
+              flex: 2,
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Row(
@@ -519,71 +538,6 @@ class _AddSchoolDataContainer extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class RecentTeachersNoteScreen extends StatelessWidget {
-  const RecentTeachersNoteScreen({super.key});
-
-  static const String routeName = '/recent-teachers-note';
-
-  @override
-  Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: SafeArea(
-        child: RawScrollbar(
-          controller: scrollController,
-          thumbColor: AppColors.primaryColor.withOpacity(0.4),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8),
-            ),
-          ),
-          padding: const EdgeInsets.only(
-            right: 10,
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            controller: scrollController,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalSpacing,
-                vertical: AppSpacing.verticalValueMedium,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.teachersNote,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryColor,
-                        ),
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return const RecentTeachersNote();
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return AppSpacing.verticalSpaceMedium;
-                    },
-                    itemCount: 20,
-                  ),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );

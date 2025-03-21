@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -32,7 +33,7 @@ class NoDataAvailable extends StatelessWidget {
             Text(
               'Oops!...No Data Available',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: isDesktop ? 18 : 18.fontSize,
+                    fontSize: kIsWeb ? 18 : 18.fontSize,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryTextColor,
                   ),
