@@ -32,7 +32,7 @@ class PaymentContainer extends StatelessWidget {
     return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
       builder: (context, state) {
         return GestureDetector(
-          onTap: () {},
+          onTap: onTap,
           child: Container(
             margin: const EdgeInsets.all(3),
             padding: EdgeInsets.symmetric(
