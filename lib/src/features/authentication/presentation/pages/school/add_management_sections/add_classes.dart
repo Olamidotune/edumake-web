@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:csv/csv.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/authentication/api/service/subject_csv_upload.dart';
@@ -13,10 +13,11 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -50,6 +51,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return BlocBuilder<SchoolDataUploadBloc, SchoolDataUploadState>(
       buildWhen: (previous, current) {
         return _authBuildWhen(context, previous, current);
@@ -74,7 +76,8 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: AppSpacing.horizontalSpacing,
+                    horizontal:
+                        isDesktop ? 100.width : AppSpacing.horizontalSpacing,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +87,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 24.fontSize,
+                                  fontSize: isDesktop ? 32 : 24.fontSize,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.primaryTextColor,
                                 ),
@@ -94,7 +97,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         'Edit the preset classes and input all the classes available in your school. You can also import your school class document and ease the stress of manually inputting your school data.',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 12.fontSize,
+                              fontSize: isDesktop ? 20 : 12.fontSize,
                               fontWeight: FontWeight.w300,
                               color: AppColors.primaryTextColor,
                             ),
@@ -102,6 +105,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       ),
                       AppSpacing.verticalSpaceMedium,
                       ImportCSVButton(
+                        isWeb: true,
                         onTap: _pickAndProcessCsv,
                         name: 'class',
                       ),
@@ -112,7 +116,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 10.fontSize,
+                                    fontSize: isDesktop ? 12 : 10.fontSize,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.greyColor,
                                   ),
@@ -125,7 +129,7 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                                   .bodyMedium!
                                   .copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 10.fontSize,
+                                    fontSize: isDesktop ? 12 : 10.fontSize,
                                     fontWeight: FontWeight.w700,
                                     color:
                                         AppColors.primaryColor.withOpacity(0.7),
@@ -135,104 +139,65 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                         ),
                       ),
                       AppSpacing.verticalSpaceSmall,
-                      if (Platform.isAndroid)
-                        RichText(
-                          text: TextSpan(
-                            text: 'Sample CSV format: ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primaryColor),
-                            children: [
-                              TextSpan(
-                                text: 'Use this file as a reference.',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 12.fontSize,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryColor
-                                          .withValues(alpha: .7),
-                                    ),
-                              ),
-                              TextSpan(
-                                text: ' Click here ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 12.fontSize,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.blackColor),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () async {
-                                    _launchCSVLink();
-                                  },
-                              ),
-                              TextSpan(
-                                text:
-                                    'to view Edumake CSV file.You can either edit this file or follow the file content format',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 12.fontSize,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryColor
-                                          .withValues(alpha: .7),
-                                    ),
-                              ),
-                            ],
-                          ),
-                        )
-                      else
-                        GestureDetector(
-                          onTap: () async {
-                            final csvContent = await _loadCSV();
-                            await _downloadCSV(csvContent);
-
-                            ToastService.toast(
-                              'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
-                            );
-                          },
-                          child: Text(
-                            'Click to download CSV example template',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
+                      RichText(
+                        text: TextSpan(
+                          text: 'Sample CSV format: ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
                                   fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryColor,
-                                ),
-                          ),
+                                  fontSize: isDesktop ? 24 : 12.fontSize,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor),
+                          children: [
+                            TextSpan(
+                              text: 'Use this file as a reference.',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: isDesktop ? 24 : 12.fontSize,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor
+                                        .withValues(alpha: .7),
+                                  ),
+                            ),
+                            TextSpan(
+                              text: ' Click here ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: isDesktop ? 24 : 12.fontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.blackColor),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  _launchCSVLink();
+                                },
+                            ),
+                            TextSpan(
+                              text:
+                                  'to view Edumake CSV file.You can either edit this file or follow the file content format',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: isDesktop ? 24 : 12.fontSize,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor
+                                        .withValues(alpha: .7),
+                                  ),
+                            ),
+                          ],
                         ),
+                      ),
                       AppSpacing.verticalSpaceLarge,
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.of(context)
-                      //         .pushNamed(GrantedPermissionsScreen.routeName);
-                      //   },
-                      //   child: Text(
-                      //     'or add classes manually',
-                      //     style:
-                      //         Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      //               fontFamily: 'HelveticaNeueRounded',
-                      //               fontSize: 12.fontSize,
-                      //               fontWeight: FontWeight.w300,
-                      //               color: AppColors.primaryTextColor,
-                      //             ),
-                      //   ),
-                      // ),
+
                       // Form(
                       //   key: formKey,
                       //   child: Column(
@@ -308,8 +273,8 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
                       //   ),
                       // ),
                       AppSpacing.verticalSpaceMassive,
-
                       Button(
+                        isWeb: true,
                         busy: _isUploading,
                         text: _isUploading ? 'Uploading...' : 'Save Classes',
                         onPressed: _uploadFile,
@@ -392,79 +357,29 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
   }
 
   Future<void> _pickAndProcessCsv() async {
-    final expectedHeaders = [
-      'name',
-    ];
-
-    final pickedCSV = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
     );
 
-    if (pickedCSV != null) {
-      final file = File(pickedCSV.files.single.path!);
-      final content = await file.readAsString();
-      final displayedContent = const CsvToListConverter().convert(content);
-      final headers = displayedContent.first;
+    if (result == null) return;
 
-      final headersMatch = headers.length == expectedHeaders.length &&
-          List.generate(headers.length, (i) => headers[i] == expectedHeaders[i])
-              .every((match) => match);
+    setState(() {
+      _csvFile = result.files.first;
+    });
 
-      if (!headersMatch) {
-        ToastService.toast(
-          'Invalid CSV file. Please ensure the headers are: ${expectedHeaders.join(", ").toUpperCase()}, or download the CSV template!...',
-          ToastType.error,
-        );
-        return;
-      }
-      // Proceed if headers are correct
-      setState(() {
-        _csvFile = pickedCSV.files.first;
-      });
-      ToastService.toast('CSV file selected successfully');
-    }
-  }
-
-  Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/classes_upload_csv_template.csv');
-  }
-
-  Future<void> _downloadCSV(String csvContent) async {
-    Directory? directory;
-    try {
-      if (Platform.isAndroid) {
-        final status = await Permission.storage.request();
-        if (!status.isGranted) {
-          ToastService.toast(
-            'Storage permission is required to save files',
-            ToastType.error,
-          );
-          return;
-        }
-
-        await _requestPermissions();
-        directory = Directory('/storage/emulated/0/Download');
-      } else {
-        directory = await getApplicationDocumentsDirectory();
-      }
-      final file = File('${directory.path}/classes_upload_csv_template.csv');
-      await file.writeAsString(csvContent);
-    } catch (e) {
-      ToastService.toast(
-        'Something went wrong while downloading the file',
-        ToastType.error,
-      );
-    }
+    ToastService.toast('CSV file selected successfully');
   }
 
   Future<bool> _requestPermissions() async {
-    if (Platform.isAndroid) {
-      // Request storage permissions
-      final status = await Permission.storage.request();
-      return status.isGranted;
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        final status = await Permission.storage.request();
+        return status.isGranted;
+      }
+      return true; // No permissions needed for iOS
     }
-    return true; // No permissions needed for iOS
+    return true;
   }
 
   // Share the CSV file (optional)

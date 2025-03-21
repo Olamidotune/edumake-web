@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -84,7 +85,6 @@ class CsvUploadService {
     final token = await getAuthorization();
 
     final url = '${baseUrl}api/v1/sch/classes/csv/$schoolId';
-
     try {
       final request = http.MultipartRequest('POST', Uri.parse(url));
 
@@ -94,17 +94,34 @@ class CsvUploadService {
         'Content-Type': 'multipart/form-data',
       });
 
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'file',
-          file.path!,
-          contentType: MediaType('text', 'csv'),
-        ),
-      );
+      if (kIsWeb) {
+        // Flutter Web: Use bytes instead of file path
+        final fileBytes = file.bytes;
+        if (fileBytes == null) {
+          ToastService.toast('Failed to read file', ToastType.error);
+          return;
+        }
+
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+            fileBytes,
+            filename: file.name,
+            contentType: MediaType('text', 'csv'),
+          ),
+        );
+      } else {
+        // Mobile: Use file path
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'file',
+            file.path!,
+            contentType: MediaType('text', 'csv'),
+          ),
+        );
+      }
 
       final response = await request.send();
-      logInfo('request: ${request.fields}');
-
       final responseBody = await response.stream.bytesToString();
       logInfo('responseBody: $responseBody');
 
@@ -116,23 +133,17 @@ class CsvUploadService {
         ToastService.toast(successMessage.toString());
 
         if (context.mounted) {
-          // Check if context is still valid
+          // Check if context is still valid before using it
           Navigator.of(context).pop(true);
         }
       } else {
         final errorMessage =
             responseJson['message'] ?? 'An unknown error occurred';
-        ToastService.toast(
-          errorMessage.toString(),
-          ToastType.error,
-        );
+        ToastService.toast(errorMessage.toString(), ToastType.error);
       }
     } catch (error, trace) {
       logError(error, trace);
-      ToastService.toast(
-        'Something went wrong.',
-        ToastType.error,
-      );
+      ToastService.toast('Something went wrong.', ToastType.error);
       rethrow;
     }
   }
@@ -140,6 +151,7 @@ class CsvUploadService {
 //==============================================================================
 //STUDENT CSV UPLOAD
 //==============================================================================
+
   Future<void> uploadStudentCsvFile(
       PlatformFile file, BuildContext context) async {
     final schoolId = await getSchoolID();
@@ -156,13 +168,32 @@ class CsvUploadService {
         'Content-Type': 'multipart/form-data',
       });
 
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'file',
-          file.path!,
-          contentType: MediaType('text', 'csv'),
-        ),
-      );
+      if (kIsWeb) {
+        // Flutter Web: Use bytes instead of file path
+        final fileBytes = file.bytes;
+        if (fileBytes == null) {
+          ToastService.toast('Failed to read file', ToastType.error);
+          return;
+        }
+
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'file',
+            fileBytes,
+            filename: file.name,
+            contentType: MediaType('text', 'csv'),
+          ),
+        );
+      } else {
+        // Mobile: Use file path
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'file',
+            file.path!,
+            contentType: MediaType('text', 'csv'),
+          ),
+        );
+      }
 
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
@@ -176,23 +207,17 @@ class CsvUploadService {
         ToastService.toast(successMessage.toString());
 
         if (context.mounted) {
-          // Check if context is still valid
+          // Check if context is still valid before using it
           Navigator.of(context).pop(true);
         }
       } else {
         final errorMessage =
             responseJson['message'] ?? 'An unknown error occurred';
-        ToastService.toast(
-          errorMessage.toString(),
-          ToastType.error,
-        );
+        ToastService.toast(errorMessage.toString(), ToastType.error);
       }
     } catch (error, trace) {
       logError(error, trace);
-      ToastService.toast(
-        'Something went wrong.',
-        ToastType.error,
-      );
+      ToastService.toast('Something went wrong.', ToastType.error);
       rethrow;
     }
   }
