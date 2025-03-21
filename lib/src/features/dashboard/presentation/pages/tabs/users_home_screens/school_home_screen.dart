@@ -1,25 +1,31 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/requests/requests_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/school/fees_payment/fees_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/connection_request_list_tile.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:edumake_frontend/src/shared/widgets/payments_container.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
 
@@ -53,79 +59,177 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppStrings.paymentUpdate,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 16.fontSize,
-                fontWeight: FontWeight.bold,
-                color: AppColors.blackColor,
-              ),
-        ),
-        AppSpacing.verticalSpaceSmall,
-        BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
-          builder: (context, state) {
-            if (state.fetchPaymentStatus == FormzSubmissionStatus.inProgress) {
-              return const Center(
-                  child: SpinKitPulsingGrid(
-                color: AppColors.primaryColor,
-                size: 30,
-              ));
-            }
-            if (state.fetchPaymentStatus == FormzSubmissionStatus.failure) {
-              return const Center(
-                child:
-                    NoDataAvailable(message: 'Something went wrong', height: 3),
-              );
-            }
-
-            if (state.fetchPaymentsDatum?.isEmpty ?? true) {
-              return const Center(
-                  child: NoDataAvailable(
-                      message: 'No payments presently.', height: 3));
-            }
-            return ListView.separated(
-              shrinkWrap: true,
-              controller: ScrollController(),
-              itemCount: (state.fetchPaymentsDatum?.length ?? 0) > 3
-                  ? 3
-                  : state.fetchPaymentsDatum?.length ?? 0,
-              itemBuilder: (context, index) {
-                final payments = state.fetchPaymentsDatum![index];
-                return PaymentContainer(
-                  onTap: () {},
-                  title: payments.fee.title,
-                  amount: payments.amount,
-                  paidBy: payments.paidBy.fullName ?? '',
-                  paidFor: payments.paidFor.name,
-                  date: formatLocalTime(payments.updatedAt.toString()),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return AppSpacing.verticalSpaceMedium;
-              },
-            );
-          },
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context, rootNavigator: true)
-                .pushNamed(FeePaymentScreen.routeName);
-          },
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Text(
-              AppStrings.seeAll,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.primaryColor,
-                    fontSize: 16.fontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
+        if (kIsWeb)
+          Container(
+            padding: EdgeInsets.all(AppSpacing.horizontalSpacingSmall),
+            height: 250,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
             ),
+            child: Row(
+              spacing: AppSpacing.horizontalSpacingMedium,
+              children: [
+                Expanded(
+                  child: _AddSchoolDataContainer(
+                    title: 'Add Classes',
+                    description:
+                        'Add a class or set of classes, add students to it and assign teachers/subjects.',
+                    buttonText: 'Add Classes',
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddClassesScreen.routeName);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: _AddSchoolDataContainer(
+                    title: 'Add Student',
+                    description:
+                        'Add student, input their classes, subjects and teachers in charge of the student.',
+                    buttonText: 'Add Student',
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddStudentsScreen.routeName);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: _AddSchoolDataContainer(
+                    title: 'Add Teacher',
+                    description:
+                        'Add a teacher and assign him/her to a subject and set of classes they will manage.',
+                    buttonText: 'Add Teacher',
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed(AddTeachersScreen.routeName);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          )
+        else
+          const SizedBox.shrink(),
+        AppSpacing.verticalSpaceMedium,
+
+        //////
+        Container(
+          padding: EdgeInsets.all(
+            isDesktop ? AppSpacing.horizontalSpacing : 0,
+          ),
+          decoration: BoxDecoration(
+            color: isDesktop
+                ? AppColors.primaryColor.withValues(alpha: 0.1)
+                : null,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                isDesktop ? AppStrings.payments : AppStrings.paymentUpdate,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: kIsWeb ? 24 : 16.fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.blackColor,
+                    ),
+              ),
+              AppSpacing.verticalSpaceSmall,
+              if (isDesktop)
+                const Text(
+                    'Manage the fees and payment history of the students.')
+              else
+                const SizedBox.shrink(),
+              if (isDesktop)
+                AppSpacing.verticalSpaceSmall
+              else
+                const SizedBox.shrink(),
+              BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
+                builder: (context, state) {
+                  if (state.fetchPaymentStatus ==
+                      FormzSubmissionStatus.inProgress) {
+                    return const Center(
+                      child: SpinKitPulsingGrid(
+                        color: AppColors.primaryColor,
+                        size: 30,
+                      ),
+                    );
+                  }
+                  if (state.fetchPaymentStatus ==
+                      FormzSubmissionStatus.failure) {
+                    return const Center(
+                      child: NoDataAvailable(
+                          message: 'Something went wrong', height: 3),
+                    );
+                  }
+
+                  if (state.fetchPaymentsDatum?.isEmpty ?? true) {
+                    return const Center(
+                      child: NoDataAvailable(
+                        message: 'No payments presently.',
+                        height: 3,
+                      ),
+                    );
+                  }
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    controller: ScrollController(),
+                    itemCount: (state.fetchPaymentsDatum?.length ?? 0) > 3
+                        ? 3
+                        : state.fetchPaymentsDatum?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      final payments = state.fetchPaymentsDatum![index];
+                      return PaymentContainer(
+                        onTap: () {},
+                        title: payments.fee.title,
+                        amount: payments.amount,
+                        paidBy: payments.paidBy.fullName ?? '',
+                        paidFor: payments.paidFor.name,
+                        date: formatLocalTime(payments.updatedAt.toString()),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return AppSpacing.verticalSpaceMedium;
+                    },
+                  );
+                },
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamed(FeePaymentScreen.routeName);
+                },
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    (context
+                                .read<FeesPaymentBloc>()
+                                .state
+                                .fetchPaymentsDatum
+                                ?.isEmpty ??
+                            true)
+                        ? ''
+                        : isDesktop
+                            ? AppStrings.viewAll
+                            : AppStrings.seeAll,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppColors.primaryColor,
+                          fontSize: isDesktop ? 16 : 16.fontSize,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
+
         AppSpacing.verticalSpaceMedium,
         Align(
           alignment: Alignment.topLeft,
@@ -134,7 +238,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
               return Text(
                 '${AppStrings.connectionRequest} (${context.read<RequestsBloc>().state.pendingRequests.length})',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 16.fontSize,
+                      fontSize: isDesktop ? 24 : 16.fontSize,
                       fontWeight: FontWeight.bold,
                       color: AppColors.blackColor,
                     ),
@@ -198,7 +302,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
                                   'parentNIN': request.parent.id.parentIdNumber,
                                   'parentPhoneNumber':
                                       request.parent.id.parentPhoneNumber,
-                                  'relationship': request.parent.relationship
+                                  'relationship': request.parent.relationship,
                                 },
                               );
                             },
@@ -246,14 +350,14 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           child: Text(
             AppStrings.upComingEvents,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.fontSize,
+                  fontSize: isDesktop ? 24 : 16.fontSize,
                   fontWeight: FontWeight.bold,
                   color: AppColors.blackColor,
                 ),
           ),
         ),
         AppSpacing.verticalSpaceMedium,
-        ///////
+        ///////EVENTS/////////
         BlocBuilder<EventsBloc, EventsState>(
           builder: (context, state) {
             if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
@@ -310,10 +414,12 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           child: Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              AppStrings.seeAll,
+              (context.read<EventsBloc>().state.upComingEvent?.isEmpty ?? true)
+                  ? ''
+                  : AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
-                    fontSize: 16.fontSize,
+                    fontSize: isDesktop ? 16 : 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -327,7 +433,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: AppColors.primaryTextColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.fontSize,
+                  fontSize: isDesktop ? 24 : 16.fontSize,
                 ),
           ),
         ),
@@ -345,7 +451,7 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
               AppStrings.seeAll,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.primaryColor,
-                    fontSize: 16.fontSize,
+                    fontSize: isDesktop ? 16 : 16.fontSize,
                     fontWeight: FontWeight.w700,
                   ),
             ),
@@ -356,65 +462,82 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
   }
 }
 
-class RecentTeachersNoteScreen extends StatelessWidget {
-  const RecentTeachersNoteScreen({super.key});
+class _AddSchoolDataContainer extends StatelessWidget {
+  const _AddSchoolDataContainer({
+    required this.title,
+    required this.description,
+    required this.buttonText,
+    required this.onTap,
+  });
 
-  static const String routeName = '/recent-teachers-note';
+  final String title;
+  final String description;
+  final String buttonText;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: SafeArea(
-        child: RawScrollbar(
-          controller: scrollController,
-          thumbColor: AppColors.primaryColor.withOpacity(0.4),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8),
-            ),
-          ),
-          padding: const EdgeInsets.only(
-            right: 10,
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            controller: scrollController,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalSpacing,
-                vertical: AppSpacing.verticalValueMedium,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.teachersNote,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 24.fontSize,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryColor,
-                        ),
-                  ),
-                  AppSpacing.verticalSpaceSmall,
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return const RecentTeachersNote();
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return AppSpacing.verticalSpaceMedium;
-                    },
-                    itemCount: 20,
-                  ),
-                ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        width: 171, // Add width
+        height: 250, // Add height
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor.withValues(alpha: .9),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.blackColor,
+                    ),
               ),
             ),
-          ),
+            AppSpacing.verticalSpaceSmall,
+            Expanded(
+              flex: 5,
+              child: Text(
+                description,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: 14,
+                      color: AppColors.blackColor,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            AppSpacing.verticalSpaceLarge,
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  children: [
+                    Text(
+                      buttonText,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.primaryColor,
+                      size: 16,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -38,5 +38,5 @@ class AppSpacing {
 
   static double horizontalSpacing = 16.width;
   static double horizontalSpacingSmall = 8.width;
-  static double horizontalSpacingMedium = 16.width;
+  static double horizontalSpacingMedium = 20.width;
 }

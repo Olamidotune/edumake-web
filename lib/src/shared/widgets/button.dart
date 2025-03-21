@@ -11,6 +11,7 @@ class Button extends StatelessWidget {
     this.busy = false,
     this.pill = false,
     this.deleteButton = false,
+    this.isWeb = false,
     super.key,
   });
 
@@ -21,12 +22,13 @@ class Button extends StatelessWidget {
   final bool busy;
   final bool pill;
   final bool deleteButton;
+  final bool isWeb;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: isWeb ? 64 : 50.height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
@@ -65,7 +67,7 @@ class Button extends StatelessWidget {
             : Text(
                 text,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 16.fontSize,
+                      fontSize: isWeb ? 24 : 16.fontSize,
                       color: deleteButton
                           ? AppColors.redColor
                           : buttonColor == Colors.white

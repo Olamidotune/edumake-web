@@ -8,8 +8,8 @@ class FetchPaymentsResponse {
     required this.success,
     required this.message,
     required this.data,
-    required this.cursor,
     required this.statusCode,
+    this.cursor,
   });
 
   factory FetchPaymentsResponse.fromJson(Map<String, dynamic> json) =>
@@ -21,7 +21,7 @@ class FetchPaymentsResponse {
   @JsonKey(name: 'data')
   final List<FetchPaymentsDatum> data;
   @JsonKey(name: 'cursor')
-  final String cursor;
+  final String? cursor;
   @JsonKey(name: 'statusCode')
   final int statusCode;
   Map<String, dynamic> toJson() => _$FetchPaymentsResponseToJson(this);

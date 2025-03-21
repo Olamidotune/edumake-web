@@ -264,7 +264,9 @@ class AppStrings {
   static const viewAssignment = 'View Assignment';
   static const assignmentSubmission = 'Assignment Submission';
   static const welcome = 'Welcome';
+  static const welcomeBack = 'Welcome Back';
   static const createNewPasswordSuccessMessage =
       "You have successful created a new password. Enjoy ease in your wards' education management";
   static const naira = '₦';
+  static const viewAll = 'View All';
 }

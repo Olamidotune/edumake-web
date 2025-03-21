@@ -1,5 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/kyc/kyc_bloc.dart';
@@ -14,7 +15,6 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/shared/dialogs/connect_ward_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
@@ -40,111 +40,175 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final kycState = context.read<KycBloc>().state;
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            title: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: CircleAvatar(
-                    radius: 23.fontSize,
-                    backgroundColor: AppColors.primaryColor.withOpacity(.3),
-                    child: _showPlaceHolder(),
-                  ),
-                ),
-                Expanded(
-                  flex: 8,
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Welcome ',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 15.fontSize,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.primaryTextColor,
+          appBar: isDesktop
+              ? AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  title: BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: 100.width),
+                        child: SearchBar(
+                          backgroundColor: WidgetStateProperty.all(
+                            AppColors.shadowColor,
                           ),
-                      children: [
-                        TextSpan(
-                          text:
-                              '${state.user?.fullName ?? kycState.kycResponse?.data.firstName},',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 15.fontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.primaryColor,
-                                    overflow: TextOverflow.fade,
-                                  ),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          elevation: WidgetStateProperty.all(0),
+                          leading: SvgPicture.asset(
+                            'assets/svg/search.svg',
+                            color: AppColors.primaryColor,
+                          ),
+                          controller: _controller,
+                          onChanged: (query) {
+                            context
+                                .read<SearchBloc>()
+                                .add(SearchEvent.onSearchQueryChanged(query));
+                            context
+                                .read<SearchBloc>()
+                                .add(const SearchEvent.fetchResult());
+                          },
+                          onTapOutside: (event) {
+                            context
+                                .read<SearchBloc>()
+                                .add(const SearchEvent.cancel());
+                          },
+                          onSubmitted: (_) {
+                            context
+                                .read<SearchBloc>()
+                                .add(const SearchEvent.fetchResult());
+                          },
+                          hintText: 'Search',
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                ),
-              ],
-            ),
-            actions: [
-              InkWell(
-                onTap: () {
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed(AddManagementSegmentsScreen.routeName);
-                },
-                child: SvgPicture.asset(
-                  'assets/svg/chat.svg',
-                  height: 20.height,
-                  width: 50.width,
-                ),
-              ),
-              AppSpacing.horizontalSpaceMedium,
-              InkWell(
-                onTap: () {},
-                child: SvgPicture.asset(
-                  'assets/svg/notification.svg',
-                  height: 25.height,
-                  width: 50.width,
-                ),
-              ),
-              AppSpacing.horizontalSpaceMedium,
-            ],
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(55.h),
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  return Column(
+                )
+              : AppBar(
+                  centerTitle: false,
+                  title: Row(
                     children: [
-                      CustomSearchBar(
-                        textEditingController: _controller,
-                        onSearch: () {
-                          _controller.clear();
-                          context
-                              .read<SearchBloc>()
-                              .add(const SearchEvent.cancel());
-                        },
-                        isActive: state.isSearchActive,
-                        onChanged: (query) {
-                          context
-                              .read<SearchBloc>()
-                              .add(SearchEvent.onSearchQueryChanged(query));
-                          context
-                              .read<SearchBloc>()
-                              .add(const SearchEvent.fetchResult());
-                        },
-                        onSubmitted: (_) {
-                          context
-                              .read<SearchBloc>()
-                              .add(const SearchEvent.fetchResult());
-                        },
-                        isHomePage: true,
-                        hintText: 'Search for students, teachers, classes...',
+                      Expanded(
+                        flex: 2,
+                        child: CircleAvatar(
+                          radius: 23.fontSize,
+                          backgroundColor:
+                              AppColors.primaryColor.withOpacity(.3),
+                          child: _showPlaceHolder(),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 8,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Welcome ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'HelveticaNeueRounded',
+                                  fontSize: 15.fontSize,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.primaryTextColor,
+                                ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    '${state.user?.fullName ?? kycState.kycResponse?.data.firstName},',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontFamily: 'HelveticaNeueRounded',
+                                      fontSize: 15.fontSize,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primaryColor,
+                                      overflow: TextOverflow.fade,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
-                  );
-                },
-              ),
-            ),
-          ),
+                  ),
+                  actions: [
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/svg/chat.svg',
+                        height: 20.height,
+                        width: 50.width,
+                      ),
+                    ),
+                    AppSpacing.horizontalSpaceMedium,
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/svg/notification.svg',
+                        height: 25.height,
+                        width: 50.width,
+                      ),
+                    ),
+                    AppSpacing.horizontalSpaceMedium,
+                  ],
+                  bottom: isDesktop
+                      ? null
+                      : PreferredSize(
+                          preferredSize: Size.fromHeight(55.h),
+                          child: BlocBuilder<SearchBloc, SearchState>(
+                            builder: (context, state) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.horizontalSpacing),
+                                child: SearchBar(
+                                  backgroundColor: WidgetStateProperty.all(
+                                    AppColors.shadowColor,
+                                  ),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  elevation: WidgetStateProperty.all(0),
+                                  leading: SvgPicture.asset(
+                                    'assets/svg/search.svg',
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  controller: _controller,
+                                  onChanged: (query) {
+                                    context.read<SearchBloc>().add(
+                                        SearchEvent.onSearchQueryChanged(
+                                            query));
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(const SearchEvent.fetchResult());
+                                  },
+                                  onTapOutside: (event) {
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(const SearchEvent.cancel());
+                                  },
+                                  onSubmitted: (_) {
+                                    context
+                                        .read<SearchBloc>()
+                                        .add(const SearchEvent.fetchResult());
+                                  },
+                                  hintText:
+                                      'Search for students, teachers, classes...',
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                ),
           body: BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) {
               if (state.searchResultStatus ==

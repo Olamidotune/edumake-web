@@ -23,7 +23,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/reject_connection_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
@@ -44,7 +44,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/timeta
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/settings_screen.dart';
-import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/school_home_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_home_screens/teacher_home_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_tab/fees_datails.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/parent_tab/parent_payment_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/class_students_screen.dart';

@@ -1,7 +1,10 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NoDataAvailable extends StatelessWidget {
   const NoDataAvailable({
@@ -14,6 +17,7 @@ class NoDataAvailable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Center(
@@ -29,7 +33,7 @@ class NoDataAvailable extends StatelessWidget {
             Text(
               'Oops!...No Data Available',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 18.fontSize,
+                    fontSize: kIsWeb ? 18 : 18.fontSize,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryTextColor,
                   ),
@@ -38,7 +42,7 @@ class NoDataAvailable extends StatelessWidget {
             Text(
               message,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 13.fontSize,
+                    fontSize: isDesktop ? 15 : 13.fontSize,
                     fontWeight: FontWeight.w400,
                     color: AppColors.secondaryTexColor,
                   ),
