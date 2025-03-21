@@ -1,11 +1,13 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PaymentContainer extends StatelessWidget {
@@ -26,6 +28,7 @@ class PaymentContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return BlocBuilder<FeesPaymentBloc, FeesPaymentState>(
       builder: (context, state) {
         return GestureDetector(
@@ -54,13 +57,13 @@ class PaymentContainer extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   leading: SvgPicture.asset(
                     'assets/svg/tick.svg',
-                    height: 20.fontSize,
+                    height: isDesktop ? 24 : 20.fontSize,
                   ),
                   title: Text(
                     title,
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 13.fontSize,
+                          fontSize: isDesktop ? 16 : 13.fontSize,
                           fontWeight: FontWeight.w400,
                           color: AppColors.primaryTextColor,
                         ),
@@ -69,7 +72,7 @@ class PaymentContainer extends StatelessWidget {
                     date,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 10.fontSize,
+                          fontSize: isDesktop ? 10 : 10.fontSize,
                           fontWeight: FontWeight.w600,
                           color: AppColors.greyColor,
                         ),
@@ -78,7 +81,7 @@ class PaymentContainer extends StatelessWidget {
                     '${AppStrings.naira} ${numberFormat.format(amount)}',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 14.fontSize,
+                          fontSize: isDesktop ? 14 : 14.fontSize,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryColor,
                         ),
@@ -94,7 +97,7 @@ class PaymentContainer extends StatelessWidget {
                     text: 'paid by ',
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 13.fontSize,
+                          fontSize: isDesktop ? 13 : 13.fontSize,
                           fontWeight: FontWeight.w400,
                           color: AppColors.primaryTextColor,
                         ),
@@ -103,7 +106,7 @@ class PaymentContainer extends StatelessWidget {
                         text: paidBy,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 13.fontSize,
+                              fontSize: isDesktop ? 13 : 13.fontSize,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primaryColor,
                             ),
@@ -112,7 +115,7 @@ class PaymentContainer extends StatelessWidget {
                         text: ', for ',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 13.fontSize,
+                              fontSize: isDesktop ? 13 : 13.fontSize,
                               fontWeight: FontWeight.w400,
                               color: AppColors.primaryTextColor,
                             ),
@@ -121,7 +124,7 @@ class PaymentContainer extends StatelessWidget {
                         text: paidFor,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 13.fontSize,
+                              fontSize: isDesktop ? 13 : 13.fontSize,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primaryColor,
                             ),

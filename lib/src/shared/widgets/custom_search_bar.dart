@@ -14,6 +14,7 @@ class CustomSearchBar extends StatelessWidget {
     this.onSearch,
     this.onSubmitted,
     this.onChanged,
+    this.isWeb = false,
   });
 
   final String? hintText;
@@ -23,6 +24,8 @@ class CustomSearchBar extends StatelessWidget {
   final Function(String)? onChanged;
   final bool isActive;
   final TextEditingController textEditingController;
+  final bool isWeb;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,7 +43,7 @@ class CustomSearchBar extends StatelessWidget {
           filled: true,
           hintText: hintText ?? 'Search for students, teachers, classes...',
           hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 10.fontSize,
+                fontSize: isWeb ? 15 : 10.fontSize,
                 color: AppColors.greyColor,
                 fontWeight: FontWeight.w200,
               ),

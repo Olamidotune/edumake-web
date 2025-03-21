@@ -268,4 +268,5 @@ class AppStrings {
   static const createNewPasswordSuccessMessage =
       "You have successful created a new password. Enjoy ease in your wards' education management";
   static const naira = '₦';
+  static const viewAll = 'View All';
 }

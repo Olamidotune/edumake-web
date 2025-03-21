@@ -17,6 +17,8 @@ import 'package:edumake_frontend/src/shared/widgets/custom_big_text_form_field.d
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/multiclass_drop_down.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -52,6 +54,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   bool _isUploading = false;
 
   File? _selectedImage;
+  Uint8List? _selectedImageBytes;
 
   @override
   void initState() {
@@ -61,6 +64,8 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
+      drawer: const Drawer(),
       appBar: const CustomAppBar(),
       body: CustomRawScroller(
         scrollController: scrollController,
@@ -302,32 +307,84 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     );
   }
 
+  // Future<void> _pickImageFromGallery() async {
+  //   final storageStatus = await Permission.storage.request();
+  //   if (storageStatus.isDenied) {
+  //     ToastService.toast(
+  //       'Camera permission is required to upload an image.',
+  //       ToastType.error,
+  //     );
+  //     return;
+  //   }
+  //   final returnedImage =
+  //       await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  //   if (returnedImage == null) {
+  //     ToastService.toast(
+  //       'No Image Was Selected',
+  //       ToastType.error,
+  //     );
+  //     return;
+  //   }
+
+  //   setState(() {
+  //     _selectedImage = File(returnedImage.path);
+  //     ToastService.toast(
+  //       'Image Selected Successfully',
+  //     );
+  //   });
+  // }
+
   Future<void> _pickImageFromGallery() async {
-    final storageStatus = await Permission.storage.request();
-    if (storageStatus.isDenied) {
-      ToastService.toast(
-        'Camera permission is required to upload an image.',
-        ToastType.error,
+    if (kIsWeb) {
+      // For Flutter Web
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image, // Restrict to images only
       );
-      return;
-    }
-    final returnedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (returnedImage == null) {
-      ToastService.toast(
-        'No Image Was Selected',
-        ToastType.error,
-      );
-      return;
-    }
+      if (result != null && result.files.first.bytes != null) {
+        setState(() {
+          _selectedImageBytes = result.files.first.bytes!;
+        });
 
-    setState(() {
-      _selectedImage = File(returnedImage.path);
-      ToastService.toast(
-        'Image Selected Successfully',
-      );
-    });
+        ToastService.toast(
+          'Image Selected Successfully',
+        );
+      } else {
+        ToastService.toast(
+          'No Image Was Selected',
+          ToastType.error,
+        );
+      }
+    } else {
+      // For Mobile
+      final storageStatus = await Permission.storage.request();
+      if (storageStatus.isDenied) {
+        ToastService.toast(
+          'Storage permission is required to upload an image.',
+          ToastType.error,
+        );
+        return;
+      }
+
+      final returnedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (returnedImage == null) {
+        ToastService.toast(
+          'No Image Was Selected',
+          ToastType.error,
+        );
+        return;
+      }
+
+      setState(() {
+        _selectedImage = File(returnedImage.path);
+        ToastService.toast(
+          'Image Selected Successfully',
+        );
+      });
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
