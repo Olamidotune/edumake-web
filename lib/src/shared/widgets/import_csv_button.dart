@@ -1,22 +1,24 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:flutter/material.dart';
 
 class ImportCSVButton extends StatelessWidget {
   const ImportCSVButton({
     required this.onTap,
     required this.name,
+    this.isWeb = false,
     super.key,
   });
   final void Function() onTap;
   final String name;
+  final bool isWeb;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: isWeb ? 70 : null,
         padding: EdgeInsets.all(AppSpacing.horizontalSpacing),
         decoration: BoxDecoration(
           color: AppColors.whiteColor,
@@ -30,22 +32,15 @@ class ImportCSVButton extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Import $name data (CSV)',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.primaryTextColor,
-                  ),
-            ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: AppColors.primaryColor.withOpacity(0.7),
-              size: 16.fontSize,
-            ),
-          ],
+        child: Center(
+          child: Text(
+            'Import $name data (CSV)',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.primaryTextColor,
+                  fontSize: 16,
+                ),
+          ),
         ),
       ),
     );
