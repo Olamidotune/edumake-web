@@ -12,6 +12,7 @@ class ClassesListTileContainer extends StatelessWidget {
     this.subTitle,
     this.trailing,
     this.color,
+    this.isWeb = false,
   });
 
   final String title;
@@ -20,6 +21,7 @@ class ClassesListTileContainer extends StatelessWidget {
   final bool isProfilePictureEnabled;
   final String? subTitle;
   final Color? color;
+  final bool isWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class ClassesListTileContainer extends StatelessWidget {
         onTap: onTap,
         leading: isProfilePictureEnabled
             ? CircleAvatar(
-                radius: 18.fontSize,
+                radius: isWeb ? 24 : 18.fontSize,
                 backgroundColor: AppColors.primaryColor,
                 child: SvgPicture.asset(
                   'assets/svg/people.svg',
@@ -48,7 +50,7 @@ class ClassesListTileContainer extends StatelessWidget {
         title: Text(
           title,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 14.fontSize,
+                fontSize: isWeb ? 15 : 14.fontSize,
                 fontWeight: FontWeight.w400,
                 color: AppColors.blackColor,
               ),
@@ -57,7 +59,7 @@ class ClassesListTileContainer extends StatelessWidget {
             ? Text(
                 subTitle!,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 10.fontSize,
+                      fontSize: isWeb ? 13 : 10.fontSize,
                       fontWeight: FontWeight.w400,
                       color: AppColors.greyColor,
                     ),
@@ -66,7 +68,7 @@ class ClassesListTileContainer extends StatelessWidget {
         trailing: Text(
           trailing ?? '',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 14.fontSize,
+                fontSize: isWeb ? 15 : 14.fontSize,
                 fontWeight: FontWeight.w400,
                 color: AppColors.primaryColor,
               ),

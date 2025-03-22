@@ -4,9 +4,6 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_classes.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
@@ -22,6 +19,7 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/rec
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:edumake_frontend/src/shared/widgets/payments_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/webx/web_top_widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,62 +61,11 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (kIsWeb)
-          Container(
-            padding: EdgeInsets.all(AppSpacing.horizontalSpacingSmall),
-            height: 250,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              spacing: AppSpacing.horizontalSpacingMedium,
-              children: [
-                Expanded(
-                  child: _AddSchoolDataContainer(
-                    title: 'Add Classes',
-                    description:
-                        'Add a class or set of classes, add students to it and assign teachers/subjects.',
-                    buttonText: 'Add Classes',
-                    onTap: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .pushNamed(AddClassesScreen.routeName);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: _AddSchoolDataContainer(
-                    title: 'Add Student',
-                    description:
-                        'Add student, input their classes, subjects and teachers in charge of the student.',
-                    buttonText: 'Add Student',
-                    onTap: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .pushNamed(AddStudentsScreen.routeName);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: _AddSchoolDataContainer(
-                    title: 'Add Teacher',
-                    description:
-                        'Add a teacher and assign him/her to a subject and set of classes they will manage.',
-                    buttonText: 'Add Teacher',
-                    onTap: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .pushNamed(AddTeachersScreen.routeName);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          )
+        if (kIsWeb && isDesktop)
+          const WebTopWidgets()
         else
           const SizedBox.shrink(),
         AppSpacing.verticalSpaceMedium,
-
-        //////
         Container(
           padding: EdgeInsets.all(
             isDesktop ? AppSpacing.horizontalSpacing : 0,
@@ -458,88 +405,6 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _AddSchoolDataContainer extends StatelessWidget {
-  const _AddSchoolDataContainer({
-    required this.title,
-    required this.description,
-    required this.buttonText,
-    required this.onTap,
-  });
-
-  final String title;
-  final String description;
-  final String buttonText;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        width: 171, // Add width
-        height: 250, // Add height
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor.withValues(alpha: .9),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.blackColor,
-                    ),
-              ),
-            ),
-            AppSpacing.verticalSpaceSmall,
-            Expanded(
-              flex: 5,
-              child: Text(
-                description,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 14,
-                      color: AppColors.blackColor,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            AppSpacing.verticalSpaceLarge,
-            Expanded(
-              flex: 2,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Row(
-                  children: [
-                    Text(
-                      buttonText,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor,
-                          ),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.primaryColor,
-                      size: 16,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

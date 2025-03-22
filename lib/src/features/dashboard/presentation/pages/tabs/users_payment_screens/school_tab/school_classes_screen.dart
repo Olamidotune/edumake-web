@@ -10,6 +10,7 @@ import 'package:edumake_frontend/src/shared/widgets/classes_list_tile_container.
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,6 +39,7 @@ class _ClassScreenState extends State<ClassScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -47,7 +49,7 @@ class _ClassScreenState extends State<ClassScreen> {
             Text(
               AppStrings.classes,
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 24.fontSize,
+                    fontSize: isDesktop ? 32 : 24.fontSize,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blackColor,
                   ),
@@ -74,7 +76,7 @@ class _ClassScreenState extends State<ClassScreen> {
         Text(
           AppStrings.exploreTheListofClassesYouHaveAddedSoFar,
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                fontSize: 12.fontSize,
+                fontSize: isDesktop ? 20 : 12.fontSize,
                 fontWeight: FontWeight.w300,
                 color: AppColors.blackColor,
               ),
@@ -196,6 +198,7 @@ class _ClassScreenState extends State<ClassScreen> {
                           );
                         },
                         child: ClassesListTileContainer(
+                          isWeb: true,
                           isProfilePictureEnabled: false,
                           title: classData.name.toUpperCase(),
                         ),
