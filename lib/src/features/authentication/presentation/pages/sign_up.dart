@@ -9,7 +9,6 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
-import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -383,7 +382,7 @@ class _SignUpScreenMobileView extends StatelessWidget {
         Center(
           child: RichText(
             text: TextSpan(
-              text: 'Already have an account with us? ',
+              text: '${AppStrings.alreadyHaveAnAccountWithUs} ',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontFamily: 'HelveticaNeueRounded',
                     fontSize: 13.fontSize,
@@ -708,7 +707,7 @@ class _SignUpScreenWebView extends StatelessWidget {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        text: 'Already have an account with us? ',
+                        text: '${AppStrings.alreadyHaveAnAccountWithUs} ',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
                               fontSize: 16,
@@ -719,10 +718,8 @@ class _SignUpScreenWebView extends StatelessWidget {
                           TextSpan(
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pushNamed(
-                                  context,
-                                  OnboardingScreenTwo.routeName,
-                                );
+                                Navigator.of(context)
+                                    .pushNamed(SignIn.routeName);
                               },
                             text: 'Sign In',
                             style:

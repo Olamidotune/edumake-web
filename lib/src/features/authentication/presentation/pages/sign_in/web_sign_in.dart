@@ -1,6 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -8,14 +9,17 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:edumake_frontend/src/shared/dialogs/web_forgot_password_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 
 class SignInScreenWebView extends StatelessWidget {
@@ -40,6 +44,7 @@ class SignInScreenWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Row(
       children: [
         Expanded(
@@ -257,9 +262,11 @@ class SignInScreenWebView extends StatelessWidget {
                           TextSpan(
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).pushNamed(
-                                  ForgotPasswordScreen.routeName,
-                                );
+                                isDesktop && kIsWeb
+                                    ? _showWebForgotPasswordDialog(context)
+                                    : Navigator.of(context).pushNamed(
+                                        ForgotPasswordScreen.routeName,
+                                      );
                               },
                             text: 'Recover Password',
                             style:
@@ -374,6 +381,15 @@ class SignInScreenWebView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _showWebForgotPasswordDialog(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (context) {
+        return const WebForgotPasswordDialog();
+      },
     );
   }
 }
