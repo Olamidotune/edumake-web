@@ -58,7 +58,6 @@ class _SplashScreenState extends State<SplashScreen>
     });
 
     await UserRoleHelper.getUserRole();
-    print('Here is the ROLE saved: ${await UserRoleHelper.getUserRole()}');
   }
 
   @override

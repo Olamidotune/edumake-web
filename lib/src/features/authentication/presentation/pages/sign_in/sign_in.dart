@@ -77,7 +77,6 @@ class SignIn extends HookWidget {
     if (previous.signInStatus == FormzSubmissionStatus.inProgress &&
         current.signInStatus == FormzSubmissionStatus.success) {
       if (current.user?.hasOnboarded == false) {
-        // Use post-frame callback to ensure proper navigation
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _navigate(context);
           ToastService.toast(
@@ -113,13 +112,17 @@ class SignIn extends HookWidget {
 
   void _navigate(BuildContext context) async {
     final role = context.read<AuthBloc>().state.user?.role;
-    if (role == 'parent' || role == 'teacher') {
+    if (role == 'parent') {
       await Navigator.of(context).popAndPushNamed(
         KycScreen.routeName,
       );
-    } else {
+    } else if (role == 'school-admin') {
       await Navigator.of(context).popAndPushNamed(
         SchoolBasicInfoScreen.routeName,
+      );
+    } else {
+      await Navigator.of(context).popAndPushNamed(
+        Dashboard.routeName,
       );
     }
   }

@@ -188,7 +188,6 @@ class _WebVerifyOtpDialogState extends State<WebVerifyOtpDialog> {
     AuthState previous,
     AuthState current,
   ) {
-    // Handle OTP submission success
     if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
         current.otpStatus == FormzSubmissionStatus.success) {
       _showOtpSuccessDialog(context);
@@ -196,14 +195,11 @@ class _WebVerifyOtpDialogState extends State<WebVerifyOtpDialog> {
       return false;
     }
 
-    // Handle resend OTP success
     if (previous.resendOtpStatus == FormzSubmissionStatus.inProgress &&
         current.resendOtpStatus == FormzSubmissionStatus.success) {
       ToastService.toast('Verification Code Re-Sent!');
       return false;
     }
-
-    // Handle OTP submission failure
     if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
         current.otpStatus == FormzSubmissionStatus.failure) {
       ToastService.toast(
