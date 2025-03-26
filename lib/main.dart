@@ -24,7 +24,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';

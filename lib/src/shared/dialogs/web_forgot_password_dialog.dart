@@ -1,7 +1,7 @@
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
+import 'package:edumake_frontend/src/shared/dialogs/web_verify_otp_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_custom_text_form_field.dart';
@@ -111,7 +111,7 @@ class WebForgotPasswordDialog extends StatelessWidget {
       ToastService.toast(
         'Password reset link has been sent to your email address',
       );
-      Navigator.of(context).pushNamed(VerifyForgotPassword.routeName);
+      _showWebVerifyDialog(context);
 
       return false;
     } else if (previous.errorMessage != current.errorMessage &&
@@ -124,5 +124,15 @@ class WebForgotPasswordDialog extends StatelessWidget {
       return false;
     }
     return true;
+  }
+
+  void _showWebVerifyDialog(BuildContext context) async {
+    await showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const WebVerifyOtpDialog();
+      },
+    );
   }
 }

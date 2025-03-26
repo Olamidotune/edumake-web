@@ -5,7 +5,7 @@ import 'package:edumake_frontend/src/core/constants/enum/role_enum.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/widgets/sign_up_button.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/parents/parents_onboarding.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/school/school_onboarding.dart';
@@ -88,8 +88,10 @@ class WebView extends StatelessWidget {
                 child: WebOnboardingContainer(
                   title: 'Continue as\nStudent',
                   image: 'w_student',
-                  onTap: () {
-                    Navigator.of(context)
+                  onTap: () async {
+                    await UserRoleHelper.saveUserRole(UserRole.parent);
+                    // Navigate to the appropriate screen
+                    await Navigator.of(context)
                         .pushNamed(OnboardingScreenTwo.routeName);
                   },
                 ),
@@ -98,8 +100,9 @@ class WebView extends StatelessWidget {
                 child: WebOnboardingContainer(
                   title: 'Continue as\nParent',
                   image: 'w_parent',
-                  onTap: () {
-                    Navigator.of(context)
+                  onTap: () async {
+                    await UserRoleHelper.saveUserRole(UserRole.parent);
+                    await Navigator.of(context)
                         .pushNamed(OnboardingScreenTwo.routeName);
                   },
                 ),
@@ -108,8 +111,10 @@ class WebView extends StatelessWidget {
                 child: WebOnboardingContainer(
                   title: 'Continue as\nTeacher',
                   image: 'w_teacher',
-                  onTap: () {
-                    Navigator.of(context)
+                  onTap: () async {
+                    // Save role to shared preferences
+                    await UserRoleHelper.saveUserRole(UserRole.teacher);
+                    await Navigator.of(context)
                         .pushNamed(OnboardingScreenTwo.routeName);
                   },
                 ),
@@ -118,8 +123,10 @@ class WebView extends StatelessWidget {
                 child: WebOnboardingContainer(
                   title: 'Continue as\nSchool Admin',
                   image: 'w_admin',
-                  onTap: () {
-                    Navigator.of(context)
+                  onTap: () async {
+                    // Save role to shared preferences
+                    await UserRoleHelper.saveUserRole(UserRole.schoolAdmin);
+                    await Navigator.of(context)
                         .pushNamed(OnboardingScreenTwo.routeName);
                   },
                 ),
@@ -367,6 +374,7 @@ class _OnBoardingScreenTwoMobileView extends StatelessWidget {
               textAlign: TextAlign.justify,
             ),
             AppSpacing.verticalSpaceLarge,
+            //
             Button(
               text: AppStrings.continueAsparent,
               onPressed: () async {

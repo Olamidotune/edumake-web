@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
         PageRouteBuilder<void>(
           pageBuilder: (context, animation, secondaryAnimation) {
             return hasAuthenticatedBefore
-                ? const SignIn()
+                ? const OnboardingScreen()
                 : const OnboardingScreen();
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -58,6 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
     });
 
     await UserRoleHelper.getUserRole();
+    print('Here is the ROLE saved: ${await UserRoleHelper.getUserRole()}');
   }
 
   @override
