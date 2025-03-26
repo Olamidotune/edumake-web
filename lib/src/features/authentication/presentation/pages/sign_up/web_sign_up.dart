@@ -139,11 +139,18 @@ class SignUpScreenWebView extends StatelessWidget {
                           AuthEvent.passwordChanged(value),
                         ),
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a valid password';
+                      if (value == null || value.isEmpty) {
+                        return 'Field cannot be empty';
                       }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
+                      const pattern =
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      if (!RegExp(pattern).hasMatch(value)) {
+                        return 'Password must contain:\n'
+                            '• At least 8 characters\n'
+                            '• 1 uppercase letter\n'
+                            '• 1 lowercase letter\n'
+                            '• 1 number\n'
+                            r'• 1 special character (!@#$&*~)';
                       }
                       if (value != confirmPasswordController.value.text) {
                         return 'Passwords do not match';
@@ -183,11 +190,18 @@ class SignUpScreenWebView extends StatelessWidget {
                       }
                     },
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a valid password';
+                      if (value == null || value.isEmpty) {
+                        return 'Field cannot be empty';
                       }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
+                      const pattern =
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      if (!RegExp(pattern).hasMatch(value)) {
+                        return 'Password must contain:\n'
+                            '• At least 8 characters\n'
+                            '• 1 uppercase letter\n'
+                            '• 1 lowercase letter\n'
+                            '• 1 number\n'
+                            r'• 1 special character (!@#$&*~)';
                       }
                       if (value != passwordController.value.text) {
                         return 'Passwords do not match';

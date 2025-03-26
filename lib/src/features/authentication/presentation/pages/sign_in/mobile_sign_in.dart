@@ -5,7 +5,6 @@ import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
-import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_text_form_field.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
@@ -150,9 +149,6 @@ class SignInMobileView extends StatelessWidget {
                 text: 'Sign In',
                 busy: state.signInStatus == FormzSubmissionStatus.inProgress,
                 onPressed: () {
-                  logInfo(
-                    'Sign in button pressed: ${state.user?.school?.schoolID}',
-                  );
                   if (formKey.currentState!.validate()) {
                     context.read<AuthBloc>().add(
                           const AuthEvent.signIn(),
