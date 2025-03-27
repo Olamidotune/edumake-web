@@ -1,7 +1,6 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -109,7 +108,7 @@ class SignInMobileView extends StatelessWidget {
                         );
                   }
                 },
-                validator: validatePassword,
+                // validator: validatePassword,
                 onSuffixIconPressed: () =>
                     obscurePassword.value = !obscurePassword.value,
               ),

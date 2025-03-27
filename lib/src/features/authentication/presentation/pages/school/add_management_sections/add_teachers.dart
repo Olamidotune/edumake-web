@@ -1,19 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:edumake_frontend/config/env_keys.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
+import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
-import 'package:edumake_frontend/src/shared/widgets/custom_snackbar.dart';
 import 'package:edumake_frontend/src/shared/widgets/multiclass_drop_down.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AddTeachersScreen extends StatefulWidget {
   const AddTeachersScreen({super.key});
@@ -34,6 +45,8 @@ List<String> selectedClassIds = [];
 List<String> selectedSubjectIds = [];
 bool isBusy = false;
 File? imageFile;
+File? _selectedImage;
+Uint8List? _selectedImageBytes;
 
 class _AddTeachersScreenState extends State<AddTeachersScreen> {
   @override
@@ -76,44 +89,55 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                   AppSpacing.verticalSpaceMassive,
                   Center(
                     child: GestureDetector(
-                      onTap: _insertImage,
+                      onTap: _pickImageFromGallery,
                       child: CircleAvatar(
                         radius: 195,
                         backgroundColor:
                             AppColors.primaryColor.withOpacity(0.1),
-                        child: imageFile != null
+                        child: _selectedImageBytes != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(80),
-                                child: Image.file(
-                                  File(imageFile!.path),
-                                  width: 195,
-                                  height: 195,
+                                child: Image.memory(
+                                  _selectedImageBytes!,
+                                  width: 259,
+                                  height: 258,
                                   fit: BoxFit.cover,
                                 ),
                               )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/svg/camera.svg',
-                                    height: 150,
-                                    color:
-                                        AppColors.blackColor.withOpacity(0.6),
+                            : imageFile != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(80),
+                                    child: Image.file(
+                                      File(imageFile!.path),
+                                      width: 195,
+                                      height: 195,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/svg/camera.svg',
+                                        height: 150,
+                                        color: AppColors.blackColor
+                                            .withOpacity(0.6),
+                                      ),
+                                      Text(
+                                        'Insert Image',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(
+                                              fontFamily:
+                                                  'HelveticaNeueRounded',
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w300,
+                                              color: AppColors.primaryTextColor,
+                                            ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'Insert Image',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                          fontFamily: 'HelveticaNeueRounded',
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w300,
-                                          color: AppColors.primaryTextColor,
-                                        ),
-                                  ),
-                                ],
-                              ),
                       ),
                     ),
                   ),
@@ -220,10 +244,21 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
                     isWeb: true,
                     busy: isBusy,
                     text: 'Send Invite',
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate() &&
-                          imageFile != null) {
-                        _sendInvite();
+                              imageFile != null ||
+                          _selectedImageBytes != null) {
+                        setState(() {
+                          isBusy = true;
+                        });
+                        await _sendInvite(
+                          context,
+                          selectedClassIds,
+                          selectedSubjectIds,
+                        );
+                        setState(() {
+                          isBusy = false;
+                        });
                       }
                     },
                   ),
@@ -236,30 +271,146 @@ class _AddTeachersScreenState extends State<AddTeachersScreen> {
     );
   }
 
-  Future<void> _insertImage() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+  Future<void> _pickImageFromGallery() async {
+    if (kIsWeb) {
+      // For Flutter Web
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image, // Restrict to images only
+      );
 
-    if (result != null) {
-      setState(() {
-        imageFile = File(result.files.single.path!);
-      });
-      CustomSnackbar.show(context, 'Image selected successfully');
+      if (result != null && result.files.first.bytes != null) {
+        setState(() {
+          _selectedImageBytes = result.files.first.bytes;
+        });
+
+        ToastService.toast(
+          'Image Selected Successfully',
+        );
+      } else {
+        ToastService.toast(
+          'No Image Was Selected',
+          ToastType.error,
+        );
+      }
     } else {
-      CustomSnackbar.show(context, 'No file selected', isError: true);
+      // For Mobile
+      final storageStatus = await Permission.storage.request();
+      if (storageStatus.isDenied) {
+        ToastService.toast(
+          'Storage permission is required to upload an image.',
+          ToastType.error,
+        );
+        return;
+      }
+
+      final returnedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (returnedImage == null) {
+        ToastService.toast(
+          'No Image Was Selected',
+          ToastType.error,
+        );
+        return;
+      }
+
+      setState(() {
+        _selectedImage = File(returnedImage.path);
+        ToastService.toast(
+          'Image Selected Successfully',
+        );
+      });
     }
   }
 
-  Future<void> _sendInvite() async {
-    setState(() {
-      isBusy = true;
-    });
-    await Future<void>.delayed(const Duration(seconds: 2));
-    CustomSnackbar.show(context, 'Invite sent successfully');
-    Navigator.pop(context, true);
-    setState(() {
-      isBusy = false;
-    });
+  // Future<void> _sendInvite() async {
+  //   setState(() {
+  //     isBusy = true;
+  //   });
+  //   await Future<void>.delayed(const Duration(seconds: 2));
+  //   CustomSnackbar.show(context, 'Invite sent successfully');
+  //   Navigator.pop(context, true);
+  //   setState(() {
+  //     isBusy = false;
+  //   });
+  // }
+
+  Future<void> _sendInvite(BuildContext context, List<String> selectedClassIds,
+      List<String> selectedSubjects) async {
+    final schoolId = await getSchoolID();
+    final token = await getAuthorization();
+    final baseUrl = dotenv.env[EnvKeys.apiBaseUrl] ?? '';
+
+    final url = '${baseUrl}api/v1/sch/teacher/$schoolId';
+
+    try {
+      final request = http.MultipartRequest('POST', Uri.parse(url));
+
+      request.headers.addAll({
+        'Authorization': token,
+        'Accept': 'application/json',
+      });
+
+      request.fields['name'] = nameController.text;
+      request.fields['email'] = emailController.text;
+      selectedClassIds.asMap().forEach((index, classId) {
+        request.fields['classes[$index]'] = classId;
+      });
+
+      selectedSubjectIds.asMap().forEach((index, subjectId) {
+        request.fields['subjects[$index]'] = subjectId;
+      });
+
+      if (_selectedImage != null || _selectedImageBytes != null) {
+        if (kIsWeb && _selectedImageBytes != null) {
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              'teacherImage',
+              _selectedImageBytes!,
+              filename:
+                  'upload.jpg', // Web images don't have a path, so set a default name
+              contentType: MediaType('image', 'jpeg'),
+            ),
+          );
+        } else if (_selectedImage != null) {
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              'teacherImage',
+              _selectedImage!.path,
+              filename: basename(_selectedImage!.path),
+              contentType: MediaType('image', 'jpeg'),
+            ),
+          );
+        }
+      }
+
+      logInfo('Request fields: ${request.fields}');
+
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      logInfo('responseBody: $responseBody');
+
+      final responseJson = jsonDecode(responseBody);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final successMessage = responseJson['message'];
+        logInfo(responseBody);
+        ToastService.toast(successMessage.toString());
+        Navigator.of(context).pop();
+      } else {
+        final errorMessage =
+            responseJson['message'] ?? 'An unknown error occurred';
+        ToastService.toast(
+          errorMessage.toString(),
+          ToastType.error,
+        );
+      }
+    } catch (error, trace) {
+      logError(error, trace);
+      ToastService.toast(
+        'Something went wrong.',
+        ToastType.error,
+      );
+    }
   }
 }

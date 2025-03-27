@@ -269,7 +269,10 @@ class _VerifyAccountState extends State<VerifyAccount> {
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return const SuccessfulDialog(text: AppStrings.otpSuccessMessage);
+        return const SuccessfulDialog(
+          text: AppStrings.otpSuccessMessage,
+          isDesktop: false,
+        );
       },
     );
   }

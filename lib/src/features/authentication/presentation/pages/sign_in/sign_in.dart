@@ -5,6 +5,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/mobile_sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/web_sign_in.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/teachers_password_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -122,7 +123,7 @@ class SignIn extends HookWidget {
       );
     } else {
       await Navigator.of(context).popAndPushNamed(
-        Dashboard.routeName,
+        TeachersPasswordScreen.routeName,
       );
     }
   }

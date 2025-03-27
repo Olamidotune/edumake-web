@@ -3,7 +3,6 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/core/utils/validator.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
@@ -148,7 +147,7 @@ class SignInScreenWebView extends StatelessWidget {
                             );
                       }
                     },
-                    validator: validatePassword,
+                    // validator: validatePassword,
                     onSuffixIconPressed: () =>
                         obscurePassword.value = !obscurePassword.value,
                   ),

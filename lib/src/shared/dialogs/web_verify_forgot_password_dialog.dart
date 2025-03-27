@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
-import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/shared/dialogs/successful_dialog.dart';
+import 'package:edumake_frontend/src/shared/dialogs/create_new_password_dialog.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
@@ -15,14 +14,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class WebVerifyOtpDialog extends StatefulWidget {
-  const WebVerifyOtpDialog({super.key});
+class WebVerifyForgotPasswordDialog extends StatefulWidget {
+  const WebVerifyForgotPasswordDialog({super.key});
 
   @override
-  State<WebVerifyOtpDialog> createState() => _WebVerifyOtpDialogState();
+  State<WebVerifyForgotPasswordDialog> createState() =>
+      _WebVerifyOtpDialogState();
 }
 
-class _WebVerifyOtpDialogState extends State<WebVerifyOtpDialog> {
+class _WebVerifyOtpDialogState extends State<WebVerifyForgotPasswordDialog> {
   Timer? _timer;
 
   int _remainingTime = 300; // 5 minutes (300 seconds)
@@ -190,25 +190,18 @@ class _WebVerifyOtpDialogState extends State<WebVerifyOtpDialog> {
   ) {
     if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
         current.otpStatus == FormzSubmissionStatus.success) {
-      _showOtpSuccessDialog(context);
-      ToastService.toast('Please Login');
+      ToastService.toast('Email confirmed successfully.');
+      _showCreatePasswordDialog(context);
       return false;
-    }
-
-    if (previous.resendOtpStatus == FormzSubmissionStatus.inProgress &&
-        current.resendOtpStatus == FormzSubmissionStatus.success) {
-      ToastService.toast('Verification Code Re-Sent!');
-      return false;
-    }
-    if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
-        current.otpStatus == FormzSubmissionStatus.failure) {
+    } else if (previous.errorMessage != current.errorMessage &&
+        current.errorMessage != null) {
       ToastService.toast(
-        current.errorMessage ?? '',
+        current.errorMessage ?? 'An error occurred',
         ToastType.error,
       );
-      return true;
+      context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
+      return false;
     }
-
     return true;
   }
 
@@ -243,15 +236,12 @@ class _WebVerifyOtpDialogState extends State<WebVerifyOtpDialog> {
     });
   }
 
-  void _showOtpSuccessDialog(BuildContext context) async {
+  void _showCreatePasswordDialog(BuildContext context) async {
     await showDialog<void>(
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        return const SuccessfulDialog(
-          text: AppStrings.otpSuccessMessage,
-          isDesktop: true,
-        );
+        return const CreateNewPasswordDialog();
       },
     );
   }

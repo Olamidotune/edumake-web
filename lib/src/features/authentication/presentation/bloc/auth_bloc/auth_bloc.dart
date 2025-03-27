@@ -7,6 +7,7 @@ import 'package:edumake_frontend/src/features/authentication/api/models/auth_dat
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/school_model.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/sign_up_response.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/user.dart';
+import 'package:edumake_frontend/src/shared/helpers/http_helper.dart';
 import 'package:edumake_frontend/src/shared/services/auth_services.dart';
 import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/services/notification_service.dart';
@@ -44,6 +45,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_ForgotPasswordFailed>(_forgotPasswordFailed);
     on<_CreateNewPassword>(_createNewPassword);
     on<_CreateNewPasswordSuccessful>(_createNewPasswordSuccessful);
+    on<_ChangeTeachersPassword>(_createTeachersPassword);
+    on<_ChangeTeachersPasswordSuccessful>(_createTeachersPasswordSuccessful);
+    on<_ChangeTeachersPasswordFailed>(_createTeachersPasswordFailed);
     on<_ErrorMessage>(_errorMessage);
 
     add(const _Init());
@@ -426,6 +430,91 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     }
+  }
+
+  void _createTeachersPassword(
+    _ChangeTeachersPassword event,
+    Emitter<AuthState> emit,
+  ) async {
+    if (state.changeTeacherPasswordStatus == FormzSubmissionStatus.inProgress) {
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        changeTeacherPasswordStatus: FormzSubmissionStatus.inProgress,
+        password: PasswordFormz.dirty(state.password.value),
+        passwordConfirm: PasswordConfirmFormz.dirty(
+          state.passwordConfirm.value,
+          state.password.value,
+        ),
+      ),
+    );
+
+    final deviceId = await getDeviceId();
+    logInfo('Device ID: $deviceId');
+
+    await NotificationService.instance.initialize();
+    final fcmToken = NotificationService.instance.fcmToken;
+    if (fcmToken == null) {
+      logInfo('FCM token is null, continuing signup without token.');
+      logInfo('This is the FCM Token: $fcmToken');
+    }
+
+    try {
+      final password =
+          await locator<AuthenticationClient>().changeTeacherPassword(
+        await getAuthorization(),
+        state.password.value.trim(),
+        fcmToken ?? '',
+        deviceId ?? 'unknown',
+      );
+      add(_ChangeTeachersPasswordSuccessful(password));
+    } catch (error, trace) {
+      logError(error, trace);
+      if (error is DioError && error.response?.data['message'] != null) {
+        emit(
+          state.copyWith(
+            changeTeacherPasswordStatus: FormzSubmissionStatus.failure,
+            errorMessage: error.response?.data['message'] as String,
+          ),
+        );
+        add(_ChangeTeachersPasswordFailed(
+            error.response?.data['message'] as String?));
+      } else {
+        add(const _ChangeTeachersPasswordFailed(
+            'An unexpected error occurred'));
+      }
+    }
+  }
+
+  void _createTeachersPasswordSuccessful(
+    _ChangeTeachersPasswordSuccessful event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        changeTeacherPasswordStatus: FormzSubmissionStatus.success,
+      ),
+    );
+
+    emit(
+      state.copyWith(
+        changeTeacherPasswordStatus: FormzSubmissionStatus.initial,
+      ),
+    );
+  }
+
+  void _createTeachersPasswordFailed(
+    _ChangeTeachersPasswordFailed event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        changeTeacherPasswordStatus: FormzSubmissionStatus.failure,
+        errorMessage: event.message ?? 'An error occurred',
+      ),
+    );
   }
 
   void _createNewPasswordSuccessful(

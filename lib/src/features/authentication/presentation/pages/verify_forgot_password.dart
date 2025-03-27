@@ -29,7 +29,7 @@ class VerifyForgotPassword extends StatefulWidget {
 class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
   Timer? _timer;
 
-  int _remainingTime = 120; // 5 minutes (300 seconds)
+  int _remainingTime = 300; // 5 minutes (300 seconds)
 
   final TextEditingController _otpController = TextEditingController();
 
@@ -69,7 +69,7 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
                   ),
                   AppSpacing.verticalSpaceSmall,
                   Text(
-                    'A set of numbers was sent to your mail, we need you to input them here. This is for security measures and will take just few minutes.',
+                    'A set of numbers was sent to your mail, we need you to input them here. This is for security measures and will take just few minutes.ss',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 12.fontSize,
                           fontWeight: FontWeight.w300,
@@ -190,15 +190,15 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
                   Button(
                     text: 'Submit',
                     busy: state.otpStatus == FormzSubmissionStatus.inProgress,
-                    // onPressed: () => context.read<AuthBloc>().add(
-                    //       AuthEvent.verifyOtp(_otpController.text),
-                    //     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        CreateNewPassword.routeName,
-                        (route) => false,
-                      );
-                    },
+                    onPressed: () => context.read<AuthBloc>().add(
+                          AuthEvent.verifyOtp(_otpController.text),
+                        ),
+                    // onPressed: () {
+                    //   Navigator.of(context).pushNamedAndRemoveUntil(
+                    //     CreateNewPassword.routeName,
+                    //     (route) => false,
+                    //   );
+                    // },
                   ),
                 ],
               );
@@ -214,10 +214,11 @@ class _VerifyForgotPasswordState extends State<VerifyForgotPassword> {
     AuthState previous,
     AuthState current,
   ) {
-    if (previous.forgotPasswordStatus == FormzSubmissionStatus.inProgress &&
-        current.forgotPasswordStatus == FormzSubmissionStatus.success) {
-      ToastService.toast(
-        'OTP has been sent to your email address',
+    if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
+        current.otpStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Email confirmed successfully.');
+      Navigator.of(context).popAndPushNamed(
+        CreateNewPassword.routeName,
       );
       return false;
     } else if (previous.errorMessage != current.errorMessage &&

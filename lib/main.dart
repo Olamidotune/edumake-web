@@ -26,6 +26,7 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/teachers_password_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
@@ -367,6 +368,8 @@ class MyApp extends StatelessWidget {
                       const TermsAndConditions(),
                   FeePaymentScreen.routeName: (context) =>
                       const FeePaymentScreen(),
+                  TeachersPasswordScreen.routeName: (context) =>
+                      const TeachersPasswordScreen(),
                   FeesDetailsScreen.routeName: (context) =>
                       const FeesDetailsScreen(),
                   ClassPaymentScreen.routeName: (context) =>

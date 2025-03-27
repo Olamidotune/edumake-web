@@ -307,34 +307,6 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
     );
   }
 
-  // Future<void> _pickImageFromGallery() async {
-  //   final storageStatus = await Permission.storage.request();
-  //   if (storageStatus.isDenied) {
-  //     ToastService.toast(
-  //       'Camera permission is required to upload an image.',
-  //       ToastType.error,
-  //     );
-  //     return;
-  //   }
-  //   final returnedImage =
-  //       await ImagePicker().pickImage(source: ImageSource.gallery);
-
-  //   if (returnedImage == null) {
-  //     ToastService.toast(
-  //       'No Image Was Selected',
-  //       ToastType.error,
-  //     );
-  //     return;
-  //   }
-
-  //   setState(() {
-  //     _selectedImage = File(returnedImage.path);
-  //     ToastService.toast(
-  //       'Image Selected Successfully',
-  //     );
-  //   });
-  // }
-
   Future<void> _pickImageFromGallery() async {
     if (kIsWeb) {
       // For Flutter Web
@@ -344,7 +316,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
 
       if (result != null && result.files.first.bytes != null) {
         setState(() {
-          _selectedImageBytes = result.files.first.bytes!;
+          _selectedImageBytes = result.files.first.bytes;
         });
 
         ToastService.toast(
