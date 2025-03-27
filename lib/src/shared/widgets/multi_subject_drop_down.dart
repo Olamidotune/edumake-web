@@ -3,26 +3,26 @@ import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/api/models/school_models/datum.dart';
 import 'package:flutter/material.dart';
 
-class MultiClassDropdown extends StatefulWidget {
-  const MultiClassDropdown({
-    required this.classes,
-    required this.onClassesSelected,
+class MultiSubjectDropDown extends StatefulWidget {
+  const MultiSubjectDropDown({
+    required this.subjects,
+    required this.onSubjectSelected,
     this.isDesktop = false,
     super.key,
   });
 
-  final List<Datum> classes;
-  final void Function(List<String>) onClassesSelected;
+  final List<Datum> subjects;
+  final void Function(List<String>) onSubjectSelected;
   final bool isDesktop;
 
   @override
-  State<MultiClassDropdown> createState() => _MultiClassDropdownState();
+  State<MultiSubjectDropDown> createState() => _MultiSubjectDropDownState();
 }
 
-class _MultiClassDropdownState extends State<MultiClassDropdown> {
+class _MultiSubjectDropDownState extends State<MultiSubjectDropDown> {
   final Set<String> _selectedIds = {};
 
-  // Generate a consistent color based on the class name
+  // Generate a consistent color based on the subject name
   Color _getChipColor(String name) {
     final colors = [
       Colors.blue.shade100,
@@ -68,8 +68,8 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
       child: ExpansionTile(
         title: Text(
           _selectedIds.isEmpty
-              ? 'Select Recipients'
-              : '${_selectedIds.length} classes selected',
+              ? 'Select Subjects'
+              : '${_selectedIds.length} subject selected',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: AppColors.primaryTextColor,
                 fontWeight: FontWeight.w300,
@@ -85,38 +85,38 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                   // "Select All" option
                   ListTile(
                     leading: Checkbox(
-                      value: _selectedIds.length == widget.classes.length,
+                      value: _selectedIds.length == widget.subjects.length,
                       tristate: true,
                       onChanged: (bool? value) {
                         setState(() {
                           if (value ?? false) {
                             _selectedIds.addAll(
-                              widget.classes.map((c) => c.id),
+                              widget.subjects.map((s) => s.id),
                             );
                           } else {
                             _selectedIds.clear();
                           }
-                          widget.onClassesSelected(_selectedIds.toList());
+                          widget.onSubjectSelected(_selectedIds.toList());
                         });
                       },
                     ),
                     title: const Text('Select All'),
                     onTap: () {
                       setState(() {
-                        if (_selectedIds.length == widget.classes.length) {
+                        if (_selectedIds.length == widget.subjects.length) {
                           _selectedIds.clear();
                         } else {
                           _selectedIds.addAll(
-                            widget.classes.map((c) => c.id),
+                            widget.subjects.map((s) => s.id),
                           );
                         }
-                        widget.onClassesSelected(_selectedIds.toList());
+                        widget.onSubjectSelected(_selectedIds.toList());
                       });
                     },
                   ),
                   const Divider(),
                   // Individual class options
-                  ...widget.classes.map((classData) => ListTile(
+                  ...widget.subjects.map((classData) => ListTile(
                         leading: Checkbox(
                           activeColor: AppColors.primaryColor,
                           value: _selectedIds.contains(classData.id),
@@ -127,7 +127,7 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                               } else {
                                 _selectedIds.remove(classData.id);
                               }
-                              widget.onClassesSelected(_selectedIds.toList());
+                              widget.onSubjectSelected(_selectedIds.toList());
                             });
                           },
                         ),
@@ -139,7 +139,7 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                             } else {
                               _selectedIds.add(classData.id);
                             }
-                            widget.onClassesSelected(_selectedIds.toList());
+                            widget.onSubjectSelected(_selectedIds.toList());
                           });
                         },
                       )),
@@ -156,7 +156,7 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                 runSpacing: 4,
                 children: _selectedIds.map((id) {
                   final classData =
-                      widget.classes.firstWhere((c) => c.id == id);
+                      widget.subjects.firstWhere((s) => s.id == id);
                   return Chip(
                     label: Text(
                       classData.name,
@@ -170,7 +170,7 @@ class _MultiClassDropdownState extends State<MultiClassDropdown> {
                     onDeleted: () {
                       setState(() {
                         _selectedIds.remove(id);
-                        widget.onClassesSelected(_selectedIds.toList());
+                        widget.onSubjectSelected(_selectedIds.toList());
                       });
                     },
                     shape: RoundedRectangleBorder(

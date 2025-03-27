@@ -4,9 +4,11 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_students.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_add_school_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_welcome_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WebTopWidgets extends StatelessWidget {
   const WebTopWidgets({
@@ -76,6 +78,9 @@ class WebTopWidgets extends StatelessWidget {
                         'Add a teacher and assign him/her to a subject and set of classes they will manage.',
                     buttonText: 'Add Teacher',
                     onTap: () {
+                      context
+                          .read<SubjectsBloc>()
+                          .add(const SubjectsEvent.fetchSubjects());
                       Navigator.of(context, rootNavigator: true)
                           .pushNamed(AddTeachersScreen.routeName);
                     },

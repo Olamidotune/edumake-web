@@ -134,7 +134,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         state.password.value.trim(),
         roleForAPI,
         fcmToken ?? '',
-        deviceId ?? 'unknown', // Handle null case
+        deviceId ?? 'unknown',
       );
       add(_SignUpSuccessful(signupResponse));
     } catch (error, trace) {
