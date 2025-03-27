@@ -2,7 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/mobile_sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/web_sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';

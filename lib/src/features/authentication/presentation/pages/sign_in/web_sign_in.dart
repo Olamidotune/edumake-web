@@ -10,7 +10,6 @@ import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
 import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:edumake_frontend/src/shared/dialogs/web_forgot_password_dialog.dart';
-import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_custom_text_form_field.dart';
@@ -288,9 +287,6 @@ class SignInScreenWebView extends StatelessWidget {
                     busy:
                         state.signInStatus == FormzSubmissionStatus.inProgress,
                     onPressed: () {
-                      logInfo(
-                        'Sign in button pressed: ${state.user?.school?.schoolID}',
-                      );
                       if (formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(
                               const AuthEvent.signIn(),
