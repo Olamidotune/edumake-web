@@ -92,7 +92,7 @@ class AppStrings {
   static const feesNotPaid = 'Fees not Paid';
   static const male = 'Male';
   static const weNeedToKnowSomeBasicInfoAboutYou =
-      'We need to know some basic information about you and your school to ensure adequate student of both school data and parent.';
+      'We need to know some basic information about you and your school to ensure accurate student and parent data for both schools.';
   static const nameOfSchool = 'Name of School';
   static const schoolAddress = 'School Address';
   static const schoolEmailAddress = 'School Email Address';
@@ -116,7 +116,7 @@ class AppStrings {
   static const hello = 'Hello';
   static const nb = 'N.B';
   static const beAdvisedToAddTheseSegments =
-      'N.B: Be advised to add these segments in this other for ease in management. Tap on set up done when you are done. You can export save data (csv file), for ease in documention.';
+      'N.B: Be advised to add these segments in this other for ease in management. Tap on set up done when you are done. You can export save data (csv file), for ease in documentation.';
   static const subscription = 'Subscription';
   static const selectASubscriptionPlan =
       'Select a subscription package to continue on.';

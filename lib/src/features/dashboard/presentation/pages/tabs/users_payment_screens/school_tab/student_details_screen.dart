@@ -2,6 +2,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/fees_payment/fees_payment_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/subjects/subjects_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/individual_student_assignment_screen.dart';
@@ -30,6 +31,7 @@ class StudentDetailsScreen extends StatelessWidget {
     final studentId = args['studentId'];
     final classId = args['classId'];
 
+    final teacher = context.read<AuthBloc>().state.user?.role;
     final scrollController = ScrollController();
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -206,47 +208,63 @@ class StudentDetailsScreen extends StatelessWidget {
                     leading: AppStrings.analysis,
                     onTap: () {},
                   ),
-                  AppSpacing.verticalSpaceMedium,
-                  StudentDetailsListTile(
-                    leading: AppStrings.feesPayment,
-                    onTap: () {
-                      context.read<FeesPaymentBloc>().add(
-                            FeesPaymentEvent.fetchFees(
-                              null,
-                              studentId.toString(),
-                            ),
-                          );
-                      Navigator.of(context).pushNamed(
-                        IndividualStudentPaymentScreen.routeName,
-                        arguments: {
-                          'studentName': studentName.toString(),
-                          'className': className.toString(),
-                          'schoolName': schoolName.toString(),
-                          'studentId': studentId.toString(),
-                        },
-                      );
-                    },
-                  ),
-                  AppSpacing.verticalSpaceMedium,
-                  StudentDetailsListTile(
-                    leading: AppStrings.paymentHistory,
-                    onTap: () {
-                      context.read<FeesPaymentBloc>().add(
-                            FeesPaymentEvent.fetchPaymentHistoryForStudent(
-                              studentId.toString(),
-                            ),
-                          );
-                      Navigator.of(context).pushNamed(
-                        IndividualStudentPaymentHistoryScreen.routeName,
-                        arguments: {
-                          'studentName': studentName.toString(),
-                          'className': className.toString(),
-                          'schoolName': schoolName.toString(),
-                          'studentId': studentId.toString(),
-                        },
-                      );
-                    },
-                  ),
+                  if (teacher!.contains('teacher'))
+                    const SizedBox.shrink()
+                  else
+                    AppSpacing.verticalSpaceMedium,
+                  if (teacher.contains('teacher'))
+                    const SizedBox.shrink()
+                  else
+                    StudentDetailsListTile(
+                      leading: AppStrings.feesPayment,
+                      onTap: () {
+                        context.read<FeesPaymentBloc>().add(
+                              FeesPaymentEvent.fetchFees(
+                                null,
+                                studentId.toString(),
+                              ),
+                            );
+                        Navigator.of(context).pushNamed(
+                          IndividualStudentPaymentScreen.routeName,
+                          arguments: {
+                            'studentName': studentName.toString(),
+                            'className': className.toString(),
+                            'schoolName': schoolName.toString(),
+                            'studentId': studentId.toString(),
+                          },
+                        );
+                      },
+                    ),
+                  if (teacher.contains('teacher'))
+                    const SizedBox(
+                      height: 0,
+                    )
+                  else
+                    AppSpacing.verticalSpaceMedium,
+                  if (teacher.contains('teacher'))
+                    const SizedBox(
+                      height: 0,
+                    )
+                  else
+                    StudentDetailsListTile(
+                      leading: AppStrings.paymentHistory,
+                      onTap: () {
+                        context.read<FeesPaymentBloc>().add(
+                              FeesPaymentEvent.fetchPaymentHistoryForStudent(
+                                studentId.toString(),
+                              ),
+                            );
+                        Navigator.of(context).pushNamed(
+                          IndividualStudentPaymentHistoryScreen.routeName,
+                          arguments: {
+                            'studentName': studentName.toString(),
+                            'className': className.toString(),
+                            'schoolName': schoolName.toString(),
+                            'studentId': studentId.toString(),
+                          },
+                        );
+                      },
+                    ),
                 ],
               ),
             ),

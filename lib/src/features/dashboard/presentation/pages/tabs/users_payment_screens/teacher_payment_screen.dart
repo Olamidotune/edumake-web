@@ -2,134 +2,237 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/add_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/custom_shimmer.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:formz/formz.dart';
 
 class TeacherPaymentScreen extends StatelessWidget {
   const TeacherPaymentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
+    final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
     final controller = TextEditingController();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppStrings.events,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 24.fontSize,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.blackColor,
-                  ),
-            ),
-            AppSpacing.horizontalSpaceSmall,
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(
-                  AddEventsScreen.routeName,
-                );
+    return BlocBuilder<EventsBloc, EventsState>(
+      builder: (context, state) {
+        if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+          return SizedBox(
+            height: 800,
+            child: ListView.builder(
+              controller: scrollController,
+              itemBuilder: (context, index) {
+                return const CustomShimmer();
               },
-              child: Row(
+              itemCount: 10,
+            ),
+          );
+        }
+        if (state.associatedEvents?.isEmpty ?? false) {
+          return const NoDataAvailable(
+            message: 'No Events Available',
+            height: 0,
+          );
+        }
+        return CustomRawScroller(
+          scrollController: scrollController,
+          child: RefreshIndicator(
+            backgroundColor: AppColors.secondaryColor,
+            color: AppColors.whiteColor,
+            key: refreshIndicatorKey,
+            onRefresh: () async {
+              context.read<EventsBloc>().add(
+                    const EventsEvent.fetchEvents(
+                      null,
+                    ),
+                  );
+
+              return;
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              controller: scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/plus1.svg',
-                    color: AppColors.primaryColor,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppStrings.events,
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              fontSize: 24.fontSize,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blackColor,
+                            ),
+                      ),
+                      AppSpacing.horizontalSpaceSmall,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true).pushNamed(
+                            AddEventsScreen.routeName,
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svg/plus1.svg',
+                              color: AppColors.primaryColor,
+                            ),
+                            AppSpacing.horizontalSpaceSmall,
+                            Text(
+                              AppStrings.addEvents,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 14.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryColor,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  AppSpacing.horizontalSpaceSmall,
+                  AppSpacing.verticalSpaceMedium,
+                  CustomSearchBar(
+                    textEditingController: controller,
+                    isActive: false,
+                    isHomePage: false,
+                    hintText: 'Search for events...',
+                    onSearch: () {},
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<EventsBloc>().add(
+                              const EventsEvent.fetchEvents(
+                                null,
+                              ),
+                            );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppSpacing.horizontalSpacing,
+                            vertical: AppSpacing.verticalValueSmall),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(23),
+                          ),
+                          color: AppColors.secondaryColor,
+                        ),
+                        child: Text(
+                          'Refresh',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontSize: 13.fontSize,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.whiteColor,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Events
+                  AppSpacing.verticalSpaceMedium,
                   Text(
-                    AppStrings.addEvents,
+                    AppStrings.upComingEvents,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 14.fontSize,
+                          fontSize: 16.fontSize,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.primaryColor,
+                          color: AppColors.blackColor,
                         ),
                   ),
+                  AppSpacing.verticalSpaceMedium,
+                  if (state.upComingEvent?.isEmpty ?? false)
+                    const NoDataAvailable(
+                        message:
+                            'No upcoming events at the moment. Please check back later.',
+                        height: 0)
+                  else
+                    ListView.separated(
+                      itemCount: state.upComingEvent?.length ?? 0,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final event = state.upComingEvent?[index];
+                        return GestureDetector(
+                          onTap: () {
+                            context.read<EventsBloc>().add(
+                                  EventsEvent.fetchEventsById(event?.id ?? ''),
+                                );
+                            Navigator.of(context, rootNavigator: true)
+                                .pushNamed(
+                              ClassEventDetailsScreen.routeName,
+                            );
+                          },
+                          child: SchoolMgtUpcomingEventsContainer(
+                            previousEvents: false,
+                            title: event?.title ?? '',
+                            date: formatLocalTime(event?.date),
+                            description: event?.details ?? '',
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return AppSpacing.verticalSpaceMedium;
+                      },
+                      physics: const NeverScrollableScrollPhysics(),
+                    ),
+                  AppSpacing.verticalSpaceMedium,
+                  Text(
+                    AppStrings.previousEvents,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 16.fontSize,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blackColor,
+                        ),
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  ///////////////////////////////////////////////
+                  if (state.previousEvent?.isEmpty ?? false)
+                    const NoDataAvailable(
+                      message: 'No Events Available',
+                      height: 0,
+                    )
+                  else
+                    ListView.separated(
+                      itemCount: state.previousEvent?.length ?? 0,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final event = state.previousEvent?[index];
+                        return SchoolMgtUpcomingEventsContainer(
+                          previousEvents: true,
+                          title: event?.title ?? '',
+                          date: formatLocalTime(event?.date),
+                          description: event?.details ?? '',
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return AppSpacing.verticalSpaceMedium;
+                      },
+                      physics: const NeverScrollableScrollPhysics(),
+                    ),
                 ],
               ),
             ),
-          ],
-        ),
-        AppSpacing.verticalSpaceMedium,
-        CustomSearchBar(
-          textEditingController: controller,
-          isActive: false,
-          isHomePage: false,
-          hintText: 'Search for events...',
-          onSearch: () {},
-        ),
-        // Events
-        AppSpacing.verticalSpaceMassive,
-        Text(
-          AppStrings.upComingEvents,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 16.fontSize,
-                fontWeight: FontWeight.w400,
-                color: AppColors.blackColor,
-              ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        ListView.separated(
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(
-                  ClassEventDetailsScreen.routeName,
-                  arguments: {
-                    'eventName': 'State Spelling Bee for JSS1',
-                  },
-                );
-              },
-              child: const SchoolMgtUpcomingEventsContainer(
-                previousEvents: false,
-                title: 'State Spelling Bee for JSS1',
-                date: '13, Feb 2023',
-                description:
-                    'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-              ),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return AppSpacing.verticalSpaceMedium;
-          },
-          itemCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Text(
-          AppStrings.previousEvents,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 16.fontSize,
-                fontWeight: FontWeight.w400,
-                color: AppColors.blackColor,
-              ),
-        ),
-        AppSpacing.verticalSpaceMedium,
-        ListView.separated(
-          itemBuilder: (context, index) {
-            return const SchoolMgtUpcomingEventsContainer(
-              previousEvents: true,
-              title: 'State Spelling Bee for JSS1',
-              date: '13, Feb 2023',
-              description:
-                  'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-            );
-          },
-          separatorBuilder: (context, index) {
-            return AppSpacing.verticalSpaceSmall;
-          },
-          itemCount: 4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
-      ],
+          ),
+        );
+      },
     );
   }
 }

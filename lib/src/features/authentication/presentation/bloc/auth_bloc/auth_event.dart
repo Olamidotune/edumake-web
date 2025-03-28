@@ -32,5 +32,11 @@ class AuthEvent with _$AuthEvent {
       _CreateNewPassword;
   const factory AuthEvent.createNewPasswordSuccessful(String password) =
       _CreateNewPasswordSuccessful;
+  const factory AuthEvent.changeTeachersPassword() = _ChangeTeachersPassword;
+  const factory AuthEvent.changeTeachersPasswordSuccessful(
+    SignupResponse signUpResponse,
+  ) = _ChangeTeachersPasswordSuccessful;
+  const factory AuthEvent.changeTeachersPasswordFailed(String? message) =
+      _ChangeTeachersPasswordFailed;
   const factory AuthEvent.init() = _Init;
 }

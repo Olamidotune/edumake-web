@@ -2,9 +2,10 @@ import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/kyc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/mobile_sign_in.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/web_sign_in.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/teachers_password_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/dashboard.dart';
 import 'package:edumake_frontend/src/shared/services/toast_service.dart';
@@ -77,7 +78,6 @@ class SignIn extends HookWidget {
     if (previous.signInStatus == FormzSubmissionStatus.inProgress &&
         current.signInStatus == FormzSubmissionStatus.success) {
       if (current.user?.hasOnboarded == false) {
-        // Use post-frame callback to ensure proper navigation
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _navigate(context);
           ToastService.toast(
@@ -113,13 +113,17 @@ class SignIn extends HookWidget {
 
   void _navigate(BuildContext context) async {
     final role = context.read<AuthBloc>().state.user?.role;
-    if (role == 'parent' || role == 'teacher') {
+    if (role == 'parent') {
       await Navigator.of(context).popAndPushNamed(
         KycScreen.routeName,
       );
-    } else {
+    } else if (role == 'school-admin') {
       await Navigator.of(context).popAndPushNamed(
         SchoolBasicInfoScreen.routeName,
+      );
+    } else {
+      await Navigator.of(context).popAndPushNamed(
+        TeachersPasswordScreen.routeName,
       );
     }
   }

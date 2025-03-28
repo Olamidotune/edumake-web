@@ -9,9 +9,11 @@ import 'package:flutter_svg/svg.dart';
 class SuccessfulDialog extends StatelessWidget {
   const SuccessfulDialog({
     required this.text,
+    required this.isDesktop,
     super.key,
   });
   final String text;
+  final bool isDesktop;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class SuccessfulDialog extends StatelessWidget {
           Text(
             'Successful',
             style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                  fontSize: 24.fontSize,
+                  fontSize: isDesktop ? 32 : 24.fontSize,
                   fontWeight: FontWeight.w300,
                 ),
           ),
@@ -33,12 +35,14 @@ class SuccessfulDialog extends StatelessWidget {
             text,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   fontWeight: FontWeight.w300,
+                  fontSize: isDesktop ? 16 : 12.fontSize,
                 ),
           ),
         ],
       ),
       actions: [
         Button(
+          isWeb: isDesktop,
           text: 'Continue',
           onPressed: () {
             Navigator.of(context).pop();

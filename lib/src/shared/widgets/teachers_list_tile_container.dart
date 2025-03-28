@@ -7,11 +7,13 @@ class TeachersListTileContainer extends StatelessWidget {
   const TeachersListTileContainer({
     required this.teachers,
     required this.subjects,
+    required this.classes,
     super.key,
   });
 
   final String teachers;
   final String subjects;
+  final String classes;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,9 @@ class TeachersListTileContainer extends StatelessWidget {
         color: AppColors.primaryColor.withOpacity(0.1),
       ),
       child: ListTile(
-        leading: const CircleAvatar(
-          backgroundColor: AppColors.whiteColor,
-          child: Icon(
-            Icons.person,
-            color: AppColors.primaryColor,
-          ),
-        ),
+        leading: CircleAvatar(
+            backgroundColor: AppColors.whiteColor,
+            child: Image.asset('assets/png/teacher.png')),
         title: Text(
           teachers,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -51,7 +49,7 @@ class TeachersListTileContainer extends StatelessWidget {
             AppSpacing.horizontalSpaceSmall,
             Expanded(
               child: Text(
-                '[JSS1A,JSS1B,JSS1C,JSS2A,hsfugugdfudgu]',
+                classes,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: AppColors.goldColor,
                       fontWeight: FontWeight.w700,

@@ -19,6 +19,8 @@ class AuthState with _$AuthState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus otpStatus,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus resendOtpStatus,
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus changeTeacherPasswordStatus,
     @Default(ForgotPasswordFormz.pure()) ForgotPasswordFormz forgotPassword,
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus createNewPasswordStatus,

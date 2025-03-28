@@ -53,6 +53,9 @@ class _SchoolDashBoardState extends State<SchoolDashBoard> {
     context
         .read<FeesPaymentBloc>()
         .add(const FeesPaymentEvent.fetchFees(null, ''));
+    context
+        .read<GetSchoolDataBloc>()
+        .add(const GetSchoolDataEvent.fetchTeachers());
   }
 
   @override

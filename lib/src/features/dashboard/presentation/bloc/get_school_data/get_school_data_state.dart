@@ -26,6 +26,10 @@ class GetSchoolDataState with _$GetSchoolDataState {
     @Default(FormzSubmissionStatus.initial)
     FormzSubmissionStatus fetchStudentsStatus,
     //////////////////////////////////////////////
+    @Default(FormzSubmissionStatus.initial)
+    FormzSubmissionStatus fetchTeachersForSchoolStatus,
+    GetTeachersForSchool? getTeachersForSchool,
+    List<GetTeachersForSchoolDatum>? getTeacherDatum,
   }) = _GetSchoolDataState;
 
   const GetSchoolDataState._();

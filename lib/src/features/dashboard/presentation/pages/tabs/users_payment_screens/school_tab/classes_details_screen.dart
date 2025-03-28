@@ -45,6 +45,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
     final classId = args['classId'];
     final scrollController = ScrollController();
 
+    final teacher = context.read<AuthBloc>().state.user?.role;
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SafeArea(
@@ -212,30 +213,37 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
                           );
                         },
                       ),
-                      AppSpacing.verticalSpaceMedium,
-                      ClassesListTileContainer(
-                        isProfilePictureEnabled: false,
-                        title: AppStrings.payments,
-                        onTap: () {
-                          context
-                              .read<FeesPaymentBloc>()
-                              .add(const FeesPaymentEvent.fetchFees(null, ''));
-                          Navigator.of(context).pushNamed(
-                            ClassPaymentScreen.routeName,
-                            arguments: {
-                              'classId': classId,
-                              'className': className,
-                              'schoolName': context
-                                      .read<AuthBloc>()
-                                      .state
-                                      .user
-                                      ?.school
-                                      ?.schoolName ??
-                                  '',
-                            },
-                          );
-                        },
-                      ),
+                      if (teacher!.contains('teacher'))
+                        const SizedBox(
+                          height: 0,
+                        )
+                      else
+                        AppSpacing.verticalSpaceMedium,
+                      if (teacher.contains('teacher'))
+                        const SizedBox.shrink()
+                      else
+                        ClassesListTileContainer(
+                          isProfilePictureEnabled: false,
+                          title: AppStrings.payments,
+                          onTap: () {
+                            context.read<FeesPaymentBloc>().add(
+                                const FeesPaymentEvent.fetchFees(null, ''));
+                            Navigator.of(context).pushNamed(
+                              ClassPaymentScreen.routeName,
+                              arguments: {
+                                'classId': classId,
+                                'className': className,
+                                'schoolName': context
+                                        .read<AuthBloc>()
+                                        .state
+                                        .user
+                                        ?.school
+                                        ?.schoolName ??
+                                    '',
+                              },
+                            );
+                          },
+                        ),
                       AppSpacing.verticalSpaceMedium,
                       ClassesListTileContainer(
                         title: AppStrings.lectureTimeTable,

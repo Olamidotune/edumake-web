@@ -16,6 +16,7 @@ class SchoolDropDownFormWidget extends StatelessWidget {
 
   // Define the items as a static list for reusability
   static const List<Map<String, String>> _dropdownItems = [
+    {'value': '1-4', 'label': '1-4'},
     {'value': '5-20', 'label': '5-20'},
     {'value': '21-50', 'label': '21-50'},
     {'value': '51-100', 'label': '51-100'},

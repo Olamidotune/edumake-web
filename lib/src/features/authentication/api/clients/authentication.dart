@@ -29,6 +29,15 @@ abstract class AuthenticationClient {
     @Field('password') String password,
   );
 
+  @POST('api/v1/auth/teacher')
+  @FormUrlEncoded()
+  Future<SignupResponse> changeTeacherPassword(
+    @Header('Authorization') String authorization,
+    @Field('password') String password,
+    @Field('fcmToken') String fcmToken,
+    @Field('deviceId') String deviceId,
+  );
+
   @POST('/api/v1/auth/verify')
   @FormUrlEncoded()
   Future<VerifyOtpModel> verifyOTP(

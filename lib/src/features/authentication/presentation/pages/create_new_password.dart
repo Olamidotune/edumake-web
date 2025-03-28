@@ -187,6 +187,7 @@ class CreateNewPassword extends HookWidget {
       context: context,
       builder: (context) {
         return const SuccessfulDialog(
+          isDesktop: false,
           text: AppStrings.createNewPasswordSuccessMessage,
         );
       },

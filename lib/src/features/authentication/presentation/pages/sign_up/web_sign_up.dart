@@ -1,27 +1,24 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
-import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/forgot_password.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/privacy_policy.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_settings_screens/privacy_and_terms/terms_and_conditions.dart';
-import 'package:edumake_frontend/src/features/onboarding/presentation/pages/onboarding_screen.dart';
-import 'package:edumake_frontend/src/shared/dialogs/web_forgot_password_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/small_social_button.dart';
 import 'package:edumake_frontend/src/shared/widgets/webx/web_custom_text_form_field.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 
-class SignInScreenWebView extends StatelessWidget {
-  const SignInScreenWebView(
+class SignUpScreenWebView extends StatelessWidget {
+  const SignUpScreenWebView(
       this.formKey,
       this.emailController,
       this.emailNode,
@@ -29,6 +26,10 @@ class SignInScreenWebView extends StatelessWidget {
       this.passwordNode,
       this.obscurePassword,
       this.state,
+      this.confirmPasswordController,
+      this.confirmPasswordNode,
+      this.obscureConfirmPassword,
+      this.checkedPrivacyPolicy,
       {super.key});
 
   final GlobalKey<FormState> formKey;
@@ -36,13 +37,16 @@ class SignInScreenWebView extends StatelessWidget {
   final FocusNode emailNode;
   final TextEditingController passwordController;
   final FocusNode passwordNode;
+  final TextEditingController confirmPasswordController;
+  final FocusNode confirmPasswordNode;
   final ValueNotifier<bool> obscurePassword;
+  final ValueNotifier<bool> obscureConfirmPassword;
+  final ValueNotifier<bool> checkedPrivacyPolicy;
 
   final AuthState state;
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Row(
       children: [
         Expanded(
@@ -86,7 +90,7 @@ class SignInScreenWebView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    AppStrings.welcomeBack,
+                    'Sign up to\nEdu-Make',
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         fontSize: 56,
                         fontWeight: FontWeight.w300,
@@ -110,15 +114,11 @@ class SignInScreenWebView extends StatelessWidget {
                     hintText: 'Enter your preferred email address',
                     keyboardType: TextInputType.emailAddress,
                     prefixIcon: 'email',
-                    onChanged: (value) {
-                      context.read<AuthBloc>().add(
-                            AuthEvent.emailChanged(value),
-                          );
-                    },
+                    onChanged: (value) => context.read<AuthBloc>().add(
+                          AuthEvent.emailChanged(value),
+                        ),
                     validator: (value) {
-                      if (EmailValidator.validate(
-                        value?.trim() ?? '',
-                      )) {
+                      if (EmailValidator.validate(value?.trim() ?? '')) {
                         return null;
                       }
                       return 'Please enter a valid email address';
@@ -126,7 +126,7 @@ class SignInScreenWebView extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   WebCustomTextFormField(
-                    textInputAction: TextInputAction.go,
+                    textInputAction: TextInputAction.next,
                     controller: passwordController,
                     focusNode: passwordNode,
                     title: 'Password',
@@ -135,21 +135,81 @@ class SignInScreenWebView extends StatelessWidget {
                     prefixIcon: 'password',
                     obscureText: obscurePassword.value,
                     isPassword: true,
-                    onChanged: (value) {
-                      context.read<AuthBloc>().add(
-                            AuthEvent.passwordChanged(value),
-                          );
+                    onChanged: (value) => context.read<AuthBloc>().add(
+                          AuthEvent.passwordChanged(value),
+                        ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field cannot be empty';
+                      }
+                      const pattern =
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      if (!RegExp(pattern).hasMatch(value)) {
+                        return 'Password must contain:\n'
+                            '• At least 8 characters\n'
+                            '• 1 uppercase letter\n'
+                            '• 1 lowercase letter\n'
+                            '• 1 number\n'
+                            r'• 1 special character (!@#$&*~)';
+                      }
+                      if (value != confirmPasswordController.value.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
                     },
+                    onSuffixIconPressed: () =>
+                        obscurePassword.value = !obscurePassword.value,
+                  ),
+                  AppSpacing.verticalSpaceMedium,
+                  WebCustomTextFormField(
+                    textInputAction: TextInputAction.go,
+                    controller: confirmPasswordController,
+                    focusNode: confirmPasswordNode,
+                    title: 'Confirm Password',
+                    hintText: 'Input your preferred password',
+                    keyboardType: TextInputType.text,
+                    prefixIcon: 'password',
+                    obscureText: obscureConfirmPassword.value,
+                    isPassword: true,
+                    onChanged: (value) => context.read<AuthBloc>().add(
+                          AuthEvent.onConfirmPasswordChanged(value),
+                        ),
                     onFieldSubmitted: () {
+                      logInfo('Form submitted');
                       if (formKey.currentState!.validate()) {
+                        if (!checkedPrivacyPolicy.value) {
+                          ToastService.toast(
+                            'Please accept the privacy policy and terms of service',
+                            ToastType.info,
+                          );
+                          return;
+                        }
                         context.read<AuthBloc>().add(
-                              const AuthEvent.signIn(),
+                              const AuthEvent.signUp(),
                             );
                       }
                     },
-                    // validator: validatePassword,
-                    onSuffixIconPressed: () =>
-                        obscurePassword.value = !obscurePassword.value,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Field cannot be empty';
+                      }
+                      const pattern =
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                      if (!RegExp(pattern).hasMatch(value)) {
+                        return 'Password must contain:\n'
+                            '• At least 8 characters\n'
+                            '• 1 uppercase letter\n'
+                            '• 1 lowercase letter\n'
+                            '• 1 number\n'
+                            r'• 1 special character (!@#$&*~)';
+                      }
+                      if (value != passwordController.value.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                    onSuffixIconPressed: () => obscureConfirmPassword.value =
+                        !obscureConfirmPassword.value,
                   ),
                   AppSpacing.verticalSpaceMedium,
                   Center(
@@ -220,7 +280,7 @@ class SignInScreenWebView extends StatelessWidget {
                                       .bodyMedium!
                                       .copyWith(
                                         fontFamily: 'HelveticaNeueRounded',
-                                        fontSize: 12,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: AppColors.primaryColor,
                                       ),
@@ -246,43 +306,9 @@ class SignInScreenWebView extends StatelessWidget {
                   ),
                   AppSpacing.verticalSpaceHuge,
                   AppSpacing.verticalSpaceHuge,
-                  Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Forgot password? ',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.primaryTextColor,
-                            ),
-                        children: [
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                isDesktop && kIsWeb
-                                    ? _showWebForgotPasswordDialog(context)
-                                    : Navigator.of(context).pushNamed(
-                                        ForgotPasswordScreen.routeName,
-                                      );
-                              },
-                            text: 'Recover Password',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontFamily: 'HelveticaNeueRounded',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.primaryColor,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  AppSpacing.verticalSpaceHuge,
                   Button(
                     isWeb: true,
-                    text: 'Sign In',
+                    text: 'Sign Up',
                     busy:
                         state.signInStatus == FormzSubmissionStatus.inProgress,
                     onPressed: () {
@@ -297,7 +323,7 @@ class SignInScreenWebView extends StatelessWidget {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        text: "Don't have an account with us? ",
+                        text: '${AppStrings.alreadyHaveAnAccountWithUs} ',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontFamily: 'HelveticaNeueRounded',
                               fontSize: 16,
@@ -308,12 +334,10 @@ class SignInScreenWebView extends StatelessWidget {
                           TextSpan(
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.pushNamed(
-                                  context,
-                                  OnboardingScreenTwo.routeName,
-                                );
+                                Navigator.of(context)
+                                    .pushNamed(SignIn.routeName);
                               },
-                            text: 'Sign up',
+                            text: 'Sign In',
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontFamily: 'HelveticaNeueRounded',
@@ -376,15 +400,6 @@ class SignInScreenWebView extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  void _showWebForgotPasswordDialog(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      builder: (context) {
-        return const WebForgotPasswordDialog();
-      },
     );
   }
 }

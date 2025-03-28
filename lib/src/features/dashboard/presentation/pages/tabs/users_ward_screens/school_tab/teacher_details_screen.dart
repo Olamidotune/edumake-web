@@ -19,6 +19,7 @@ class TeacherDetailsScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments! as Map<String, dynamic>;
     final teacher = args['teacher'];
     final subject = args['subject'];
+    final email = args['email'];
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -49,14 +50,10 @@ class TeacherDetailsScreen extends StatelessWidget {
                   AppSpacing.verticalSpaceLarge,
                   Center(
                     child: CircleAvatar(
-                      radius: 60,
-                      backgroundColor: AppColors.primaryColor.withOpacity(0.1),
-                      child: Icon(
-                        Icons.person,
-                        color: AppColors.primaryColor,
-                        size: 60.fontSize,
-                      ),
-                    ),
+                        radius: 80,
+                        backgroundColor:
+                            AppColors.primaryColor.withOpacity(0.1),
+                        child: Image.asset('assets/png/teacher.png')),
                   ),
                   AppSpacing.verticalSpaceMedium,
                   Center(
@@ -70,10 +67,9 @@ class TeacherDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  //Change this subject to the teacher email
                   Center(
                     child: Text(
-                      subject.toString(),
+                      email.toString(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 16.fontSize,
                             color: AppColors.primaryTextColor,

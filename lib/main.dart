@@ -17,15 +17,16 @@ import 'package:edumake_frontend/src/features/authentication/presentation/pages/
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_subjects.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_teachers.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/test_values.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/basic_info/basic_info.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_details_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/connection_request_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/connection_requests/reject_connection_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/school_sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/testing/granted_permission.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_up/sign_up.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/subscription.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/teachers_password_screen.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_account.dart';
 import 'package:edumake_frontend/src/features/authentication/presentation/pages/verify_forgot_password.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/curriculum/curriculum_bloc.dart';
@@ -367,6 +368,8 @@ class MyApp extends StatelessWidget {
                       const TermsAndConditions(),
                   FeePaymentScreen.routeName: (context) =>
                       const FeePaymentScreen(),
+                  TeachersPasswordScreen.routeName: (context) =>
+                      const TeachersPasswordScreen(),
                   FeesDetailsScreen.routeName: (context) =>
                       const FeesDetailsScreen(),
                   ClassPaymentScreen.routeName: (context) =>

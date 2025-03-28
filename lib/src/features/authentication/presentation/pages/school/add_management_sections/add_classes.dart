@@ -13,14 +13,12 @@ import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:formz/formz.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -369,17 +367,6 @@ class _AddClassesScreenState extends State<AddClassesScreen> {
     });
 
     ToastService.toast('CSV file selected successfully');
-  }
-
-  Future<bool> _requestPermissions() async {
-    if (!kIsWeb) {
-      if (Platform.isAndroid) {
-        final status = await Permission.storage.request();
-        return status.isGranted;
-      }
-      return true; // No permissions needed for iOS
-    }
-    return true;
   }
 
   // Share the CSV file (optional)

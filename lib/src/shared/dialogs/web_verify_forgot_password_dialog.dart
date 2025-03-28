@@ -1,0 +1,254 @@
+import 'dart:async';
+
+import 'package:edumake_frontend/src/core/constants/app_colors.dart';
+import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:edumake_frontend/src/shared/dialogs/create_new_password_dialog.dart';
+import 'package:edumake_frontend/src/shared/services/logging_helper.dart';
+import 'package:edumake_frontend/src/shared/services/toast_service.dart';
+import 'package:edumake_frontend/src/shared/widgets/button.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
+class WebVerifyForgotPasswordDialog extends StatefulWidget {
+  const WebVerifyForgotPasswordDialog({super.key});
+
+  @override
+  State<WebVerifyForgotPasswordDialog> createState() =>
+      _WebVerifyOtpDialogState();
+}
+
+class _WebVerifyOtpDialogState extends State<WebVerifyForgotPasswordDialog> {
+  Timer? _timer;
+
+  int _remainingTime = 300; // 5 minutes (300 seconds)
+
+  final TextEditingController _otpController = TextEditingController();
+
+  @override
+  void initState() {
+    _startCountdown();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: AppSpacing.horizontalSpacingSmall,
+            vertical: AppSpacing.verticalValueMedium),
+        child: BlocBuilder<AuthBloc, AuthState>(
+          buildWhen: (previous, current) {
+            return _authBlocBuildWhen(context, previous, current);
+          },
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Verify your\nEmail Account',
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w300,
+                      ),
+                ),
+                AppSpacing.verticalSpaceSmall,
+                Text(
+                  'A set of numbers was sent to your mail, we need you to input them here.\nThis is for security measures and will take just few minutes.',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
+                  textAlign: TextAlign.justify,
+                ),
+                AppSpacing.verticalSpaceLarge,
+                Text(
+                  'Enter code',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
+                ),
+                AppSpacing.verticalSpaceSmall,
+                PinCodeTextField(
+                  appContext: context,
+                  length: 6,
+                  controller: _otpController,
+                  dialogConfig: DialogConfig(
+                    dialogTitle: 'Enter OTP',
+                    dialogContent: 'Enter the code sent to your email',
+                  ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+                  ],
+                  animationType: AnimationType.fade,
+                  onChanged: (code) =>
+                      context.read<AuthBloc>().add(AuthEvent.otpChanged(code)),
+                  onCompleted: (code) =>
+                      context.read<AuthBloc>().add(AuthEvent.verifyOtp(code)),
+                  pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.box,
+                    borderRadius: BorderRadius.circular(10),
+                    fieldHeight: 70,
+                    fieldWidth: 65,
+                    activeFillColor: AppColors.primaryColor.withOpacity(0.1),
+                    inactiveFillColor: AppColors.greyColor.withOpacity(0.1),
+                    selectedFillColor: AppColors.primaryColor.withOpacity(0.1),
+                    activeColor: AppColors.primaryColor,
+                    inactiveColor: AppColors.greyColor,
+                    selectedColor: AppColors.primaryColor,
+                  ),
+                ),
+                if (!state.otp.isPure && state.otp.isNotValid)
+                  Text(
+                    'Invalid OTP',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.red,
+                          height: 1.5,
+                        ),
+                  ),
+                AppSpacing.verticalSpaceSmall,
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Code expires in ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                          ),
+                      children: [
+                        TextSpan(
+                          text:
+                              '${_remainingTime ~/ 60}:${(_remainingTime % 60).toString().padLeft(2, '0')}',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.redColor,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: "Didn't receive code? ",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontFamily: 'HelveticaNeueRounded',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                          ),
+                      children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = _showRemainingTimeToast,
+                          text: 'Resend',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primaryColor,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 300),
+                Button(
+                  isWeb: true,
+                  text: 'Verify',
+                  busy: state.otpStatus == FormzSubmissionStatus.inProgress,
+                  onPressed: () => context.read<AuthBloc>().add(
+                        AuthEvent.verifyOtp(_otpController.text),
+                      ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  bool _authBlocBuildWhen(
+    BuildContext context,
+    AuthState previous,
+    AuthState current,
+  ) {
+    if (previous.otpStatus == FormzSubmissionStatus.inProgress &&
+        current.otpStatus == FormzSubmissionStatus.success) {
+      ToastService.toast('Email confirmed successfully.');
+      _showCreatePasswordDialog(context);
+      return false;
+    } else if (previous.errorMessage != current.errorMessage &&
+        current.errorMessage != null) {
+      ToastService.toast(
+        current.errorMessage ?? 'An error occurred',
+        ToastType.error,
+      );
+      context.read<AuthBloc>().add(const AuthEvent.errorMessage(null));
+      return false;
+    }
+    return true;
+  }
+
+  void _showRemainingTimeToast() {
+    if (_remainingTime > 0 && _remainingTime < 120) {
+      ToastService.toast(
+        'Try again in ${_remainingTime ~/ 60}:${(_remainingTime % 60).toString().padLeft(2, '0')} mins',
+      );
+    } else if (_remainingTime == 0) {
+      _remainingTime = 120;
+      context.read<AuthBloc>().add(const AuthEvent.resendOtp());
+      _startCountdown();
+      ToastService.toast('Verification Code Re-Sent!');
+      logInfo('Resend OTP');
+    }
+  }
+
+  // This function starts the countdown
+  void _startCountdown() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_remainingTime > 0) {
+          _remainingTime--;
+        } else {
+          _timer!.cancel();
+        }
+      });
+    });
+  }
+
+  void _showCreatePasswordDialog(BuildContext context) async {
+    await showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return const CreateNewPasswordDialog();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+}

@@ -56,7 +56,7 @@ class _WardScreenState extends State<WardScreen> {
     if (role == 'parent') {
       return const ParentWardScreen();
     } else if (role == 'teacher') {
-      return const TeacherClassesScreen();
+      return const ClassScreen();
     } else {
       return const SchoolTeacherScreen();
     }

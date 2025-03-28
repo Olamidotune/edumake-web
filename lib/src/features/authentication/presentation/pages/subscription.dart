@@ -4,7 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
-import 'package:edumake_frontend/src/features/authentication/presentation/pages/school/add_management_sections/add_management_segments.dart';
+import 'package:edumake_frontend/src/features/authentication/presentation/pages/sign_in/sign_in.dart';
 import 'package:edumake_frontend/src/shared/widgets/button.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,7 @@ class _SchoolSubscriptionScreenState extends State<SchoolSubscriptionScreen>
                       AppStrings.subscription,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 32.fontSize,
+                            fontSize: 40,
                             fontWeight: FontWeight.w300,
                             color: AppColors.primaryColor,
                           ),
@@ -70,7 +70,7 @@ class _SchoolSubscriptionScreenState extends State<SchoolSubscriptionScreen>
                       AppStrings.selectASubscriptionPlan,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 12.fontSize,
+                            fontSize: 20,
                             fontWeight: FontWeight.w300,
                             color: AppColors.primaryTextColor,
                           ),
@@ -343,7 +343,7 @@ class SubscriptionContainer extends StatelessWidget {
                   plan,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: textColor,
-                        fontSize: 12.fontSize,
+                        fontSize: 19,
                       ),
                 ),
                 AppSpacing.verticalSpaceMassive,
@@ -352,7 +352,7 @@ class SubscriptionContainer extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 12.fontSize,
+                        fontSize: 16,
                       ),
                 ),
               ],
@@ -416,10 +416,11 @@ class PackageDetails extends StatelessWidget {
             ),
             AppSpacing.verticalSpaceLarge,
             Button(
+              isWeb: true,
               text: 'Subscribe for $index',
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  AddManagementSegmentsScreen.routeName,
+                  SignIn.routeName,
                   (route) => true,
                 );
               },
