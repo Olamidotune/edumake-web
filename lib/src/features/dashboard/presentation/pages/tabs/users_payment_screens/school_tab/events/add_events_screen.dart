@@ -54,7 +54,6 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
   bool _isUploading = false;
 
   File? _selectedImage;
-  Uint8List? _selectedImageBytes;
 
   @override
   void initState() {
@@ -315,9 +314,7 @@ class _AddEventsScreenState extends State<AddEventsScreen> {
       );
 
       if (result != null && result.files.first.bytes != null) {
-        setState(() {
-          _selectedImageBytes = result.files.first.bytes;
-        });
+        setState(() {});
 
         ToastService.toast(
           'Image Selected Successfully',

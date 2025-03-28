@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
         PageRouteBuilder<void>(
           pageBuilder: (context, animation, secondaryAnimation) {
             return hasAuthenticatedBefore
-                ? const OnboardingScreen()
+                ? const SignIn()
                 : const OnboardingScreen();
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
