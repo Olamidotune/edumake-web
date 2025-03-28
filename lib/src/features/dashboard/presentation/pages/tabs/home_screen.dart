@@ -74,11 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .read<SearchBloc>()
                                 .add(const SearchEvent.fetchResult());
                           },
-                          onTapOutside: (event) {
-                            context
-                                .read<SearchBloc>()
-                                .add(const SearchEvent.cancel());
-                          },
+                          trailing: [
+                            if (_controller.value.text.isNotEmpty)
+                              IconButton(
+                                onPressed: () {
+                                  if (_controller.value.text.isNotEmpty) {
+                                    _controller.clear();
+                                  }
+                                  context
+                                      .read<SearchBloc>()
+                                      .add(const SearchEvent.cancel());
+                                },
+                                icon: const Icon(Icons.close),
+                              ),
+                          ],
                           onSubmitted: (_) {
                             context
                                 .read<SearchBloc>()
@@ -168,6 +177,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: AppSpacing.horizontalSpacing),
                                 child: SearchBar(
+                                  trailing: [
+                                    if (_controller.value.text.isNotEmpty)
+                                      IconButton(
+                                        onPressed: () {
+                                          if (_controller
+                                              .value.text.isNotEmpty) {
+                                            _controller.clear();
+                                          }
+                                          context
+                                              .read<SearchBloc>()
+                                              .add(const SearchEvent.cancel());
+                                        },
+                                        icon: const Icon(Icons.close),
+                                      ),
+                                  ],
                                   backgroundColor: WidgetStateProperty.all(
                                     AppColors.shadowColor,
                                   ),
@@ -189,11 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context
                                         .read<SearchBloc>()
                                         .add(const SearchEvent.fetchResult());
-                                  },
-                                  onTapOutside: (event) {
-                                    context
-                                        .read<SearchBloc>()
-                                        .add(const SearchEvent.cancel());
                                   },
                                   onSubmitted: (_) {
                                     context
