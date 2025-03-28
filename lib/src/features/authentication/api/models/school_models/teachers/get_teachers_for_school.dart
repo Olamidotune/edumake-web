@@ -68,4 +68,9 @@ class GetTeachersForSchoolDatum {
   @JsonKey(name: '__v')
   final int? v;
   Map<String, dynamic> toJson() => _$GetTeachersForSchoolDatumToJson(this);
+
+  String? get fullName {
+    final fullName = '$firstName $lastName';
+    return fullName == ' ' ? null : fullName;
+  }
 }

@@ -229,7 +229,3 @@ class _ClassScreenState extends State<ClassScreen> {
     }
   }
 }
-
-
-
-// TeacherClassesScreen

@@ -204,7 +204,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
   ) async {
     emit(
       state.copyWith(
-        fetchTeachersForSchool: FormzSubmissionStatus.inProgress,
+        fetchTeachersForSchoolStatus: FormzSubmissionStatus.inProgress,
       ),
     );
 
@@ -235,7 +235,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
   ) {
     emit(
       state.copyWith(
-        fetchTeachersForSchool: FormzSubmissionStatus.success,
+        fetchTeachersForSchoolStatus: FormzSubmissionStatus.success,
         getTeachersForSchool: event.getTeachers,
         getTeacherDatum: event.getTeachers.data,
       ),
@@ -248,7 +248,7 @@ class GetSchoolDataBloc extends Bloc<GetSchoolDataEvent, GetSchoolDataState> {
   ) {
     emit(
       state.copyWith(
-        fetchTeachersForSchool: FormzSubmissionStatus.failure,
+        fetchTeachersForSchoolStatus: FormzSubmissionStatus.failure,
         errorMessage: event.message ?? 'An error occurred',
       ),
     );
