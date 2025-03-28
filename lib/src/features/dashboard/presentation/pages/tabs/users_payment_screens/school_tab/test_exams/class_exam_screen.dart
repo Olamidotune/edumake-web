@@ -4,6 +4,7 @@ import 'package:edumake_frontend/src/core/constants/app_strings.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
 import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/test/test_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/test_exams/add_exam_results.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_raw_scroller.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_search_bar.dart';
@@ -97,9 +98,9 @@ class _ClassExamScreenState extends State<ClassExamScreen> {
                             ],
                           ),
                           onTap: () {
-                            // Navigator.of(context).pushNamed(
-                            //   AddExamResultsScreen.routeName,
-                            // );
+                            Navigator.of(context).pushNamed(
+                              AddExamResultsScreen.routeName,
+                            );
                           },
                         ),
                       ],

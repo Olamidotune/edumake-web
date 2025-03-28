@@ -1,17 +1,48 @@
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
 import 'package:edumake_frontend/src/core/constants/app_strings.dart';
+import 'package:edumake_frontend/src/core/constants/screen_sizes.dart';
 import 'package:edumake_frontend/src/core/extensions/num_extention.dart';
+import 'package:edumake_frontend/src/core/extensions/string_extension.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/events/events_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/bloc/get_school_data/get_school_data_bloc.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_event_details_screen.dart';
+import 'package:edumake_frontend/src/features/dashboard/presentation/pages/tabs/users_payment_screens/school_tab/events/classes_events_screen.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/recent_teachers_note.dart';
 import 'package:edumake_frontend/src/features/dashboard/presentation/widgets/school_mgt_upcoming_events_container.dart';
 import 'package:edumake_frontend/src/shared/widgets/custom_app_bar.dart';
+import 'package:edumake_frontend/src/shared/widgets/no_data_available.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:formz/formz.dart';
 
-class TeacherHomeScreen extends StatelessWidget {
+class TeacherHomeScreen extends StatefulWidget {
   const TeacherHomeScreen({super.key});
 
   @override
+  State<TeacherHomeScreen> createState() => _TeacherHomeScreenState();
+}
+
+class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<EventsBloc>().add(
+          const EventsEvent.fetchEvents(
+            null,
+          ),
+        );
+
+    context
+        .read<GetSchoolDataBloc>()
+        .add(const GetSchoolDataEvent.fetchPaginatedClasses());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isDesktop = ScreenUtil().screenWidth > kMedDesktopWidth;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,37 +97,75 @@ class TeacherHomeScreen extends StatelessWidget {
           ),
         ),
         AppSpacing.verticalSpaceMedium,
-        const SchoolMgtUpcomingEventsContainer(
-          previousEvents: false,
-          title: 'State Spelling Bee for SS2',
-          date: '13 Feb 2023',
-          description:
-              'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-          recipients: '${AppStrings.recipients}: ',
-          recipientsList: 'Kamala Harris, Donald Trump, Joe Biden',
-        ),
-        AppSpacing.verticalSpaceMedium,
-        const SchoolMgtUpcomingEventsContainer(
-          previousEvents: false,
-          title: 'State Spelling Bee for SS2',
-          date: '13 Feb 2023',
-          description:
-              'The State Spelling Bee for JSS1 (Junior Secondary School 1) is a competitive academic event designed to enhance vocabulary, spelling skills, and confidence among young students, while fostering a spirit of healthy competition, promoting academic excellence, and encouraging students to develop a lifelong love for language and learning. This prestigious event, often organized by educational bodies or governmental agencies, typically involves a series of elimination rounds starting from school-level competitions, advancing to regional, and culminating in the state finals. ',
-          recipients: '${AppStrings.recipients}: ',
-          recipientsList: 'Kamala Harris, Donald Trump, Joe Biden',
-        ),
-        AppSpacing.verticalSpaceMedium,
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Text(
-            AppStrings.seeAll,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+        ///////EVENTS/////////
+        BlocBuilder<EventsBloc, EventsState>(
+          builder: (context, state) {
+            if (state.fetchEventStatus == FormzSubmissionStatus.inProgress) {
+              return const Center(
+                child: SpinKitPulsingGrid(
                   color: AppColors.primaryColor,
-                  fontSize: 16.fontSize,
-                  fontWeight: FontWeight.w700,
+                  size: 30,
                 ),
+              );
+            }
+            if (state.upComingEvent?.isEmpty ?? false) {
+              return const NoDataAvailable(
+                message: 'No Events Available',
+                height: 0,
+              );
+            }
+            return ListView.separated(
+              itemCount: (state.upComingEvent?.length ?? 0) > 3
+                  ? 3
+                  : state.upComingEvent?.length ?? 0,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final event = state.upComingEvent?[index];
+                return GestureDetector(
+                  onTap: () {
+                    context.read<EventsBloc>().add(
+                          EventsEvent.fetchEventsById(event?.id ?? ''),
+                        );
+                    Navigator.of(context, rootNavigator: true).pushNamed(
+                      ClassEventDetailsScreen.routeName,
+                    );
+                  },
+                  child: SchoolMgtUpcomingEventsContainer(
+                    previousEvents: false,
+                    title: event?.title ?? '',
+                    date: formatLocalTime(event?.date),
+                    description: event?.details ?? '',
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return AppSpacing.verticalSpaceMedium;
+              },
+              physics: const NeverScrollableScrollPhysics(),
+            );
+          },
+        ),
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context, rootNavigator: true)
+                .pushNamed(ClassEventsScreen.routeName);
+          },
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              (context.read<EventsBloc>().state.upComingEvent?.isEmpty ?? true)
+                  ? ''
+                  : AppStrings.seeAll,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.primaryColor,
+                    fontSize: isDesktop ? 16 : 16.fontSize,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
           ),
         ),
+        AppSpacing.verticalSpaceMedium,
       ],
     );
   }

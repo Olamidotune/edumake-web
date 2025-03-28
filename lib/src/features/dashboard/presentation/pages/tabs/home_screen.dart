@@ -287,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 30.fontSize,
       );
     } else if (role == 'teacher') {
-      return const Icon(Icons.person);
+      return Image.asset('assets/png/teacher.png');
     } else {
       return SvgPicture.asset(
         'assets/svg/admin_icon.svg',
