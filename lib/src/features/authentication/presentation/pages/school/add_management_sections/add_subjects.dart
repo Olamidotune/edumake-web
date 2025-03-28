@@ -1,6 +1,5 @@
 // ignore_for_file: unused_local_variable, avoid_void_async, unused_element
 
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:edumake_frontend/src/core/constants/app_colors.dart';
 import 'package:edumake_frontend/src/core/constants/app_spacing.dart';
@@ -17,10 +16,7 @@ import 'package:edumake_frontend/src/shared/widgets/import_csv_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AddSubjectsScreen extends StatefulWidget {
@@ -88,9 +84,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSpacing.horizontalSpacing,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 100.width),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -98,7 +92,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                     'Add subjects',
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 24.fontSize,
+                          fontSize: 32,
                           fontWeight: FontWeight.w400,
                           color: AppColors.primaryTextColor,
                         ),
@@ -108,7 +102,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                     'Add subjects and the classes they are associated with.',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontFamily: 'HelveticaNeueRounded',
-                          fontSize: 12.fontSize,
+                          fontSize: 20,
                           fontWeight: FontWeight.w300,
                           color: AppColors.primaryTextColor,
                         ),
@@ -116,6 +110,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                   ),
                   AppSpacing.verticalSpaceMedium,
                   ImportCSVButton(
+                    isWeb: true,
                     onTap: _pickAndProcessCsv,
                     name: 'subject',
                   ),
@@ -125,7 +120,7 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                       text: 'Selected file name: ',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 10.fontSize,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.greyColor,
                           ),
@@ -133,13 +128,12 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                         TextSpan(
                           text:
                               _csvFile?.name.capitalize() ?? 'No file selected',
-                          // _csvFile?.path,
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
                               .copyWith(
                                 fontFamily: 'HelveticaNeueRounded',
-                                fontSize: 10.fontSize,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.primaryColor.withOpacity(0.7),
                               ),
@@ -148,83 +142,59 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
                     ),
                   ),
                   AppSpacing.verticalSpaceSmall,
-                  if (Platform.isAndroid)
-                    RichText(
-                      text: TextSpan(
-                        text: 'Sample CSV format: ',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontFamily: 'HelveticaNeueRounded',
-                            fontSize: 12.fontSize,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.primaryColor),
-                        children: [
-                          TextSpan(
-                            text: 'Use this file as a reference.',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryColor
-                                      .withValues(alpha: .7),
-                                ),
-                          ),
-                          TextSpan(
-                            text: ' Click here ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
+                  RichText(
+                    text: TextSpan(
+                      text: 'Sample CSV format: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'HelveticaNeueRounded',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryColor),
+                      children: [
+                        TextSpan(
+                          text: 'Use this file as a reference.',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontFamily: 'HelveticaNeueRounded',
-                                    fontSize: 12.fontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.blackColor),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () async {
-                                _launchCSVLink();
-                              },
-                          ),
-                          TextSpan(
-                            text:
-                                'to view Edumake CSV file.You can either edit this file or follow the file content format',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor
+                                        .withValues(alpha: .7),
+                                  ),
+                        ),
+                        TextSpan(
+                          text: ' Click here ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
                                   fontFamily: 'HelveticaNeueRounded',
-                                  fontSize: 12.fontSize,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryColor
-                                      .withValues(alpha: .7),
-                                ),
-                          ),
-                        ],
-                      ),
-                    )
-                  else
-                    GestureDetector(
-                      onTap: () async {
-                        final csvContent = await _loadCSV();
-                        await _downloadCSV(csvContent);
-
-                        ToastService.toast(
-                          'CSV template saved successfully as "classes_upload_csv_template.csv". Check your device storage',
-                        );
-                      },
-                      child: Text(
-                        'Click to download CSV example template',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'HelveticaNeueRounded',
-                              fontSize: 12.fontSize,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryColor,
-                            ),
-                      ),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.blackColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              _launchCSVLink();
+                            },
+                        ),
+                        TextSpan(
+                          text:
+                              'to view Edumake CSV file.You can either edit this file or follow the file content format',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    fontFamily: 'HelveticaNeueRounded',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primaryColor
+                                        .withValues(alpha: .7),
+                                  ),
+                        ),
+                      ],
                     ),
+                  ),
                   AppSpacing.verticalSpaceLarge,
                   Button(
+                    isWeb: true,
                     busy: _isUploading,
                     text: _isUploading ? 'Uploading...' : 'Save Subjects',
                     onPressed: _uploadFile,
@@ -309,47 +279,6 @@ class _AddSubjectsScreenState extends State<AddSubjectsScreen> {
         _isUploading = false;
       });
     }
-  }
-
-  Future<String> _loadCSV() async {
-    return rootBundle.loadString('assets/csv/subjects_upload_csv_template.csv');
-  }
-
-  Future<void> _downloadCSV(String csvContent) async {
-    Directory? directory;
-    try {
-      if (Platform.isAndroid) {
-        final status = await Permission.storage.request();
-        if (!status.isGranted) {
-          ToastService.toast(
-            'Storage permission is required to save files',
-            ToastType.error,
-          );
-          return;
-        }
-
-        await _requestPermissions();
-        directory = Directory('/storage/emulated/0/Download');
-      } else {
-        directory = await getApplicationDocumentsDirectory();
-      }
-      final file = File('${directory.path}/.csv');
-      await file.writeAsString(csvContent);
-    } catch (e) {
-      ToastService.toast(
-        'Something went wrong while downloading the file',
-        ToastType.error,
-      );
-    }
-  }
-
-  Future<bool> _requestPermissions() async {
-    if (Platform.isAndroid) {
-      // Request storage permissions
-      final status = await Permission.storage.request();
-      return status.isGranted;
-    }
-    return true; // No permissions needed for iOS
   }
 
   @override

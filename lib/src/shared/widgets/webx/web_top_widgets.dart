@@ -23,7 +23,7 @@ class WebTopWidgets extends StatelessWidget {
         AppSpacing.verticalSpaceMedium,
         Container(
           padding: EdgeInsets.all(AppSpacing.horizontalSpacingSmall),
-          height: 250,
+          height: 400,
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.primaryColor.withOpacity(0.1),

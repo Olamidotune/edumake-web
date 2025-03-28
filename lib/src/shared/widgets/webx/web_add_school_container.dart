@@ -22,8 +22,8 @@ class WebAddSchoolContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        width: 171, // Add width
-        height: 300, // Add height
+        width: 260, // Add width
+        height: 600, // Add height
         decoration: BoxDecoration(
           color: AppColors.whiteColor.withValues(alpha: .9),
           borderRadius: BorderRadius.circular(10),
