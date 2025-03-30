@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'ward_request_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GetWardRequestModel _$GetWardRequestModelFromJson(Map<String, dynamic> json) =>
+    GetWardRequestModel(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      statusCode: (json['statusCode'] as num).toInt(),
+      data: (json['data'] as List<dynamic>)
+          .map((e) => WardDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetWardRequestModelToJson(
+        GetWardRequestModel instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+      'data': instance.data,
+    };

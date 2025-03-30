@@ -1,0 +1,52 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fees_payment_datum.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FeesPaymentDatum _$FeesPaymentDatumFromJson(Map<String, dynamic> json) =>
+    FeesPaymentDatum(
+      title: json['title'] as String,
+      details: json['details'] as String,
+      totalAmount: (json['totalAmount'] as num).toInt(),
+      classes:
+          (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      school: json['school'] as String,
+      createdBy: json['createdBy'] as String,
+      feesBreakdown: (json['feesBreakdown'] as List<dynamic>)
+          .map((e) => BreakDown.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['status'] as String,
+      dueDate: DateTime.parse(json['dueDate'] as String),
+      term: json['term'] as String,
+      students: (json['students'] as List<dynamic>)
+          .map((e) => FeesPaymentStudent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isDeleted: json['isDeleted'] as bool,
+      id: json['_id'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FeesPaymentDatumToJson(FeesPaymentDatum instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'details': instance.details,
+      'totalAmount': instance.totalAmount,
+      'classes': instance.classes,
+      'school': instance.school,
+      'createdBy': instance.createdBy,
+      'feesBreakdown': instance.feesBreakdown,
+      'status': instance.status,
+      'dueDate': instance.dueDate.toIso8601String(),
+      'term': instance.term,
+      'students': instance.students,
+      'isDeleted': instance.isDeleted,
+      '_id': instance.id,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      '__v': instance.v,
+    };

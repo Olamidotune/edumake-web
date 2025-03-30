@@ -1,0 +1,39 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fetch_fees_student_id.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StudentId _$StudentIdFromJson(Map<String, dynamic> json) => StudentId(
+      id: json['_id'] as String?,
+      studentClass: json['class'] == null
+          ? null
+          : StudentIdClass.fromJson(json['class'] as Map<String, dynamic>),
+      name: json['name'] as String?,
+      school: json['school'] as String?,
+      guardians: (json['guardians'] as List<dynamic>?)
+          ?.map((e) => Guardian.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isDeleted: json['isDeleted'] as bool?,
+      v: (json['__v'] as num?)?.toInt(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$StudentIdToJson(StudentId instance) => <String, dynamic>{
+      '_id': instance.id,
+      'class': instance.studentClass,
+      'name': instance.name,
+      'school': instance.school,
+      'guardians': instance.guardians,
+      'isDeleted': instance.isDeleted,
+      '__v': instance.v,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };

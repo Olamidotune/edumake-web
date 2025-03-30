@@ -1,0 +1,20 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'subject.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Subject _$SubjectFromJson(Map<String, dynamic> json) => Subject(
+      classes:
+          (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      name: json['name'] as String,
+      note: json['note'] as String?,
+    );
+
+Map<String, dynamic> _$SubjectToJson(Subject instance) => <String, dynamic>{
+      'classes': instance.classes,
+      'name': instance.name,
+      'note': instance.note,
+    };

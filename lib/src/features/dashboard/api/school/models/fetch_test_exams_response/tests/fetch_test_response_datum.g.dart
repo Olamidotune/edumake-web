@@ -1,0 +1,46 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fetch_test_response_datum.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FetchTestResponseDatum _$FetchTestResponseDatumFromJson(
+        Map<String, dynamic> json) =>
+    FetchTestResponseDatum(
+      id: json['_id'] as String,
+      title: json['title'] as String,
+      testResponseSubject: FetchTestResponseSubject.fromJson(
+          json['subject'] as Map<String, dynamic>),
+      dateWritten: json['dateWritten'] as String,
+      classId: FetchTestResponseSubject.fromJson(
+          json['classId'] as Map<String, dynamic>),
+      testResponseSchool: json['school'] as String,
+      addedBy: json['addedBy'] as String,
+      testResponseGrades: (json['grades'] as List<dynamic>)
+          .map(
+              (e) => FetchTestResponseGrade.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isDeleted: json['isDeleted'] as bool,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FetchTestResponseDatumToJson(
+        FetchTestResponseDatum instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'title': instance.title,
+      'subject': instance.testResponseSubject,
+      'dateWritten': instance.dateWritten,
+      'classId': instance.classId,
+      'school': instance.testResponseSchool,
+      'addedBy': instance.addedBy,
+      'grades': instance.testResponseGrades,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      '__v': instance.v,
+    };

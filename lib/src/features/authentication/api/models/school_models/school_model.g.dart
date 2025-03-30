@@ -1,0 +1,40 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'school_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SchoolModel _$SchoolModelFromJson(Map<String, dynamic> json) => SchoolModel(
+      json['admin'] as String?,
+      json['schoolName'] as String?,
+      json['schoolAddress'] as String?,
+      json['schoolEmail'] as String?,
+      json['schoolType'] as String?,
+      json['classNumberRange'] as String?,
+      json['studentNumberRange'] as String?,
+      json['teacherNumberRange'] as String?,
+      json['_id'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$SchoolModelToJson(SchoolModel instance) =>
+    <String, dynamic>{
+      'admin': instance.admin,
+      'schoolName': instance.schoolName,
+      'schoolAddress': instance.schoolAddress,
+      'schoolEmail': instance.schoolEmail,
+      'schoolType': instance.schoolType,
+      'classNumberRange': instance.classNumberRange,
+      'studentNumberRange': instance.studentNumberRange,
+      'teacherNumberRange': instance.teacherNumberRange,
+      '_id': instance.schoolID,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };

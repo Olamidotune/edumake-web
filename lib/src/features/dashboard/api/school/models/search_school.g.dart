@@ -1,0 +1,19 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'search_school.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SchoolDetails _$SchoolDetailsFromJson(Map<String, dynamic> json) =>
+    SchoolDetails(
+      id: json['_id'] as String,
+      schoolName: json['schoolName'] as String,
+    );
+
+Map<String, dynamic> _$SchoolDetailsToJson(SchoolDetails instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'schoolName': instance.schoolName,
+    };

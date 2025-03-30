@@ -1,0 +1,38 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'test_result_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+TestResult _$TestResultFromJson(Map<String, dynamic> json) => TestResult(
+      title: json['title'] as String,
+      subject: json['subject'] as String,
+      dateWritten: json['dateWritten'] as String,
+      classId: json['classId'] as String,
+      school: json['school'] as String,
+      addedBy: json['addedBy'] as String,
+      grades: (json['grades'] as List<dynamic>)
+          .map((e) => TestGradeModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isDeleted: json['isDeleted'] as bool,
+      id: json['_id'] as String,
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
+    );
+
+Map<String, dynamic> _$TestResultToJson(TestResult instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'subject': instance.subject,
+      'dateWritten': instance.dateWritten,
+      'classId': instance.classId,
+      'school': instance.school,
+      'addedBy': instance.addedBy,
+      'grades': instance.grades,
+      'isDeleted': instance.isDeleted,
+      '_id': instance.id,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
+    };

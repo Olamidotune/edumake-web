@@ -1,0 +1,20 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'test_response_subject.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+TestResponseSubject _$TestResponseSubjectFromJson(Map<String, dynamic> json) =>
+    TestResponseSubject(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$TestResponseSubjectToJson(
+        TestResponseSubject instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+    };

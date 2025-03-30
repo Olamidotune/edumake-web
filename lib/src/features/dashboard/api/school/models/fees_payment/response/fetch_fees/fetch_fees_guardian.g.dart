@@ -1,0 +1,19 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fetch_fees_guardian.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Guardian _$GuardianFromJson(Map<String, dynamic> json) => Guardian(
+      guardianId: json['guardianId'] as String?,
+      relationship: json['relationship'] as String?,
+      id: json['_id'] as String?,
+    );
+
+Map<String, dynamic> _$GuardianToJson(Guardian instance) => <String, dynamic>{
+      'guardianId': instance.guardianId,
+      'relationship': instance.relationship,
+      '_id': instance.id,
+    };

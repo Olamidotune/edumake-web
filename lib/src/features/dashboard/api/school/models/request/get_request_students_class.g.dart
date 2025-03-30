@@ -1,0 +1,30 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'get_request_students_class.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StudentClass _$StudentClassFromJson(Map<String, dynamic> json) => StudentClass(
+      id: json['_id'] as String,
+      studentSchool: json['school'] as String,
+      className: json['name'] as String,
+      isDeleted: json['isDeleted'] as bool,
+      v: (json['__v'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      slug: json['slug'] as String?,
+    );
+
+Map<String, dynamic> _$StudentClassToJson(StudentClass instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'school': instance.studentSchool,
+      'name': instance.className,
+      'isDeleted': instance.isDeleted,
+      '__v': instance.v,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'slug': instance.slug,
+    };

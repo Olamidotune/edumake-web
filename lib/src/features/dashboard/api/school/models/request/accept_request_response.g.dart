@@ -1,0 +1,162 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'accept_request_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AcceptRequestResponse _$AcceptRequestResponseFromJson(
+        Map<String, dynamic> json) =>
+    AcceptRequestResponse(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      statusCode: (json['statusCode'] as num).toInt(),
+      data: AcceptRequestData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AcceptRequestResponseToJson(
+        AcceptRequestResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+      'data': instance.data,
+    };
+
+AcceptRequestData _$AcceptRequestDataFromJson(Map<String, dynamic> json) =>
+    AcceptRequestData(
+      parent:
+          AcceptRequestParent.fromJson(json['parent'] as Map<String, dynamic>),
+      id: json['_id'] as String,
+      student: AcceptRequestStudent.fromJson(
+          json['student'] as Map<String, dynamic>),
+      status: json['status'] as String,
+      school: json['school'] as String,
+      isDeleted: json['isDeleted'] as bool,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$AcceptRequestDataToJson(AcceptRequestData instance) =>
+    <String, dynamic>{
+      'parent': instance.parent,
+      '_id': instance.id,
+      'student': instance.student,
+      'status': instance.status,
+      'school': instance.school,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      '__v': instance.v,
+    };
+
+AcceptRequestParent _$AcceptRequestParentFromJson(Map<String, dynamic> json) =>
+    AcceptRequestParent(
+      id: Id.fromJson(json['_id'] as Map<String, dynamic>),
+      relationship: json['relationship'] as String,
+    );
+
+Map<String, dynamic> _$AcceptRequestParentToJson(
+        AcceptRequestParent instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'relationship': instance.relationship,
+    };
+
+Id _$IdFromJson(Map<String, dynamic> json) => Id(
+      id: json['_id'] as String,
+      email: json['email'] as String,
+      firstName: json['firstName'] as String,
+      idNumber: json['idNumber'] as String,
+      lastName: json['lastName'] as String,
+      phoneNumber: json['phoneNumber'] as String,
+    );
+
+Map<String, dynamic> _$IdToJson(Id instance) => <String, dynamic>{
+      '_id': instance.id,
+      'email': instance.email,
+      'firstName': instance.firstName,
+      'idNumber': instance.idNumber,
+      'lastName': instance.lastName,
+      'phoneNumber': instance.phoneNumber,
+    };
+
+AcceptRequestStudent _$AcceptRequestStudentFromJson(
+        Map<String, dynamic> json) =>
+    AcceptRequestStudent(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+      school: json['school'] as String,
+      isDeleted: json['isDeleted'] as bool,
+      v: (json['__v'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      studentClass: json['class'] == null
+          ? null
+          : AcceptRequestStudentClass.fromJson(
+              json['class'] as Map<String, dynamic>),
+      guardians: (json['guardians'] as List<dynamic>?)
+          ?.map(
+              (e) => AcceptRequestGuardian.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      slug: json['slug'] as String?,
+    );
+
+Map<String, dynamic> _$AcceptRequestStudentToJson(
+        AcceptRequestStudent instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'class': instance.studentClass,
+      'name': instance.name,
+      'school': instance.school,
+      'guardians': instance.guardians,
+      'isDeleted': instance.isDeleted,
+      '__v': instance.v,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'slug': instance.slug,
+    };
+
+AcceptRequestGuardian _$AcceptRequestGuardianFromJson(
+        Map<String, dynamic> json) =>
+    AcceptRequestGuardian(
+      guardianId: json['_id'] as String,
+      relationship: json['relationship'] as String,
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$AcceptRequestGuardianToJson(
+        AcceptRequestGuardian instance) =>
+    <String, dynamic>{
+      '_id': instance.guardianId,
+      'relationship': instance.relationship,
+      'id': instance.id,
+    };
+
+AcceptRequestStudentClass _$AcceptRequestStudentClassFromJson(
+        Map<String, dynamic> json) =>
+    AcceptRequestStudentClass(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+      slug: json['slug'] as String,
+      isDeleted: json['isDeleted'] as bool,
+      school: json['school'] as String,
+      v: (json['__v'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$AcceptRequestStudentClassToJson(
+        AcceptRequestStudentClass instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+      'slug': instance.slug,
+      'isDeleted': instance.isDeleted,
+      'school': instance.school,
+      '__v': instance.v,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+    };

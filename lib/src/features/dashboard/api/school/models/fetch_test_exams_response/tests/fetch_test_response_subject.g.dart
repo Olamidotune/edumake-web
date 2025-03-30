@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fetch_test_response_subject.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FetchTestResponseSubject _$FetchTestResponseSubjectFromJson(
+        Map<String, dynamic> json) =>
+    FetchTestResponseSubject(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$FetchTestResponseSubjectToJson(
+        FetchTestResponseSubject instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+    };

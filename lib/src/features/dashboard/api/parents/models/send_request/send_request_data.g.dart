@@ -1,0 +1,35 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'send_request_data.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SendRequestData _$SendRequestDataFromJson(Map<String, dynamic> json) =>
+    SendRequestData(
+      parent:
+          SendRequestParent.fromJson(json['parent'] as Map<String, dynamic>),
+      student: json['student'] as String,
+      status: json['status'] as String,
+      school:
+          SendRequestSchool.fromJson(json['school'] as Map<String, dynamic>),
+      isDeleted: json['isDeleted'] as bool,
+      id: json['_id'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$SendRequestDataToJson(SendRequestData instance) =>
+    <String, dynamic>{
+      'parent': instance.parent,
+      'student': instance.student,
+      'status': instance.status,
+      'school': instance.school,
+      'isDeleted': instance.isDeleted,
+      '_id': instance.id,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      '__v': instance.v,
+    };

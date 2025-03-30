@@ -1,0 +1,84 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'get_teachers_for_school.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GetTeachersForSchool _$GetTeachersForSchoolFromJson(
+        Map<String, dynamic> json) =>
+    GetTeachersForSchool(
+      success: json['success'] as bool?,
+      message: json['message'] as String?,
+      statusCode: (json['statusCode'] as num?)?.toInt(),
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) =>
+              GetTeachersForSchoolDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GetTeachersForSchoolToJson(
+        GetTeachersForSchool instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+      'data': instance.data,
+    };
+
+GetTeachersForSchoolDatum _$GetTeachersForSchoolDatumFromJson(
+        Map<String, dynamic> json) =>
+    GetTeachersForSchoolDatum(
+      id: json['id'] as String?,
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
+      role: json['role'] as String?,
+      isEmailVerified: json['isEmailVerified'] as bool?,
+      hasOnboarded: json['hasOnboarded'] as bool?,
+      classes:
+          (json['classes'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      subjects: (json['subjects'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      note: json['note'] as String?,
+      school: json['school'] as String?,
+      hasActiveSubscription: json['hasActiveSubscription'] as bool?,
+      isDeleted: json['isDeleted'] as bool?,
+      subscriptionStartDate: json['subscriptionStartDate'] == null
+          ? null
+          : DateTime.parse(json['subscriptionStartDate'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$GetTeachersForSchoolDatumToJson(
+        GetTeachersForSchoolDatum instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'email': instance.email,
+      'password': instance.password,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'role': instance.role,
+      'isEmailVerified': instance.isEmailVerified,
+      'hasOnboarded': instance.hasOnboarded,
+      'classes': instance.classes,
+      'subjects': instance.subjects,
+      'note': instance.note,
+      'school': instance.school,
+      'hasActiveSubscription': instance.hasActiveSubscription,
+      'isDeleted': instance.isDeleted,
+      'subscriptionStartDate':
+          instance.subscriptionStartDate?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      '__v': instance.v,
+    };

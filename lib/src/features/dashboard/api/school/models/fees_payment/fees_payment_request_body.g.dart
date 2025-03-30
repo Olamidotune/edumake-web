@@ -1,0 +1,33 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'fees_payment_request_body.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FeesPaymentRequestBody _$FeesPaymentRequestBodyFromJson(
+        Map<String, dynamic> json) =>
+    FeesPaymentRequestBody(
+      json['title'] as String,
+      json['details'] as String,
+      json['totalAmount'] as String,
+      (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['feesBreakdown'] as List<dynamic>)
+          .map((e) => FeesBreakdown.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['dueDate'] as String,
+      json['term'] as String,
+    );
+
+Map<String, dynamic> _$FeesPaymentRequestBodyToJson(
+        FeesPaymentRequestBody instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'details': instance.details,
+      'totalAmount': instance.totalAmount,
+      'classes': instance.classes,
+      'feesBreakdown': instance.feesBreakdown,
+      'dueDate': instance.dueDate,
+      'term': instance.term,
+    };

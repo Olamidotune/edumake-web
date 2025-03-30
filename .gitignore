@@ -40,9 +40,9 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-# Generated Files.
-*.g.dart
-*.freezed.dart
+# # Generated Files.
+# *.g.dart
+# *.freezed.dart
 
 # Android Studio will place build artifacts here
 /android/app/debug

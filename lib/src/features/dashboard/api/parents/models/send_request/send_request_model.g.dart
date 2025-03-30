@@ -1,0 +1,23 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'send_request_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SendRequestModel _$SendRequestModelFromJson(Map<String, dynamic> json) =>
+    SendRequestModel(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      statusCode: (json['statusCode'] as num).toInt(),
+      data: SendRequestData.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SendRequestModelToJson(SendRequestModel instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+      'data': instance.data,
+    };

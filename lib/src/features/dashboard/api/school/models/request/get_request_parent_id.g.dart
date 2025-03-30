@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'get_request_parent_id.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GetRequestParentId _$GetRequestParentIdFromJson(Map<String, dynamic> json) =>
+    GetRequestParentId(
+      id: json['_id'] as String,
+      parentEmail: json['email'] as String,
+      parentFirstName: json['firstName'] as String,
+      parentIdNumber: json['idNumber'] as String,
+      parentLastName: json['lastName'] as String,
+      parentPhoneNumber: json['phoneNumber'] as String,
+    );
+
+Map<String, dynamic> _$GetRequestParentIdToJson(GetRequestParentId instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'email': instance.parentEmail,
+      'firstName': instance.parentFirstName,
+      'idNumber': instance.parentIdNumber,
+      'lastName': instance.parentLastName,
+      'phoneNumber': instance.parentPhoneNumber,
+    };

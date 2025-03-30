@@ -1,0 +1,63 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'kyc_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+KycResponse _$KycResponseFromJson(Map<String, dynamic> json) => KycResponse(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      data: Data.fromJson(json['data'] as Map<String, dynamic>),
+      statusCode: (json['statusCode'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$KycResponseToJson(KycResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+      'statusCode': instance.statusCode,
+    };
+
+Data _$DataFromJson(Map<String, dynamic> json) => Data(
+      id: json['_id'] as String,
+      email: json['email'] as String,
+      role: json['role'] as String,
+      isEmailVerified: json['isEmailVerified'] as bool,
+      hasOnboarded: json['hasOnboarded'] as bool,
+      classes: json['classes'] as List<dynamic>,
+      subjects: json['subjects'] as List<dynamic>,
+      hasActiveSubscription: json['hasActiveSubscription'] as bool,
+      isDeleted: json['isDeleted'] as bool,
+      subscriptionStartDate:
+          DateTime.parse(json['subscriptionStartDate'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num).toInt(),
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+      idNumber: json['idNumber'] as String,
+      phoneNumber: json['phoneNumber'] as String,
+    );
+
+Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
+      '_id': instance.id,
+      'email': instance.email,
+      'role': instance.role,
+      'isEmailVerified': instance.isEmailVerified,
+      'hasOnboarded': instance.hasOnboarded,
+      'classes': instance.classes,
+      'subjects': instance.subjects,
+      'hasActiveSubscription': instance.hasActiveSubscription,
+      'isDeleted': instance.isDeleted,
+      'subscriptionStartDate': instance.subscriptionStartDate.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      '__v': instance.v,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'idNumber': instance.idNumber,
+      'phoneNumber': instance.phoneNumber,
+    };
