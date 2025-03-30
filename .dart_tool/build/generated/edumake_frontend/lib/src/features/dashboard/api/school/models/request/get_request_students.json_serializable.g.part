@@ -1,0 +1,31 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Student _$StudentFromJson(Map<String, dynamic> json) => Student(
+      id: json['_id'] as String,
+      studentClass:
+          StudentClass.fromJson(json['class'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      school: json['school'] as String,
+      guardians: (json['guardians'] as List<dynamic>)
+          .map((e) => Guardians.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isDeleted: json['isDeleted'] as bool,
+      v: (json['__v'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    )..slug = json['slug'] as String?;
+
+Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
+      '_id': instance.id,
+      'class': instance.studentClass,
+      'name': instance.name,
+      'school': instance.school,
+      'guardians': instance.guardians,
+      'isDeleted': instance.isDeleted,
+      '__v': instance.v,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'slug': instance.slug,
+    };

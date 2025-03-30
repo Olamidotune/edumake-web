@@ -1,0 +1,88 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FetchCurriculum _$FetchCurriculumFromJson(Map<String, dynamic> json) =>
+    FetchCurriculum(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => FetchCurriculumDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusCode: (json['statusCode'] as num).toInt(),
+      cursor: json['cursor'] as String?,
+    );
+
+Map<String, dynamic> _$FetchCurriculumToJson(FetchCurriculum instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+      'cursor': instance.cursor,
+      'statusCode': instance.statusCode,
+    };
+
+FetchCurriculumDatum _$FetchCurriculumDatumFromJson(
+        Map<String, dynamic> json) =>
+    FetchCurriculumDatum(
+      id: json['_id'] as String,
+      classes:
+          (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      school: json['school'] as String,
+      text: json['text'] as String,
+      createdBy: json['createdBy'] as String,
+      isDeleted: json['isDeleted'] as bool,
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String,
+      v: (json['__v'] as num).toInt(),
+      fetchCurriculumSubjectId: json['FetchCurriculumSubjectId'] == null
+          ? null
+          : FetchCurriculumSubjectId.fromJson(
+              json['FetchCurriculumSubjectId'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FetchCurriculumDatumToJson(
+        FetchCurriculumDatum instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'classes': instance.classes,
+      'FetchCurriculumSubjectId': instance.fetchCurriculumSubjectId,
+      'school': instance.school,
+      'text': instance.text,
+      'createdBy': instance.createdBy,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
+      '__v': instance.v,
+    };
+
+FetchCurriculumSubjectId _$FetchCurriculumSubjectIdFromJson(
+        Map<String, dynamic> json) =>
+    FetchCurriculumSubjectId(
+      id: json['_id'] as String,
+      classes:
+          (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      name: json['name'] as String,
+      slug: json['slug'] as String,
+      school: json['school'] as String,
+      note: json['note'] as String?,
+      isDeleted: json['isDeleted'] as bool,
+      v: (json['__v'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$FetchCurriculumSubjectIdToJson(
+        FetchCurriculumSubjectId instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'classes': instance.classes,
+      'name': instance.name,
+      'slug': instance.slug,
+      'school': instance.school,
+      'note': instance.note,
+      'isDeleted': instance.isDeleted,
+      '__v': instance.v,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+    };

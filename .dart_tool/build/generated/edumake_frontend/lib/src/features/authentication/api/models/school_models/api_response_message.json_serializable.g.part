@@ -1,0 +1,13 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ApiResponseMessage _$ApiResponseMessageFromJson(Map<String, dynamic> json) =>
+    ApiResponseMessage(
+      message: json['message'] as String,
+    );
+
+Map<String, dynamic> _$ApiResponseMessageToJson(ApiResponseMessage instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };

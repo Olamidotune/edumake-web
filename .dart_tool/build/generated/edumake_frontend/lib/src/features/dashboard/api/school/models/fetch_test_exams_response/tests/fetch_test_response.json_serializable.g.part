@@ -1,0 +1,24 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FetchTestResponse _$FetchTestResponseFromJson(Map<String, dynamic> json) =>
+    FetchTestResponse(
+      success: json['success'] as bool,
+      message: json['message'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map(
+              (e) => FetchTestResponseDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cursor: json['cursor'] as String,
+      statusCode: (json['statusCode'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$FetchTestResponseToJson(FetchTestResponse instance) =>
+    <String, dynamic>{
+      'success': instance.success,
+      'message': instance.message,
+      'data': instance.data,
+      'cursor': instance.cursor,
+      'statusCode': instance.statusCode,
+    };

@@ -1,0 +1,21 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GetSchoolDataModel _$GetSchoolDataModelFromJson(Map<String, dynamic> json) =>
+    GetSchoolDataModel(
+      data: (json['data'] as List<dynamic>)
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['message'] as String,
+      statusCode: (json['statusCode'] as num).toInt(),
+      cursor: json['cursor'] as String,
+    );
+
+Map<String, dynamic> _$GetSchoolDataModelToJson(GetSchoolDataModel instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'statusCode': instance.statusCode,
+      'data': instance.data,
+      'cursor': instance.cursor,
+    };

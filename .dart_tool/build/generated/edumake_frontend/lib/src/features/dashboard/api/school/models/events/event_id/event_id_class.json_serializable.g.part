@@ -1,0 +1,14 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+EventIdClass _$EventIdClassFromJson(Map<String, dynamic> json) => EventIdClass(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$EventIdClassToJson(EventIdClass instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };

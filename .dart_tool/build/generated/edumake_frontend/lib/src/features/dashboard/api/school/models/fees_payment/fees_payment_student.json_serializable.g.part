@@ -1,0 +1,19 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FeesPaymentStudent _$FeesPaymentStudentFromJson(Map<String, dynamic> json) =>
+    FeesPaymentStudent(
+      studentId: json['studentId'] as String,
+      paymentStatus: json['paymentStatus'] as String,
+      amountPaid: (json['amountPaid'] as num).toInt(),
+      id: json['_id'] as String,
+    );
+
+Map<String, dynamic> _$FeesPaymentStudentToJson(FeesPaymentStudent instance) =>
+    <String, dynamic>{
+      'studentId': instance.studentId,
+      'paymentStatus': instance.paymentStatus,
+      'amountPaid': instance.amountPaid,
+      '_id': instance.id,
+    };

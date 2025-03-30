@@ -1,0 +1,23 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
+      title: json['title'] as String,
+      date: json['date'] as String,
+      details: json['details'] as String,
+      classes:
+          (json['classes'] as List<dynamic>).map((e) => e as String).toList(),
+      associateEvents: (json['associateEvents'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'associateEvents': instance.associateEvents,
+      'date': instance.date,
+      'details': instance.details,
+      'classes': instance.classes,
+    };

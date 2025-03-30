@@ -1,0 +1,41 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+WardDatumSchool _$WardDatumSchoolFromJson(Map<String, dynamic> json) =>
+    WardDatumSchool(
+      id: json['_id'] as String,
+      schoolName: json['schoolName'] as String,
+      admin: json['admin'] as String?,
+      schoolAddress: json['schoolAddress'] as String?,
+      schoolEmail: json['schoolEmail'] as String?,
+      schoolType: json['schoolType'] as String?,
+      classNumberRange: json['classNumberRange'] as String?,
+      studentNumberRange: json['studentNumberRange'] as String?,
+      teacherNumberRange: json['teacherNumberRange'] as String?,
+      isDeleted: json['isDeleted'] as bool?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      v: (json['__v'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$WardDatumSchoolToJson(WardDatumSchool instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'admin': instance.admin,
+      'schoolName': instance.schoolName,
+      'schoolAddress': instance.schoolAddress,
+      'schoolEmail': instance.schoolEmail,
+      'schoolType': instance.schoolType,
+      'classNumberRange': instance.classNumberRange,
+      'studentNumberRange': instance.studentNumberRange,
+      'teacherNumberRange': instance.teacherNumberRange,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      '__v': instance.v,
+    };

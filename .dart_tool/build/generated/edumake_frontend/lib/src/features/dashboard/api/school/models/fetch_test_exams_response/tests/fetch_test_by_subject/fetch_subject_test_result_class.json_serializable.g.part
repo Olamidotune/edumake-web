@@ -1,0 +1,17 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+FetchSubjectTestResultClassId _$FetchSubjectTestResultClassIdFromJson(
+        Map<String, dynamic> json) =>
+    FetchSubjectTestResultClassId(
+      id: json['_id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$FetchSubjectTestResultClassIdToJson(
+        FetchSubjectTestResultClassId instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+    };
