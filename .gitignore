@@ -51,11 +51,11 @@ app.*.map.json
 
 
 #.env file
-.env.dev
-.env.nightly
-.env.production
-.env.stagings
-.env
+# .env.dev
+# .env.nightly
+# .env.production
+# .env.stagings
+# .env
 
 #firebase related
 # lib/firebase_options.dart
