@@ -28,7 +28,7 @@ Future<void> setupLocator() async {
       ..registerFactory<AuthenticationClient>(
         () => AuthenticationClient(
           dio,
-          baseUrl: dotenv.env[EnvKeys.apiBaseUrl] ?? '',
+          baseUrl: const String.fromEnvironment(EnvKeys.apiBaseUrl),
         ),
       )
       ..registerFactory<SchoolDataUpload>(
